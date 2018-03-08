@@ -22,16 +22,13 @@
 {
     'name': 'Help Desk',
     'summary': 'Help Desk core bundle',
-    'version': '10.0.0.1.0',
+    'version': '10.0.0.1.1',
     'category': 'Tools',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
-        'crm',
-        'project',
-        'project_issue',
-        'website_project_issue',  
+        'helpdesk_opportunity',
     ],
     'data': [
 
