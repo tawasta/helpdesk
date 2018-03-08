@@ -8,4 +8,4 @@ Available addons
 **Addon** | **Summary**
 --- | ---
 [helpdesk](helpdesk/) | Help Desk's core bundle
-[helpdesk_opportunity](helpdesk_opportunity/) | Create an opportunity from issue 
+[project_issue_opportunity](project_issue_opportunity/) | Create an opportunity from issue 
