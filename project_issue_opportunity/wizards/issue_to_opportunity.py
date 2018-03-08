@@ -80,21 +80,19 @@ class IssueToOpportunity(models.TransientModel):
             'description': self.description,
             'type': 'opportunity',
         }
-
         opportunity = self.env['crm.lead'].create(values)
-
-        # Add user after creating to trigger an auto-message
-        # if self.user:
-        #     opportunity.user_id = self.user.id
 
         if 'active_id' in context:
             active_id = context['active_id']
             issue = self.env['project.issue'].browse([active_id])
             opportunity.issue = issue.id
-
+        # Select opportunity form as the view
+        view_id = self.env.ref('crm.crm_case_form_view_oppor').id
         return {
+            'name': _('Opportunity created'),
             'view_type': 'form',
             'view_mode': 'form',
+            'view_id': view_id,
             'res_model': 'crm.lead',
             'target': 'current',
             'res_id': opportunity.id,
