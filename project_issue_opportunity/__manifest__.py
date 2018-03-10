@@ -22,7 +22,7 @@
 {
     'name': 'Issue to Opportunity',
     'summary': 'Create an opportunity from issue',
-    'version': '10.0.0.1.3',
+    'version': '10.0.0.1.4',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',

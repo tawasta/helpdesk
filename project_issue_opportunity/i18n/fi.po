@@ -1,0 +1,148 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_issue_opportunity
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-10 11:05+0000\n"
+"PO-Revision-Date: 2018-03-10 13:07+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fi\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#. module: project_issue_opportunity
+#: model:ir.ui.view,arch_db:project_issue_opportunity.issue_to_opportunity_view_form
+msgid "Cancel"
+msgstr "Peruuta"
+
+#. module: project_issue_opportunity
+#: model:ir.ui.view,arch_db:project_issue_opportunity.project_issue_form_view
+msgid "Create Opportunity"
+msgstr "Luo mahdollisuus"
+
+#. module: project_issue_opportunity
+#: model:ir.actions.act_window,name:project_issue_opportunity.act_issue_to_opportunity
+#: model:ir.ui.view,arch_db:project_issue_opportunity.issue_to_opportunity_view_form
+msgid "Create an Opportunity"
+msgstr "Luo mahdollisuus"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_create_uid
+msgid "Created by"
+msgstr "Luonut"
+
+#. module: project_issue_opportunity
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:41
+#: model:ir.model.fields,help:project_issue_opportunity.field_issue_to_opportunity_user
+#, python-format
+msgid "Created by user"
+msgstr "Luonut käyttäjä"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_create_date
+msgid "Created on"
+msgstr "Luotu"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_description
+msgid "Description"
+msgstr "Kuvaus"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_display_name
+msgid "Display Name"
+msgstr "Näyttönimi"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_id
+msgid "ID"
+msgstr "Tunniste (ID)"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_crm_lead_issue
+msgid "Issue"
+msgstr "Tapaus"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity___last_update
+msgid "Last Modified on"
+msgstr "Viimeksi muokattu"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_write_uid
+msgid "Last Updated by"
+msgstr "Viimeksi päivittänyt"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_write_date
+msgid "Last Updated on"
+msgstr "Viimeksi päivitetty"
+
+#. module: project_issue_opportunity
+#: model:ir.model,name:project_issue_opportunity.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Liidi/mahdollisuus"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_name
+msgid "Name"
+msgstr "Nimi"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_project_issue_opportunities
+msgid "Opportunity"
+msgstr "Mahdollisuus"
+
+#. module: project_issue_opportunity
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:94
+#, python-format
+msgid "Opportunity created"
+msgstr "Mahdollisuus luotu"
+
+#. module: project_issue_opportunity
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:36
+#: model:ir.model.fields,help:project_issue_opportunity.field_issue_to_opportunity_description
+#, python-format
+msgid "Opportunity's description in plain text"
+msgstr "Mahdollisuuden kuvaus tekstimuotoisena"
+
+#. module: project_issue_opportunity
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:32
+#: model:ir.model.fields,help:project_issue_opportunity.field_issue_to_opportunity_name
+#, python-format
+msgid "Opportunity's name"
+msgstr "Mahdollisuuden nimi"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_partner_id
+msgid "Partner"
+msgstr "Kumppani"
+
+#. module: project_issue_opportunity
+#: model:ir.model,name:project_issue_opportunity.model_project_issue
+msgid "Project Issue"
+msgstr "Projektin tapaus"
+
+#. module: project_issue_opportunity
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:27
+#: model:ir.model.fields,help:project_issue_opportunity.field_issue_to_opportunity_partner_id
+#, python-format
+msgid "Related partner to this opportunity"
+msgstr "Tapaukseen liittyvä asiakas"
+
+#. module: project_issue_opportunity
+#: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_user
+msgid "User"
+msgstr "Käyttäjä"
+
+#. module: project_issue_opportunity
+#: model:ir.model,name:project_issue_opportunity.model_issue_to_opportunity
+msgid "issue.to.opportunity"
+msgstr "issue.to.opportunity"

@@ -50,8 +50,10 @@ class IssueToOpportunity(models.TransientModel):
         """
         active_id = self._context['active_id']
         issue = self.env['project.issue'].browse([active_id])
+        name = "%s - %s" % (issue.partner_id.name, issue.name) \
+            if issue.partner_id else issue.name
         values = {
-            'name': "%s - %s" % (issue.partner_id.name, issue.name),
+            'name': name,
             'description': issue.description,
             'partner_id': issue.partner_id.id,
             'user': self._uid,
