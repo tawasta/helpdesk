@@ -2,11 +2,12 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=========
-Help Desk
-=========
+====================
+Issue to Opportunity
+====================
 
-Help Desk core bundle
+This module adds a feature to create opportunity from
+an issue.
 
 Configuration
 =============
@@ -14,7 +15,13 @@ Configuration
 
 Usage
 =====
-\-
+On issues there's a feature to create an opportunity:
+
+1) Form view
+- "Create an Opportunity" button
+
+2) List view
+- Select issue and use "Action" dropdown and select "Create an Opportunity"
 
 Known issues / Roadmap
 ======================
