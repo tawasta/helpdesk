@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel='stylesheet' href='/website_project_issue_form/static/src/less/website_project_issue_form.less'/>
+        </xpath>
+    </template>
+
+    <!-- Add button to create a new issue from website -->
+    <template id="my_issues" inherit_id="website_project_issue.my_issues">
+        <xpath expr="//h3[@class='page-header']/div[@class='dropdown pull-right mr8']" position="before">
+            <div class="create-issue pull-right">
+                <button type="button" class="btn btn-primary btn-circle"
+                    data-toggle="modal" data-target="#issue_modal"
+                    title="Create an issue"><i class="fa fa-plus"/></button>
+            </div>
+        </xpath>
+
+        <xpath expr="//t[@t-call='website_portal.portal_layout']" position="inside">
+            <t t-call="website_project_issue_form.create_issue_template"/>
+        </xpath>
+    </template>
+
+    <!-- Template for creating an issue from website -->
+    <template id="create_issue_template" name="Create issue form">
+        <div id="issue_modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <form id="issue_form" method="post" role="form" class="form-horizontal"
+                    action="/my/issues/create" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title">Create an Issue</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="issue_name">Name:</label>
+                                        <input type="text" name="issue_name" id="issue_name" class="form-control"
+                                            placeholder="Issue's name" title="Issue's name" required="true" />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="issue_email">Support email:</label>
+                                        <select class="form-control" id="issue_email" name="issue_email" required="true">
+                                            <option value="">Select support address...</option>
+                                            <t t-set="mail_servers" t-value="website.env['fetchmail.server'].sudo().search([])"/>
+                                            <t t-foreach="mail_servers" t-as="server">
+                                                <option t-att-value="server.id"><t t-esc="server.name"/></option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 mt8">
+                                        <label for="issue_summary">Summary:</label>
+                                        <textarea id="issue_summary" name="issue_summary" placeholder="Explain issue..."
+                                            class="col-xs-12" rows="5"/>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h4>Attachments</h4>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <input name="issue_attachment" class="upload" type="file" id="issue_attachment"/>
+                                    </div>
+                                </div>
+                            </div> <!-- .container ends -->
+                        </div> <!-- .modal-body ends -->
+                        <div class="modal-footer">
+                            <button id="submit_issue" class="btn btn-primary" disabled="disabled">Create</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="//cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js"></script>
+        <script type="text/javascript" src="/website_project_issue_form/static/src/js/create_issue.js?001"></script>
+    </template>
+</odoo>
