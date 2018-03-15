@@ -32,13 +32,14 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
             var errors = false;
             var name = $.trim($('#issue_name').val());
             var description = $.trim($(".issue-summary iframe").contents().find("body").text());
+            var placeholder = $('#issue_summary').attr('placeholder');
 
             // Check name and description are not empty
             if (!name) {
                 $('#issue_name_error').removeClass('hidden');
                 errors = true;
             }
-            if (!description) {
+            if (!description || description == placeholder) {
                 $('#issue_summary_error').removeClass('hidden');
                 errors = true;
             }
@@ -54,7 +55,7 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
             var errors = issueValidation();
             var form = ('#issue_form');
             var action = $(form).attr('action');
-            console.log(CKEDITOR.instances.issue_summary);
+
             CKEDITOR.instances.issue_summary.updateElement();
             var form_data = {
                 'data': $(form).serializeArray()
@@ -75,6 +76,10 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
                         row += "title='" + _t("Current stage of the issue") + "'>" + results["stage"] + "</span></td></tr>";
                         $(row).prependTo("table > tbody");
                         toastr.info(results['msg']);
+
+                        // Reset data
+                        $('#issue_modal').find('input,textarea,select').val('').end();
+                        CKEDITOR.instances.issue_summary.setData('');
                     }
                     $.unblockUI();
                 });
