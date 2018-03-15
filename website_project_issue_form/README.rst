@@ -8,6 +8,10 @@ Website Project Issue Form
 
 This module enables issue creation from website.
 
+This module uses plugins:
+* CKEditor (GPL, LGPL, MPL)
+* Bootstrap Filestyle (MIT)
+
 Configuration
 =============
 \-
