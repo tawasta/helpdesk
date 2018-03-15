@@ -55,16 +55,24 @@
                                         </select>
                                     </div>
                                     <div class="col-md-12 mt8">
-                                        <label for="issue_summary">Summary:</label>
+                                        <label for="issue_summary">Description of issue:</label>
                                         <textarea id="issue_summary" name="issue_summary" placeholder="Explain issue..."
                                             class="col-xs-12" rows="5"/>
                                     </div>
                                     <div class="col-md-12">
-                                        <h4>Attachments</h4>
+                                        <h4>Attachment</h4>
                                     </div>
 
                                     <div class="col-md-12">
-                                        <input name="issue_attachment" class="upload" type="file" id="issue_attachment"/>
+                                        <input name="issue_attachment" type="file" id="issue_attachment"/>
+                                        <div class="alert alert-info hidden mt8" id="fileSizeOkDiv">
+                                            <p>File's size: <strong id="fileSizeOk"></strong></p>
+                                        </div>
+                                        <div class="alert alert-danger hidden mt8" id="fileTooBigDiv">
+                                            <p>File size: <strong id="fileTooBig"></strong>
+                                                <br/>File size too big!<br/>Please upload a file that's smaller than 20MB.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div> <!-- .container ends -->
@@ -78,6 +86,8 @@
             </div>
         </div>
         <script src="//cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.2.3/bootstrap-filestyle.min.js"></script>
         <script type="text/javascript" src="/website_project_issue_form/static/src/js/create_issue.js?001"></script>
+        <script type="text/javascript" src="/website_project_issue_form/static/src/js/attachment.js?001"></script>
     </template>
 </odoo>

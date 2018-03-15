@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # 1. Standard library imports:
+import os
 
 # 2. Known third party imports:
 from bs4 import BeautifulSoup
@@ -54,18 +55,31 @@ class WebsiteAccount(WebsiteAccount):
             # Set default stage from project
             issue = http.request.env['project.issue'].sudo(current_user).create(values)
             issue.stage_id = issue.stage_find(project_id)
+
             # Add partner as follower
             notified_partner_ids = [partner.id]
             issue.message_subscribe(notified_partner_ids)
+
+            # Check attachment isn't too big
+            attachment = post.get('issue_attachment')
+            attachment.seek(0, os.SEEK_END)
+            file_size = attachment.tell()
+            attachment.seek(0)
+            attachment_list = [(attachment.filename, attachment.read())] \
+                if attachment.filename != "" else None
+
+            if file_size > 20 * 1024 * 1024:
+                # File size too big
+                return request.redirect('/my/issues')
+
             # Send message to the thread
             discussion_id = http.request.env.ref('mail.mt_comment').id
-
-            # TODO: Add attachments and form validation
             issue.message_post(
                 subject=_("Issue created"),
                 message_type='comment',
                 subtype_id=discussion_id,
                 body=post.get('issue_summary'),
                 partner_ids=notified_partner_ids,
+                attachments=attachment_list,
             )
         return request.redirect('/my/issues')
