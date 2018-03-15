@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-15 08:31+0000\n"
-"PO-Revision-Date: 2018-03-15 10:32+0200\n"
+"POT-Creation-Date: 2018-03-15 11:12+0000\n"
+"PO-Revision-Date: 2018-03-15 13:13+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,19 @@ msgstr ""
 "Plural-Forms: \n"
 "Language: fi\n"
 "X-Generator: Poedit 1.8.7.1\n"
+
+#. module: website_project_issue_form
+#. openerp-web
+#: code:addons/website_project_issue_form/static/src/js/create_issue.js:72
+#, python-format
+msgid "'>Issue "
+msgstr "'>Tapaus "
+
+#. module: website_project_issue_form
+#: code:addons/website_project_issue_form/controllers/main.py:74
+#, python-format
+msgid "An error occured!"
+msgstr "Tapahtui virhe!"
 
 #. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
@@ -29,7 +42,7 @@ msgstr "Peruuta"
 
 #. module: website_project_issue_form
 #. openerp-web
-#: code:addons/website_project_issue_form/static/src/js/attachment.js:39
+#: code:addons/website_project_issue_form/static/src/js/attachment.js:45
 #, python-format
 msgid "Choose file"
 msgstr "Valitse tiedosto"
@@ -50,6 +63,13 @@ msgid "Create an issue"
 msgstr "Luo tukipyyntö"
 
 #. module: website_project_issue_form
+#. openerp-web
+#: code:addons/website_project_issue_form/static/src/js/create_issue.js:75
+#, python-format
+msgid "Current stage of the issue"
+msgstr "Tapauksen nykyinen vaihe"
+
+#. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
 msgid "Description of issue:"
 msgstr "Ongelman kuvaus:"
@@ -58,6 +78,11 @@ msgstr "Ongelman kuvaus:"
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
 msgid "Explain issue..."
 msgstr "Kuvaile ongelmaa..."
+
+#. module: website_project_issue_form
+#: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
+msgid "Field can't be empty!"
+msgstr "Kenttä ei voi olla tyhjä!"
 
 #. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
@@ -74,7 +99,7 @@ msgid "File's size: <strong id=\"fileSizeOk\"/>"
 msgstr "Tiedoston koko: <strong id=\"fileSizeOk\"/>"
 
 #. module: website_project_issue_form
-#: code:addons/website_project_issue_form/controllers/main.py:78
+#: code:addons/website_project_issue_form/controllers/main.py:122
 #, python-format
 msgid "Issue created"
 msgstr "Tukipyyntö luotu"
@@ -88,6 +113,12 @@ msgstr "Tukipyynnön nimi"
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
 msgid "Name:"
 msgstr "Nimi:"
+
+#. module: website_project_issue_form
+#: code:addons/website_project_issue_form/controllers/main.py:129
+#, python-format
+msgid "New issue created!"
+msgstr "Uusi tukipyyntö luotu!"
 
 #. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template

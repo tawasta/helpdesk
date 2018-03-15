@@ -28,7 +28,6 @@
             <div class="modal-dialog">
                 <form id="issue_form" method="post" role="form" class="form-horizontal"
                     action="/my/issues/create" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
@@ -38,13 +37,14 @@
                         <div class="modal-body">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb8">
                                         <label for="issue_name">Name:</label>
                                         <input type="text" name="issue_name" id="issue_name" class="form-control"
                                             placeholder="Issue's name" title="Issue's name" required="true" />
+                                        <p id="issue_name_error" class="hidden has-error mt8">Field can't be empty!</p>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb8">
                                         <label for="issue_email">Support email:</label>
                                         <select class="form-control" id="issue_email" name="issue_email" required="true">
                                             <option value="">Select support address...</option>
@@ -54,10 +54,11 @@
                                             </t>
                                         </select>
                                     </div>
-                                    <div class="col-md-12 mt8">
+                                    <div class="col-md-12 issue-summary">
                                         <label for="issue_summary">Description of issue:</label>
                                         <textarea id="issue_summary" name="issue_summary" placeholder="Explain issue..."
                                             class="col-xs-12" rows="5"/>
+                                        <p id="issue_summary_error" class="hidden has-error mt8">Field can't be empty!</p>
                                     </div>
                                     <div class="col-md-12">
                                         <h4>Attachment</h4>
@@ -78,7 +79,7 @@
                             </div> <!-- .container ends -->
                         </div> <!-- .modal-body ends -->
                         <div class="modal-footer">
-                            <button id="submit_issue" class="btn btn-primary" disabled="disabled">Create</button>
+                            <button id="submit_issue" class="btn btn-primary" type="button">Create</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>

@@ -2,6 +2,8 @@
 
 # 1. Standard library imports:
 import os
+import json
+import logging
 
 # 2. Known third party imports:
 from bs4 import BeautifulSoup
@@ -17,69 +19,113 @@ from odoo.http import request
 
 # 6. Unknown third party imports:
 
+_logger = logging.getLogger(__name__)
 
 class WebsiteAccount(WebsiteAccount):
 
+
+    def issue_form_validate(self, values):
+        """
+        Validation for issue form
+        """
+        errors = False
+        mandatory = [
+            "name", "issue_email", "issue_summary"
+        ]
+
+        for key in values:
+            if key in mandatory:
+                value = values[key].strip()
+                if not value:
+                    errors = True
+        return errors
+
+
     @http.route(
         ['/my/issues/create'],
-        type='http',
+        type='json',
         auth="user",
         website=True,
+        csrf=False,
         methods=['POST'],
     )
-    def create_issue(self, **post):
+    def create_issue(self, data):
         """
-        Route to create issues from website
+        Route to create issues from website.
+        This method is called with ajax.
+
+        @param post: Contains values of the issue form
+        @return: status message
         """
         current_user = http.request.env.user
         partner = current_user.partner_id
-        if post:
-            name = post.get('issue_name')
-            # Parse HTML since description field is plain text
-            description = BeautifulSoup(post.get('issue_summary'), 'lxml').text
+        values = dict()
+        data_dict = dict()
 
-            # Find issue project with incoming mail server and alias
-            server_id = int(post.get('issue_email'))
-            email_inbox = http.request.env['fetchmail.server'].sudo().browse(
-                server_id).user.split('@')[0]
-            project_id = http.request.env['project.project'].sudo().search([
-                ('alias_name', '=', email_inbox),
-            ], limit=1).id
-            values = {
-                'name': name,
-                'description': description,
-                'project_id': project_id,
-                'partner_id': partner.id,
-                'email_from': partner.email,
-            }
-            # Set default stage from project
-            issue = http.request.env['project.issue'].sudo(current_user).create(values)
-            issue.stage_id = issue.stage_find(project_id)
+        # Process data to python dict
+        for field in data:
+            key = field.get('name')
+            value = field.get('value')
+            data_dict[key] = value
+        if data_dict:
+            # Validate form fields
+            errors = self.issue_form_validate(data_dict)
+            _logger.info("Creating issue with values:\n%s" % (data_dict))
+            if errors:
+                values['error'] = _('An error occured!')
+            else:
+                name = data_dict.get('issue_name')
+                # Parse HTML since description field is plain text
+                description = BeautifulSoup(data_dict.get('issue_summary'), 'lxml').text
 
-            # Add partner as follower
-            notified_partner_ids = [partner.id]
-            issue.message_subscribe(notified_partner_ids)
+                # Find issue project with incoming mail server and alias
+                server_id = int(data_dict.get('issue_email'))
+                email_inbox = http.request.env['fetchmail.server'].sudo().browse(
+                    server_id).user.split('@')[0]
+                project_id = http.request.env['project.project'].sudo().search([
+                    ('alias_name', '=', email_inbox),
+                ], limit=1).id
+                issue_values = {
+                    'name': name,
+                    'description': description,
+                    'project_id': project_id,
+                    'partner_id': partner.id,
+                    'email_from': partner.email,
+                }
+                # Set default stage from project
+                issue = http.request.env['project.issue'].sudo(current_user).create(issue_values)
+                issue.stage_id = issue.stage_find(project_id)
+                values['id'] = issue.id
+                values['name'] = issue.name
+                values['stage'] = issue.stage_id.name
 
-            # Check attachment isn't too big
-            attachment = post.get('issue_attachment')
-            attachment.seek(0, os.SEEK_END)
-            file_size = attachment.tell()
-            attachment.seek(0)
-            attachment_list = [(attachment.filename, attachment.read())] \
-                if attachment.filename != "" else None
+                # Add partner as follower
+                notified_partner_ids = [partner.id]
+                issue.message_subscribe(notified_partner_ids)
 
-            if file_size > 20 * 1024 * 1024:
-                # File size too big
-                return request.redirect('/my/issues')
+                # Check attachment isn't too big
+                attachment = data_dict.get('issue_attachment') or None
+                attachment_list = None
+                if attachment:
+                    attachment.seek(0, os.SEEK_END)
+                    file_size = attachment.tell()
+                    attachment.seek(0)
+                    attachment_list = [(attachment.filename, attachment.read())] \
+                        if attachment and attachment.filename != "" else None
 
-            # Send message to the thread
-            discussion_id = http.request.env.ref('mail.mt_comment').id
-            issue.message_post(
-                subject=_("Issue created"),
-                message_type='comment',
-                subtype_id=discussion_id,
-                body=post.get('issue_summary'),
-                partner_ids=notified_partner_ids,
-                attachments=attachment_list,
-            )
-        return request.redirect('/my/issues')
+                    if file_size > 20 * 1024 * 1024:
+                        # File size too big
+                        return request.redirect('/my/issues')
+
+                # Send message to the thread
+                discussion_id = http.request.env.ref('mail.mt_comment').id
+                issue.message_post(
+                    subject=_("Issue created"),
+                    message_type='comment',
+                    subtype_id=discussion_id,
+                    body=data_dict.get('issue_summary'),
+                    partner_ids=notified_partner_ids,
+                    attachments=attachment_list,
+                )
+                values['msg'] = _("New issue created!")
+        return json.dumps(values)
