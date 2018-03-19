@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="my_issues_issue" inherit_id="website_project_issue.my_issues_issue">
+        <!-- Create new submission form for new messages-->
+        <xpath expr="//div[@class='panel panel-default']" position="after">
+            <t t-call="website_project_issue_extension.issue_submit_message"/>
+        </xpath>
+
+        <!-- Replace generic message thread -->
+        <xpath expr="//div[@class='row mt32']/div[@class='col-md-10 col-md-offset-1 mt16']" position="replace">
+            <div class="col-md-12 mt16">
+                <t t-call="website_project_issue_extension.issue_message_thread"/>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Template for submitting messages -->
+    <template id="issue_submit_message" name="Template for submitting messages">
+        <div>
+            <form id="issue_message_submit_form" t-attf-action="/my/issues/#{issue.id}/"
+                method="post" enctype="multipart/form-data" >  
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <textarea id="comment"
+                name="comment"
+                placeholder="Type a message..."
+                class="col-xs-12"
+                rows="5" 
+                oninput="checkField();"/>
+
+                <div id="attachment_div" class="clearfix">
+                    <div class="fileUpload btn btn-default col-xs-6">
+                        <span><i class="fa fa-folder-open"/>  Attach File</span>
+                        <input name="text-file" class="upload" type="file" id="file-upload"/>
+                    </div>
+                    <button id="submitbutton" type="submit" class="btn btn-primary col-xs-6" disabled="disabled" title="You have to write a message to submit it!"><i class="fa fa-envelope"/> Submit</button>
+                </div>
+                <br/>
+                <div class="alert alert-info hidden" id="fileSizeOkDiv">
+                    <p id="fileSizeOk"/>
+                </div>
+                <div class="alert alert-danger hidden" id="message_error_div">
+                    <p id="error"/>
+                </div>
+            </form>
+        </div>
+        <div class="clearfix"/>
+        <link rel='stylesheet' href='/website_project_issue_extension/static/src/css/styles.css'/>
+        <script src="//cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js"></script>
+        <script type="text/javascript" src="/website_project_issue_extension/static/src/js/website_project_issue.js"></script>
+    </template>
+
+
+    <!-- Template for project issue's thread in portal -->
+    <template id="issue_message_thread" name="Message thread for issues">
+        <t t-set="message_subtype_id" t-value="request.env.ref('mail.mt_comment').id"/>
+        <div id="issue_messages">
+            <t t-foreach="issue.message_ids" t-as="message">
+                <t t-call="website_project_issue_extension.single_message_template">
+                    <t t-set="message" t-value="message"/>
+                    <t t-set="message_subtype_id" t-value="message_subtype_id"/>
+                </t>
+            </t>
+        </div>
+        <!-- <script type="text/javascript" src="/website_medical_appointment/static/src/js/discussion.js"></script>
+        <script type="text/javascript" src="/website_medical_appointment/static/src/js/preview_image.js"></script> -->
+    </template>
+
+    <!-- Single message will be rendered using this template -->
+    <template id="single_message_template" name="Template for a single message">
+        <t t-if="message.subtype_id.id == message_subtype_id">
+            <div class="row mb16 message">
+                <div class="col-md-1 col-xs-3 mt16">
+                    <img class="img img-responsive img-circle" t-attf-src="/mail/#{message.model}/#{message.res_id}/avatar/#{message.author_id.id}" alt="partner image"/>
+                </div>
+                <div class="col-md-11 col-xs-9">
+                    <h4>
+                        <span t-field="message.author_id"/>  <small t-field="message.date" t-options='{"format": "dd.MM.yyyy HH:mm:ss"}'/>
+                    </h4>
+                    <p t-raw="message.body"/>
+                    <t t-foreach="message.attachment_ids" t-as="attachment">
+                        <!-- Show image attachment -->
+                        <t t-if="'image/' in attachment.mimetype">
+                            <!-- Images are loaded lazily when scrolled into the view -->
+                            <img class="img img-responsive msg-img" t-att-data-src="'/web/content/%s' % (attachment.id)" alt="No image"/>
+                        </t>
+                        <!-- File attachment and download -->
+                        <t t-if="'image/' not in attachment.mimetype">
+                            <div class="attachment-mime-image">
+                                <a t-att-href="'/web/content/%s?download=1' % (attachment.id)">
+                                    <div class="o_image" t-att-data-mimetype="'%s' % (attachment.mimetype)"></div>
+                                    <t t-esc="attachment.name"/>
+                                </a>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

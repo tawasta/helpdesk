@@ -22,7 +22,7 @@
 {
     'name': 'Website Project Issue Extension',
     'summary': 'Added functionality to Website Project Issue',
-    'version': '10.0.0.1.2',
+    'version': '10.0.0.1.4',
     'category': 'Tools',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -31,7 +31,8 @@
         'website_project_issue',
     ],
     'data': [
-        'data/project_issue.xml'
+        'data/project_issue.xml',
+        'views/project_issue_templates.xml',
     ],
     'demo': [
 
