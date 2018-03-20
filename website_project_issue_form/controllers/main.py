@@ -46,7 +46,6 @@ class WebsiteAccount(WebsiteAccount):
         type='http',
         auth="user",
         website=True,
-        csrf=False,
         methods=['POST'],
     )
     def create_issue(self, **post):
@@ -60,28 +59,20 @@ class WebsiteAccount(WebsiteAccount):
         current_user = http.request.env.user
         partner = current_user.partner_id
         values = dict()
-        data_dict = dict()
 
-        # Process data to python dict
-        # for field in data:
-        #     key = field.get('name')
-        #     value = field.get('value')
-        #     data_dict[key] = value
-        print post
-        return json.dumps({'asd': 'asd'})
-        if data_dict:
+        if post:
             # Validate form fields
-            errors = self.issue_form_validate(data_dict)
-            _logger.info("Creating issue with values:\n%s" % (data_dict))
+            errors = self.issue_form_validate(post)
+            _logger.info("Creating issue with values:\n%s" % (post))
             if errors:
                 values['error'] = _('An error occured!')
             else:
-                name = data_dict.get('issue_name')
+                name = post.get('issue_name')
                 # Parse HTML since description field is plain text
-                description = BeautifulSoup(data_dict.get('issue_summary'), 'lxml').text
+                description = BeautifulSoup(post.get('issue_summary'), 'lxml').text
 
                 # Find issue project with incoming mail server and alias
-                server_id = int(data_dict.get('issue_email'))
+                server_id = int(post.get('issue_email'))
                 email_inbox = http.request.env['fetchmail.server'].sudo().browse(
                     server_id).user.split('@')[0]
                 project_id = http.request.env['project.project'].sudo().search([
@@ -106,7 +97,7 @@ class WebsiteAccount(WebsiteAccount):
                 issue.message_subscribe(notified_partner_ids)
 
                 # Check attachment isn't too big
-                attachment = data_dict.get('issue_attachment') or None
+                attachment = post.get('issue_attachment') or None
                 attachment_list = None
                 if attachment:
                     attachment.seek(0, os.SEEK_END)
@@ -125,7 +116,7 @@ class WebsiteAccount(WebsiteAccount):
                     subject=_("Issue created"),
                     message_type='comment',
                     subtype_id=discussion_id,
-                    body=data_dict.get('issue_summary'),
+                    body=post.get('issue_summary'),
                     partner_ids=notified_partner_ids,
                     attachments=attachment_list,
                 )
