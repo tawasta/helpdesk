@@ -28,25 +28,13 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
 
             // If file is over 20 MB, clear the element and give notifications
             if (file.size > (20 * 1024 * 1024)) {
-                $(':file').filestyle('clear');
+                $('#issue_attachment').val('');
                 $('#fileTooBigDiv').removeClass('hidden');
                 $('#fileTooBig').text(size);
             } else {
                 $('#fileSizeOkDiv').removeClass('hidden');
                 $('#fileSizeOk').text(size);
             }
-        });
-        // Javascript translations don't work right after page has reloaded, but with a small timeout
-        // the text can be translated
-        setTimeout(function() {
-            $(':file').filestyle({
-                iconName: "fa fa-folder-open",
-                buttonName: "btn-primary",
-                buttonText: _t("Choose file"),
-            });
-        }, 500);
-        
+        }); 
     });
-    
-
 });

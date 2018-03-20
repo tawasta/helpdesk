@@ -43,13 +43,13 @@ class WebsiteAccount(WebsiteAccount):
 
     @http.route(
         ['/my/issues/create'],
-        type='json',
+        type='http',
         auth="user",
         website=True,
         csrf=False,
         methods=['POST'],
     )
-    def create_issue(self, data):
+    def create_issue(self, **post):
         """
         Route to create issues from website.
         This method is called with ajax.
@@ -63,10 +63,12 @@ class WebsiteAccount(WebsiteAccount):
         data_dict = dict()
 
         # Process data to python dict
-        for field in data:
-            key = field.get('name')
-            value = field.get('value')
-            data_dict[key] = value
+        # for field in data:
+        #     key = field.get('name')
+        #     value = field.get('value')
+        #     data_dict[key] = value
+        print post
+        return json.dumps({'asd': 'asd'})
         if data_dict:
             # Validate form fields
             errors = self.issue_form_validate(data_dict)
