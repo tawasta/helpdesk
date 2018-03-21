@@ -3,10 +3,16 @@ odoo.define('website_project_issue_extension.preview_image', function (require) 
 
     $(function() {
         
-        var first = $('.message:first');
-        if (first.find('.msg-img').length > 0) {
+        function firstMessage() {
 
+            var first = $('.message:first');
+            var img = $(first).find('.msg-img');
+
+            if (img.length > 0) {
+                $(img).attr('src', $(img).attr('data-src'));
+            }
         }
+        firstMessage();
         
 
         // Lazy load for images
