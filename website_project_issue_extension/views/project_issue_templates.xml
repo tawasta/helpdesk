@@ -94,6 +94,7 @@
                             <div class="attachment-mime-image">
                                 <a t-att-href="'/web/content/%s?download=1' % (attachment.id)">
                                     <div class="o_image" t-att-data-mimetype="'%s' % (attachment.mimetype)"></div>
+                                    <br/>
                                     <t t-esc="attachment.name"/>
                                 </a>
                             </div>

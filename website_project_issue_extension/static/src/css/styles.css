@@ -14,3 +14,6 @@
 .has-error {
     color: red;
 }
+.attachment-mime-image .o_image {
+    max-height: 40px;
+}
