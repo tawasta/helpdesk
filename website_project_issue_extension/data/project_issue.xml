@@ -6,5 +6,11 @@
             <field name="key">unread_messages_format.project_issue</field>
             <field name="value">/my/issues/:res_id</field>
         </record>
+
+        <!-- Message polling interval in milliseconds -->
+        <record id="project_issue_portal_polling_interval" model="ir.config_parameter">
+            <field name="key">website_project_issue_extension.portal_polling_interval</field>
+            <field name="value">30000</field>
+        </record>
     </data>
 </odoo>

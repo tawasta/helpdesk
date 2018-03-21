@@ -27,25 +27,6 @@ odoo.define('website_project_issue_extension.issue', function (require) {
         };
         var comment = CKEDITOR.replace('comment', config);
 
-        comment.on("instanceReady", function(){
-            this.document.on("keyup", function() {
-                // Disable save button until there's some text
-                var text = $.trim(this.getBody().getText());
-                $('#submitbutton').prop('disabled', !text);
-            });
-            this.document.on("input", function() {
-                // Disable save button until there's some text
-                var text = $.trim(this.getBody().getText());
-                $('#submitbutton').prop('disabled', !text);
-            });
-        });
-        // Paste handler
-        comment.on("paste", function(evt){
-            var data = $.parseHTML(evt.data.dataValue);
-            var text = $.trim($(data).text());
-            $('#submitbutton').prop('disabled', !text);
-        });
-
         // If unsaved changes, ask confirmation
         $(window).on('beforeunload', function(){
             var text = $.trim(comment.document.getBody().getText());
@@ -58,17 +39,12 @@ odoo.define('website_project_issue_extension.issue', function (require) {
         // Frontend validation to message form
         function messageValidation() {
             var errors = false;
-            var name = $.trim($('#issue_name').val());
-            var description = $.trim($(".issue-summary iframe").contents().find("body").text());
-            var placeholder = $('#issue_summary').attr('placeholder');
+            var description = $.trim($(".msg-comment iframe").contents().find("body").text());
+            var placeholder = $('#comment').attr('placeholder');
 
             // Check name and description are not empty
-            if (!name) {
-                $('#issue_name_error').removeClass('hidden');
-                errors = true;
-            }
             if (!description || description == placeholder) {
-                $('#issue_summary_error').removeClass('hidden');
+                $('#comment_error').removeClass('hidden');
                 errors = true;
             }
             return errors;
@@ -80,40 +56,99 @@ odoo.define('website_project_issue_extension.issue', function (require) {
             // Reset error popups
             $("p[id*='_error']").addClass('hidden');
             // Check errors
-            var errors = issueValidation();
-            var form = ('#issue_form');
+            var errors = messageValidation();
+            var form = ('#issue_message_submit_form');
             var action = $(form).attr('action');
+            var attachment = $('#message_attachment').prop('files')[0];
 
-            CKEDITOR.instances.issue_summary.updateElement();
-            var form_data = {
-                'data': $(form).serializeArray()
-            };
+            CKEDITOR.instances.comment.updateElement();
+
+            // Prepare form inputs
+            var form_fields = {};
+            form_fields = $(form).serializeArray();
+            form_fields.push({name: 'attachment', value: attachment});
+            form_fields.push({name: 'csrf_token', value: core.csrf_token})
+            
+            var form_values = {};
+            _.each(form_fields, function(input) {
+                if (input.value != '' && input.value !== undefined) {
+                    form_values[input.name] = input.value;
+                }
+            });
 
             if (!errors) {
-                $('#issue_modal').modal('hide');
                 loadingScreen();
-                ajax.jsonRpc(action, "call", form_data).then(function(res) {
+
+                ajax.post(action, form_values).then(function(res) {
                     var results = JSON.parse(res);
                     if (results['error']) {
                         toastr.error(results['error']);
                     } else {
-                        // Add a new row to table, if table exists
-                        $('.panel > .alert').addClass('hidden');
-                        $('.panel > table').removeClass('hidden');
-                        var row = "<tr><td><a href='/my/issues/" + results["id"] + _t("'>Issue ") + results["id"] + "</a></td>";
-                        row += "<td><span>" + results["name"] + "</span></td>";
-                        row += "<td><span class='label label-info' ";
-                        row += "title='" + _t("Current stage of the issue") + "'>" + results["stage"] + "</span></td></tr>";
-                        $(row).prependTo("table");
-                        toastr.info(results['msg']);
-            
+                        // Update message thread
+                        updateMessages();
+
                         // Reset data
-                        $('#issue_modal').find('input,textarea,select').val('').end();
-                        CKEDITOR.instances.issue_summary.setData('');
+                        $(form).find('input,textarea,select').val('').end();
+                        CKEDITOR.instances.comment.setData('');
                     }
                     $.unblockUI();
                 });
             }
         });
+
+        // Check filesize and restrict filesize to under 20 MB
+        $('#message_attachment').on('change', function() {
+
+            var file = $(this).prop('files')[0];
+            var size = "";
+            var msg = "";
+
+            $('#fileTooBigDiv').addClass('hidden');
+            $('#fileSizeOkDiv').addClass('hidden');
+            
+            if (file) {
+                if (file.size > 1024 * 1024) {
+                    size = (Math.round(file.size * 10 / (1024 * 1024))/10).toString() + 'MB';
+                }
+                else {
+                    size = (Math.round(file.size * 10 / 1024)/10).toString() + 'KB';
+                }      
+            }
+
+            // If file is over 20 MB, clear the element and give notifications
+            if (file.size > (20 * 1024 * 1024)) {
+                $('#message_attachment').val('');
+                $('#fileTooBigDiv').removeClass('hidden');
+                $('#fileTooBig').text(size);
+            } else {
+                $('#fileSizeOkDiv').removeClass('hidden');
+                $('#fileSizeOk').text(size);
+            }
+        });
+
+        // Update message thread
+        function updateMessages() {
+            var action = window.location.href + "/update_message";
+            var timestamp = $('#timestamp');
+            var data = {
+                'timestamp': $(timestamp).val(),
+                'csrf_token': core.csrf_token,
+            };
+            var msg = "";
+            $.get(action, data, function (res) {
+                if (res != "") {
+                    var new_date = (new Date().getTime()/1000);
+                    $(timestamp).val(new_date);
+                    $('#issue_messages').prepend(res);
+                    msg = _t('New message arrived!');
+                    toastr.info(msg);
+                }      
+            });
+        }
+
+        // Polling functionality for messages in issues
+        setInterval(function () {
+            updateMessages();
+        }, $('#issue_messages').data('interval'));
     });
 });

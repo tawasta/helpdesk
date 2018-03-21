@@ -11,3 +11,6 @@
     max-width: 1080px;
     max-height: 960px;
 }
+.has-error {
+    color: red;
+}

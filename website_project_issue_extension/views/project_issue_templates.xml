@@ -18,30 +18,33 @@
     <!-- Template for submitting messages -->
     <template id="issue_submit_message" name="Template for submitting messages">
         <div>
-            <form id="issue_message_submit_form" t-attf-action="/my/issues/#{issue.id}/"
-                method="post" enctype="multipart/form-data" >  
-                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                <textarea id="comment"
-                name="comment"
-                placeholder="Type a message..."
-                class="col-xs-12"
-                rows="5" 
-                oninput="checkField();"/>
-
+            <form id="issue_message_submit_form" t-attf-action="/my/issues/#{issue.id}/message"
+                method="post" enctype="multipart/form-data">
+                <input type="hidden" name="timestamp" id="timestamp" t-att-value="time.time()"/>
+                <div class="msg-comment">
+                    <textarea id="comment"
+                    name="comment"
+                    placeholder="Type a message..."
+                    class="col-xs-12"
+                    rows="5" 
+                    oninput="checkField();"/>
+                </div>
                 <div id="attachment_div" class="clearfix">
                     <div class="fileUpload btn btn-default col-xs-6">
                         <span><i class="fa fa-folder-open"/>  Attach File</span>
-                        <input name="text-file" class="upload" type="file" id="file-upload"/>
+                        <input name="message_attachment" class="upload" type="file" id="message_attachment"/>
                     </div>
-                    <button id="submitbutton" type="submit" class="btn btn-primary col-xs-6" disabled="disabled" title="You have to write a message to submit it!"><i class="fa fa-envelope"/> Submit</button>
+                    <button id="submit_message" type="button" class="btn btn-primary col-xs-6" title="You have to write a message to submit it!"><i class="fa fa-envelope"/> Submit</button>
                 </div>
-                <br/>
-                <div class="alert alert-info hidden" id="fileSizeOkDiv">
-                    <p id="fileSizeOk"/>
+                <div class="alert alert-info hidden mt8" id="fileSizeOkDiv">
+                    <p>File's size: <strong id="fileSizeOk"></strong></p>
                 </div>
-                <div class="alert alert-danger hidden" id="message_error_div">
-                    <p id="error"/>
+                <div class="alert alert-danger hidden mt8" id="fileTooBigDiv">
+                    <p>File size: <strong id="fileTooBig"></strong>
+                        <br/>File size too big!<br/>Please upload a file that's smaller than 20MB.
+                    </p>
                 </div>
+                <p id="comment_error" class="hidden has-error mt8 mb0">Message field can't be empty!</p>
             </form>
         </div>
         <div class="clearfix"/>
@@ -54,7 +57,7 @@
     <!-- Template for project issue's thread in portal -->
     <template id="issue_message_thread" name="Message thread for issues">
         <t t-set="message_subtype_id" t-value="request.env.ref('mail.mt_comment').id"/>
-        <div id="issue_messages">
+        <div id="issue_messages" t-att-data-interval="polling_interval">
             <t t-foreach="issue.message_ids" t-as="message">
                 <t t-call="website_project_issue_extension.single_message_template">
                     <t t-set="message" t-value="message"/>
@@ -62,8 +65,7 @@
                 </t>
             </t>
         </div>
-        <!-- <script type="text/javascript" src="/website_medical_appointment/static/src/js/discussion.js"></script> -->
-        <script type="text/javascript" src="/website_project_issue_extension/static/src/js/preview_image.js"></script>
+        <script type="text/javascript" src="/website_project_issue_extension/static/src/js/preview_image.js?001"></script>
     </template>
 
     <!-- Single message will be rendered using this template -->
