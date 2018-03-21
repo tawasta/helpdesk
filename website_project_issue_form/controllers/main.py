@@ -89,6 +89,8 @@ class WebsiteAccount(WebsiteAccount):
 
                 # Check attachment isn't too big
                 attachment = post.get('issue_attachment') or None
+                max_size = http.request.env['ir.config_parameter'].get_param(
+                    'website_project_issue_extension.attachment_max_size')
                 attachment_list = None
                 if attachment:
                     attachment.seek(0, os.SEEK_END)
@@ -97,7 +99,7 @@ class WebsiteAccount(WebsiteAccount):
                     attachment_list = [(attachment.filename, attachment.read())] \
                         if attachment and attachment.filename != "" else None
 
-                    if file_size > 20 * 1024 * 1024:
+                    if file_size > max_size * 1000 * 1000:
                         # File size too big
                         values['error'] = _('An error occured!')
                         return json.dumps(values)

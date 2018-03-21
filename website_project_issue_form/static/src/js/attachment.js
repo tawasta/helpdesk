@@ -13,21 +13,22 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
             var file = $(this).prop('files')[0];
             var size = "";
             var msg = "";
+            var max_size = $(this).data('maxsize');
 
             $('#fileTooBigDiv').addClass('hidden');
             $('#fileSizeOkDiv').addClass('hidden');
             
             if (file) {
                 if (file.size > 1024 * 1024) {
-                    size = (Math.round(file.size * 10 / (1024 * 1024))/10).toString() + 'MB';
+                    size = (Math.round(file.size * 10 / (1000 * 1000))/10).toString() + 'MB';
                 }
                 else {
-                    size = (Math.round(file.size * 10 / 1024)/10).toString() + 'KB';
+                    size = (Math.round(file.size * 10 / 1000)/10).toString() + 'KB';
                 }      
             }
 
-            // If file is over 20 MB, clear the element and give notifications
-            if (file.size > (20 * 1024 * 1024)) {
+            // If file is larger than max_size, clear the element and give notifications
+            if (file.size > (max_size * 1000 * 1000)) {
                 $('#issue_attachment').val('');
                 $('#fileTooBigDiv').removeClass('hidden');
                 $('#fileTooBig').text(size);

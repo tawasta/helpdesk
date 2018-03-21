@@ -22,7 +22,7 @@
 {
     'name': 'Website Project Issue Form',
     'summary': 'Issues can be submitted from website',
-    'version': '10.0.0.4.2',
+    'version': '10.0.0.5.0',
     'category': 'website',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -30,6 +30,7 @@
     'depends': [
         'website_project_issue',
         'website_utilities',
+        'website_project_issue_extension',
     ],
     'data': [
         'views/project_issue_templates.xml',

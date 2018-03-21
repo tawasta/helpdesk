@@ -74,7 +74,8 @@
                                     <div class="col-md-12">
                                         <div class="fileUpload btn btn-default col-xs-6">
                                             <span><i class="fa fa-folder-open"/>  Attach File</span>
-                                            <input name="issue_attachment" type="file" id="issue_attachment" class="upload"/>
+                                            <input name="issue_attachment" type="file" id="issue_attachment" class="upload"
+                                                t-att-data-maxsize="request.env['ir.config_parameter'].get_param('website_project_issue_extension.attachment_max_size')"/>
                                         </div>
                                         <div class="clearfix" />
                                         <div class="alert alert-info hidden mt8" id="fileSizeOkDiv">
