@@ -6,3 +6,8 @@
     width: 100%;
     height: 100%;
 }
+
+.message .msg-img {
+    max-width: 1080px;
+    max-height: 960px;
+}

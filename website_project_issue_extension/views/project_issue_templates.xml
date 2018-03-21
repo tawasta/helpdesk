@@ -62,8 +62,8 @@
                 </t>
             </t>
         </div>
-        <!-- <script type="text/javascript" src="/website_medical_appointment/static/src/js/discussion.js"></script>
-        <script type="text/javascript" src="/website_medical_appointment/static/src/js/preview_image.js"></script> -->
+        <!-- <script type="text/javascript" src="/website_medical_appointment/static/src/js/discussion.js"></script> -->
+        <script type="text/javascript" src="/website_project_issue_extension/static/src/js/preview_image.js"></script>
     </template>
 
     <!-- Single message will be rendered using this template -->
