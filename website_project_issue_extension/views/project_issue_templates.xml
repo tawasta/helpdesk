@@ -15,6 +15,22 @@
         </xpath>
     </template>
 
+    <!-- Modifications to my_issues -template from core -->
+    <template id="my_issues" inherit_id="website_project_issue.my_issues">
+
+        <!-- Add responsive table class -->
+        <xpath expr="//div[@class='panel panel-default']" position="attributes">
+            <attribute name="class">panel panel-default table-responsive</attribute>
+        </xpath>
+
+        <!-- Remove t-if so that table is rendered but hidden -->
+        <xpath expr="//div/table" position="attributes">
+            <attribute name="t-if"></attribute>
+            <attribute name="class"></attribute>
+            <attribute name="t-att-class">'table table-hover status_table' if issues else 'table table-hover status_table hidden'</attribute>
+        </xpath>
+    </template>
+
     <!-- Template for submitting messages -->
     <template id="issue_submit_message" name="Template for submitting messages">
         <div>
