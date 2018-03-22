@@ -37,7 +37,7 @@
                         <input name="message_attachment" class="upload" type="file" id="message_attachment"
                             t-att-data-maxsize="attachment_maxsize"/>
                     </div>
-                    <button id="submit_message" type="button" class="btn btn-primary col-xs-6" title="You have to write a message to submit it!"><i class="fa fa-envelope"/> Submit</button>
+                    <button id="submit_message" type="button" class="btn btn-primary col-xs-6" title="Submit message"><i class="fa fa-envelope"/> Submit</button>
                 </div>
                 <div class="alert alert-info hidden mt8 filesize-div" id="fileSizeOkDiv">
                     <p>File's size: <strong id="fileSizeOk"></strong></p>
