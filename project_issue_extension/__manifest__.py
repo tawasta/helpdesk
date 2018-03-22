@@ -20,21 +20,18 @@
 ##############################################################################
 
 {
-    'name': 'Help Desk',
-    'summary': 'Help Desk core bundle',
-    'version': '10.0.0.4.0',
-    'category': 'Tools',
+    'name': 'Project Issue Extension',
+    'summary': 'Modifications to Project Issue',
+    'version': '10.0.0.1.0',
+    'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
-        'project_issue_extension',
-        'project_issue_opportunity',
-        'website_project_issue_form',
-        'website_project_issue_extension',
+        'project_issue',
     ],
     'data': [
-
+        'views/project_issue_form.xml',
     ],
     'demo': [
 
