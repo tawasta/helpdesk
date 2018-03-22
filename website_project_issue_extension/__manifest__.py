@@ -22,13 +22,14 @@
 {
     'name': 'Website Project Issue Extension',
     'summary': 'Added functionality to Website Project Issue',
-    'version': '10.0.0.3.5',
+    'version': '10.0.0.4.0',
     'category': 'Website',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
         'website_project_issue',
+        'project_issue_extension',
     ],
     'data': [
         'data/project_issue.xml',
