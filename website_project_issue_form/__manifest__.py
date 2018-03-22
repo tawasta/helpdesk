@@ -22,7 +22,7 @@
 {
     'name': 'Website Project Issue Form',
     'summary': 'Issues can be submitted from website',
-    'version': '10.0.0.5.0',
+    'version': '10.0.0.5.1',
     'category': 'website',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',

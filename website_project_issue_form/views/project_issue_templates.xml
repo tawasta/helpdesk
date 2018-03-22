@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <template id="assets_frontend" inherit_id="website.assets_frontend">
-        <xpath expr="." position="inside">
-            <link rel='stylesheet' href='/website_project_issue_form/static/src/less/website_project_issue_form.less'/>
-        </xpath>
-    </template>
-
     <!-- Add button to create a new issue from website -->
     <template id="my_issues" inherit_id="website_project_issue.my_issues">
         <xpath expr="//h3[@class='page-header']/div[@class='dropdown pull-right mr8']" position="before">
@@ -26,6 +20,7 @@
 
         <xpath expr="//t[@t-call='website_portal.portal_layout']" position="inside">
             <t t-call="website_project_issue_form.create_issue_template"/>
+            <link rel='stylesheet' href='/website_project_issue_form/static/src/css/website_project_issue_form.css'/>
         </xpath>
     </template>
 
