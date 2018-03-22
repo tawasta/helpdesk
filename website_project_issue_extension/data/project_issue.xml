@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <!-- URL format for reading issue messages in portal -->
         <record id="icp_unread_messages_format_project_issue" model="ir.config_parameter">
             <field name="key">unread_messages_format.project_issue</field>
