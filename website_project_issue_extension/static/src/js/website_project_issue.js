@@ -141,7 +141,9 @@ odoo.define('website_project_issue_extension.issue', function (require) {
                 if (res != "") {
                     var new_date = (new Date().getTime()/1000);
                     $(timestamp).val(new_date);
-                    $('#issue_messages').prepend(res);
+                    // Show the image right away since it's the first message
+                    var cleaned = res.replace('data-src', 'src');
+                    $('#issue_messages').prepend(cleaned);
                     msg = _t('New message arrived!');
                     toastr.info(msg);
                 }      
