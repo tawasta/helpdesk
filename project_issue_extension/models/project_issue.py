@@ -24,11 +24,22 @@ class ProjectIssue(models.Model):
     # 1. Private attributes
     _inherit = 'project.issue'
 
+    _sql_constraints = [
+        ('issue_number', 'unique(issue_number)', _('This issue number is already in use.'))
+    ]
+
     # 2. Fields declaration
+    issue_number = fields.Char(
+        string='Issue number',
+        help='Number assigned to issue as identifier',
+    )
     doc_count = fields.Integer(
         compute='_compute_attached_docs_count',
         string='Number of documents attached',
         help='Number of documents attached to this record',
+    )
+    description = fields.Html(
+        string='Description',
     )
 
     # 3. Default methods
@@ -72,7 +83,25 @@ class ProjectIssue(models.Model):
     # 5. Constraints and onchanges
 
     # 6. CRUD methods
+    @api.model
+    def create(self, values):
+        """
+        Set issue number to issue
+        """
+        if not values.get('issue_number'):
+            values['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
+
+        return super(ProjectIssue, self).create(values)
 
     # 7. Action methods
 
     # 8. Business methods
+    @api.model
+    def _init_issue_numbers(self):
+        """
+        Initialize issue numbers when module is installed
+        """
+        issues = self.search([('issue_number', '=', False)])
+        for issue in issues:
+            issue.issue_number = self.env['ir.sequence'].next_by_code('project.issue')
+            _logger.debug("Setting issue number for %s", issue.issue_number)
