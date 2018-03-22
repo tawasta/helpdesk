@@ -6,7 +6,6 @@ import json
 import logging
 
 # 2. Known third party imports:
-from bs4 import BeautifulSoup
 
 # 3. Odoo imports (openerp):
 from odoo import http, _
@@ -68,8 +67,7 @@ class WebsiteAccount(WebsiteAccount):
                 values['error'] = _('An error occured!')
             else:
                 name = post.get('issue_name')
-                # Parse HTML since description field is plain text
-                description = BeautifulSoup(post.get('issue_summary'), 'lxml').text
+                description = post.get('issue_summary')
 
                 # Find issue project with incoming mail server and alias
                 server_id = int(post.get('issue_email'))
