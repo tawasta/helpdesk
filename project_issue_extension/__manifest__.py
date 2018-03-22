@@ -32,6 +32,7 @@
     ],
     'data': [
         'views/project_issue_form.xml',
+        'views/ir_attachment_view.xml',
     ],
     'demo': [
 

@@ -6,7 +6,10 @@
 Project Issue Extension
 =======================
 
-Customizations to Project Issue module
+Customizations to Project Issue module:
+
+* Adds attachments to issues
+* Show file size on attachments in human readable way
 
 Configuration
 =============

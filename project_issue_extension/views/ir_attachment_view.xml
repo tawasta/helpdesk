@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Add file size to attachment views -->
+    <record id="view_attachment_form" model="ir.ui.view">
+        <field name="name">ir.attachment.form.view</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form"/>
+        <field name="arch" type="xml">
+            <field name="mimetype" position="before">
+                <field name="file_size_hr"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_attachment_tree" model="ir.ui.view">
+        <field name="name">ir.attachment.tree.view</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_tree"/>
+        <field name="arch" type="xml">
+            <!-- 
+                datas_fname and name are same in most cases,
+                so replacing former to save horizontal space
+            -->
+            <field name="datas_fname" position="replace">
+                <field name="file_size_hr"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

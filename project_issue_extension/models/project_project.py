@@ -68,7 +68,7 @@ class ProjectProject(models.Model):
             'res_model': 'ir.attachment',
             'type': 'ir.actions.act_window',
             'view_id': False,
-            'view_mode': 'kanban,tree,form',
+            'view_mode': 'tree,kanban,form',
             'view_type': 'form',
             'help': _('''<p class="oe_view_nocontent_create">
                         Documents are attached to the tasks and issues of your project.</p><p>
