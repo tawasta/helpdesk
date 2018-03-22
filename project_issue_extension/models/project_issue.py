@@ -41,6 +41,13 @@ class ProjectIssue(models.Model):
     description = fields.Html(
         string='Description',
     )
+    stage_change_ids = fields.One2many(
+        'project.issue.stage.change',
+        'issue_id',
+        string='Stage changes',
+        readonly=True,
+        help="Issue's stage changes",
+    )
 
     # 3. Default methods
 
@@ -90,8 +97,21 @@ class ProjectIssue(models.Model):
         """
         if not values.get('issue_number'):
             values['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
-
         return super(ProjectIssue, self).create(values)
+
+
+    @api.multi
+    def write(self, values):
+        """
+
+        """
+        stage_id = values.get('stage_id')
+        # Create new line to stage change log
+        if stage_id:
+            print stage_id
+            values['stage_change_ids'] = [(0, _, {'stage': stage_id})]
+        return super(ProjectIssue, self).write(values)
+
 
     # 7. Action methods
 

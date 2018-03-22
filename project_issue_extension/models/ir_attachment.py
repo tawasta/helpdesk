@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 
 # 1. Standard library imports:
-import logging
 from math import log
 
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 
 # 4. Imports from Odoo modules:
 
 # 5. Local imports in the relative form:
 
 # 6. Unknown third party imports:
-
-
-_logger = logging.getLogger(__name__)
 
 
 class IrAttachment(models.Model):
