@@ -18,6 +18,10 @@
                 <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">
                     <field string="Documents" name="doc_count" widget="statinfo"/>
                 </button>
+                <button class="oe_stat_button" name="customer_issues_tree_view" type="object" icon="fa-ticket"
+                    attrs="{'invisible': [('partner_id','=',False)]}">
+                    <field string="Issues" name="customer_issue_count" widget="statinfo"/>
+                </button>
             </button>
 
             <xpath expr="//notebook/page[1]" position="replace">

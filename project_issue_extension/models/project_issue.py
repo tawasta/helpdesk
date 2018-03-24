@@ -38,6 +38,11 @@ class ProjectIssue(models.Model):
         string='Number of documents attached',
         help='Number of documents attached to this record',
     )
+    customer_issue_count = fields.Integer(
+        compute='_compute_customer_issue_count',
+        string='Number of issues on customer',
+        help='Number of issues on customer',
+    )
     description = fields.Html(
         string='Description',
     )
@@ -61,31 +66,12 @@ class ProjectIssue(models.Model):
             ])
 
 
-    @api.multi
-    def attachment_tree_view(self):
-        """
-        Issue's attachments
-        """
-        self.ensure_one()
-        domain = [
-            ('res_model', '=', self._name), ('res_id', 'in', self.ids),
-        ]
-        return {
-            'name': _('Attachments'),
-            'domain': domain,
-            'res_model': 'ir.attachment',
-            'type': 'ir.actions.act_window',
-            'view_id': False,
-            'view_mode': 'tree,kanban,form',
-            'view_type': 'form',
-            'help': _('''<p class="oe_view_nocontent_create">
-                        Documents are attached to the issues.</p><p>
-                        Send messages or log internal notes with attachments to link
-                        documents to issues.
-                    </p>'''),
-            'limit': 80,
-            'context': "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
-        }
+    def _compute_customer_issue_count(self):
+        for record in self:
+            partner_id = record.partner_id.id
+            record.customer_issue_count = self.search_count([
+                ('partner_id', '=', partner_id),
+            ])
 
     # 5. Constraints and onchanges
 
@@ -114,6 +100,57 @@ class ProjectIssue(models.Model):
 
 
     # 7. Action methods
+    @api.multi
+    def attachment_tree_view(self):
+        """
+        Issue's attachments
+        """
+        self.ensure_one()
+        domain = [
+            ('res_model', '=', self._name), ('res_id', 'in', self.ids),
+        ]
+        return {
+            'name': _('Attachments'),
+            'domain': domain,
+            'res_model': 'ir.attachment',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,kanban,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                        Documents are attached to the issues.</p><p>
+                        Send messages or log internal notes with attachments to link
+                        documents to issues.
+                    </p>'''),
+            'limit': 80,
+            'context': "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
+        }
+
+
+    @api.multi
+    def customer_issues_tree_view(self):
+        """
+        Customer's issues
+        """
+        self.ensure_one()
+        domain = [
+            ('partner_id', '=', self.partner_id.id),
+        ]
+        return {
+            'name': _("Customer's issues"),
+            'domain': domain,
+            'res_model': 'project.issue',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                        Documents are attached to the issues.</p><p>
+                        Send messages or log internal notes with attachments to link
+                        documents to issues.
+                    </p>'''),
+            'limit': 80,
+        }
 
     # 8. Business methods
     @api.model
