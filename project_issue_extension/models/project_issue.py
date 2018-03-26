@@ -145,9 +145,7 @@ class ProjectIssue(models.Model):
             'view_mode': 'tree,form',
             'view_type': 'form',
             'help': _('''<p class="oe_view_nocontent_create">
-                        Documents are attached to the issues.</p><p>
-                        Send messages or log internal notes with attachments to link
-                        documents to issues.
+                        Issues are attached to customers.</p><p>
                     </p>'''),
             'limit': 80,
         }

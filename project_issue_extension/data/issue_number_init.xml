@@ -5,7 +5,6 @@
         <record id="sequence_issue" model="ir.sequence">
             <field name="name">Issue number sequence</field>
             <field name="code">project.issue</field>
-            <field name="prefix">Issue #</field>
             <field name="padding">5</field>
             <field name="number_increment">1</field>
             <field name="implementation">no_gap</field>
