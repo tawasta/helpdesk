@@ -13,6 +13,17 @@
                 <t t-call="website_project_issue_extension.issue_message_thread"/>
             </div>
         </xpath>
+
+        <!-- Add issue number to heading -->
+        <xpath expr="//div[@class='panel-heading']/div/div/h4" position="replace">
+            <h4>
+                Issue #<span t-field="issue.issue_number"/> - <span t-field="issue.name"/>
+                <a class="btn btn-info"
+                    t-att-href="'/web#return_label=Website&amp;model=project.issue&amp;id=%s&amp;view_type=form' % (issue.id)"
+                    groups="project.group_project_user">Edit Issue</a>
+                <span t-field="issue.stage_id.name" class="pull-right label label-info" title="Current stage of this issue"/>
+            </h4>
+        </xpath>
     </template>
 
     <!-- Modifications to my_issues -template from core -->
@@ -28,6 +39,19 @@
             <attribute name="t-if"></attribute>
             <attribute name="class"></attribute>
             <attribute name="t-att-class">'table table-hover status_table' if issues else 'table table-hover status_table hidden'</attribute>
+        </xpath>
+
+        <!-- Replace table head row -->
+        <xpath expr="//div/table/thead/tr[@class='active']" position="replace">
+            <tr class="active">
+                <th>#</th>
+                <th class="col-md-8">Issue's subject</th>
+                <th>Stage</th>
+            </tr>
+        </xpath>
+
+        <xpath expr="//t[@t-foreach='issues']/tr/td[1]/a" position="replace">
+            <a t-attf-href="/my/issues/#{issue.id}?{{ keep_query() }}"><t t-esc="issue.issue_number" /></a>
         </xpath>
     </template>
 

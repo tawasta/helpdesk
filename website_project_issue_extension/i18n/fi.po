@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-22 09:13+0000\n"
-"PO-Revision-Date: 2018-03-22 11:13+0200\n"
+"POT-Creation-Date: 2018-03-26 06:56+0000\n"
+"PO-Revision-Date: 2018-03-26 09:57+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,11 @@ msgid "File's size: <strong id=\"fileSizeOk\"/>"
 msgstr "Tiedoston koko: <strong id=\"fileSizeOk\"/>"
 
 #. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues
+msgid "Issue's subject"
+msgstr "Tapauksen otsikko"
+
+#. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
 msgid "MB."
 msgstr "MB."
@@ -65,7 +70,7 @@ msgstr "Viesti puuttuu!"
 
 #. module: website_project_issue_extension
 #. openerp-web
-#: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:145
+#: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:147
 #, python-format
 msgid "New message arrived!"
 msgstr "Uusi viesti saapui!"
@@ -86,6 +91,11 @@ msgstr "Ei kuvaa"
 #, python-format
 msgid "Portal message"
 msgstr "Portaaliviesti"
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues
+msgid "Stage"
+msgstr "Vaihe"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message

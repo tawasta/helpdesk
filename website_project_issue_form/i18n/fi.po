@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-15 11:12+0000\n"
-"PO-Revision-Date: 2018-03-15 13:13+0200\n"
+"POT-Creation-Date: 2018-03-26 06:54+0000\n"
+"PO-Revision-Date: 2018-03-26 09:55+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,14 +18,13 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 #. module: website_project_issue_form
-#. openerp-web
-#: code:addons/website_project_issue_form/static/src/js/create_issue.js:72
-#, python-format
-msgid "'>Issue "
-msgstr "'>Tapaus "
+#: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
+msgid "<span><i class=\"fa fa-folder-open\"/>  Attach File</span>"
+msgstr "<span><i class=\"fa fa-folder-open\"/>  Liitä tiedosto</span>"
 
 #. module: website_project_issue_form
-#: code:addons/website_project_issue_form/controllers/main.py:74
+#: code:addons/website_project_issue_form/controllers/main.py:67
+#: code:addons/website_project_issue_form/controllers/main.py:102
 #, python-format
 msgid "An error occured!"
 msgstr "Tapahtui virhe!"
@@ -39,13 +38,6 @@ msgstr "Liite"
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
 msgid "Cancel"
 msgstr "Peruuta"
-
-#. module: website_project_issue_form
-#. openerp-web
-#: code:addons/website_project_issue_form/static/src/js/attachment.js:45
-#, python-format
-msgid "Choose file"
-msgstr "Valitse tiedosto"
 
 #. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
@@ -64,7 +56,7 @@ msgstr "Luo tukipyyntö"
 
 #. module: website_project_issue_form
 #. openerp-web
-#: code:addons/website_project_issue_form/static/src/js/create_issue.js:75
+#: code:addons/website_project_issue_form/static/src/js/create_issue.js:90
 #, python-format
 msgid "Current stage of the issue"
 msgstr "Tapauksen nykyinen vaihe"
@@ -99,7 +91,7 @@ msgid "File's size: <strong id=\"fileSizeOk\"/>"
 msgstr "Tiedoston koko: <strong id=\"fileSizeOk\"/>"
 
 #. module: website_project_issue_form
-#: code:addons/website_project_issue_form/controllers/main.py:122
+#: code:addons/website_project_issue_form/controllers/main.py:119
 #, python-format
 msgid "Issue created"
 msgstr "Tukipyyntö luotu"
@@ -115,7 +107,7 @@ msgid "Name:"
 msgstr "Nimi:"
 
 #. module: website_project_issue_form
-#: code:addons/website_project_issue_form/controllers/main.py:129
+#: code:addons/website_project_issue_form/controllers/main.py:126
 #, python-format
 msgid "New issue created!"
 msgstr "Uusi tukipyyntö luotu!"

@@ -107,6 +107,7 @@ class WebsiteAccount(WebsiteAccount):
                 values['id'] = issue.id
                 values['name'] = issue.name
                 values['stage'] = issue.stage_id.name
+                values['issue_number'] = issue.issue_number
 
                 # Add partner as follower
                 notified_partner_ids = [partner.id]

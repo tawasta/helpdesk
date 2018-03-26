@@ -84,7 +84,7 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
                         // Add a new row to table, if table exists
                         $('.panel > .alert').addClass('hidden');
                         $('.panel > table').removeClass('hidden');
-                        var row = "<tr><td><a href='/my/issues/" + results["id"] + _t("'>Issue ") + results["id"] + "</a></td>";
+                        var row = "<tr><td><a href='/my/issues/" + results["id"] + "'>" + results["issue_number"] + "</a></td>";
                         row += "<td><span>" + results["name"] + "</span></td>";
                         row += "<td><span class='label label-info' ";
                         row += "title='" + _t("Current stage of the issue") + "'>" + results["stage"] + "</span></td></tr>";
