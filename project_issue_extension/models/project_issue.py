@@ -89,7 +89,7 @@ class ProjectIssue(models.Model):
     @api.multi
     def write(self, values):
         """
-
+        Add a new row to stage_change_ids, when stage is changed
         """
         stage_id = values.get('stage_id')
         # Create new line to stage change log

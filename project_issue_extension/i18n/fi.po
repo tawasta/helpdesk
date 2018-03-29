@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-26 06:05+0000\n"
-"PO-Revision-Date: 2018-03-26 09:07+0300\n"
+"POT-Creation-Date: 2018-03-29 16:48+0000\n"
+"PO-Revision-Date: 2018-03-29 19:49+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgid "Customer's issues"
 msgstr "Asiakkaan tapaukset"
 
 #. module: project_issue_extension
-#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Description"
 msgstr "Kuvaus"
 
@@ -95,7 +95,7 @@ msgid "Display Name"
 msgstr "Näyttönimi"
 
 #. module: project_issue_extension
-#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Documents"
 msgstr "Dokumentit"
 
@@ -120,12 +120,12 @@ msgid "ID"
 msgstr "Tunniste (ID)"
 
 #. module: project_issue_extension
-#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Issue"
 msgstr "Tapaus"
 
 #. module: project_issue_extension
-#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Issue #"
 msgstr "Tapaus #"
 
@@ -140,9 +140,14 @@ msgid "Issue number"
 msgstr "Tapauksen numero"
 
 #. module: project_issue_extension
-#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Issue subject"
 msgstr "Tapauksen otsikko"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
+msgid "Issue's description"
+msgstr "Tapauksen kuvaus"
 
 #. module: project_issue_extension
 #: model:ir.model.fields,help:project_issue_extension.field_project_issue_stage_change_ids
@@ -151,6 +156,11 @@ msgstr "Tapauksen vaiheiden muutokset"
 
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view
+msgid "Issue's subject"
+msgstr "Tapauksen otsikko"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Issues"
 msgstr "Tapaukset"
 
@@ -207,7 +217,7 @@ msgstr "Projektin tapaus"
 
 #. module: project_issue_extension
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_ids
-#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Stage changes"
 msgstr "Vaiheiden muutokset"
 

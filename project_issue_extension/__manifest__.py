@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Extension',
     'summary': 'Modifications to Project Issue',
-    'version': '10.0.0.4.2',
+    'version': '10.0.0.4.3',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
