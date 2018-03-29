@@ -24,6 +24,10 @@
                 </button>
             </button>
 
+            <field name="user_id" position="before">
+                <field name="company_id" readonly="1" groups="base.group_user"/>
+            </field>
+
             <xpath expr="//notebook/page[1]" position="replace">
                 <page string="Description">
                     <group name="issue" string="Issue" col="4">
