@@ -1,13 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* website_project_issue_extension
+# 	* website_project_issue
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-26 06:56+0000\n"
-"PO-Revision-Date: 2018-03-26 09:57+0300\n"
+"POT-Creation-Date: 2018-03-30 10:26+0000\n"
+"PO-Revision-Date: 2018-03-30 13:27+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,6 +27,59 @@ msgstr "<i class=\"fa fa-envelope\"/> Lähetä"
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
 msgid "<span><i class=\"fa fa-folder-open\"/>  Attach File</span>"
 msgstr "<span><i class=\"fa fa-folder-open\"/>  Liitä tiedosto</span>"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "<strong>Assigned to</strong>"
+msgstr "<strong>Annettu tehtäväksi</strong>"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "<strong>Date:</strong>"
+msgstr "<strong>Pvm:</strong>"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "<strong>Description</strong>"
+msgstr "<strong>Kuvaus</strong>"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "<strong>Message and communication history</strong>"
+msgstr "<strong>Viestihistoria</strong>"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "<strong>Reported by</strong>"
+msgstr "<strong>Raportoinut</strong>"
+
+#. module: website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:38
+#, python-format
+msgid "All"
+msgstr "Kaikki"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+msgid "Current stage of the issue"
+msgstr "Tapauksen nykyinen vaihe"
+
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+#: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
+msgid "Current stage of this issue"
+msgstr "Tapauksen nykyinen vaihe"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+msgid "Description"
+msgstr "Kuvaus"
+
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+#: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
+msgid "Edit Issue"
+msgstr "Muokkaa tapausta"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
@@ -47,10 +101,32 @@ msgstr "Tiedosto on liian suuri!"
 msgid "File's size: <strong id=\"fileSizeOk\"/>"
 msgstr "Tiedoston koko: <strong id=\"fileSizeOk\"/>"
 
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "Issue"
+msgstr "Tapaus"
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
+msgid "Issue #"
+msgstr "Tapaus #"
+
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues
 msgid "Issue's subject"
 msgstr "Tapauksen otsikko"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.portal_layout
+msgid "Issues"
+msgstr "Tapaukset"
+
+#. module: website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:32
+#, python-format
+msgid "Last Stage Update"
+msgstr "Vaihe päivittynyt viimeksi"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
@@ -68,6 +144,17 @@ msgstr "Viesti ei voi olla tyhjä!"
 msgid "Message is missing!"
 msgstr "Viesti puuttuu!"
 
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "My Issues"
+msgstr "Omat tapaukset"
+
+#. module: website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:30
+#, python-format
+msgid "Name"
+msgstr "Nimi"
+
 #. module: website_project_issue_extension
 #. openerp-web
 #: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:147
@@ -81,6 +168,12 @@ msgstr "Uusi viesti saapui!"
 msgid "New message sent!"
 msgstr "Uusi viesti lähetettiin!"
 
+#. module: website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:29
+#, python-format
+msgid "Newest"
+msgstr "Uusimmat"
+
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.single_message_template
 msgid "No image"
@@ -92,8 +185,21 @@ msgstr "Ei kuvaa"
 msgid "Portal message"
 msgstr "Portaaliviesti"
 
-#. module: website_project_issue_extension
+#. module: website_project_issue
+#: model:ir.model,name:website_project_issue.model_project_issue
+msgid "Project Issue"
+msgstr "Projektin tapaus"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+msgid "Projects:"
+msgstr "Projektit:"
+
+#. modules: website_project_issue_extension, website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:31
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues
+#, python-format
 msgid "Stage"
 msgstr "Vaihe"
 
@@ -102,10 +208,26 @@ msgstr "Vaihe"
 msgid "Submit message"
 msgstr "Lähetä viesti"
 
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.portal_my_home
+msgid "There are currently no issues for your account."
+msgstr "Asiakastiliin liittyviä tapauksia ei löytynyt."
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+msgid "There are no issues."
+msgstr "Tapauksia ei löytynyt."
+
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
 msgid "Type a message..."
 msgstr "Kirjoita viesti..."
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+#: model:ir.ui.view,arch_db:website_project_issue.portal_my_home
+msgid "Your Issues"
+msgstr "Omat tapaukset"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.single_message_template

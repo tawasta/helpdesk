@@ -53,6 +53,10 @@
         <xpath expr="//t[@t-foreach='issues']/tr/td[1]/a" position="replace">
             <a t-attf-href="/my/issues/#{issue.id}?{{ keep_query() }}"><t t-esc="issue.issue_number" /></a>
         </xpath>
+
+        <t t-call="website_portal.portal_layout" position="inside">
+            <link rel='stylesheet' href='/website_project_issue_extension/static/src/css/issues.css'/>
+        </t>
     </template>
 
     <!-- Template for submitting messages -->
@@ -91,7 +95,7 @@
             </form>
         </div>
         <div class="clearfix"/>
-        <link rel='stylesheet' href='/website_project_issue_extension/static/src/css/styles.css'/>
+        <link rel='stylesheet' href='/website_project_issue_extension/static/src/css/thread.css'/>
         <script src="//cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js"></script>
         <script type="text/javascript" src="/website_project_issue_extension/static/src/js/website_project_issue.js"></script>
     </template>
