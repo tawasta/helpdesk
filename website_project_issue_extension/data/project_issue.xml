@@ -2,9 +2,9 @@
 <odoo>
     <data noupdate="1">
         <!-- URL format for reading issue messages in portal -->
-        <record id="icp_unread_messages_format_project_issue" model="ir.config_parameter">
-            <field name="key">unread_messages_format.project_issue</field>
-            <field name="value">/my/issues/:res_id</field>
+        <record id="unread_message_format_project_issue" model="unread.message">
+            <field name="res_model" ref="project_issue.model_project_issue"/>
+            <field name="url_format">/my/issues/:res_id</field>
         </record>
 
         <!-- Message polling interval in milliseconds -->
