@@ -21,7 +21,8 @@
                 <a class="btn btn-info"
                     t-att-href="'/web#return_label=Website&amp;model=project.issue&amp;id=%s&amp;view_type=form' % (issue.id)"
                     groups="project.group_project_user">Edit Issue</a>
-                <span t-field="issue.stage_id.name" class="pull-right label label-info" title="Current stage of this issue"/>
+                <span t-field="issue.stage_id.name" t-attf-class="pull-right label label-#{issue.stage_id.website_label_class}"
+                    title="Current stage of this issue"/>
             </h4>
         </xpath>
     </template>
@@ -52,6 +53,11 @@
 
         <xpath expr="//t[@t-foreach='issues']/tr/td[1]/a" position="replace">
             <a t-attf-href="/my/issues/#{issue.id}?{{ keep_query() }}"><t t-esc="issue.issue_number" /></a>
+        </xpath>
+
+        <xpath expr="//t[@t-foreach='issues']/tr/td[3]/span" position="attributes">
+            <attribute name="class"></attribute>
+            <attribute name="t-attf-class">label label-#{issue.stage_id.website_label_class}</attribute>
         </xpath>
 
         <t t-call="website_portal.portal_layout" position="inside">

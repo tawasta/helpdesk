@@ -3,3 +3,4 @@ from . import project_issue
 from . import project_project
 from . import ir_attachment
 from . import issue_stage_change
+from . import project_task_type

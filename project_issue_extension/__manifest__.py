@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Extension',
     'summary': 'Modifications to Project Issue',
-    'version': '10.0.0.4.3',
+    'version': '10.0.0.4.4',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -34,6 +34,7 @@
         'views/project_issue_form.xml',
         'views/project_issue_tree.xml',
         'views/ir_attachment_view.xml',
+        'views/project_task_type.xml',
         'data/issue_number_init.xml',
         'security/ir.model.access.csv',
     ],
