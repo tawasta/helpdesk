@@ -22,20 +22,23 @@
 {
     'name': 'Project Issue Extension',
     'summary': 'Modifications to Project Issue',
-    'version': '10.0.0.4.4',
+    'version': '10.0.0.5.0',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
         'project_issue',
+        'email_template_qweb',
     ],
     'data': [
         'views/project_issue_form.xml',
         'views/project_issue_tree.xml',
         'views/ir_attachment_view.xml',
         'views/project_task_type.xml',
+        'views/project_issue_settings.xml',
         'data/issue_number_init.xml',
+        'data/project_issue_settings_data.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [

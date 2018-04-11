@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <!-- Project issue settings tree view -->
+        <record id="project_issue_settings_tree" model="ir.ui.view">
+            <field name="name">project.issue.settings.tree</field>
+            <field name="model">project.issue.settings</field>
+            <field name="arch" type="xml">
+                <tree string="Project issue settings">
+                     <field name="company_id"/>
+                     <field name="email_reply_to"/>
+                </tree>
+           </field>                         
+        </record>
+        
+        <!-- Project issue settings form view -->
+        <record id="project_issue_settings_form" model="ir.ui.view">
+            <field name="name">project.issue.settings.from</field>
+            <field name="model">project.issue.settings</field>
+            <field name="arch" type="xml">
+                <form string="Project issue settings">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" required="1"/>
+                                <field name="email_reply_to" required="1"/>
+                            </group>
+                            <group>
+                                <field name="email_issue_received" required="1"/>
+                                <field name="email_issue_reply" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+           </field>
+        </record>
+        
+        <record id="action_project_issue_settings" model="ir.actions.act_window"> 
+             <field name="name">Project issue settings</field>
+            <field name="res_model">project.issue.settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="project_issue_settings_tree"/>
+        </record> 
+      
+        <menuitem id="menu_project_issue_settings"
+            name="Issue settings"
+            parent="project.menu_project_config"
+            action="action_project_issue_settings"
+            sequence="150" />
+</odoo>
