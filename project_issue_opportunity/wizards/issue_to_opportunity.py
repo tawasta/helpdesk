@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # 1. Standard library imports:
+import re
 
 # 2. Known third party imports:
+from bs4 import BeautifulSoup
 
 # 3. Odoo imports (openerp):
 from odoo import api, fields, models, _
@@ -52,9 +54,12 @@ class IssueToOpportunity(models.TransientModel):
         issue = self.env['project.issue'].browse([active_id])
         name = "%s - %s" % (issue.partner_id.name, issue.name) \
             if issue.partner_id else issue.name
+
+        description = re.sub(r'<br\s*[\/]?>', '\n', issue.description or '')
+        description = BeautifulSoup(description, 'lxml').text
         values = {
             'name': name,
-            'description': issue.description,
+            'description': description,
             'partner_id': issue.partner_id.id,
             'user': self._uid,
         }

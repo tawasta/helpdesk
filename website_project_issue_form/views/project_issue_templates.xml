@@ -45,7 +45,7 @@
                                             <option value="">Select support address...</option>
                                             <t t-set="mail_servers" t-value="website.env['fetchmail.server'].sudo().search([])"/>
                                             <t t-foreach="mail_servers" t-as="server">
-                                                <option t-att-value="server.id"><t t-esc="server.name"/></option>
+                                                <option t-att-value="server.company_id.id"><t t-esc="server.company_id.name"/></option>
                                             </t>
                                         </select>
                                     </div>

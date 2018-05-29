@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-29 16:48+0000\n"
-"PO-Revision-Date: 2018-03-29 19:49+0300\n"
+"POT-Creation-Date: 2018-04-20 14:17+0000\n"
+"PO-Revision-Date: 2018-04-20 17:30+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,17 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/project_issue.py:120
+#: model:mail.template,subject:project_issue_extension.mail_template_project_issue_received_email
+msgid "${object.subject}"
+msgstr "${object.subject}"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_footer
+msgid ", All rights reserved."
+msgstr ", kaikki oikeudet pidätetään."
+
+#. module: project_issue_extension
+#: code:addons/project_issue_extension/models/project_issue.py:148
 #, python-format
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
@@ -50,7 +60,7 @@ msgstr ""
 "                    </p>"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/project_issue.py:147
+#: code:addons/project_issue_extension/models/project_issue.py:175
 #, python-format
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
@@ -62,27 +72,80 @@ msgstr ""
 "                    </p>"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/project_issue.py:113
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_footer
+msgid "<strong>Best regards,</strong><br/>"
+msgstr "<strong>Terveisin,</strong><br/>"
+
+#. module: project_issue_extension
+#: code:addons/project_issue_extension/models/project_issue.py:141
 #: code:addons/project_issue_extension/models/project_project.py:66
 #, python-format
 msgid "Attachments"
 msgstr "Liitteet"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,help:project_issue_extension.field_project_issue_settings_email_issue_received
+msgid "Auto reply email when customer submits a new issue"
+msgstr "Automaattivastaus asiakkaalle, kun uusi tukipyyntö vastaanotetaan"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_task_type_website_label_class
+msgid "Bootstrap label class"
+msgstr "Bootstrap-kirjaston luokka labeleille"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_fetchmail_server_company_id
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_company_id
+msgid "Company"
+msgstr "Yritys"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,help:project_issue_extension.field_project_issue_settings_company_id
+msgid "Company for which these settings are defined"
+msgstr "Yritys, jolle tukipyynnön asetukset on määritetty"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_footer
+msgid "Copyright © 2018"
+msgstr "Copyright © 2018"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_create_uid
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_create_uid
 msgid "Created by"
 msgstr "Luonut"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_create_date
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_create_date
 msgid "Created on"
 msgstr "Luotu"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/project_issue.py:140
+#: model:ir.model.fields,help:project_issue_extension.field_project_issue_settings_helpdesk_project
+msgid "Currently used helpdesk project for the company"
+msgstr "Yrityksen nykyinen tukipalveluprojekti"
+
+#. module: project_issue_extension
+#: code:addons/project_issue_extension/models/project_issue.py:168
 #, python-format
 msgid "Customer's issues"
-msgstr "Asiakkaan tapaukset"
+msgstr "Asiakkaan tukipyynnöt"
+
+#. module: project_issue_extension
+#: selection:project.task.type,website_label_class:0
+msgid "Danger"
+msgstr "Danger"
+
+#. module: project_issue_extension
+#: selection:project.task.type,website_label_class:0
+msgid "Default"
+msgstr "Default"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,help:project_issue_extension.field_project_task_type_website_label_class
+msgid "Define label class (Bootstrap) to be used on frontend"
+msgstr "Määritä labelille Bootstrap-kirjaston määrittämä luokka, joka näytetään asiakkaalle asiakasportaalissa"
 
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
@@ -90,6 +153,7 @@ msgid "Description"
 msgstr "Kuvaus"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_display_name
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_display_name
 msgid "Display Name"
 msgstr "Näyttönimi"
@@ -98,6 +162,21 @@ msgstr "Näyttönimi"
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Documents"
 msgstr "Dokumentit"
+
+#. module: project_issue_extension
+#: model:ir.model,name:project_issue_extension.model_mail_thread
+msgid "Email Thread"
+msgstr "Sähköpostiviestiketju"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_email_issue_received
+msgid "Email template for autoreply"
+msgstr "Automaattivastauksen sähköpostipohja"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_email_issue_reply
+msgid "Email template for new reply"
+msgstr "Vastauksien sähköpostipohja"
 
 #. module: project_issue_extension
 #: model:ir.model.fields,field_description:project_issue_extension.field_ir_attachment_file_size_hr
@@ -110,17 +189,41 @@ msgid "File size for attachment in human readable format"
 msgstr "Tiedoston koko helposti ymmärrettävässä muodossa"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_helpdesk_project
+msgid "Helpdesk project"
+msgstr "Tukipalveluprojekti"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_email_reply_to
+msgid "Helpdesk reply to email address"
+msgstr "Tukipalvelun vastausosoite"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_received_autoreply
+msgid "Hey"
+msgstr "Hei"
+
+#. module: project_issue_extension
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_hours
 msgid "Hours"
 msgstr "Tunnit"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_id
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_id
 msgid "ID"
 msgstr "Tunniste (ID)"
 
 #. module: project_issue_extension
+#: selection:project.task.type,website_label_class:0
+msgid "Info"
+msgstr "Info"
+
+#. module: project_issue_extension
+#: code:addons/project_issue_extension/models/mail_message.py:61
+#: code:addons/project_issue_extension/models/mail_message.py:76
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
+#, python-format
 msgid "Issue"
 msgstr "Tapaus"
 
@@ -140,9 +243,9 @@ msgid "Issue number"
 msgstr "Tapauksen numero"
 
 #. module: project_issue_extension
-#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
-msgid "Issue subject"
-msgstr "Tapauksen otsikko"
+#: model:ir.ui.menu,name:project_issue_extension.menu_project_issue_settings
+msgid "Issue settings"
+msgstr "Tapauksien asetukset"
 
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
@@ -156,6 +259,7 @@ msgstr "Tapauksen vaiheiden muutokset"
 
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Issue's subject"
 msgstr "Tapauksen otsikko"
 
@@ -165,19 +269,27 @@ msgid "Issues"
 msgstr "Tapaukset"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings___last_update
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change___last_update
 msgid "Last Modified on"
 msgstr "Viimeksi muokattu"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_write_uid
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_write_uid
 msgid "Last Updated by"
 msgstr "Viimeksi päivittänyt"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_write_date
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_write_date
 msgid "Last Updated on"
 msgstr "Viimeksi päivitetty"
+
+#. module: project_issue_extension
+#: model:ir.model,name:project_issue_extension.model_mail_message
+msgid "Message"
+msgstr "Viesti"
 
 #. module: project_issue_extension
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_stage
@@ -206,6 +318,21 @@ msgid "Number of issues on customer"
 msgstr "Asiakkaan tapauksien lukumäärä"
 
 #. module: project_issue_extension
+#: model:ir.model,name:project_issue_extension.model_fetchmail_server
+msgid "POP/IMAP Server"
+msgstr "POP/IMAP-palvelin"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_received_autoreply
+msgid "Please make sure that the ticket ID is kept in the title of the emails so your ticket is tracked properly."
+msgstr "Varmistathan, että tapauksen tunniste pysyy sähköpostin otsikossa, jotta tapaustasi seurataan asianmukaisesti."
+
+#. module: project_issue_extension
+#: selection:project.task.type,website_label_class:0
+msgid "Primary"
+msgstr "Primary"
+
+#. module: project_issue_extension
 #: model:ir.model,name:project_issue_extension.model_project_project
 msgid "Project"
 msgstr "Projektit"
@@ -216,10 +343,38 @@ msgid "Project Issue"
 msgstr "Projektin tapaus"
 
 #. module: project_issue_extension
+#: model:ir.actions.act_window,name:project_issue_extension.action_project_issue_settings
+#: model:ir.model,name:project_issue_extension.model_project_issue_settings
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_settings_form
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_settings_tree
+msgid "Project issue settings"
+msgstr "Tapauksien asetukset"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,help:project_issue_extension.field_project_issue_settings_email_reply_to
+msgid "Reply to email address for the company"
+msgstr "Yrityksen vastausosoite"
+
+#. module: project_issue_extension
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_ids
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Stage changes"
 msgstr "Vaiheiden muutokset"
+
+#. module: project_issue_extension
+#: selection:project.task.type,website_label_class:0
+msgid "Success"
+msgstr "Success"
+
+#. module: project_issue_extension
+#: model:ir.model,name:project_issue_extension.model_project_task_type
+msgid "Task Stage"
+msgstr "Tehtävän vaihe"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_received_autoreply
+msgid "Thank your for contacting"
+msgstr "Kiitos yhteydenotostanne"
 
 #. module: project_issue_extension
 #: code:addons/project_issue_extension/models/project_issue.py:28
@@ -227,6 +382,21 @@ msgstr "Vaiheiden muutokset"
 #, python-format
 msgid "This issue number is already in use."
 msgstr "Tapauksen numero on jo käytössä."
+
+#. module: project_issue_extension
+#: selection:project.task.type,website_label_class:0
+msgid "Warning"
+msgstr "Warning"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,help:project_issue_extension.field_project_issue_settings_email_issue_reply
+msgid "When employee sends a new message from issue, this template is used"
+msgstr "Kun työntekijä lähettää uuden viestin tapauksesta, tätä sähköpostipohjaa käytetään."
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_received_autoreply
+msgid "has been received. We will reply to you as soon as possible."
+msgstr "on vastaanotettu. Vastaamme teille mahdollisimman pian."
 
 #. module: project_issue_extension
 #: model:ir.model,name:project_issue_extension.model_ir_attachment
@@ -237,3 +407,13 @@ msgstr "ir.attachment"
 #: model:ir.model,name:project_issue_extension.model_project_issue_stage_change
 msgid "project.issue.stage.change"
 msgstr "project.issue.stage.change"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_received_autoreply
+msgid "support. This is an automated message that your ticket"
+msgstr "tukipalveluun. Tämä on automaattisesti lähetetty viesti, että tukipyyntönne"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_footer
+msgid "support<br/>"
+msgstr "tukipalvelu<br/>"

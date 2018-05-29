@@ -70,12 +70,11 @@ class WebsiteAccount(WebsiteAccount):
                 description = post.get('issue_summary')
 
                 # Find issue project with incoming mail server and alias
-                server_id = int(post.get('issue_email'))
-                email_inbox = http.request.env['fetchmail.server'].sudo().browse(
-                    server_id).user.split('@')[0]
-                project_id = http.request.env['project.project'].sudo().search([
-                    ('alias_name', '=', email_inbox),
-                ], limit=1).id
+                company_id = int(post.get('issue_email'))
+                settings = http.request.env['project.issue.settings'].sudo().search([
+                    ('company_id', '=', company_id)
+                ])
+                project_id = settings.helpdesk_project.id
                 issue_values = {
                     'name': name,
                     'description': description,

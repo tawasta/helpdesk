@@ -37,6 +37,7 @@
         'views/ir_attachment_view.xml',
         'views/project_task_type.xml',
         'views/project_issue_settings.xml',
+        'views/fetchmail_server_form_view.xml',
         'data/issue_number_init.xml',
         'data/project_issue_settings_data.xml',
         'security/ir.model.access.csv',

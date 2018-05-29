@@ -32,6 +32,7 @@
         'project_issue_opportunity',
         'website_project_issue_form',
         'website_project_issue_extension',
+        'mail_debrand',
     ],
     'data': [
 

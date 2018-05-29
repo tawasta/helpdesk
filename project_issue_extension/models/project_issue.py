@@ -2,6 +2,7 @@
 
 # 1. Standard library imports:
 import logging
+import re
 
 # 2. Known third party imports:
 
@@ -29,7 +30,7 @@ class ProjectIssue(models.Model):
     ]
 
     # 2. Fields declaration
-    issue_number = fields.Char(
+    issue_number = fields.Integer(
         string='Issue number',
         help='Number assigned to issue as identifier',
     )
@@ -79,10 +80,38 @@ class ProjectIssue(models.Model):
     @api.model
     def create(self, values):
         """
-        Set issue number to issue
+        When project issue is created:
+            - issue number is set
+            - Auto reply is sent to the customer
         """
         if not values.get('issue_number'):
             values['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
+
+        # Create patner if it doesn't exist
+        if not values.get('partner_id'):
+            values['partner_id'] = self._fetch_partner(values)
+        print "PROJECT ISSUE VALUES:\n%s" % values
+
+        # Send autoreply to customer
+        settings = self.env['project.issue.settings'].sudo().search([
+            ('company_id', '=', self.env.user.company_id.id),
+        ], limit=1)
+
+        issue = super(ProjectIssue, self).create(values)
+
+        if settings:
+            vals = settings.email_issue_received.generate_email(issue.id)
+            issue.message_post(
+                subject=issue.name,
+                body=vals['body'],
+                message_type='comment',
+                subtype='mt_comment',
+            )
+
+        # Add customer to followers
+        if issue.partner_id:
+            issue.message_subscribe([issue.partner_id.id])
+
         return super(ProjectIssue, self).create(values)
 
 
@@ -151,6 +180,72 @@ class ProjectIssue(models.Model):
         }
 
     # 8. Business methods
+    # @api.multi
+    # def message_post(self, **kwargs):
+    #     """
+    #     S
+    #     """
+    #     res = super(CrmClaim, self).message_post(**kwargs)
+
+    #     if 'type' in kwargs and kwargs['type'] == 'comment' \
+    #             and 'subtype' in kwargs and kwargs['subtype'] == 'mail.mt_comment' \
+    #             and self.email_cc:
+    #         # Make a message about cc-recipients
+
+    #         msg = _("Previous message was sent to '%s' as a copy.") % self.email_cc
+    #         self.sudo().message_post(body=msg)
+
+    #     return res
+
+    @api.model
+    def _fetch_partner(self, vals):
+        """
+        
+        """
+        email_from = vals.get('email_from')
+        name_regex = re.compile("^[^<]+")
+        email_regex = re.compile("[\w\.-]+@[\w\.-]+")
+
+        try:
+            name = name_regex.findall(email_from)[0]
+            email = email_regex.findall(email_from)[0].lower()
+        except IndexError:
+            # The email has no name information
+            name = email_from
+            email = email_from
+
+        email = re.sub(r'[<>]', "", email).lower()
+        name = re.sub(r'["<>]', "", name)
+
+        _logger.info("Fetching partner for email %s", email)
+
+        partner_object = self.env['res.partner']
+        existing_partner = partner_object.search([('email', '=ilike', email)], limit=1)
+        if existing_partner:
+            partner_id = existing_partner.id
+        else:
+            _logger.info("No partner found. Creating %s (%s)" % (name, email))
+
+            partner_vals = dict()
+            partner_vals['name'] = name
+            partner_vals['email'] = email
+            partner_id = partner_object.create(partner_vals).id
+
+        return partner_id
+
+    @api.model
+    def message_new(self, msg, custom_values=None):
+        """
+        This method is called, when a new issue is starting from an email
+        """
+        res = super(ProjectIssue, self).message_new(msg, custom_values)
+        issue = self.browse(res)
+        print "TÄMÄ ON MESSAGE_NEW"
+        if not issue.description:
+            issue.description = msg.get('body', False)
+        return res
+
+
     @api.model
     def _init_issue_numbers(self):
         """
