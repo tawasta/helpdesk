@@ -112,7 +112,7 @@ class ProjectIssue(models.Model):
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
 
-        return super(ProjectIssue, self).create(values)
+        return issue
 
 
     @api.multi

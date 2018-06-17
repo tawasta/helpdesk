@@ -57,7 +57,7 @@ class MailMessage(models.Model):
             if 'subject' in vals and vals['subject'] and not re.match('.*[#][0-9]{5,6}.*', vals['subject']):
 
                 # Add issue number to the first post
-                vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + vals['subject']
+                vals['subject'] = _('Issue') + " #" + str(issue.issue_number) + ": " + vals['subject']
 
                 # Send autoreply to customer
                 if settings:
