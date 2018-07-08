@@ -34,7 +34,6 @@
 
         <!-- QWeb template for email received autoreply -->
         <template id="project_issue_email_received_autoreply" name="Issue received autoreply email">
-
             <div style="width:100%;background-color:#eae8e8">
                 <table style="max-width:656px;margin:0 auto" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#eae8e8">
                     <tbody>
@@ -49,9 +48,8 @@
                                         <div style="font-weight:bold;font-size:28px;margin:32px 0">
                                             Hey <t t-esc="object.partner_id.name"/>
                                         </div>
-
                                         <p>Thank your for contacting <t t-esc="object.company_id.name"/> support. This is an automated message that your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_number,object.name)"/></strong> has been received. We will reply to you as soon as possible.</p>
-                                        <p>Please make sure that the ticket ID is kept in the title of the emails so your ticket is tracked properly.</p>
+                                        <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
                                         <hr style="color: #f6f6f6"/>
                                         <div style="padding:30px 0;margin:20px 0;">
                                             <t t-raw="object.description"/>
@@ -69,13 +67,38 @@
         </template>
 
 
-        <!-- QWeb template for issue reply -->
+        <!-- QWeb template for issue reply by emplyees -->
         <template id="project_issue_email_reply" name="Email template for replying to customer">
-            <div>
+            <div style="width:100%;background-color:#eae8e8">
+                <table style="max-width:656px;margin:0 auto" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#eae8e8">
+                    <tbody>
+                        <tr>
+                            <td width="656" bgcolor="white">
+                                <div style="background-color:white;font-family:Helvetica,Arial,Verdana;line-height:1.5">
+                                    <t t-call="project_issue_extension.project_issue_email_header"/>
 
+                                    <!-- Body -->
+                                    <div style="padding:0 22px;margin:0 28px">
+                                        <hr style="color: #f6f6f6"/>
+                                        <div style="font-weight:bold;font-size:28px;margin:32px 0">
+                                            Hey <t t-esc="object.partner_id.name"/>
+                                        </div>
+                                        <p>There's a new messsage for your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_number,object.name)"/></strong>. You can see the response below in the next section or in <a t-att-href="request.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/my/issues/' + str(object.id)" target="_blank" rel="noopener noreferrer">the website portal</a> by signing in to your account.</p>
+                                        <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
+                                        <hr style="color: #f6f6f6"/>
+                                        <div style="padding:30px 0;margin:20px 0;">
+                                            <t t-raw="object.description"/>
+                                        </div>
+                                        <hr style="color: #f6f6f6"/>
+                                    </div>
+                                    <t t-call="project_issue_extension.project_issue_email_footer"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </template>
-
 
 
         <!--Default Issue Received Email template -->
@@ -87,6 +110,18 @@
             <field name="auto_delete" eval="True"/>
             <field name="body_type">qweb</field>
             <field name="body_view_id" ref="project_issue_extension.project_issue_email_received_autoreply"/>
+        </record>
+
+
+        <!--Default Issue Reply Email template -->
+        <record id="mail_template_project_issue_reply_email" model="mail.template">
+            <field name="name">Project Issue Reply Email</field>
+            <field name="subject">${object.subject}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="model_id" ref="project_issue_extension.model_project_issue"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_type">qweb</field>
+            <field name="body_view_id" ref="project_issue_extension.project_issue_email_reply"/>
         </record>
     </data>
 </odoo>

@@ -101,13 +101,16 @@ class WebsiteAccount(WebsiteAccount):
                     return json.dumps(values)
 
             # Send message to the thread
+            last_message = issue.message_ids[0]
+            subject = last_message.subject
             subtype_id = http.request.env.ref('mail.mt_comment').id
             issue.sudo(current_user).message_post(
-                subject=_("Portal message"),
+                subject=subject,
                 message_type='comment',
                 subtype_id=subtype_id,
                 body=message,
                 attachments=attachment_list,
+                portal_message=True,
             )
             values['msg'] = _("New message sent!")
         return json.dumps(values)

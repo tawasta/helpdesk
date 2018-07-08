@@ -30,7 +30,7 @@ class ProjectIssue(models.Model):
     ]
 
     # 2. Fields declaration
-    issue_number = fields.Integer(
+    issue_number = fields.Char(
         string='Issue number',
         help='Number assigned to issue as identifier',
     )
@@ -90,7 +90,6 @@ class ProjectIssue(models.Model):
         # Create patner if it doesn't exist
         if not values.get('partner_id'):
             values['partner_id'] = self._fetch_partner(values)
-        print "PROJECT ISSUE VALUES:\n%s" % values
 
         # Send autoreply to customer
         settings = self.env['project.issue.settings'].sudo().search([
@@ -111,7 +110,6 @@ class ProjectIssue(models.Model):
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
-
         return issue
 
 
@@ -179,32 +177,16 @@ class ProjectIssue(models.Model):
             'limit': 80,
         }
 
+
     # 8. Business methods
-    # @api.multi
-    # def message_post(self, **kwargs):
-    #     """
-    #     S
-    #     """
-    #     res = super(CrmClaim, self).message_post(**kwargs)
-
-    #     if 'type' in kwargs and kwargs['type'] == 'comment' \
-    #             and 'subtype' in kwargs and kwargs['subtype'] == 'mail.mt_comment' \
-    #             and self.email_cc:
-    #         # Make a message about cc-recipients
-
-    #         msg = _("Previous message was sent to '%s' as a copy.") % self.email_cc
-    #         self.sudo().message_post(body=msg)
-
-    #     return res
-
     @api.model
     def _fetch_partner(self, vals):
         """
-        
+        Get partner
         """
         email_from = vals.get('email_from')
         name_regex = re.compile("^[^<]+")
-        email_regex = re.compile("[\w\.-]+@[\w\.-]+")
+        email_regex = re.compile(r"[\w\.-]+@[\w\.-]+")
 
         try:
             name = name_regex.findall(email_from)[0]
@@ -230,8 +212,8 @@ class ProjectIssue(models.Model):
             partner_vals['name'] = name
             partner_vals['email'] = email
             partner_id = partner_object.create(partner_vals).id
-
         return partner_id
+
 
     @api.model
     def message_new(self, msg, custom_values=None):

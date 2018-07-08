@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-26 06:54+0000\n"
-"PO-Revision-Date: 2018-03-26 09:55+0300\n"
+"POT-Creation-Date: 2018-07-08 16:14+0000\n"
+"PO-Revision-Date: 2018-07-08 19:15+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "<span><i class=\"fa fa-folder-open\"/>  Liitä tiedosto</span>"
 
 #. module: website_project_issue_form
 #: code:addons/website_project_issue_form/controllers/main.py:67
-#: code:addons/website_project_issue_form/controllers/main.py:102
+#: code:addons/website_project_issue_form/controllers/main.py:91
 #, python-format
 msgid "An error occured!"
 msgstr "Tapahtui virhe!"
@@ -59,7 +59,7 @@ msgstr "Luo tukipyyntö"
 #: code:addons/website_project_issue_form/static/src/js/create_issue.js:90
 #, python-format
 msgid "Current stage of the issue"
-msgstr "Tapauksen nykyinen vaihe"
+msgstr "Tukipyynnön nykyinen vaihe"
 
 #. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
@@ -91,12 +91,6 @@ msgid "File's size: <strong id=\"fileSizeOk\"/>"
 msgstr "Tiedoston koko: <strong id=\"fileSizeOk\"/>"
 
 #. module: website_project_issue_form
-#: code:addons/website_project_issue_form/controllers/main.py:119
-#, python-format
-msgid "Issue created"
-msgstr "Tukipyyntö luotu"
-
-#. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
 msgid "Issue's name"
 msgstr "Tukipyynnön nimi"
@@ -107,7 +101,7 @@ msgid "Name:"
 msgstr "Nimi:"
 
 #. module: website_project_issue_form
-#: code:addons/website_project_issue_form/controllers/main.py:126
+#: code:addons/website_project_issue_form/controllers/main.py:118
 #, python-format
 msgid "New issue created!"
 msgstr "Uusi tukipyyntö luotu!"

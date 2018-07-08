@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-10 11:24+0000\n"
-"PO-Revision-Date: 2018-03-10 13:25+0200\n"
+"POT-Creation-Date: 2018-07-08 16:11+0000\n"
+"PO-Revision-Date: 2018-07-08 19:12+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgid "Created by"
 msgstr "Luonut"
 
 #. module: project_issue_opportunity
-#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:41
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:43
 #: model:ir.model.fields,help:project_issue_opportunity.field_issue_to_opportunity_user
 #, python-format
 msgid "Created by user"
@@ -64,7 +64,7 @@ msgstr "Tunniste (ID)"
 #. module: project_issue_opportunity
 #: model:ir.model.fields,field_description:project_issue_opportunity.field_crm_lead_issue
 msgid "Issue"
-msgstr "Tapaus"
+msgstr "Tukipyyntö"
 
 #. module: project_issue_opportunity
 #: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity___last_update
@@ -97,20 +97,20 @@ msgid "Opportunity"
 msgstr "Mahdollisuus"
 
 #. module: project_issue_opportunity
-#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:94
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:99
 #, python-format
 msgid "Opportunity created"
 msgstr "Mahdollisuus luotu"
 
 #. module: project_issue_opportunity
-#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:36
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:38
 #: model:ir.model.fields,help:project_issue_opportunity.field_issue_to_opportunity_description
 #, python-format
 msgid "Opportunity's description in plain text"
 msgstr "Mahdollisuuden kuvaus tekstimuotoisena"
 
 #. module: project_issue_opportunity
-#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:32
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:34
 #: model:ir.model.fields,help:project_issue_opportunity.field_issue_to_opportunity_name
 #, python-format
 msgid "Opportunity's name"
@@ -124,14 +124,14 @@ msgstr "Kumppani"
 #. module: project_issue_opportunity
 #: model:ir.model,name:project_issue_opportunity.model_project_issue
 msgid "Project Issue"
-msgstr "Projektin tapaus"
+msgstr "Tukipyyntö"
 
 #. module: project_issue_opportunity
-#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:27
+#: code:addons/project_issue_opportunity/wizards/issue_to_opportunity.py:29
 #: model:ir.model.fields,help:project_issue_opportunity.field_issue_to_opportunity_partner_id
 #, python-format
 msgid "Related partner to this opportunity"
-msgstr "Tapaukseen liittyvä asiakas"
+msgstr "Tukipyyntöön liittyvä asiakas"
 
 #. module: project_issue_opportunity
 #: model:ir.model.fields,field_description:project_issue_opportunity.field_issue_to_opportunity_user

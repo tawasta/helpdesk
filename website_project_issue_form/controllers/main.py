@@ -4,6 +4,7 @@
 import os
 import json
 import logging
+import base64
 
 # 2. Known third party imports:
 
@@ -58,7 +59,6 @@ class WebsiteAccount(WebsiteAccount):
         current_user = http.request.env.user
         partner = current_user.partner_id
         values = dict()
-
         if post:
             # Validate form fields
             errors = self.issue_form_validate(post)
@@ -68,13 +68,28 @@ class WebsiteAccount(WebsiteAccount):
             else:
                 name = post.get('issue_name')
                 description = post.get('issue_summary')
-
                 # Find issue project with incoming mail server and alias
                 company_id = int(post.get('issue_email'))
                 settings = http.request.env['project.issue.settings'].sudo().search([
                     ('company_id', '=', company_id)
                 ])
                 project_id = settings.helpdesk_project.id
+                # Check attachment isn't too big
+                attachment = post.get('issue_attachment') or None
+                max_size = http.request.env['ir.config_parameter'].get_param(
+                    'website_project_issue_extension.attachment_max_size')
+                attachment_data = None
+                if attachment:
+                    attachment.seek(0, os.SEEK_END)
+                    file_size = attachment.tell()
+                    attachment.seek(0)
+                    attachment_data = (attachment.filename, attachment.read()) \
+                        if attachment and attachment.filename != "" else None
+
+                    if file_size > max_size * 1000 * 1000:
+                        # File size too big
+                        values['error'] = _('An error occured!')
+                        return json.dumps(values)
                 issue_values = {
                     'name': name,
                     'description': description,
@@ -83,44 +98,22 @@ class WebsiteAccount(WebsiteAccount):
                     'email_from': partner.email,
                     'user_id': None,
                 }
-
-                # Check attachment isn't too big
-                attachment = post.get('issue_attachment') or None
-                max_size = http.request.env['ir.config_parameter'].get_param(
-                    'website_project_issue_extension.attachment_max_size')
-                attachment_list = None
-                if attachment:
-                    attachment.seek(0, os.SEEK_END)
-                    file_size = attachment.tell()
-                    attachment.seek(0)
-                    attachment_list = [(attachment.filename, attachment.read())] \
-                        if attachment and attachment.filename != "" else None
-
-                    if file_size > max_size * 1000 * 1000:
-                        # File size too big
-                        values['error'] = _('An error occured!')
-                        return json.dumps(values)
-                # Set default stage from project
                 issue = http.request.env['project.issue'].sudo(current_user).create(issue_values)
+                if attachment_data:
+                    attachment_vals = {
+                        'name': attachment_data[0],
+                        'description': attachment_data[0],
+                        'datas_fname': attachment_data[0],
+                        'datas': base64.encodestring(attachment_data[1]),
+                        'res_name': issue.name,
+                        'res_model': 'project.issue',
+                        'res_id': issue.id,
+                    }
+                    http.request.env['ir.attachment'].sudo().create(attachment_vals)
                 issue.stage_id = issue.stage_find(project_id)
                 values['id'] = issue.id
                 values['name'] = issue.name
                 values['stage'] = issue.stage_id.name
                 values['issue_number'] = issue.issue_number
-
-                # Add partner as follower
-                notified_partner_ids = [partner.id]
-                issue.message_subscribe(notified_partner_ids)
-
-                # Send message to the thread
-                subtype_id = http.request.env.ref('mail.mt_comment').id
-                issue.message_post(
-                    subject=_("Issue created"),
-                    message_type='comment',
-                    subtype_id=subtype_id,
-                    body=post.get('issue_summary'),
-                    partner_ids=notified_partner_ids,
-                    attachments=attachment_list,
-                )
                 values['msg'] = _("New issue created!")
         return json.dumps(values)
