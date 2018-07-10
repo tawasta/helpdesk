@@ -60,7 +60,6 @@ class MailMessage(models.Model):
                 vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + vals['subject']
                 # Send autoreply to customer
                 if settings:
-                    print "Uusi: %s" % (issue.id)
                     email_values = settings.email_issue_received.generate_email(issue.id)
                     vals['body'] = email_values['body']
                     vals['reply_to'] = settings.email_reply_to
@@ -68,9 +67,9 @@ class MailMessage(models.Model):
                     issue.message_subscribe([issue.partner_id.id])
             elif not vals.get('portal_message'):
                 # Reply to existing ticket by employee
-                if settings:
+                vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + issue.name
+                if settings and settings.email_issue_reply:
                     email_values = settings.email_issue_reply.generate_email(issue.id)
-                    vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + issue.name
                     vals['body'] = email_values['body']
                     vals['email_from'] = settings.email_reply_to
                     vals['reply_to'] = settings.email_reply_to
