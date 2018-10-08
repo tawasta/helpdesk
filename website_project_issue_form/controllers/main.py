@@ -32,7 +32,6 @@ class WebsiteAccount(WebsiteAccount):
         mandatory = [
             "name", "issue_email", "issue_summary"
         ]
-
         for key in values:
             if key in mandatory:
                 value = values[key].strip()
@@ -62,7 +61,7 @@ class WebsiteAccount(WebsiteAccount):
         if post:
             # Validate form fields
             errors = self.issue_form_validate(post)
-            _logger.info("Creating issue with values:\n%s" % (post))
+            _logger.debug("Creating issue with values:\n%s" % (post))
             if errors:
                 values['error'] = _('An error occured!')
             else:

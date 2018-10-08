@@ -3,6 +3,7 @@
 # 1. Standard library imports:
 import logging
 import re
+from datetime import datetime
 
 # 2. Known third party imports:
 
@@ -86,18 +87,16 @@ class ProjectIssue(models.Model):
         """
         if not values.get('issue_number'):
             values['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
-
         # Create patner if it doesn't exist
         if not values.get('partner_id'):
             values['partner_id'] = self._fetch_partner(values)
-
+        if not values.get('date'):
+            values['date'] = datetime.today()
         # Send autoreply to customer
         settings = self.env['project.issue.settings'].sudo().search([
             ('company_id', '=', self.env.user.company_id.id),
         ], limit=1)
-
         issue = super(ProjectIssue, self).create(values)
-
         if settings:
             vals = settings.email_issue_received.generate_email(issue.id)
             issue.message_post(
@@ -106,7 +105,6 @@ class ProjectIssue(models.Model):
                 message_type='comment',
                 subtype='mt_comment',
             )
-
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
@@ -121,7 +119,6 @@ class ProjectIssue(models.Model):
         stage_id = values.get('stage_id')
         # Create new line to stage change log
         if stage_id:
-            print stage_id
             values['stage_change_ids'] = [(0, _, {'stage': stage_id})]
         return super(ProjectIssue, self).write(values)
 
