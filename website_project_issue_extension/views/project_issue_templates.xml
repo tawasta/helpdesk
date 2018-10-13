@@ -2,6 +2,56 @@
 <odoo>
 
     <template id="my_issues_issue" inherit_id="website_project_issue.my_issues_issue">
+        <!-- Add issue number to heading -->
+        <xpath expr="//div[@class='panel-heading']/div/div/h4" position="replace">
+            <t t-set="additional_title">My Issue</t>  
+            <h4>
+                Issue #<span t-field="issue.issue_number"/>: <span t-field="issue.name"/>
+                <a class="btn btn-info"
+                    t-att-href="'/web#return_label=Website&amp;model=project.issue&amp;id=%s&amp;view_type=form' % (issue.id)"
+                    groups="project.group_project_user">Edit Issue</a>
+                <span t-field="issue.stage_id.name" t-attf-class="pull-right label label-#{issue.stage_id.website_label_class}"
+                    title="Current stage of this issue"/>
+            </h4>
+            <span t-field="issue.create_date" t-options='{"format": "dd.MM.yyyy HH:mm"}'/>
+        </xpath>
+
+        <!-- Rewrote panel body -->
+        <xpath expr="//div[@class='panel-body']" position="replace">
+            <div class="panel-body">
+                <div class='row'>
+                    <div class="col-md-4 ticket-user">
+                        <strong>Reported by</strong>
+                        <div t-if="issue.partner_id">
+                            <address t-field="issue.partner_id" t-options='{"widget": "contact", "fields": ["name", "email"], "no_marker": True}'/>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ticket-followers">
+                        <strong>Followers</strong>
+                        <div>
+                            <t t-foreach="issue.message_follower_ids" t-as="follower">
+                                <t t-if="follower.sudo().partner_id.id != issue.sudo().user_id.partner_id.id and follower.sudo().partner_id.id != issue.sudo().partner_id.id">
+                                    <address t-field="follower.partner_id" t-options='{"widget": "contact", "fields": ["name", "email"], "no_marker": True}'/>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ticket-handler" t-if="issue.user_id">
+                        <strong>Assigned to</strong>
+                        <div>
+                            <address t-field="issue.user_id" t-options='{"widget": "contact", "fields": ["name", "email", "phone"], "no_marker": True}'/>
+                        </div>
+                    </div>
+                    <t t-if="issue.description">
+                        <div class="col-md-12 ticket-description">
+                            <strong>Description</strong>
+                            <div t-field="issue.description"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+
         <!-- Create new submission form for new messages-->
         <xpath expr="//div[@class='panel panel-default']" position="after">
             <t t-call="website_project_issue_extension.issue_submit_message"/>
@@ -12,18 +62,6 @@
             <div class="col-md-12 mt16">
                 <t t-call="website_project_issue_extension.issue_message_thread"/>
             </div>
-        </xpath>
-
-        <!-- Add issue number to heading -->
-        <xpath expr="//div[@class='panel-heading']/div/div/h4" position="replace">
-            <h4>
-                Issue #<span t-field="issue.issue_number"/> - <span t-field="issue.name"/>
-                <a class="btn btn-info"
-                    t-att-href="'/web#return_label=Website&amp;model=project.issue&amp;id=%s&amp;view_type=form' % (issue.id)"
-                    groups="project.group_project_user">Edit Issue</a>
-                <span t-field="issue.stage_id.name" t-attf-class="pull-right label label-#{issue.stage_id.website_label_class}"
-                    title="Current stage of this issue"/>
-            </h4>
         </xpath>
     </template>
 
