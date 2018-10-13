@@ -16,13 +16,13 @@ odoo.define('website_project_issue_extension.preview_image', function (require) 
         
 
         // Lazy load for images
-        $(window).scroll( function(){
-            $('.msg-img').each( function(i){
+        $(window).scroll(function() {
+            $('.msg-img').each(function(i) {
                 var bottom_of_object = $(this).offset().top + $(this).outerHeight();
                 var bottom_of_window = $(window).scrollTop() + $(window).height();
 
                 // Show image
-                if( bottom_of_window > bottom_of_object && $(this).attr('src') == undefined){
+                if (bottom_of_window > bottom_of_object && $(this).attr('src') == undefined) {
                     $(this).attr('src', $(this).attr('data-src'));
                 }
             });

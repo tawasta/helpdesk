@@ -75,7 +75,7 @@ class WebsiteAccount(WebsiteAccount):
         current_user = http.request.env.user
         issue = request.env['project.issue'].browse(issue_id)
         values = dict()
-        print post
+
         if post:
             message = post.get('comment')
 
@@ -101,8 +101,7 @@ class WebsiteAccount(WebsiteAccount):
                     return json.dumps(values)
 
             # Send message to the thread
-            last_message = issue.message_ids[0]
-            subject = last_message.subject
+            subject = _('Issue') + " #" + issue.issue_number + ": " + issue.name
             subtype_id = http.request.env.ref('mail.mt_comment').id
             issue.sudo(current_user).message_post(
                 subject=subject,
