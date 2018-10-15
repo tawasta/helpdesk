@@ -39,7 +39,9 @@ class WebsiteAccount(WebsiteAccount):
         @return: rendered template
         """
         current_user = http.request.env.user
-        issue = request.env['project.issue'].browse(issue_id)
+        issue = request.env['project.issue'].search([('id', '=', issue_id)])
+        if not issue:
+            return request.render('website.404')
         if issue.message_needaction_counter > 0:
             messages = request.env['mail.message'].search([
                 ('model', '=', issue._name),
@@ -73,7 +75,7 @@ class WebsiteAccount(WebsiteAccount):
         @return: status message
         """
         current_user = http.request.env.user
-        issue = request.env['project.issue'].browse(issue_id)
+        issue = request.env['project.issue'].search([('id', '=', issue_id)])
         values = dict()
 
         if post:
@@ -133,7 +135,7 @@ class WebsiteAccount(WebsiteAccount):
         values = dict()
         current_user = http.request.env.user
         messages_html = ""
-        issue = request.env['project.issue'].browse(issue_id)
+        issue = request.env['project.issue'].search([('id', '=', issue_id)])
 
         if issue and timestamp:
             # Fetch only new messages
