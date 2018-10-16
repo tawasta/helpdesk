@@ -53,11 +53,12 @@ class WebsiteAccount(WebsiteAccount):
         This method is called with ajax.
 
         @param post: Contains values of the issue form
-        @return: status message
+        @return: redirect
         """
         current_user = http.request.env.user
         partner = current_user.partner_id
         values = dict()
+        error = False
         if post:
             # Validate form fields
             errors = self.issue_form_validate(post)
@@ -74,45 +75,46 @@ class WebsiteAccount(WebsiteAccount):
                 ])
                 project_id = settings.helpdesk_project.id
                 # Check attachment isn't too big
-                attachment = post.get('issue_attachment') or None
+                attachment_ids = post.get('issue_attachments') or None
                 max_size = http.request.env['ir.config_parameter'].get_param(
                     'website_project_issue_extension.attachment_max_size')
-                attachment_data = None
-                if attachment:
-                    attachment.seek(0, os.SEEK_END)
-                    file_size = attachment.tell()
-                    attachment.seek(0)
-                    attachment_data = (attachment.filename, attachment.read()) \
-                        if attachment and attachment.filename != "" else None
-
-                    if file_size > max_size * 1000 * 1000:
-                        # File size too big
-                        values['error'] = _('An error occured!')
-                        return json.dumps(values)
-                issue_values = {
-                    'name': name,
-                    'description': description,
-                    'project_id': project_id,
-                    'partner_id': partner.id,
-                    'email_from': partner.email,
-                    'user_id': None,
-                }
-                issue = http.request.env['project.issue'].sudo(current_user).create(issue_values)
-                if attachment_data:
-                    attachment_vals = {
-                        'name': attachment_data[0],
-                        'description': attachment_data[0],
-                        'datas_fname': attachment_data[0],
-                        'datas': base64.encodestring(attachment_data[1]),
-                        'res_name': issue.name,
-                        'res_model': 'project.issue',
-                        'res_id': issue.id,
+                if attachment_ids:
+                    files_dict = dict(request.httprequest.files)
+                    for attachment_file in files_dict['issue_attachments']:
+                        attachment_file_value = attachment_file.value
+                        attachment_file_value.seek(0, os.SEEK_END)
+                        file_size = attachment_file_value.tell()
+                        attachment_file_value.seek(0)
+                        if file_size > max_size * 1000 * 1000:
+                            # File size too big
+                            error = True
+                if not error:
+                    issue_values = {
+                        'name': name,
+                        'description': description,
+                        'project_id': project_id,
+                        'partner_id': partner.id,
+                        'email_from': partner.email,
+                        'user_id': None,
                     }
-                    http.request.env['ir.attachment'].sudo().create(attachment_vals)
-                issue.stage_id = issue.stage_find(project_id)
-                values['id'] = issue.id
-                values['name'] = issue.name
-                values['stage'] = issue.stage_id.name
-                values['issue_number'] = issue.issue_number
-                values['msg'] = _("New issue created!")
-        return json.dumps(values)
+                    issue = http.request.env['project.issue'].sudo(current_user).create(issue_values)
+                    if attachment_ids:
+                        files_dict = dict(request.httprequest.files)
+                        for attachment_file in files_dict['issue_attachments']:
+                            attachment_file_value = attachment_file.value
+                            attachment_name = attachment_file_value.filename
+                            attachment_data = attachment_file_value.read()
+                            # Create attachment
+                            attachment_data = {
+                                'name': attachment_name,
+                                'datas_fname': attachment_name,
+                                'description': attachment_name,
+                                'datas': base64.b64encode(str(attachment_data)),
+                                'type': 'binary',
+                                'res_name': issue.name,
+                                'res_model': 'project.issue',
+                                'res_id': issue.id,
+                            }
+                            http.request.env['ir.attachment'].sudo().create(attachment_data)
+                    issue.stage_id = issue.stage_find(project_id)
+        return request.redirect('/my/issues')

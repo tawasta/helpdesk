@@ -23,6 +23,8 @@
             <div class="modal-dialog">
                 <form id="issue_form" method="post" role="form" class="form-horizontal"
                     action="/my/issues/create" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token(time_limit=False)"/>
+                    <t t-set="attachment_max_size" t-value="int(request.env['ir.config_parameter'].get_param('website_project_issue_extension.attachment_max_size'))"/>
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
@@ -48,6 +50,7 @@
                                                 <option t-att-value="server.company_id.id"><t t-esc="server.company_id.name"/></option>
                                             </t>
                                         </select>
+                                        <p id="issue_email_error" class="hidden has-error mt8">Field can't be empty!</p>
                                     </div>
                                     <div class="col-md-12 issue-summary">
                                         <label for="issue_summary">Description of issue:</label>
@@ -62,18 +65,11 @@
                                     <div class="col-md-12">
                                         <div class="fileUpload btn btn-default col-xs-6">
                                             <span><i class="fa fa-folder-open"/>  Attach File</span>
-                                            <input name="issue_attachment" type="file" id="issue_attachment" class="upload"
-                                                t-att-data-maxsize="request.env['ir.config_parameter'].get_param('website_project_issue_extension.attachment_max_size')"/>
+                                            <input name="issue_attachments" type="file" id="issue_attachments" class="upload" multiple="true"
+                                                t-att-data-maxsize="attachment_max_size"/>
                                         </div>
                                         <div class="clearfix" />
-                                        <div class="alert alert-info hidden mt8" id="fileSizeOkDiv">
-                                            <p>File's size: <strong id="fileSizeOk"></strong></p>
-                                        </div>
-                                        <div class="alert alert-danger hidden mt8" id="fileTooBigDiv">
-                                            <p>File size: <strong id="fileTooBig"></strong>
-                                                <br/>File size too big!<br/>Please upload a file that's smaller than 20MB.
-                                            </p>
-                                        </div>
+                                        <div id="attachment_info_div" class="hidden alert mt8"></div>
                                     </div>
                                 </div>
                             </div> <!-- .container ends -->
@@ -87,7 +83,7 @@
             </div>
         </div>
         <script src="//cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js"></script>
-        <script type="text/javascript" src="/website_project_issue_form/static/src/js/create_issue.js?001"></script>
-        <script type="text/javascript" src="/website_project_issue_form/static/src/js/attachment.js?002"></script>
+        <script type="text/javascript" src="/website_project_issue_form/static/src/js/create_issue.js?002"></script>
+        <script type="text/javascript" src="/website_project_issue_form/static/src/js/attachment.js?003"></script>
     </template>
 </odoo>

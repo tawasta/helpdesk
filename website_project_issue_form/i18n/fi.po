@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-08 16:14+0000\n"
-"PO-Revision-Date: 2018-07-08 19:15+0300\n"
+"POT-Creation-Date: 2018-10-16 07:03+0000\n"
+"PO-Revision-Date: 2018-10-16 10:04+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,13 +18,19 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 #. module: website_project_issue_form
+#. openerp-web
+#: code:addons/website_project_issue_form/static/src/js/attachment.js:17
+#, python-format
+msgid " file(s) selected"
+msgstr " tiedosto(a) valittu"
+
+#. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
 msgid "<span><i class=\"fa fa-folder-open\"/>  Attach File</span>"
 msgstr "<span><i class=\"fa fa-folder-open\"/>  Liitä tiedosto</span>"
 
 #. module: website_project_issue_form
 #: code:addons/website_project_issue_form/controllers/main.py:67
-#: code:addons/website_project_issue_form/controllers/main.py:91
 #, python-format
 msgid "An error occured!"
 msgstr "Tapahtui virhe!"
@@ -55,13 +61,6 @@ msgid "Create an issue"
 msgstr "Luo tukipyyntö"
 
 #. module: website_project_issue_form
-#. openerp-web
-#: code:addons/website_project_issue_form/static/src/js/create_issue.js:90
-#, python-format
-msgid "Current stage of the issue"
-msgstr "Tukipyynnön nykyinen vaihe"
-
-#. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
 msgid "Description of issue:"
 msgstr "Ongelman kuvaus:"
@@ -77,18 +76,25 @@ msgid "Field can't be empty!"
 msgstr "Kenttä ei voi olla tyhjä!"
 
 #. module: website_project_issue_form
-#: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
-msgid ""
-"File size: <strong id=\"fileTooBig\"/>\n"
-"                                                <br/>File size too big!<br/>Please upload a file that's smaller than 20MB."
-msgstr ""
-"Tiedoston koko: <strong id=\"fileTooBig\"/>\n"
-"                                                <br/>Tiedoston koko on liian suuri!<br/>Tiedoston maksimikoko on 20MB."
+#. openerp-web
+#: code:addons/website_project_issue_form/static/src/js/attachment.js:18
+#, python-format
+msgid "File name: "
+msgstr "Tiedoston nimi: "
 
 #. module: website_project_issue_form
-#: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
-msgid "File's size: <strong id=\"fileSizeOk\"/>"
-msgstr "Tiedoston koko: <strong id=\"fileSizeOk\"/>"
+#. openerp-web
+#: code:addons/website_project_issue_form/static/src/js/attachment.js:20
+#, python-format
+msgid "File size too big! Max size for file is "
+msgstr "Tiedosto on liian suuri! Tiedoston maksimikoko on "
+
+#. module: website_project_issue_form
+#. openerp-web
+#: code:addons/website_project_issue_form/static/src/js/attachment.js:19
+#, python-format
+msgid "File size: "
+msgstr "Tiedoston koko: "
 
 #. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
@@ -99,12 +105,6 @@ msgstr "Tukipyynnön nimi"
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
 msgid "Name:"
 msgstr "Nimi:"
-
-#. module: website_project_issue_form
-#: code:addons/website_project_issue_form/controllers/main.py:118
-#, python-format
-msgid "New issue created!"
-msgstr "Uusi tukipyyntö luotu!"
 
 #. module: website_project_issue_form
 #: model:ir.ui.view,arch_db:website_project_issue_form.create_issue_template
