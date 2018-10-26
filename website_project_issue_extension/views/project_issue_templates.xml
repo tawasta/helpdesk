@@ -30,7 +30,7 @@
                         <strong>Followers</strong>
                         <div>
                             <t t-foreach="issue.message_follower_ids" t-as="follower">
-                                <address t-field="follower.partner_id" t-options='{"widget": "contact", "fields": ["name", "email"], "no_marker": True}'/>
+                                <span t-field="follower.sudo().partner_id.email"/><br/>
                             </t>
                         </div>
                     </div>
