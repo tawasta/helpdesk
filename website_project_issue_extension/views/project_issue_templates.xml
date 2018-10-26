@@ -133,7 +133,7 @@
         <div class="clearfix"/>
         <link rel='stylesheet' href='/website_project_issue_extension/static/src/css/thread.css'/>
         <script src="//cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js"></script>
-        <script type="text/javascript" src="/website_project_issue_extension/static/src/js/website_project_issue.js"></script>
+        <script type="text/javascript" src="/website_project_issue_extension/static/src/js/website_project_issue.js?v=001"></script>
     </template>
 
 
@@ -148,7 +148,7 @@
                 </t>
             </t>
         </div>
-        <script type="text/javascript" src="/website_project_issue_extension/static/src/js/preview_image.js?002"></script>
+        <script type="text/javascript" src="/website_project_issue_extension/static/src/js/preview_image.js?v=002"></script>
     </template>
 
     <!-- Single message will be rendered using this template -->
