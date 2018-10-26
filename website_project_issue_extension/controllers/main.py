@@ -72,49 +72,47 @@ class WebsiteAccount(WebsiteAccount):
         Route to send messages through ajax
         @param issue_id: id of issue
         @param post: Contains values of the issue form
-        @return: status message
+        @return: redirect
         """
         current_user = http.request.env.user
         issue = request.env['project.issue'].search([('id', '=', issue_id)])
-        values = dict()
+        error = False
 
         if post:
             message = post.get('comment')
 
-            if not message:
-                values['error'] = _('Message is missing!')
-                return json.dumps(values)
-
-            # Check attachment isn't too big
-            attachment = post.get('attachment') or None
-            max_size = http.request.env['ir.config_parameter'].get_param(
-                'website_project_issue_extension.attachment_max_size')
-            attachment_list = None
-            if attachment:
-                attachment.seek(0, os.SEEK_END)
-                file_size = attachment.tell()
-                attachment.seek(0)
-                attachment_list = [(attachment.filename, attachment.read())] \
-                    if attachment and attachment.filename != "" else None
-
-                if file_size > max_size * 1000 * 1000:
-                    # File size too big
-                    values['error'] = _('File too big!')
-                    return json.dumps(values)
-
-            # Send message to the thread
-            subject = _('Issue') + " #" + issue.issue_number + ": " + issue.name
-            subtype_id = http.request.env.ref('mail.mt_comment').id
-            issue.sudo(current_user).message_post(
-                subject=subject,
-                message_type='comment',
-                subtype_id=subtype_id,
-                body=message,
-                attachments=attachment_list,
-                portal_message=True,
-            )
-            values['msg'] = _("New message sent!")
-        return json.dumps(values)
+            if message:
+                # Check attachment isn't too big and add them to a list
+                attachment_ids = post.get('attachment_ids') or None
+                max_size = http.request.env['ir.config_parameter'].get_param(
+                    'website_project_issue_extension.attachment_max_size')
+                attachment_list = list()
+                if attachment_ids:
+                    files_dict = dict(request.httprequest.files)
+                    for attachment_file in files_dict['attachment_ids']:
+                        attachment_file_value = attachment_file.value
+                        attachment_file_value.seek(0, os.SEEK_END)
+                        file_size = attachment_file_value.tell()
+                        attachment_file_value.seek(0)
+                        if file_size > max_size * 1000 * 1000:
+                            # File size too big
+                            error = True
+                        else:
+                            attachment_list.append(
+                                (attachment_file_value.filename, attachment_file_value.read())
+                            )
+                if not error:
+                    subject = _('Issue') + " #" + issue.issue_number + ": " + issue.name
+                    subtype_id = http.request.env.ref('mail.mt_comment').id
+                    issue.sudo(current_user).message_post(
+                        subject=subject,
+                        message_type='comment',
+                        subtype_id=subtype_id,
+                        body=message,
+                        attachments=attachment_list,
+                        portal_message=True,
+                    )
+        return request.redirect('/my/issues/%d' % issue_id)
 
 
     @http.route(

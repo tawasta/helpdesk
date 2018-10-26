@@ -8,7 +8,7 @@ odoo.define('website_project_issue_extension.issue', function (require) {
     var toastr = require('website_utilities.notifications').toastr;
     
     $(function () {
-
+        var submitPressed = false;
         // Initialize CKEditor
         CKEDITOR.plugins.addExternal('confighelper', 'https://martinezdelizarrondo.com/ckplugins/confighelper/');
         var lang = window.location.pathname.indexOf("fi_FI") >= 0 ? 'fi' : 'en';
@@ -31,9 +31,10 @@ odoo.define('website_project_issue_extension.issue', function (require) {
         $(window).on('beforeunload', function(){
             var text = $.trim(comment.document.getBody().getText());
             var placeholder = $('#comment').attr('placeholder');
-            if (text && text != placeholder) {
+            if (text && text != placeholder && !submitPressed) {
                 return true;
             }
+            submitPressed = false;
         });
 
         // Frontend validation to message form
@@ -59,73 +60,60 @@ odoo.define('website_project_issue_extension.issue', function (require) {
             var errors = messageValidation();
             var form = ('#issue_message_submit_form');
             var action = $(form).attr('action');
-            var attachment = $('#message_attachment').prop('files')[0];
 
             CKEDITOR.instances.comment.updateElement();
 
-            // Prepare form inputs
-            var form_fields = {};
-            form_fields = $(form).serializeArray();
-            form_fields.push({name: 'attachment', value: attachment});
-            form_fields.push({name: 'csrf_token', value: core.csrf_token})
-            
-            var form_values = {};
-            _.each(form_fields, function(input) {
-                if (input.value != '' && input.value !== undefined) {
-                    form_values[input.name] = input.value;
-                }
-            });
-
             if (!errors) {
                 loadingScreen();
-
-                ajax.post(action, form_values).then(function(res) {
-                    var results = JSON.parse(res);
-                    if (results['error']) {
-                        toastr.error(results['error']);
-                    } else {
-                        // Update message thread
-                        updateMessages();
-
-                        // Reset data
-                        $(form).find('input,textarea,select').val('').end();
-                        CKEDITOR.instances.comment.setData('');
-                    }
-                    $('.filesize-div').addClass('hidden');
-                    $.unblockUI();
-                });
+                submitPressed = true;
+                $('#issue_message_submit_form').submit();
             }
         });
 
         // Check filesize and restrict filesize to under 20 MB
-        $('#message_attachment').on('change', function() {
+        $('#attachment_ids').on('change', function() {
+            var files = $(this).prop('files');
+            var size = '';
+            var msg = '';
+            var maxSize = $(this).data('maxsize');
+            var elements = '';
+            var fileCount = files.length.toString() + _t(' file(s) selected');
+            var fileNameLabel = _t('File name: ');
+            var fileSizeLabel = _t('File size: ');
+            var fileTooBigLabel = _t('File size too big! Max size for file is ') + maxSize + 'MB';
+            var fileTooBig = false;
 
-            var file = $(this).prop('files')[0];
-            var size = "";
-            var msg = "";
-            var max_size = $(this).data('maxsize');
+            $('#attachment_info_div').addClass('hidden');
+            $('#submit_message').prop('disabled', false);
 
-            $('#fileTooBigDiv').addClass('hidden');
-            $('#fileSizeOkDiv').addClass('hidden');
-            
-            if (file) {
-                if (file.size > 1000 * 1000) {
-                    size = (Math.round(file.size * 10 / (1000 * 1000))/10).toString() + 'MB';
+            elements += '<p>' + fileCount + '</p><p id="file_sizes">';
+
+            for (var i = 0; i < files.length; ++i) {
+                var file = files[i];
+                if (file.size > 1024 * 1024) {
+                    size = (Math.round(file.size * 10 / (1000 * 1000)) / 10).toString() + 'MB';
                 }
                 else {
-                    size = (Math.round(file.size * 10 / 1000)/10).toString() + 'KB';
-                }      
+                    size = (Math.round(file.size * 10 / 1000) / 10).toString() + 'KB';
+                }
+                // If file is larger than max_size, clear the element and give notifications
+                if (file.size > (maxSize * 1000 * 1000)) {
+                    fileTooBig = true;
+                    elements += '<strong>' + fileTooBigLabel + '</strong><br/>'
+                    elements += fileNameLabel + file.name + ', ' + fileSizeLabel + size + '<br/><br/>';
+                } else {
+                    elements += fileNameLabel + file.name + ', ' + fileSizeLabel + size + '<br/>';
+                }
             }
-
-            // If file is larger than max_size, clear the element and give notifications
-            if (file.size > (max_size * 1000 * 1000)) {
-                $('#issue_attachment').val('');
-                $('#fileTooBigDiv').removeClass('hidden');
-                $('#fileTooBig').text(size);
+            elements += "</p>";
+            if (fileTooBig) {
+                $(this).val('');
+                $('#submit_message').prop('disabled', 'disabled');
+                $('#attachment_info_div').removeClass('hidden alert-info').addClass('alert-danger');
             } else {
-                $('#fileSizeOkDiv').removeClass('hidden');
-                $('#fileSizeOk').text(size);
+                $('#attachment_info_div').removeClass('hidden alert-danger').addClass('alert-info');
             }
+            $('#attachment_info_div').html(elements);
         });
 
         // Update message thread

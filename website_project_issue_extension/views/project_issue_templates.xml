@@ -107,6 +107,7 @@
             <form id="issue_message_submit_form" t-attf-action="/my/issues/#{issue.id}/message"
                 method="post" enctype="multipart/form-data">
                 <input type="hidden" name="timestamp" id="timestamp" t-att-value="time.time()"/>
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token(time_limit=False)"/>
                 <div class="msg-comment">
                     <textarea id="comment"
                     name="comment"
@@ -117,22 +118,15 @@
                 </div>
                 <div id="attachment_div" class="clearfix">
                     <div class="fileUpload btn btn-default col-xs-6">
-                        <span><i class="fa fa-folder-open"/>  Attach File</span>
+                        <span><i class="fa fa-folder-open"/>  Attach Files</span>
                         <t t-set="attachment_maxsize" 
                             t-value="request.env['ir.config_parameter'].get_param('website_project_issue_extension.attachment_max_size')"/>
-                        <input name="message_attachment" class="upload" type="file" id="message_attachment"
-                            t-att-data-maxsize="attachment_maxsize"/>
+                        <input name="attachment_ids" class="upload" type="file" id="attachment_ids"
+                            multiple="multiple" t-att-data-maxsize="attachment_maxsize"/>
                     </div>
                     <button id="submit_message" type="button" class="btn btn-primary col-xs-6" title="Submit message"><i class="fa fa-envelope"/> Submit</button>
                 </div>
-                <div class="alert alert-info hidden mt8 filesize-div" id="fileSizeOkDiv">
-                    <p>File's size: <strong id="fileSizeOk"></strong></p>
-                </div>
-                <div class="alert alert-danger hidden mt8 filesize-div" id="fileTooBigDiv">
-                    <p>File size: <strong id="fileTooBig"></strong>
-                        <br/>File size too big!<br/>Please upload a file that's smaller than <t t-esc="attachment_maxsize"/> MB.
-                    </p>
-                </div>
+                <div id="attachment_info_div" class="hidden alert mt8"></div>
                 <p id="comment_error" class="hidden has-error mt8 mb0">Message field can't be empty!</p>
             </form>
         </div>
