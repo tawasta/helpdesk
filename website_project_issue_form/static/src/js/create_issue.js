@@ -34,6 +34,8 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
             var description = $.trim($(".issue-summary iframe").contents().find("body").text());
             var placeholder = $('#issue_summary').attr('placeholder');
             var email = $.trim($('#issue_email').val());
+            var recipients = $.trim($('#issue_recipients').val().replace(' ', ''));
+            var recipientsFormat = /^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,?)+$/;
 
             // Check name and description are not empty
             if (!name) {
@@ -48,18 +50,24 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
                 $('#issue_summary_error').removeClass('hidden');
                 errors = true;
             }
+            if (!recipientsFormat.test(recipients)) {
+                // Strip spaces and check if the format matches to <email>(,<email>,...)
+                $('#issue_recipients_error').removeClass('hidden');
+                errors = true;
+            }
             return errors;
         };
 
         // Loading screen when creating issue
         $('#submit_issue').on('click', function(evt) {
             evt.preventDefault();
-            loadingScreen();
+
             // Reset error popups
             $("p[id*='_error']").addClass('hidden');
             var errors = issueValidation();
             CKEDITOR.instances.issue_summary.updateElement();
             if (!errors) {
+                loadingScreen();
                 $('#issue_modal').modal('hide');
                 $('#issue_form').submit();
             }

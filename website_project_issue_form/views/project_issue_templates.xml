@@ -52,6 +52,13 @@
                                         </select>
                                         <p id="issue_email_error" class="hidden has-error mt8">Field can't be empty!</p>
                                     </div>
+                                    <div class="col-md-12 mb8">
+                                        <label for="issue_recipients">Recipients' email addresses (separated with comma):</label>
+                                        <input type="text" name="issue_recipients" id="issue_recipients"
+                                            class="form-control" placeholder="Recipients' email addresses"
+                                            title="Recipients' email addresses" />
+                                        <p id="issue_recipients_error" class="hidden has-error mt8">Please check the format: email addresses separated with commas!</p>
+                                    </div>
                                     <div class="col-md-12 issue-summary">
                                         <label for="issue_summary">Description of issue:</label>
                                         <textarea id="issue_summary" name="issue_summary" placeholder="Explain issue..."
@@ -83,7 +90,7 @@
             </div>
         </div>
         <script src="//cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js"></script>
-        <script type="text/javascript" src="/website_project_issue_form/static/src/js/create_issue.js?v=002"></script>
+        <script type="text/javascript" src="/website_project_issue_form/static/src/js/create_issue.js?v=003"></script>
         <script type="text/javascript" src="/website_project_issue_form/static/src/js/attachment.js?v=003"></script>
     </template>
 </odoo>
