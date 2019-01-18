@@ -5,6 +5,7 @@ import os
 import json
 import logging
 import base64
+import re
 
 # 2. Known third party imports:
 
@@ -30,12 +31,22 @@ class WebsiteAccount(WebsiteAccount):
         """
         errors = False
         mandatory = [
-            "name", "issue_email", "issue_summary"
+            "issue_name", "issue_email", "issue_summary"
         ]
+        pat = re.compile(r"^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,*)+")
         for key in values:
+            value = values[key].strip() if values.get(key, False) else False
             if key in mandatory:
-                value = values[key].strip()
                 if not value:
+                    errors = True
+            if key == "issue_recipients" and value:
+                # Strip whitespaces andlowercase
+                value = re.sub(r"\s+", "", value)
+                values.update({
+                    key: value.lower()
+                })
+                if not pat.match(value):
+                    _logger.debug("Emails didn't match pattern: %s" % (value))
                     errors = True
         return errors
 
@@ -117,4 +128,25 @@ class WebsiteAccount(WebsiteAccount):
                             }
                             http.request.env['ir.attachment'].sudo().create(attachment_data)
                     issue.stage_id = issue.stage_find(project_id)
+
+                    # Find recipients in the system or create new ones
+                    new_emails = post.get("issue_recipients")
+                    if new_emails:
+                        new_emails = new_emails.split(',')
+                        existing_emails = list()
+                        followers = request.env['res.partner'].sudo().search([
+                            ('email', 'in', new_emails)
+                        ])
+                        if followers:
+                            existing_emails = [follower.email for follower in followers]
+                        for email in new_emails:
+                            if email not in existing_emails:
+                                # Create partner and add it to recordset
+                                partner_values = {
+                                    'name': email,
+                                    'email': email,
+                                }
+                                followers += request.env['res.partner'].sudo().create(partner_values)
+                                _logger.debug("New partner (issue id: %s) created with email: %s" % (issue.id, email))
+                        issue.message_subscribe(partner_ids=followers.ids)
         return request.redirect('/my/issues')

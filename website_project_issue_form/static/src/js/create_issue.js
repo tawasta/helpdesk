@@ -34,7 +34,9 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
             var description = $.trim($(".issue-summary iframe").contents().find("body").text());
             var placeholder = $('#issue_summary').attr('placeholder');
             var email = $.trim($('#issue_email').val());
-            var recipients = $.trim($('#issue_recipients').val().replace(' ', ''));
+            // Parse whitespaces from recipients
+            $('#issue_recipients').val($('#issue_recipients').val().replace(/\s/g, ''));
+            var recipients = $('#issue_recipients').val();
             var recipientsFormat = /^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,?)+$/;
 
             // Check name and description are not empty

@@ -90,7 +90,7 @@
             </div>
         </div>
         <script src="//cdn.ckeditor.com/4.8.0/standard-all/ckeditor.js"></script>
-        <script type="text/javascript" src="/website_project_issue_form/static/src/js/create_issue.js?v=003"></script>
+        <script type="text/javascript" src="/website_project_issue_form/static/src/js/create_issue.js?v=004"></script>
         <script type="text/javascript" src="/website_project_issue_form/static/src/js/attachment.js?v=003"></script>
     </template>
 </odoo>
