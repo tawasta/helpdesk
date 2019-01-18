@@ -65,7 +65,9 @@
 
     <!-- Modifications to my_issues -template from core -->
     <template id="my_issues" inherit_id="website_project_issue.my_issues">
-
+        <xpath expr="//h3[@class='page-header']" position="before">
+            <t t-set="additional_title">My Issues</t>
+        </xpath>
         <!-- Add responsive table class -->
         <xpath expr="//div[@class='panel panel-default']" position="attributes">
             <attribute name="class">panel panel-default table-responsive</attribute>

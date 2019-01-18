@@ -1,13 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* website_project_issue_extension
+# 	* website_project_issue
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-13 09:06+0000\n"
-"PO-Revision-Date: 2018-10-13 12:08+0300\n"
+"POT-Creation-Date: 2019-01-18 12:03+0000\n"
+"PO-Revision-Date: 2019-01-18 14:06+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,21 +19,35 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #. module: website_project_issue_extension
+#. openerp-web
+#: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:80
+#, python-format
+msgid " file(s) selected"
+msgstr " tiedosto(a) valittu"
+
+#. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
 msgid "<i class=\"fa fa-envelope\"/> Submit"
 msgstr "<i class=\"fa fa-envelope\"/> Lähetä"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
-msgid "<span><i class=\"fa fa-folder-open\"/>  Attach File</span>"
-msgstr "<span><i class=\"fa fa-folder-open\"/>  Liitä tiedosto</span>"
+msgid "<span><i class=\"fa fa-folder-open\"/>  Attach Files</span>"
+msgstr "<span><i class=\"fa fa-folder-open\"/>  Liitä tiedostot</span>"
 
-#. module: website_project_issue_extension
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
 msgid "<strong>Assigned to</strong>"
 msgstr "<strong>Annettu tehtäväksi</strong>"
 
-#. module: website_project_issue_extension
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "<strong>Date:</strong>"
+msgstr "<strong>Pvm:</strong>"
+
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
 msgid "<strong>Description</strong>"
 msgstr "<strong>Kuvaus</strong>"
@@ -42,43 +57,70 @@ msgstr "<strong>Kuvaus</strong>"
 msgid "<strong>Followers</strong>"
 msgstr "<strong>Seuraajat</strong>"
 
-#. module: website_project_issue_extension
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+msgid "<strong>Message and communication history</strong>"
+msgstr "<strong>Viestihistoria</strong>"
+
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
 msgid "<strong>Reported by</strong>"
 msgstr "<strong>Raportoinut</strong>"
 
-#. module: website_project_issue_extension
+#. module: website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:38
+#, python-format
+msgid "All"
+msgstr "Kaikki"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+msgid "Current stage of the issue"
+msgstr "Tukipyynnön nykyinen vaihe"
+
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
 msgid "Current stage of this issue"
 msgstr "Tukipyynnön nykyinen vaihe"
 
-#. module: website_project_issue_extension
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+msgid "Description"
+msgstr "Kuvaus"
+
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
 msgid "Edit Issue"
 msgstr "Muokkaa tukipyyntöä"
 
 #. module: website_project_issue_extension
-#: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
-msgid ""
-"File size: <strong id=\"fileTooBig\"/>\n"
-"                        <br/>File size too big!<br/>Please upload a file that's smaller than"
-msgstr ""
-"Tiedoston koko: <strong id=\"fileTooBig\"/>\n"
-"                        <br/>Tiedosto on liian suuri!<br/>Lisää tiedosto, joka on pienempi kuin"
-
-#. module: website_project_issue_extension
-#: code:addons/website_project_issue_extension/controllers/main.py:100
+#. openerp-web
+#: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:81
 #, python-format
-msgid "File too big!"
-msgstr "Tiedosto on liian suuri!"
+msgid "File name: "
+msgstr "Tiedoston nimi: "
 
 #. module: website_project_issue_extension
-#: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
-msgid "File's size: <strong id=\"fileSizeOk\"/>"
-msgstr "Tiedoston koko: <strong id=\"fileSizeOk\"/>"
+#. openerp-web
+#: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:83
+#, python-format
+msgid "File size too big! Max size for file is "
+msgstr "Tiedosto on liian suuri! Maksimikoko on "
 
 #. module: website_project_issue_extension
-#: code:addons/website_project_issue_extension/controllers/main.py:104
+#. openerp-web
+#: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:82
+#, python-format
+msgid "File size: "
+msgstr "Tiedoston koko: "
+
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+#: code:addons/website_project_issue_extension/controllers/main.py:105
 #, python-format
 msgid "Issue"
 msgstr "Tukipyyntö"
@@ -93,10 +135,16 @@ msgstr "Tukipyyntö #"
 msgid "Issue's subject"
 msgstr "Tukipyynnön otsikko"
 
-#. module: website_project_issue_extension
-#: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
-msgid "MB."
-msgstr "MB."
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.portal_layout
+msgid "Issues"
+msgstr "Tukipyynnöt"
+
+#. module: website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:32
+#, python-format
+msgid "Last Stage Update"
+msgstr "Vaihe päivittynyt viimeksi"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
@@ -104,36 +152,55 @@ msgid "Message field can't be empty!"
 msgstr "Viesti ei voi olla tyhjä!"
 
 #. module: website_project_issue_extension
-#: code:addons/website_project_issue_extension/controllers/main.py:83
-#, python-format
-msgid "Message is missing!"
-msgstr "Viesti puuttuu!"
-
-#. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
 msgid "My Issue"
 msgstr "Tukipyyntö"
 
+#. modules: website_project_issue_extension, website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
+#: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues
+msgid "My Issues"
+msgstr "Omat tukipyynnöt"
+
+#. module: website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:30
+#, python-format
+msgid "Name"
+msgstr "Nimi"
+
 #. module: website_project_issue_extension
 #. openerp-web
-#: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:147
+#: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:135
 #, python-format
 msgid "New message arrived!"
 msgstr "Uusi viesti saapui!"
 
-#. module: website_project_issue_extension
-#: code:addons/website_project_issue_extension/controllers/main.py:114
+#. module: website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:29
 #, python-format
-msgid "New message sent!"
-msgstr "Uusi viesti lähetettiin!"
+msgid "Newest"
+msgstr "Uusimmat"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.single_message_template
 msgid "No image"
 msgstr "Ei kuvaa"
 
-#. module: website_project_issue_extension
+#. module: website_project_issue
+#: model:ir.model,name:website_project_issue.model_project_issue
+msgid "Project Issue"
+msgstr "Tukipyyntö"
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+msgid "Projects:"
+msgstr "Projektit:"
+
+#. modules: website_project_issue_extension, website_project_issue
+#: code:addons/website_project_issue/controllers/main.py:31
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
 #: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues
+#, python-format
 msgid "Stage"
 msgstr "Vaihe"
 
@@ -142,10 +209,26 @@ msgstr "Vaihe"
 msgid "Submit message"
 msgstr "Lähetä viesti"
 
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.portal_my_home
+msgid "There are currently no issues for your account."
+msgstr "Tukipyyntöjä ei löytynyt."
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+msgid "There are no issues."
+msgstr "Tukipyyntöjä ei löytynyt."
+
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
 msgid "Type a message..."
 msgstr "Kirjoita viesti..."
+
+#. module: website_project_issue
+#: model:ir.ui.view,arch_db:website_project_issue.my_issues
+#: model:ir.ui.view,arch_db:website_project_issue.portal_my_home
+msgid "Your Issues"
+msgstr "Omat tukipyynnöt"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.single_message_template
