@@ -28,6 +28,8 @@
                     </div>
                     <div class="col-md-4 ticket-followers">
                         <strong>Followers</strong>
+                        <a class="ml16" data-toggle="modal" href="#edit_followers_modal"
+                            title="Edit followers"><i class="fa fa-pencil"/></a>
                         <div>
                             <t t-foreach="issue.message_follower_ids" t-as="follower">
                                 <span t-field="follower.sudo().partner_id.email"/><br/>
@@ -60,10 +62,42 @@
             <div class="col-md-12 mt16">
                 <t t-call="website_project_issue_extension.issue_message_thread"/>
             </div>
+            <t t-call="website_project_issue_extension.edit_issue_followers"/>
         </xpath>
     </template>
 
-        <!-- Template for submitting messages -->
+    <template id="edit_issue_followers" name="Edit issue's followers">
+        <div class="modal fade" id="edit_followers_modal" tabindex="-1" role="dialog" aria-labelledby="Edit followers" aria-hidden="true">
+            <div class="modal-dialog">
+                <form id="edit_followers" method="post" role="form" 
+                    action="#">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title">Edit issue's followers</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <p><i>Fields marked with * are mandatory.</i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary edit-followers-confirm" >Sumbit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template for submitting messages -->
     <template id="issue_submit_message" name="Template for submitting messages">
         <div>
             <form id="issue_message_submit_form" t-attf-action="/my/issues/#{issue.id}/message"
