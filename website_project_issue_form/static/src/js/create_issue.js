@@ -3,9 +3,7 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
 
     var core = require('web.core');
     var _t = core._t;
-    var ajax = require('web.ajax');
     var loadingScreen = require('website_utilities.loader').loadingScreen;
-    var toastr = require('website_utilities.notifications').toastr;
     
     $(function () {
 
