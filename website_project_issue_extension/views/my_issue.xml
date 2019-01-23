@@ -70,14 +70,15 @@
             </div>
             <t t-call="website_project_issue_extension.add_issue_followers"/>
             <t t-call="website_project_issue_extension.delete_follower"/>
+            <script type="text/javascript" src="/website_project_issue_extension/static/src/js/issue_followers.js?v=001"/>
         </xpath>
     </template>
 
     <template id="add_issue_followers" name="Add followers to issue">
         <div class="modal fade" id="add_followers_modal" tabindex="-1" role="dialog" aria-labelledby="Add followers" aria-hidden="true">
             <div class="modal-dialog">
-                <form id="add_followers" method="post" role="form" 
-                    action="#">
+                <form id="add_followers" method="post" role="form"
+                    t-attf-data-action="/my/issues/{{issue.id}}/followers/add">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">x</button>
@@ -88,7 +89,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="col-md-12">
-                                            <label for="new_followers">Recipients' email addresses (separated with comma):</label>
+                                            <label for="new_followers">New followers' email addresses (separated with comma):</label>
                                             <input type="text" name="new_followers" id="new_followers"
                                                 class="form-control" placeholder="New followers' email addresses"
                                                 title="New followers' email addresses" />
