@@ -28,11 +28,17 @@
                     </div>
                     <div class="col-md-4 ticket-followers">
                         <strong>Followers</strong>
-                        <a class="ml16" data-toggle="modal" href="#edit_followers_modal"
-                            title="Edit followers"><i class="fa fa-pencil"/></a>
+                        <button class="btn btn-xs btn-primary ml16" data-toggle="modal" data-target="#add_followers_modal"
+                            title="Add followers"><i class="fa fa-plus"/></button>
                         <div>
                             <t t-foreach="issue.message_follower_ids" t-as="follower">
-                                <span t-field="follower.sudo().partner_id.email"/><br/>
+                                <div class="issue-follower mb8">
+                                    <t t-esc="follower.sudo().partner_id.email"/>
+                                    <button class="btn btn-xs btn-danger pull-right" t-att-data-follower="follower.id"
+                                        data-toggle="modal" data-target="#delete_follower_modal" title="Delete follower">
+                                        <i class="fa fa-trash"/>
+                                    </button>
+                                </div>
                             </t>
                         </div>
                     </div>
@@ -62,26 +68,31 @@
             <div class="col-md-12 mt16">
                 <t t-call="website_project_issue_extension.issue_message_thread"/>
             </div>
-            <t t-call="website_project_issue_extension.edit_issue_followers"/>
+            <t t-call="website_project_issue_extension.add_issue_followers"/>
+            <t t-call="website_project_issue_extension.delete_follower"/>
         </xpath>
     </template>
 
-    <template id="edit_issue_followers" name="Edit issue's followers">
-        <div class="modal fade" id="edit_followers_modal" tabindex="-1" role="dialog" aria-labelledby="Edit followers" aria-hidden="true">
+    <template id="add_issue_followers" name="Add followers to issue">
+        <div class="modal fade" id="add_followers_modal" tabindex="-1" role="dialog" aria-labelledby="Add followers" aria-hidden="true">
             <div class="modal-dialog">
-                <form id="edit_followers" method="post" role="form" 
+                <form id="add_followers" method="post" role="form" 
                     action="#">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">x</button>
-                            <h4 class="modal-title">Edit issue's followers</h4>
+                            <h4 class="modal-title">Add followers to issue</h4>
                         </div>
                         <div class="modal-body">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="col-md-12">
-                                            <p><i>Fields marked with * are mandatory.</i></p>
+                                            <label for="new_followers">Recipients' email addresses (separated with comma):</label>
+                                            <input type="text" name="new_followers" id="new_followers"
+                                                class="form-control" placeholder="New followers' email addresses"
+                                                title="New followers' email addresses" />
+                                            <p id="new_followers_error" class="hidden has-error mt8">Please check the format: email addresses separated with commas!</p>
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +100,38 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button class="btn btn-primary edit-followers-confirm" >Sumbit</button>
+                            <button class="btn btn-primary add-followers-confirm" >Sumbit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>
+
+    <template id="delete_follower" name="Delete follower from issue">
+        <div class="modal fade" id="delete_follower_modal" tabindex="-1" role="dialog" aria-labelledby="Delete follower" aria-hidden="true">
+            <div class="modal-dialog">
+                <form id="delete_follower" method="post" role="form" t-attf-data-action="/my/issue/{{issue.id}}/follower">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title">Confirm follower deletion from issue</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <p>You are about to <b>delete</b> follower from this issue.</p>
+                                            <p>Do you wish to continue?</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-danger delete-follower-confirm" >Delete</button>
                         </div>
                     </div>
                 </form>
