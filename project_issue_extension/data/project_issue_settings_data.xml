@@ -25,7 +25,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <div style="margin: 25px 0 10px;font-size: 13px">Copyright © 2018 <t t-esc="object.company_id.name"/>, All rights reserved.</div>
+                            <div style="margin: 25px 0 10px;font-size: 13px">Copyright © <t t-esc="datetime.date.today().strftime('%Y')"/> <t t-esc="object.company_id.name"/>, All rights reserved.</div>
                         </td>
                     </tr>
                 </tbody>
