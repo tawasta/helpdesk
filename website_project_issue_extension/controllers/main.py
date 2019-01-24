@@ -96,12 +96,19 @@ class WebsiteAccount(WebsiteAccount):
             ])
             _logger.debug("Reading messages: %s" % (messages.ids))
             messages.write({'needaction_partner_ids': [(3, current_user.partner_id.id)]})
-
         interval = request.env['ir.config_parameter'].get_param(
             'website_project_issue_extension.portal_polling_interval')
+        # Get external followers
+        follower_partners = [follower.partner_id.id for follower in issue.message_follower_ids]
+        follower_users = request.env['res.users'].sudo().search([
+            ('partner_id', 'in', follower_partners)
+        ])
+        employees = set([user.partner_id.id for user in follower_users if user.has_group('base.group_user')])
+        external_partners = list(set(follower_partners) - employees)
         values = {
             'issue': issue,
             'polling_interval': interval,
+            'external_partners': external_partners
         }
         return request.render("website_project_issue.my_issues_issue", values)
 

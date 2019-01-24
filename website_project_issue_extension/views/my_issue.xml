@@ -32,16 +32,18 @@
                             title="Add followers"><i class="fa fa-plus"/></button>
                         <div id="issue_followers">
                             <t t-foreach="issue.message_follower_ids" t-as="follower">
-                                <div t-attf-id="follower_{{follower.sudo().partner_id.id}}" class="issue-follower mb8">
-                                    <t t-esc="follower.sudo().partner_id.email"/>
-                                    <t t-if="issue.partner_id.id != follower.sudo().partner_id.id">
-                                        <button class="btn btn-xs btn-danger delete-follower pull-right"
-                                            t-att-data-follower="follower.sudo().partner_id.id" type="button"
-                                            data-toggle="modal" data-target="#delete_follower_modal" title="Delete follower">
-                                            <i class="fa fa-trash"/>
-                                        </button>
-                                    </t>
-                                </div>
+                                <t t-if="follower.partner_id.id in external_partners">
+                                    <div t-attf-id="follower_{{follower.sudo().partner_id.id}}" class="issue-follower mb8">
+                                        <t t-esc="follower.sudo().partner_id.email"/>
+                                        <t t-if="issue.partner_id.id != follower.sudo().partner_id.id">
+                                            <button class="btn btn-xs btn-danger delete-follower pull-right"
+                                                t-att-data-follower="follower.sudo().partner_id.id" type="button"
+                                                data-toggle="modal" data-target="#delete_follower_modal" title="Delete follower">
+                                                <i class="fa fa-trash"/>
+                                            </button>
+                                        </t>
+                                    </div>
+                                </t>
                             </t>
                         </div>
                     </div>
