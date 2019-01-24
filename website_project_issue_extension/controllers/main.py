@@ -5,6 +5,7 @@ import json
 import os
 import logging
 from datetime import datetime
+import re
 
 # 2. Known third party imports:
 
@@ -22,6 +23,50 @@ from odoo.http import request
 _logger = logging.getLogger(__name__)
 
 
+def validate_follower_emails(emails):
+    """
+    Validate issue followers email format
+
+    @param emails: Comma separated emails
+    @return res: Dict of emails and info if error occured
+    """
+    res = dict()
+    res['emails'] = re.sub(r"\s+", "", emails.lower())
+    pat = re.compile(r"^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,*)+")
+    if not pat.match(res['emails']):
+        _logger.debug("Emails didn't match pattern: %s" % (res['emails']))
+        res['error'] = True
+    return res
+
+
+def subscribe_issue_followers(issue, new_emails):
+    """
+    Add followers to issue and create partners if needed
+
+    @param issue: Issue to which followers are added
+    @param new_emails: Followers' emails to be added
+    @return new_partners: List of new partners (id, email)
+    """
+    new_emails = new_emails.split(',')
+    existing_emails = list()
+    partners = request.env['res.partner'].sudo().search([
+        ('email', 'in', new_emails)
+    ])
+    if partners:
+        existing_emails = [partner.email for partner in partners]
+    for email in new_emails:
+        if email not in existing_emails:
+            # Create partner and add it to recordset
+            partner_values = {
+                'name': email,
+                'email': email,
+            }
+            partners += request.env['res.partner'].sudo().create(partner_values)
+            _logger.debug("New partner (issue id: %s) created with email: %s" % (issue.id, email))
+    issue.message_subscribe(partner_ids=partners.ids)
+    return partners.search_read([('id', 'in', partners.ids)], ['email'])
+
+
 class WebsiteAccount(WebsiteAccount):
 
 
@@ -34,6 +79,7 @@ class WebsiteAccount(WebsiteAccount):
     def my_issues_issue(self, issue_id=None, **kw):
         """
         If unread messages, mark them as read as the user enters the page
+
         @param issue_id: ID of issue
         @param kw: kwargs
         @return: rendered template
@@ -70,6 +116,7 @@ class WebsiteAccount(WebsiteAccount):
     def issue_message(self, issue_id=None, **post):
         """
         Route to send messages through ajax
+
         @param issue_id: id of issue
         @param post: Contains values of the issue form
         @return: redirect
@@ -126,6 +173,7 @@ class WebsiteAccount(WebsiteAccount):
     def update_message(self, issue_id=None, timestamp=None, **post):
         """
         Returns only the newest messages, that have been created after timestamp.
+
         @param issue_id: ID of issue
         @param timestamp: Timestamp when the last messages were retrieved
         @return message_html: Rendered message
@@ -156,3 +204,50 @@ class WebsiteAccount(WebsiteAccount):
                         lazy=False,
                     )
         return messages_html
+
+
+    @http.route(
+        '/my/issues/<int:issue_id>/follower/add',
+        type='json',
+        auth='public',
+        website=True)
+    def issue_add_followers(self, issue_id=None, followers=None):
+        """
+        Add followers to issue
+
+        @param issue_id: ID of issue
+        @param followers: String of comma separated emails
+        @return result: Created followers (id email)
+        """
+        result = list()
+        res = dict()
+        issue = request.env['project.issue'].search([('id', '=', issue_id)])
+        _logger.debug("Issue: %s, Followers: %s" % (issue.id, followers))
+        if issue and followers:
+            # Validate format and create partners if needed
+            res = validate_follower_emails(followers)
+            if not res.get('error', False):
+                result = subscribe_issue_followers(issue, res['emails'])
+        return result
+
+
+    @http.route(
+        '/my/issues/<int:issue_id>/follower/remove',
+        type='json',
+        auth='public',
+        website=True)
+    def issue_remove_follower(self, issue_id=None, follower_id=None):
+        """
+        Remove follower from issue
+
+        @param issue_id: ID of issue
+        @param follower_id: ID of follower to be deleted
+        @return result: Created followers (id email)
+        """
+        res = dict()
+        issue = request.env['project.issue'].search([('id', '=', issue_id)])
+        _logger.debug("Issue: %s, Follower: %s" % (issue.id, follower_id))
+        if issue and follower_id:
+            res['id'] = follower_id
+            issue.message_unsubscribe([int(follower_id)])
+        return res

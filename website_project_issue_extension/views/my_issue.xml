@@ -30,11 +30,12 @@
                         <strong>Followers</strong>
                         <button class="btn btn-xs btn-primary ml16" data-toggle="modal" data-target="#add_followers_modal"
                             title="Add followers"><i class="fa fa-plus"/></button>
-                        <div>
+                        <div id="issue_followers">
                             <t t-foreach="issue.message_follower_ids" t-as="follower">
-                                <div class="issue-follower mb8">
+                                <div t-attf-id="follower_{{follower.sudo().partner_id.id}}" class="issue-follower mb8">
                                     <t t-esc="follower.sudo().partner_id.email"/>
-                                    <button class="btn btn-xs btn-danger pull-right" t-att-data-follower="follower.id"
+                                    <button class="btn btn-xs btn-danger delete-follower pull-right"
+                                        t-att-data-follower="follower.sudo().partner_id.id" type="button"
                                         data-toggle="modal" data-target="#delete_follower_modal" title="Delete follower">
                                         <i class="fa fa-trash"/>
                                     </button>
@@ -69,7 +70,7 @@
                 <t t-call="website_project_issue_extension.issue_message_thread"/>
             </div>
             <t t-call="website_project_issue_extension.add_issue_followers"/>
-            <t t-call="website_project_issue_extension.delete_follower"/>
+            <t t-call="website_project_issue_extension.delete_issue_follower"/>
             <script type="text/javascript" src="/website_project_issue_extension/static/src/js/issue_followers.js?v=001"/>
         </xpath>
     </template>
@@ -78,7 +79,7 @@
         <div class="modal fade" id="add_followers_modal" tabindex="-1" role="dialog" aria-labelledby="Add followers" aria-hidden="true">
             <div class="modal-dialog">
                 <form id="add_followers" method="post" role="form"
-                    t-attf-data-action="/my/issues/{{issue.id}}/followers/add">
+                    t-attf-data-action="/my/issues/{{issue.id}}/follower/add">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">x</button>
@@ -109,10 +110,10 @@
         </div>
     </template>
 
-    <template id="delete_follower" name="Delete follower from issue">
+    <template id="delete_issue_follower" name="Delete follower from issue">
         <div class="modal fade" id="delete_follower_modal" tabindex="-1" role="dialog" aria-labelledby="Delete follower" aria-hidden="true">
             <div class="modal-dialog">
-                <form id="delete_follower" method="post" role="form" t-attf-data-action="/my/issue/{{issue.id}}/follower">
+                <form id="delete_follower" method="post" role="form" t-attf-data-action="/my/issues/{{issue.id}}/follower/remove">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">x</button>

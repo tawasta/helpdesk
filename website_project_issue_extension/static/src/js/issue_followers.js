@@ -15,7 +15,7 @@ odoo.define('website_project_issue_extension.issue_followers', function (require
             var newFollowers = $('#new_followers').val();
             var newFollowersFormat = /^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,?)+$/;
 
-            if (!newFollowersFormat.test(recipients)) {
+            if (!newFollowersFormat.test(newFollowers)) {
                 // Strip spaces and check if the format matches to <email>(,<email>,...)
                 $('#new_followers_error').removeClass('hidden');
                 errors = true;
@@ -23,7 +23,7 @@ odoo.define('website_project_issue_extension.issue_followers', function (require
             return errors;
         }
 
-        // Add followers submit with AJAX
+        // Add followers submit with ajax
         $('#add_followers').on('submit', function(evt) {
             evt.preventDefault();
             // Reset error popups
@@ -31,14 +31,46 @@ odoo.define('website_project_issue_extension.issue_followers', function (require
             var errors = addFollowersValidation();
             var action = $(this).data('action');
             var newFollowers = $('#new_followers').val();
+            var msg = _t('Added new followers to the issue');
             if (!errors) {
-                // TODO: implement add followers submission
-                // loadingScreen();
-                // $('#add_followers_modal').modal('hide');
-                // ajax.jsonRpc(action, 'call', {'followers': newFollowers}).then(function(res) {
-
-                // });
+                loadingScreen();
+                $('#add_followers_modal').modal('hide');
+                $(this).find('input').val('');
+                ajax.jsonRpc(action, 'call', {'followers': newFollowers}).then(function(res) {
+                    var followersHtml = '';
+                    var container = $('#issue_followers');
+                    for (var i = 0; i < res.length; i++) {
+                        followersHtml += '<div id="follower_' + res[i]['id'] + '" class="issue-follower mb8">' + res[i]['email'];
+                        followersHtml += '<button class="btn btn-xs btn-danger pull-right delete-follower"';
+                        followersHtml += 'data-follower="' + res[i]['id'] + '" data-toggle="modal"';
+                        followersHtml += 'data-target="#delete_follower_modal" title="Delete follower">';
+                        followersHtml += '<i class="fa fa-trash"/></button></div>';
+                    }
+                    container.append(followersHtml);
+                    $.unblockUI();
+                    toastr.info(msg);
+                });
             }
+        });
+
+        // Pass follower id to delete form
+        $(document).on('click', '.delete-follower', function() {
+            var follower = $(this).attr('data-follower');
+            $('.delete-follower-confirm').attr('data-follower', follower);
+        });
+        // Delete follower with ajax
+        $(document).on('submit', '#delete_follower', function(evt) {
+            evt.preventDefault();
+            var follower = $('.delete-follower-confirm').attr('data-follower');
+            var action = $(this).data('action');
+            var msg = _t('Follower was removed successfully');
+            loadingScreen();
+            ajax.jsonRpc(action, 'call', {'follower_id': follower}).then(function(res) {
+                $('#delete_follower_modal').modal('hide');
+                $('#follower_' + follower).remove();
+                $.unblockUI();
+                toastr.info(msg);
+            });
         });
     });
 });
