@@ -246,8 +246,9 @@ class WebsiteAccount(WebsiteAccount):
         """
         res = dict()
         issue = request.env['project.issue'].search([('id', '=', issue_id)])
+        follower_id = int(follower_id)
         _logger.debug("Issue: %s, Follower: %s" % (issue.id, follower_id))
-        if issue and follower_id:
+        if issue and follower_id and follower_id != issue.partner_id.id:
             res['id'] = follower_id
             issue.message_unsubscribe([int(follower_id)])
         return res

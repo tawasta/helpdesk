@@ -67,9 +67,11 @@ odoo.define('website_project_issue_extension.issue_followers', function (require
             loadingScreen();
             ajax.jsonRpc(action, 'call', {'follower_id': follower}).then(function(res) {
                 $('#delete_follower_modal').modal('hide');
-                $('#follower_' + follower).remove();
+                if ('id' in res) {
+                    $('#follower_' + follower).remove();
+                    toastr.info(msg);
+                }
                 $.unblockUI();
-                toastr.info(msg);
             });
         });
     });
