@@ -5,14 +5,14 @@ import os
 import json
 import logging
 import base64
-import re
 
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
 from odoo import http, _
-from odoo.addons.website_project_issue.controllers.main import WebsiteAccount
 from odoo.http import request
+from odoo.addons.website_project_issue.controllers.main import WebsiteAccount
+from odoo.addons.website_project_issue_extension.controllers.main import validate_follower_emails, subscribe_issue_followers
 
 # 4. Imports from Odoo modules:
 
@@ -33,20 +33,17 @@ class WebsiteAccount(WebsiteAccount):
         mandatory = [
             "issue_name", "issue_email", "issue_summary"
         ]
-        pat = re.compile(r"^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,*)+")
         for key in values:
             value = values[key].strip() if values.get(key, False) else False
             if key in mandatory:
                 if not value:
                     errors = True
             if key == "issue_recipients" and value:
-                # Strip whitespaces andlowercase
-                value = re.sub(r"\s+", "", value)
+                res = validate_follower_emails(value)
                 values.update({
-                    key: value.lower()
+                    key: res['emails']
                 })
-                if not pat.match(value):
-                    _logger.debug("Emails didn't match pattern: %s" % (value))
+                if res.get('error', False):
                     errors = True
         return errors
 
@@ -132,21 +129,5 @@ class WebsiteAccount(WebsiteAccount):
                     # Find recipients in the system or create new ones
                     new_emails = post.get("issue_recipients")
                     if new_emails:
-                        new_emails = new_emails.split(',')
-                        existing_emails = list()
-                        followers = request.env['res.partner'].sudo().search([
-                            ('email', 'in', new_emails)
-                        ])
-                        if followers:
-                            existing_emails = [follower.email for follower in followers]
-                        for email in new_emails:
-                            if email not in existing_emails:
-                                # Create partner and add it to recordset
-                                partner_values = {
-                                    'name': email,
-                                    'email': email,
-                                }
-                                followers += request.env['res.partner'].sudo().create(partner_values)
-                                _logger.debug("New partner (issue id: %s) created with email: %s" % (issue.id, email))
-                        issue.message_subscribe(partner_ids=followers.ids)
+                        subscribe_issue_followers(issue, new_emails)
         return request.redirect('/my/issues')
