@@ -22,14 +22,13 @@
 {
     'name': 'Website Project Issue Form',
     'summary': 'Issues can be submitted from website',
-    'version': '10.0.0.8.4',
+    'version': '10.0.0.9.0',
     'category': 'Website',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
         'website_project_issue',
-        'website_utilities',
         'website_project_issue_extension',
     ],
     'data': [
