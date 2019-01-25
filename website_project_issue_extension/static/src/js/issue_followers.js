@@ -15,7 +15,7 @@ odoo.define('website_project_issue_extension.issue_followers', function (require
             var newFollowers = $('#new_followers').val();
             var newFollowersFormat = /^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,?)+$/;
 
-            if (!newFollowersFormat.test(newFollowers)) {
+            if (newFollowers && !newFollowersFormat.test(newFollowers)) {
                 // Strip spaces and check if the format matches to <email>(,<email>,...)
                 $('#new_followers_error').removeClass('hidden');
                 errors = true;

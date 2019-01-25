@@ -106,7 +106,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button class="btn btn-primary add-followers-confirm" >Sumbit</button>
+                            <button class="btn btn-primary add-followers-confirm" >Submit</button>
                         </div>
                     </div>
                 </form>

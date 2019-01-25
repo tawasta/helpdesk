@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-18 12:03+0000\n"
-"PO-Revision-Date: 2019-01-18 14:06+0200\n"
+"POT-Creation-Date: 2019-01-25 06:09+0000\n"
+"PO-Revision-Date: 2019-01-25 08:14+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -68,11 +68,39 @@ msgstr "<strong>Viestihistoria</strong>"
 msgid "<strong>Reported by</strong>"
 msgstr "<strong>Raportoinut</strong>"
 
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
+msgid "Add followers"
+msgstr "Lisää seuraajia"
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.add_issue_followers
+msgid "Add followers to issue"
+msgstr "Lisää seuraajia tukipyyntöön"
+
+#. module: website_project_issue_extension
+#. openerp-web
+#: code:addons/website_project_issue_extension/static/src/js/issue_followers.js:34
+#, python-format
+msgid "Added new followers to the issue"
+msgstr "Uudet seuraajat lisätty tukipyyntöön"
+
 #. module: website_project_issue
 #: code:addons/website_project_issue/controllers/main.py:38
 #, python-format
 msgid "All"
 msgstr "Kaikki"
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.add_issue_followers
+#: model:ir.ui.view,arch_db:website_project_issue_extension.delete_issue_follower
+msgid "Cancel"
+msgstr "Peruuta"
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.delete_issue_follower
+msgid "Confirm follower deletion from issue"
+msgstr "Vahvista seuraajan poistaminen tukipyynnöstä"
 
 #. module: website_project_issue
 #: model:ir.ui.view,arch_db:website_project_issue.my_issues
@@ -85,10 +113,25 @@ msgstr "Tukipyynnön nykyinen vaihe"
 msgid "Current stage of this issue"
 msgstr "Tukipyynnön nykyinen vaihe"
 
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.delete_issue_follower
+msgid "Delete"
+msgstr "Poista"
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.my_issues_issue
+msgid "Delete follower"
+msgstr "Poista seuraaja"
+
 #. module: website_project_issue
 #: model:ir.ui.view,arch_db:website_project_issue.my_issues
 msgid "Description"
 msgstr "Kuvaus"
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.delete_issue_follower
+msgid "Do you wish to continue?"
+msgstr "Haluatko jatkaa?"
 
 #. modules: website_project_issue_extension, website_project_issue
 #: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
@@ -117,10 +160,17 @@ msgstr "Tiedosto on liian suuri! Maksimikoko on "
 msgid "File size: "
 msgstr "Tiedoston koko: "
 
+#. module: website_project_issue_extension
+#. openerp-web
+#: code:addons/website_project_issue_extension/static/src/js/issue_followers.js:66
+#, python-format
+msgid "Follower was removed successfully"
+msgstr "Seuraaja poistettiin tukipyynnöstä onnistuneesti"
+
 #. modules: website_project_issue_extension, website_project_issue
 #: model:ir.ui.view,arch_db:website_project_issue.my_issues
 #: model:ir.ui.view,arch_db:website_project_issue.my_issues_issue
-#: code:addons/website_project_issue_extension/controllers/main.py:105
+#: code:addons/website_project_issue_extension/controllers/main.py:159
 #, python-format
 msgid "Issue"
 msgstr "Tukipyyntö"
@@ -169,6 +219,16 @@ msgid "Name"
 msgstr "Nimi"
 
 #. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.add_issue_followers
+msgid "New followers' email addresses"
+msgstr "Uusien seuraajien sähköpostit"
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.add_issue_followers
+msgid "New followers' email addresses (separated with comma):"
+msgstr "Uusien seuraajien sähköpostit (erotettuna pilkulla):"
+
+#. module: website_project_issue_extension
 #. openerp-web
 #: code:addons/website_project_issue_extension/static/src/js/website_project_issue.js:135
 #, python-format
@@ -186,10 +246,15 @@ msgstr "Uusimmat"
 msgid "No image"
 msgstr "Ei kuvaa"
 
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.add_issue_followers
+msgid "Please check the format: email addresses separated with commas!"
+msgstr "Tarkista sähköpostiosoitteiden formaatti: sähköpostit tulee erottaa pilkulla."
+
 #. module: website_project_issue
 #: model:ir.model,name:website_project_issue.model_project_issue
 msgid "Project Issue"
-msgstr "Tukipyyntö"
+msgstr "Projektin huolenaihe"
 
 #. module: website_project_issue
 #: model:ir.ui.view,arch_db:website_project_issue.my_issues
@@ -209,6 +274,11 @@ msgstr "Vaihe"
 msgid "Submit message"
 msgstr "Lähetä viesti"
 
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.add_issue_followers
+msgid "Submit"
+msgstr "Lähetä"
+
 #. module: website_project_issue
 #: model:ir.ui.view,arch_db:website_project_issue.portal_my_home
 msgid "There are currently no issues for your account."
@@ -223,6 +293,11 @@ msgstr "Tukipyyntöjä ei löytynyt."
 #: model:ir.ui.view,arch_db:website_project_issue_extension.issue_submit_message
 msgid "Type a message..."
 msgstr "Kirjoita viesti..."
+
+#. module: website_project_issue_extension
+#: model:ir.ui.view,arch_db:website_project_issue_extension.delete_issue_follower
+msgid "You are about to <b>delete</b> follower from this issue."
+msgstr "Olet <b>poistamassa</b> seuraajan tukipyynnöstä."
 
 #. module: website_project_issue
 #: model:ir.ui.view,arch_db:website_project_issue.my_issues

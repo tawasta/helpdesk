@@ -28,13 +28,16 @@ class WebsiteAccount(WebsiteAccount):
     def issue_form_validate(self, values):
         """
         Validation for issue form
+
+        @param values: Dict of validated values
+        @return: boolean
         """
         errors = False
         mandatory = [
             "issue_name", "issue_email", "issue_summary"
         ]
         for key in values:
-            value = values[key].strip() if values.get(key, False) else False
+            value = values[key].strip() if values.get(key, False) and key != 'issue_attachments' else False
             if key in mandatory:
                 if not value:
                     errors = True

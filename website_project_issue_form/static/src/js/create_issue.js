@@ -50,7 +50,7 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
                 $('#issue_summary_error').removeClass('hidden');
                 errors = true;
             }
-            if (!recipientsFormat.test(recipients)) {
+            if (recipients && !recipientsFormat.test(recipients)) {
                 // Strip spaces and check if the format matches to <email>(,<email>,...)
                 $('#issue_recipients_error').removeClass('hidden');
                 errors = true;
