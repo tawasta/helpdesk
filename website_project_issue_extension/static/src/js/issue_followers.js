@@ -13,7 +13,7 @@ odoo.define('website_project_issue_extension.issue_followers', function (require
             // Parse whitespaces from recipients
             $('#new_followers').val($('#new_followers').val().replace(/\s/g, ''));
             var newFollowers = $('#new_followers').val();
-            var newFollowersFormat = /^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,?)+$/;
+            var newFollowersFormat = /^(([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)\,?)+$/;
 
             if (newFollowers && !newFollowersFormat.test(newFollowers)) {
                 // Strip spaces and check if the format matches to <email>(,<email>,...)

@@ -32,7 +32,7 @@ def validate_follower_emails(emails):
     """
     res = dict()
     res['emails'] = re.sub(r"\s+", "", emails.lower())
-    pat = re.compile(r"^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,*)+")
+    pat = re.compile(r"^(([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)\,?)+$")
     if not pat.match(res['emails']):
         _logger.debug("Emails didn't match pattern: %s" % (res['emails']))
         res['error'] = True

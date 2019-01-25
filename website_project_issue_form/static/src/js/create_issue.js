@@ -35,7 +35,7 @@ odoo.define('website_project_issue_form.create_issue', function (require) {
             // Parse whitespaces from recipients
             $('#issue_recipients').val($('#issue_recipients').val().replace(/\s/g, ''));
             var recipients = $('#issue_recipients').val();
-            var recipientsFormat = /^(([\w\.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})\,?)+$/;
+            var recipientsFormat = /^(([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)\,?)+$/;
 
             // Check name and description are not empty
             if (!name) {
