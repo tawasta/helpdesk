@@ -105,10 +105,17 @@ class WebsiteAccount(WebsiteAccount):
         ])
         employees = set([user.partner_id.id for user in follower_users if user.has_group('base.group_user')])
         external_partners = list(set(follower_partners) - employees)
+        attachments = request.env['ir.attachment'].sudo().search([
+            ('res_model', '=', 'project.issue'),
+            ('res_id', '=', issue.id),
+        ])
+        print "------------------------"
+        print attachments
         values = {
             'issue': issue,
             'polling_interval': interval,
-            'external_partners': external_partners
+            'external_partners': external_partners,
+            'attachments': attachments,
         }
         return request.render("website_project_issue.my_issues_issue", values)
 
