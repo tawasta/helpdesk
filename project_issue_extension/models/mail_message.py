@@ -54,7 +54,8 @@ class MailMessage(models.Model):
                 company_id = self.env.user.company_id.id
             settings = self.env['project.issue.settings'].sudo().search([
                 ('company_id', '=', company_id),
-            ], limit=1)
+                ], limit=1)
+            vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + issue.name
             if 'subject' in vals and vals['subject'] and not re.match('.*[#][0-9]{5,6}.*', vals['subject']):
                 # Add issue number to the first post
                 vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + vals['subject']
@@ -65,6 +66,8 @@ class MailMessage(models.Model):
                     vals['reply_to'] = settings.email_reply_to
                 if issue.partner_id:
                     issue.message_subscribe([issue.partner_id.id])
+            if not vals.get('subject'):
+                vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + issue.name
         return super(MailMessage, self).create(vals)
 
     # 7. Action methods
