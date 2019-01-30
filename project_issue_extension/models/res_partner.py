@@ -47,7 +47,16 @@ class ResPartner(models.Model):
                 ('company_id', '=', issue.company_id.id),
             ], limit=1)
             email_values = settings.email_issue_reply.generate_email(issue.id)
-            email_values['body'] = email_values['body'].replace('#body', mail_message.body)
+            last_message = self.env['mail.message'].sudo().search([
+                ('res_id', '=', issue.id),
+                ('model', '=', 'project.issue'),
+                ('message_type', '!=', 'notification'),
+                ('id', '!=', mail_message_id),
+            ], limit=1)
+            # TODO: Generate the body in a function and beautify the quotation of previous message
+            body_html = mail_message.body + "<div style='padding-left:40px;border-left:solid 3px #ccc;'> Kirjoittaja: " + last_message.author_id.name + "<br/><br/>" + last_message.body + "</div>"
+            print body_html
+            email_values['body'] = email_values['body'].replace('#body', body_html)
             mail_values['body_html'] = email_values['body']
         return super(ResPartner, self)._notify_send(body, subject, recipients, **mail_values)
 
