@@ -109,8 +109,6 @@ class WebsiteAccount(WebsiteAccount):
             ('res_model', '=', 'project.issue'),
             ('res_id', '=', issue.id),
         ])
-        print "------------------------"
-        print attachments
         values = {
             'issue': issue,
             'polling_interval': interval,
