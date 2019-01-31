@@ -163,6 +163,7 @@ class WebsiteAccount(WebsiteAccount):
                 if not error:
                     subject = _('Issue') + " #" + issue.issue_number + ": " + issue.name
                     subtype_id = http.request.env.ref('mail.mt_comment').id
+                    notified_partner_ids = [follower.partner_id.id for follower in issue.message_follower_ids]
                     issue.sudo(current_user).message_post(
                         subject=subject,
                         message_type='comment',
@@ -170,6 +171,7 @@ class WebsiteAccount(WebsiteAccount):
                         body=message,
                         attachments=attachment_list,
                         portal_message=True,
+                        partner_ids=notified_partner_ids,
                     )
         return request.redirect('/my/issues/%d' % issue_id)
 
