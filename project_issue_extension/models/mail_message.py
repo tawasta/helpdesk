@@ -54,13 +54,14 @@ class MailMessage(models.Model):
                 company_id = self.env.user.company_id.id
             settings = self.env['project.issue.settings'].sudo().search([
                 ('company_id', '=', company_id),
-                ], limit=1)
+            ], limit=1)
             vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + issue.name
             if 'subject' in vals and vals['subject'] and not re.match('.*[#][0-9]{5,6}.*', vals['subject']):
                 # Add issue number to the first post
                 vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + vals['subject']
-                # Send autoreply to customer
                 if settings:
+                    # Send autoreply to customer
+                    # TODO: This needs to be moved email creation so that the mail.message body isn't modified
                     email_values = settings.email_issue_received.generate_email(issue.id)
                     vals['body'] = email_values['body']
                     vals['reply_to'] = settings.email_reply_to

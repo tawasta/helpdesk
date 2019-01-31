@@ -86,7 +86,7 @@
                                         <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
                                         <hr style="color: #f6f6f6"/>
                                         <div style="padding:30px 0;margin:20px 0;">
-                                            #body
+                                            #issuemessagebody
                                         </div>
                                         <hr style="color: #f6f6f6"/>
                                     </div>

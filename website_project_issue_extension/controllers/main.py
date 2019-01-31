@@ -127,7 +127,7 @@ class WebsiteAccount(WebsiteAccount):
     )
     def issue_message(self, issue_id=None, **post):
         """
-        Route to send messages through ajax
+        Route to send messages
 
         @param issue_id: id of issue
         @param post: Contains values of the issue form
