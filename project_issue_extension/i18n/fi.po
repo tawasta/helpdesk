@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-15 11:11+0000\n"
-"PO-Revision-Date: 2018-10-15 14:12+0300\n"
+"POT-Creation-Date: 2019-01-31 09:12+0000\n"
+"PO-Revision-Date: 2019-01-31 11:16+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: fi\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_reply
+msgid "#body"
+msgstr "#body"
 
 #. module: project_issue_extension
 #: model:mail.template,subject:project_issue_extension.mail_template_project_issue_received_email
@@ -31,7 +36,7 @@ msgstr ", kaikki oikeudet pidätetään."
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_reply
 msgid ". You can see the response below in the next section or in"
-msgstr ". Näät vastauksen alla olevassa osiossa tai"
+msgstr ". Näät viestin alla olevassa osiossa tai"
 
 #. module: project_issue_extension
 #: code:addons/project_issue_extension/models/project_issue.py:144
@@ -95,6 +100,12 @@ msgid "Attachments"
 msgstr "Liitteet"
 
 #. module: project_issue_extension
+#: code:addons/project_issue_extension/models/res_partner.py:66
+#, python-format
+msgid "Author: "
+msgstr "Kirjoittaja: "
+
+#. module: project_issue_extension
 #: model:ir.model.fields,help:project_issue_extension.field_project_issue_settings_email_issue_received
 msgid "Auto reply email when customer submits a new issue"
 msgstr "Automaattivastaus asiakkaalle, kun uusi tukipyyntö vastaanotetaan"
@@ -117,8 +128,8 @@ msgstr "Yritys, jolle tukipyynnön asetukset on määritetty"
 
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_footer
-msgid "Copyright © 2018"
-msgstr "Copyright © 2018"
+msgid "Copyright ©"
+msgstr "Copyright ©"
 
 #. module: project_issue_extension
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_create_uid
@@ -167,7 +178,7 @@ msgstr "Kuvaus"
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_display_name
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_display_name
 msgid "Display Name"
-msgstr "Näyttönimi"
+msgstr "Nimi"
 
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
@@ -224,7 +235,7 @@ msgstr "Tunnit"
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_id
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_id
 msgid "ID"
-msgstr "Tunniste (ID)"
+msgstr "ID"
 
 #. module: project_issue_extension
 #: model:project.task.type,name:project_issue_extension.project_issue_stage_data_1
@@ -237,7 +248,8 @@ msgid "Info"
 msgstr "Info"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/mail_message.py:60
+#: code:addons/project_issue_extension/models/mail_message.py:58
+#: code:addons/project_issue_extension/models/mail_message.py:61
 #: code:addons/project_issue_extension/models/mail_message.py:70
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 #, python-format
@@ -283,7 +295,7 @@ msgstr "Tukipyynnön otsikko"
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Issues"
-msgstr "Tapaukset"
+msgstr "Tukipyynnöt"
 
 #. module: project_issue_extension
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings___last_update
@@ -352,10 +364,21 @@ msgid "POP/IMAP Server"
 msgstr "POP/IMAP-palvelin"
 
 #. module: project_issue_extension
+#: model:ir.model,name:project_issue_extension.model_res_partner
+msgid "Partner"
+msgstr "Kumppani"
+
+#. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_received_autoreply
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_reply
 msgid "Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly."
 msgstr "Varmistathan, että tukipyynnön tunniste pysyy sähköpostin otsikossa, jotta tukipyyntöäsi seurataan asianmukaisesti."
+
+#. module: project_issue_extension
+#: code:addons/project_issue_extension/models/res_partner.py:65
+#, python-format
+msgid "Previous message"
+msgstr "Edellinen viesti"
 
 #. module: project_issue_extension
 #: selection:project.task.type,website_label_class:0
