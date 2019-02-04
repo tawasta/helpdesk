@@ -55,15 +55,16 @@ class ResPartner(models.Model):
                 ('message_type', '!=', 'notification'),
                 ('id', '!=', mail_message_id),
             ], limit=1)
-            # TODO: Generate the body in a function and beautify the quotation of previous message
-            local = pytz.timezone('Europe/Helsinki')
-            create_date = datetime.strftime(pytz.utc.localize(datetime.strptime(
-                last_message.create_date, '%Y-%m-%d %H:%M:%S')).astimezone(local), "%d.%m.%Y %H:%M:%S")
             body_html = mail_message.body
-            body_html += "<div style='margin-top:30px;padding-left:40px;border-left:solid 3px #ccc;'>"
-            body_html += "<h3>" + _("Previous message") + "</h3>"
-            body_html += _("Author: ") + last_message.author_id.name + ", " + create_date
-            body_html += "<br/>" + last_message.body + "</div>"
+            if last_message:
+                # If previous message in thread
+                local = pytz.timezone('Europe/Helsinki')
+                create_date = datetime.strftime(pytz.utc.localize(datetime.strptime(
+                    last_message.create_date, '%Y-%m-%d %H:%M:%S')).astimezone(local), "%d.%m.%Y %H:%M:%S")
+                body_html += "<div style='margin-top:30px;padding-left:40px;border-left:solid 3px #ccc;'>"
+                body_html += "<h3>" + _("Previous message") + "</h3>"
+                body_html += _("Author: ") + last_message.author_id.name + ", " + create_date
+                body_html += "<br/>" + last_message.body + "</div>"
             # Using #issuemessagebody to identify body container and replace it with generated html
             email_values['body'] = email_values['body'].replace('#issuemessagebody', body_html)
             mail_values['body_html'] = email_values['body']
