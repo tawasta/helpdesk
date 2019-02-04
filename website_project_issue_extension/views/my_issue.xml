@@ -215,7 +215,8 @@
         <t t-if="message.subtype_id.id == message_subtype_id and message.website_published">
             <div class="row mb16 message">
                 <div class="col-md-1 col-xs-3 mt16">
-                    <img class="img img-responsive img-circle" t-attf-src="/mail/#{message.model}/#{message.res_id}/avatar/#{message.author_id.id}" alt="partner image"/>
+                    <img class="img img-responsive img-circle" alt="partner image"
+                        t-attf-src="/website/image/res.partner/#{message.author_id.id}/image/64x64"/>
                 </div>
                 <div class="col-md-11 col-xs-9">
                     <h4>
