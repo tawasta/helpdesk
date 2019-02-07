@@ -55,6 +55,15 @@ class ProjectIssue(models.Model):
         readonly=True,
         help="Issue's stage changes",
     )
+    # Remove thread tracking from fields that aren't needed
+    kanban_state = fields.Selection(track_visibility=False)
+    stage_id = fields.Many2one(track_visibility=False)
+    project_id = fields.Many2one(track_visibility=False)
+    # TODO: add field for subject
+    issue_subject = fields.Char(
+        string='Issue subject',
+        help='Issue subject for emails',
+    )
 
     # 3. Default methods
 
@@ -79,35 +88,39 @@ class ProjectIssue(models.Model):
 
     # 6. CRUD methods
     @api.model
-    def create(self, values):
+    def create(self, vals):
         """
         When project issue is created:
             - issue number is set
             - Auto reply is sent to the customer
         """
-        if not values.get('issue_number'):
-            values['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
+        print "-------------"
+        print vals
+        if not vals.get('issue_number'):
+            vals['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
         # Create patner if it doesn't exist
-        if not values.get('partner_id'):
-            values['partner_id'] = self._fetch_partner(values)
-        if not values.get('date'):
-            values['date'] = datetime.today()
+        if not vals.get('partner_id'):
+            vals['partner_id'] = self._fetch_partner(vals)
+        if not vals.get('date'):
+            vals['date'] = datetime.today()
         # Send autoreply to customer
         settings = self.env['project.issue.settings'].sudo().search([
             ('company_id', '=', self.env.user.company_id.id),
         ], limit=1)
-        issue = super(ProjectIssue, self).create(values)
-        if settings:
-            vals = settings.email_issue_received.generate_email(issue.id)
-            issue.message_post(
-                subject=issue.name,
-                body=vals['body'],
-                message_type='comment',
-                subtype='mt_comment',
-            )
+        issue = super(ProjectIssue, self).create(vals)
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
+        # if settings:
+        #     vals = settings.email_issue_received.generate_email(issue.id)
+        #     issue.message_post(
+        #         subject=issue.name,
+        #         body=vals['body'],
+        #         message_type='comment',
+        #         subtype='mt_comment',
+        #     )
+        print "------ CREATE LOPPUU-------------"
+        # issue._send_issue_autoreply()
         return issue
 
 
@@ -217,6 +230,7 @@ class ProjectIssue(models.Model):
         """
         This method is called, when a new issue is starting from an email
         """
+        print "TÄMÄ ON MESSAGE_NEW1"
         res = super(ProjectIssue, self).message_new(msg, custom_values)
         issue = self.browse(res)
         print "TÄMÄ ON MESSAGE_NEW"
@@ -234,3 +248,43 @@ class ProjectIssue(models.Model):
         for issue in issues:
             issue.issue_number = self.env['ir.sequence'].next_by_code('project.issue')
             _logger.debug("Setting issue number for %s", issue.issue_number)
+
+
+    @api.multi
+    @api.returns('mail.message', lambda value: value.id)
+    def message_post(self, subtype=None, **kwargs):
+        """ Overrides mail_thread message_post so that we can set the date of last action field when
+            a new message is posted on the issue.
+        """
+        self.ensure_one()
+        print "---- MENI TÄNNE -----"
+        mail_message = super(ProjectIssue, self).message_post(subtype=subtype, **kwargs)
+        print mail_message.id
+        return mail_message
+
+
+    def _issue_subject(self)
+
+    @api.multi
+    def _send_issue_autoreply(self):
+        """
+        Send autoreply email regarding issue
+        """
+        self.ensure_one()
+        fetchmail_server = self.env['fetchmail.server'].browse([self._context.get('fetchmail_server_id')])
+        settings = self.env['project.issue.settings'].sudo().search([
+            ('company_id', '=', fetchmail_server.company_id.id),
+        ], limit=1)
+        message = self.env['mail.message'].sudo().search([
+            ('res_id', '=', self.id),
+            ('model', '=', 'project.issue'),
+        ], limit=1)
+        mail_values = {
+            'mail_message_id': message.id,
+            'mail_server_id': fetchmail_server.id,
+            'auto_delete': True,
+            'references': False,
+        }
+        email_values = settings.email_issue_received.generate_email(self.id, fields=['body_html', 'subject'])
+        self.partner_id._notify_send(email_values['body'], email_values['subject'], self.partner_id, **mail_values)
+        return True

@@ -61,7 +61,7 @@ class MailThread(models.AbstractModel):
         if res and res[0][0] == 'project.issue' and res[0][1] == 0:
             # TODO: Parse the number and and match to issue
             pass
-        print "TÄMÄ ON MAIL THREAD MESSAGE_ROUTE"
+        print "TÄMÄ ON MAIL THREAD MESSAGE_ROUTE1"
         return res
 
 

@@ -59,18 +59,26 @@ class MailMessage(models.Model):
             if 'subject' in vals and vals['subject'] and not re.match('.*[#][0-9]{5,6}.*', vals['subject']):
                 # Add issue number to the first post
                 vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + vals['subject']
-                if settings:
-                    # Send autoreply to customer
-                    # TODO: This needs to be moved email creation so that the mail.message body isn't modified
-                    email_values = settings.email_issue_received.generate_email(issue.id)
-                    vals['body'] = email_values['body']
-                    vals['reply_to'] = settings.email_reply_to
-                if issue.partner_id:
-                    issue.message_subscribe([issue.partner_id.id])
+                # if settings:
+                #     # Send autoreply to customer
+                #     # TODO: This needs to be moved email creation so that the mail.message body isn't modified
+                #     email_values = settings.email_issue_received.generate_email(issue.id)
+                #     vals['body'] = email_values['body']
+                #     vals['reply_to'] = settings.email_reply_to
+                # if issue.partner_id:
+                #     issue.message_subscribe([issue.partner_id.id])
             if not vals.get('subject'):
                 vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + issue.name
+        print vals
         return super(MailMessage, self).create(vals)
 
     # 7. Action methods
+    @api.multi
+    def _notify(self, force_send=False, send_after_commit=True, user_signature=True):
+        """ Add the related record followers to the destination partner_ids if is not a private message.
+            Call mail_notification.notify to manage the email sending
+        """
+        print "MENIKÖ TÄNNEKIN??!?"
+        return super(MailMessage, self)._notify(force_send, send_after_commit, user_signature)
 
     # 8. Business methods

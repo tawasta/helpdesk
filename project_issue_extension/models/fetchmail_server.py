@@ -25,6 +25,7 @@ class FetchmailServer(models.Model):
     company_id = fields.Many2one(
         'res.company',
         string='Company',
+        help='Company which the mail server belongs to',
     )
 
     # 2. Fields declaration
