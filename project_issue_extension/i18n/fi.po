@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 09:12+0000\n"
-"PO-Revision-Date: 2019-01-31 11:16+0200\n"
+"POT-Creation-Date: 2019-02-08 12:24+0000\n"
+"PO-Revision-Date: 2019-02-08 14:25+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,9 +18,10 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #. module: project_issue_extension
+#: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_received_autoreply
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_reply
-msgid "#body"
-msgstr "#body"
+msgid "#issuemessagebody"
+msgstr "#issuemessagebody"
 
 #. module: project_issue_extension
 #: model:mail.template,subject:project_issue_extension.mail_template_project_issue_received_email
@@ -36,10 +37,10 @@ msgstr ", kaikki oikeudet pidätetään."
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_reply
 msgid ". You can see the response below in the next section or in"
-msgstr ". Näät viestin alla olevassa osiossa tai"
+msgstr ". Näät vastauksen alla olevassa osiossa tai"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/project_issue.py:144
+#: code:addons/project_issue_extension/models/project_issue.py:159
 #, python-format
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
@@ -71,7 +72,7 @@ msgstr ""
 "                    </p>"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/project_issue.py:171
+#: code:addons/project_issue_extension/models/project_issue.py:186
 #, python-format
 msgid ""
 "<p class=\"oe_view_nocontent_create\">\n"
@@ -93,14 +94,14 @@ msgid "Assigned"
 msgstr "Osoitettu tukihenkilölle"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/project_issue.py:137
+#: code:addons/project_issue_extension/models/project_issue.py:152
 #: code:addons/project_issue_extension/models/project_project.py:66
 #, python-format
 msgid "Attachments"
 msgstr "Liitteet"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/res_partner.py:66
+#: code:addons/project_issue_extension/models/res_partner.py:72
 #, python-format
 msgid "Author: "
 msgstr "Kirjoittaja: "
@@ -127,6 +128,11 @@ msgid "Company for which these settings are defined"
 msgstr "Yritys, jolle tukipyynnön asetukset on määritetty"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,help:project_issue_extension.field_fetchmail_server_company_id
+msgid "Company which the mail server belongs to"
+msgstr "Yritys, jolle sähköpostipalvelin kuuluu"
+
+#. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_email_footer
 msgid "Copyright ©"
 msgstr "Copyright ©"
@@ -149,7 +155,7 @@ msgid "Currently used helpdesk project for the company"
 msgstr "Yrityksen nykyinen tukipalveluprojekti"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/project_issue.py:164
+#: code:addons/project_issue_extension/models/project_issue.py:179
 #, python-format
 msgid "Customer's issues"
 msgstr "Asiakkaan tukipyynnöt"
@@ -178,7 +184,7 @@ msgstr "Kuvaus"
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_display_name
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_display_name
 msgid "Display Name"
-msgstr "Nimi"
+msgstr "Näyttönimi"
 
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
@@ -235,7 +241,7 @@ msgstr "Tunnit"
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings_id
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_stage_change_id
 msgid "ID"
-msgstr "ID"
+msgstr "Tunniste (ID)"
 
 #. module: project_issue_extension
 #: model:project.task.type,name:project_issue_extension.project_issue_stage_data_1
@@ -248,13 +254,11 @@ msgid "Info"
 msgstr "Info"
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/mail_message.py:58
-#: code:addons/project_issue_extension/models/mail_message.py:61
-#: code:addons/project_issue_extension/models/mail_message.py:70
+#: code:addons/project_issue_extension/models/project_issue.py:107
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 #, python-format
 msgid "Issue"
-msgstr "Tukipyyntö"
+msgstr "Tapaus"
 
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
@@ -277,6 +281,11 @@ msgid "Issue settings"
 msgstr "Tukipyyntöjen asetukset"
 
 #. module: project_issue_extension
+#: model:ir.model.fields,help:project_issue_extension.field_project_issue_subject
+msgid "Issue subject for emails"
+msgstr "Tukipyynnön aihe sähköposteille"
+
+#. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Issue's description"
 msgstr "Tukipyynnön kuvaus"
@@ -295,7 +304,7 @@ msgstr "Tukipyynnön otsikko"
 #. module: project_issue_extension
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Issues"
-msgstr "Tukipyynnöt"
+msgstr "Tapaukset"
 
 #. module: project_issue_extension
 #: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_settings___last_update
@@ -375,7 +384,7 @@ msgid "Please make sure that the ticket ID is kept in the subject of the emails 
 msgstr "Varmistathan, että tukipyynnön tunniste pysyy sähköpostin otsikossa, jotta tukipyyntöäsi seurataan asianmukaisesti."
 
 #. module: project_issue_extension
-#: code:addons/project_issue_extension/models/res_partner.py:65
+#: code:addons/project_issue_extension/models/res_partner.py:71
 #, python-format
 msgid "Previous message"
 msgstr "Edellinen viesti"
@@ -388,7 +397,7 @@ msgstr "Primary"
 #. module: project_issue_extension
 #: model:ir.model,name:project_issue_extension.model_project_project
 msgid "Project"
-msgstr "Projektit"
+msgstr "Projekti"
 
 #. module: project_issue_extension
 #: model:ir.model,name:project_issue_extension.model_project_issue
@@ -423,6 +432,11 @@ msgstr "Ratkaistu"
 #: model:ir.ui.view,arch_db:project_issue_extension.project_issue_form_view_inherited
 msgid "Stage changes"
 msgstr "Vaiheiden muutokset"
+
+#. module: project_issue_extension
+#: model:ir.model.fields,field_description:project_issue_extension.field_project_issue_subject
+msgid "Subject"
+msgstr "Aihe"
 
 #. module: project_issue_extension
 #: selection:project.task.type,website_label_class:0

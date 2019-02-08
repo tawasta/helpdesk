@@ -60,9 +60,11 @@ class ProjectIssue(models.Model):
     stage_id = fields.Many2one(track_visibility=False)
     project_id = fields.Many2one(track_visibility=False)
     # TODO: add field for subject
-    issue_subject = fields.Char(
-        string='Issue subject',
+    subject = fields.Char(
+        string='Subject',
         help='Issue subject for emails',
+        required=True,
+        readonly=True,
     )
 
     # 3. Default methods
@@ -103,6 +105,9 @@ class ProjectIssue(models.Model):
             vals['partner_id'] = self._fetch_partner(vals)
         if not vals.get('date'):
             vals['date'] = datetime.today()
+        if not vals.get('subject'):
+            # Hardcoded to Finnish since we don't want the subject to ever change
+            vals['subject'] = 'Tukipyyntö' + " #" + vals['issue_number'] + ": " + vals['name']
         # Send autoreply to customer
         settings = self.env['project.issue.settings'].sudo().search([
             ('company_id', '=', self.env.user.company_id.id),
@@ -247,7 +252,8 @@ class ProjectIssue(models.Model):
         issues = self.search([('issue_number', '=', False)])
         for issue in issues:
             issue.issue_number = self.env['ir.sequence'].next_by_code('project.issue')
-            _logger.debug("Setting issue number for %s", issue.issue_number)
+            issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
+            _logger.debug("Setting issue number and subject for %s", issue.issue_number)
 
 
     @api.multi
@@ -262,8 +268,6 @@ class ProjectIssue(models.Model):
         print mail_message.id
         return mail_message
 
-
-    def _issue_subject(self)
 
     @api.multi
     def _send_issue_autoreply(self):
@@ -285,6 +289,6 @@ class ProjectIssue(models.Model):
             'auto_delete': True,
             'references': False,
         }
-        email_values = settings.email_issue_received.generate_email(self.id, fields=['body_html', 'subject'])
-        self.partner_id._notify_send(email_values['body'], email_values['subject'], self.partner_id, **mail_values)
+        email_values = settings.email_issue_received.generate_email(self.id, fields=['body_html'])
+        self.partner_id._notify_send(email_values['body'], self.subject, self.partner_id, **mail_values)
         return True
