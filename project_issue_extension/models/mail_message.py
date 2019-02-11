@@ -38,37 +38,20 @@ class MailMessage(models.Model):
     @api.model
     def create(self, vals):
         """
-        When creating an issue, autoreply to customer
-        with a message, where the subject is updated to include
-        issue number
+        Use issue subject in every message.
+        Send "Issue has been received" -message when issue created.
         """
         model = vals.get('model')
-        settings = None
         if model and model == 'project.issue':
+            # Use subject saved to issue as subject of all messages
             issue = self.env[model].browse([vals['res_id']])
-            if self._context.get('fetchmail_server_id'):
-                fetchmail_server = self.env['fetchmail.server'].browse([self._context.get('fetchmail_server_id')])
-                if fetchmail_server:
-                    company_id = fetchmail_server.company_id.id
-            else:
-                company_id = self.env.user.company_id.id
-            settings = self.env['project.issue.settings'].sudo().search([
-                ('company_id', '=', company_id),
-            ], limit=1)
             vals['subject'] = issue.subject
-            # if 'subject' in vals and vals['subject'] and not re.match('.*[#][0-9]{5,6}.*', vals['subject']):
-                # Add issue number to the first post
-                # vals['subject'] = _('Issue') + " #" + issue.issue_number + ": " + vals['subject']
-                # if settings:
-                #     # Send autoreply to customer
-                #     # TODO: This needs to be moved email creation so that the mail.message body isn't modified
-                #     email_values = settings.email_issue_received.generate_email(issue.id)
-                #     vals['body'] = email_values['body']
-                #     vals['reply_to'] = settings.email_reply_to
-                # if issue.partner_id:
-                #     issue.message_subscribe([issue.partner_id.id])
-        print vals
-        return super(MailMessage, self).create(vals)
+        res = super(MailMessage, self).create(vals)
+        if model and model == 'project.issue' and not issue.issue_received_email:
+            # If issue received message hasn't been send (first message), send it
+            issue.send_issue_autoreply()
+            issue.issue_received_email = True
+        return res
 
     # 7. Action methods
     @api.multi

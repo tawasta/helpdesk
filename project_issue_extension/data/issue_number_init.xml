@@ -12,6 +12,7 @@
         </record>
         <!-- Initialize issue numbers for all existing issues upon module installation -->
         <function model="project.issue" name="_init_issue_numbers"/>
+        <function model="project.issue" name="_init_issue_subjects"/>
 
     </data>
 </odoo>

@@ -59,12 +59,16 @@ class ProjectIssue(models.Model):
     kanban_state = fields.Selection(track_visibility=False)
     stage_id = fields.Many2one(track_visibility=False)
     project_id = fields.Many2one(track_visibility=False)
-    # TODO: add field for subject
     subject = fields.Char(
         string='Subject',
         help='Issue subject for emails',
         required=True,
         readonly=True,
+    )
+    issue_received_email = fields.Boolean(
+        string='Issue received autoreply',
+        help='Has the autoreply been sent',
+        default=False,
     )
 
     # 3. Default methods
@@ -116,16 +120,7 @@ class ProjectIssue(models.Model):
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
-        # if settings:
-        #     vals = settings.email_issue_received.generate_email(issue.id)
-        #     issue.message_post(
-        #         subject=issue.name,
-        #         body=vals['body'],
-        #         message_type='comment',
-        #         subtype='mt_comment',
-        #     )
         print "------ CREATE LOPPUU-------------"
-        # issue._send_issue_autoreply()
         return issue
 
 
@@ -256,6 +251,17 @@ class ProjectIssue(models.Model):
             _logger.debug("Setting issue number and subject for %s", issue.issue_number)
 
 
+    @api.model
+    def _init_issue_subjects(self):
+        """
+        Initialize issue subjects when module is installed
+        """
+        issues = self.search([('subject', '=', False)])
+        for issue in issues:
+            issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
+            _logger.debug("Setting issue subject for %s", issue.subject)
+
+
     @api.multi
     @api.returns('mail.message', lambda value: value.id)
     def message_post(self, subtype=None, **kwargs):
@@ -270,7 +276,7 @@ class ProjectIssue(models.Model):
 
 
     @api.multi
-    def _send_issue_autoreply(self):
+    def send_issue_autoreply(self):
         """
         Send autoreply email regarding issue
         """
@@ -283,12 +289,13 @@ class ProjectIssue(models.Model):
             ('res_id', '=', self.id),
             ('model', '=', 'project.issue'),
         ], limit=1)
+        email_values = settings.email_issue_received.generate_email(self.id, fields=['body_html'])
+        body = email_values['body'].replace('#issuemessagebody', message.body)
         mail_values = {
             'mail_message_id': message.id,
-            'mail_server_id': fetchmail_server.id,
+            'mail_server_id': message.mail_server_id.id,
             'auto_delete': True,
             'references': False,
+            'email_from': settings.email_reply_to,
         }
-        email_values = settings.email_issue_received.generate_email(self.id, fields=['body_html'])
-        self.partner_id._notify_send(email_values['body'], self.subject, self.partner_id, **mail_values)
-        return True
+        self.partner_id.sudo()._notify_send(body, self.subject, self.partner_id, **mail_values)

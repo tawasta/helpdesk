@@ -59,7 +59,7 @@ class ResPartner(models.Model):
                 ('message_type', '!=', 'notification'),
                 ('id', '!=', mail_message_id),
             ], limit=1)
-            body_html = mail_message.body
+            body_html = body
             email_values = dict()
             if last_message:
                 # If previous message in thread
