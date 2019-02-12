@@ -10,6 +10,7 @@ import base64
 
 # 3. Odoo imports (openerp):
 from odoo import http, _
+from odoo import SUPERUSER_ID
 from odoo.http import request
 from odoo.addons.website_project_issue.controllers.main import WebsiteAccount
 from odoo.addons.website_project_issue_extension.controllers.main import validate_follower_emails, subscribe_issue_followers
@@ -109,28 +110,31 @@ class WebsiteAccount(WebsiteAccount):
                         'user_id': None,
                     }
                     issue = http.request.env['project.issue'].sudo(current_user).create(issue_values)
+                    attachment_list = list()
                     if attachment_ids:
                         files_dict = dict(request.httprequest.files)
                         for attachment_file in files_dict['issue_attachments']:
                             attachment_file_value = attachment_file.value
                             attachment_name = attachment_file_value.filename
                             attachment_data = attachment_file_value.read()
-                            # Create attachment
-                            attachment_data = {
-                                'name': attachment_name,
-                                'datas_fname': attachment_name,
-                                'description': attachment_name,
-                                'datas': base64.b64encode(str(attachment_data)),
-                                'type': 'binary',
-                                'res_name': issue.name,
-                                'res_model': 'project.issue',
-                                'res_id': issue.id,
-                            }
-                            http.request.env['ir.attachment'].sudo().create(attachment_data)
+                            attachment_list.append(
+                                (attachment_name, attachment_data)
+                            )
                     issue.stage_id = issue.stage_find(project_id)
 
                     # Find recipients in the system or create new ones
                     new_emails = post.get("issue_recipients")
                     if new_emails:
                         subscribe_issue_followers(issue, new_emails)
+                    # Send a new message to thread
+                    notified_partner_ids = [follower.partner_id.id for follower in issue.message_follower_ids]
+                    issue.message_post(
+                        subject=issue.subject,
+                        message_type='comment',
+                        subtype='mt_comment',
+                        body=description,
+                        attachments=attachment_list,
+                        portal_message=True,
+                        partner_ids=notified_partner_ids
+                    )
         return request.redirect('/my/issues')

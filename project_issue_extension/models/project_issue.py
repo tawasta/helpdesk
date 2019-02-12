@@ -265,8 +265,8 @@ class ProjectIssue(models.Model):
     @api.multi
     @api.returns('mail.message', lambda value: value.id)
     def message_post(self, subtype=None, **kwargs):
-        """ Overrides mail_thread message_post so that we can set the date of last action field when
-            a new message is posted on the issue.
+        """
+        TODO: Add email_from  + reply_to fields to kwargs from settings
         """
         self.ensure_one()
         print "---- MENI TÄNNE -----"
@@ -281,9 +281,8 @@ class ProjectIssue(models.Model):
         Send autoreply email regarding issue "Issue received" to submitter and CCs
         """
         self.ensure_one()
-        fetchmail_server = self.env['fetchmail.server'].browse([self._context.get('fetchmail_server_id')])
         settings = self.env['project.issue.settings'].sudo().search([
-            ('company_id', '=', fetchmail_server.company_id.id),
+            ('company_id', '=', self.company_id.id),
         ], limit=1)
         message = self.env['mail.message'].sudo().search([
             ('res_id', '=', self.id),
@@ -299,4 +298,5 @@ class ProjectIssue(models.Model):
             'email_from': settings.email_reply_to,
             'reply_to': settings.email_reply_to,
         }
+        print mail_values
         self.partner_id._notify_send(message.body, self.subject, self.partner_id, **mail_values)

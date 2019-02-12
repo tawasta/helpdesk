@@ -161,11 +161,10 @@ class WebsiteAccount(WebsiteAccount):
                                 (attachment_file_value.filename, attachment_file_value.read())
                             )
                 if not error:
-                    subject = _('Issue') + " #" + issue.issue_number + ": " + issue.name
                     subtype_id = http.request.env.ref('mail.mt_comment').id
                     notified_partner_ids = [follower.partner_id.id for follower in issue.message_follower_ids]
                     issue.sudo(current_user).message_post(
-                        subject=subject,
+                        subject=issue.subject,
                         message_type='comment',
                         subtype_id=subtype_id,
                         body=message,
