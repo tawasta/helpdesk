@@ -278,7 +278,7 @@ class ProjectIssue(models.Model):
     @api.multi
     def send_issue_autoreply(self):
         """
-        Send autoreply email regarding issue
+        Send autoreply email regarding issue "Issue received" to submitter and CCs
         """
         self.ensure_one()
         fetchmail_server = self.env['fetchmail.server'].browse([self._context.get('fetchmail_server_id')])
@@ -291,11 +291,14 @@ class ProjectIssue(models.Model):
         ], limit=1)
         email_values = settings.email_issue_received.generate_email(self.id, fields=['body_html'])
         body = email_values['body'].replace('#issuemessagebody', message.body)
+        # TODO: Change email_cc to partners and use that??
         mail_values = {
             'mail_message_id': message.id,
             'mail_server_id': message.mail_server_id.id,
-            'auto_delete': True,
+            'auto_delete': False,
             'references': False,
+            'email_cc': self.email_cc,
             'email_from': settings.email_reply_to,
+            'reply_to': settings.email_reply_to,
         }
-        self.partner_id.sudo()._notify_send(body, self.subject, self.partner_id, **mail_values)
+        self.partner_id._notify_send(body, self.subject, self.partner_id, **mail_values)
