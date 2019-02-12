@@ -43,11 +43,6 @@ class ResPartner(models.Model):
         """
         mail_message_id = mail_values.get('mail_message_id', False)
         mail_message = self.env['mail.message'].browse(mail_message_id)
-        print "-------------------------------------"
-        print "----- MENIKÖ TÄNNE???? ---------------"
-        print mail_message
-        print recipients
-        print mail_values
         if mail_message and mail_message.model == 'project.issue' and mail_message.message_type != 'notification':
             issue = self.env[mail_message.model].browse(mail_message.res_id)
             settings = self.env['project.issue.settings'].sudo().search([
@@ -62,8 +57,8 @@ class ResPartner(models.Model):
             body_html = body
             email_values = dict()
             if last_message:
-                # If previous message in thread
-                email_values = settings.email_issue_reply.generate_email(issue.id)
+                # If previous message in thread - send issue reply template with body and last message
+                email_values = settings.email_issue_reply.generate_email(issue.id, fields=['body_html'])
                 local = pytz.timezone('Europe/Helsinki')
                 create_date = datetime.strftime(pytz.utc.localize(datetime.strptime(
                     last_message.create_date, '%Y-%m-%d %H:%M:%S')).astimezone(local), "%d.%m.%Y %H:%M:%S")
@@ -73,10 +68,10 @@ class ResPartner(models.Model):
                 body_html += "<br/>" + last_message.body + "</div>"
                 body_html = email_values['body'].replace('#issuemessagebody', body_html)
             else:
-                # Issue created
-                email_values = settings.email_issue_received.generate_email(issue.id)
-                # print email_values['body'].replace('#issuemessagebody', body_html)
+                # Issue created - send issue received template
+                email_values = settings.email_issue_received.generate_email(issue.id, fields=['body_html'])
+                body_html = email_values['body'].replace('#issuemessagebody', body_html)
             mail_values['body_html'] = body_html
-        return super(ResPartner, self)._notify_send(body, subject, recipients, **mail_values)
+        return super(ResPartner, self)._notify_send(body_html, subject, recipients, **mail_values)
 
     # 8. Business methods
