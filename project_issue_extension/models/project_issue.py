@@ -8,7 +8,7 @@ from datetime import datetime
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, SUPERUSER_ID
 
 # 4. Imports from Odoo modules:
 
@@ -65,11 +65,6 @@ class ProjectIssue(models.Model):
         required=True,
         readonly=True,
     )
-    issue_received_email = fields.Boolean(
-        string='Issue received autoreply',
-        help='Has the autoreply been sent',
-        default=False,
-    )
 
     # 3. Default methods
 
@@ -112,10 +107,6 @@ class ProjectIssue(models.Model):
         if not vals.get('subject'):
             # Hardcoded to Finnish since we don't want the subject to ever change
             vals['subject'] = 'Tukipyyntö' + " #" + vals['issue_number'] + ": " + vals['name']
-        # Send autoreply to customer
-        settings = self.env['project.issue.settings'].sudo().search([
-            ('company_id', '=', self.env.user.company_id.id),
-        ], limit=1)
         issue = super(ProjectIssue, self).create(vals)
         # Add customer to followers
         if issue.partner_id:
@@ -266,12 +257,13 @@ class ProjectIssue(models.Model):
     @api.returns('mail.message', lambda value: value.id)
     def message_post(self, subtype=None, **kwargs):
         """
-        TODO: Add email_from  + reply_to fields to kwargs from settings
+        When message is posted, check if it's the first message and send autoreply if it was
         """
         self.ensure_one()
-        print "---- MENI TÄNNE -----"
+        messages = len(self.message_ids)
         mail_message = super(ProjectIssue, self).message_post(subtype=subtype, **kwargs)
-        print mail_message.id
+        if messages == 0:
+            self.send_issue_autoreply()
         return mail_message
 
 

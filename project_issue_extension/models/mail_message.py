@@ -39,7 +39,6 @@ class MailMessage(models.Model):
     def create(self, vals):
         """
         Use issue subject in every message.
-        Send "Issue has been received" -message when issue created.
         """
         model = vals.get('model')
         if model and model == 'project.issue':
@@ -47,17 +46,14 @@ class MailMessage(models.Model):
             issue = self.env[model].browse([vals['res_id']])
             vals['subject'] = issue.subject
         res = super(MailMessage, self).create(vals)
-        if model and model == 'project.issue' and not issue.issue_received_email:
-            # If issue received message hasn't been send (first message), send it
-            issue.send_issue_autoreply()
-            issue.issue_received_email = True
         return res
 
     # 7. Action methods
     @api.multi
     def _notify(self, force_send=False, send_after_commit=True, user_signature=True):
-        """ Add the related record followers to the destination partner_ids if is not a private message.
-            Call mail_notification.notify to manage the email sending
+        """
+        TODO:
+        Check if message is "issue received" and set force_send = True (now uses email queue)??
         """
         print "MENIKÖ TÄNNEKIN??!?"
         return super(MailMessage, self)._notify(force_send, send_after_commit, user_signature)

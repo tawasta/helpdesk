@@ -126,15 +126,12 @@ class WebsiteAccount(WebsiteAccount):
                     new_emails = post.get("issue_recipients")
                     if new_emails:
                         subscribe_issue_followers(issue, new_emails)
-                    # Send a new message to thread
-                    notified_partner_ids = [follower.partner_id.id for follower in issue.message_follower_ids]
-                    issue.message_post(
+                    issue.sudo().message_post(
                         subject=issue.subject,
                         message_type='comment',
                         subtype='mt_comment',
                         body=description,
                         attachments=attachment_list,
                         portal_message=True,
-                        partner_ids=notified_partner_ids
                     )
         return request.redirect('/my/issues')
