@@ -2,11 +2,15 @@
 <odoo>
 
     <template id="my_issues_issue" inherit_id="website_project_issue.my_issues_issue">
+        <!-- Issue number instead of id to breadcrumb -->
+        <xpath expr="//li/span[@t-field='issue.id']/.." position="replace">
+            <li><span t-field="issue.subject"/></li>
+        </xpath>
         <!-- Add issue number to heading -->
         <xpath expr="//div[@class='panel-heading']/div/div/h4" position="replace">
             <t t-set="additional_title">My Issue</t>  
             <h4>
-                Issue #<span t-field="issue.issue_number"/>: <span t-field="issue.name"/>
+                <span t-field="issue.subject"/>
                 <a class="btn btn-info"
                     t-att-href="'/web#return_label=Website&amp;model=project.issue&amp;id=%s&amp;view_type=form' % (issue.id)"
                     groups="project.group_project_user">Edit Issue</a>
