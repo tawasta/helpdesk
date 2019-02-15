@@ -6,6 +6,9 @@
         <xpath expr="//li/span[@t-field='issue.id']/.." position="replace">
             <li><span t-field="issue.subject"/></li>
         </xpath>
+        <xpath expr="//ol[@class='breadcrumb mt8']/.." position="attributes">
+            <attribute name="class">col-xs-12</attribute>
+        </xpath>
         <!-- Add issue number to heading -->
         <xpath expr="//div[@class='panel-heading']/div/div/h4" position="replace">
             <t t-set="additional_title">My Issue</t>  
