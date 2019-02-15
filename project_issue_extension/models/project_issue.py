@@ -111,6 +111,8 @@ class ProjectIssue(models.Model):
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
+        # TODO: If issue created from backend, post a message to thread
+        # which is sent to customer (autoresponse)
         print "------ CREATE LOPPUU-------------"
         return issue
 
