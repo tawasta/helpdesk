@@ -65,6 +65,11 @@ class ProjectIssue(models.Model):
         required=True,
         readonly=True,
     )
+    issue_type = fields.Char(
+        string='Issue type',
+        help='How issue was created',
+        readonly=True,
+    )
 
     # 3. Default methods
 
@@ -107,12 +112,21 @@ class ProjectIssue(models.Model):
         if not vals.get('subject'):
             # Hardcoded to Finnish since we don't want the subject to ever change
             vals['subject'] = 'Tukipyyntö' + " #" + vals['issue_number'] + ": " + vals['name']
+        if not vals.get('issue_type'):
+            vals['issue_type'] = 'backend'
         issue = super(ProjectIssue, self).create(vals)
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
         # TODO: If issue created from backend, post a message to thread
         # which is sent to customer (autoresponse)
+        if issue.issue_type == 'backend':
+            issue.sudo().message_post(
+                subject=issue.subject,
+                message_type='comment',
+                subtype='mt_comment',
+                body=issue.description,
+            )
         print "------ CREATE LOPPUU-------------"
         return issue
 
@@ -224,6 +238,10 @@ class ProjectIssue(models.Model):
         This method is called, when a new issue is starting from an email
         """
         print "TÄMÄ ON MESSAGE_NEW1"
+        if not custom_values:
+            custom_values = {
+                'issue_type': 'email'
+            }
         res = super(ProjectIssue, self).message_new(msg, custom_values)
         issue = self.browse(res)
         print "TÄMÄ ON MESSAGE_NEW"
@@ -264,8 +282,8 @@ class ProjectIssue(models.Model):
         self.ensure_one()
         messages = len(self.message_ids)
         mail_message = super(ProjectIssue, self).message_post(subtype=subtype, **kwargs)
-        if messages == 0:
-            self.send_issue_autoreply()
+        # if messages == 0:
+        #     self.send_issue_autoreply()
         return mail_message
 
 

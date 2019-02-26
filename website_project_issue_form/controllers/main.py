@@ -107,7 +107,7 @@ class WebsiteAccount(WebsiteAccount):
                         'project_id': project_id,
                         'partner_id': partner.id,
                         'email_from': partner.email,
-                        'user_id': None,
+                        'issue_type': 'portal',
                     }
                     issue = http.request.env['project.issue'].sudo(current_user).create(issue_values)
                     attachment_list = list()
