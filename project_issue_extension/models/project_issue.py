@@ -4,6 +4,7 @@
 import logging
 import re
 from datetime import datetime
+import base64
 
 # 2. Known third party imports:
 
@@ -20,7 +21,6 @@ from odoo import api, fields, models, _, SUPERUSER_ID
 _logger = logging.getLogger(__name__)
 
 
-
 class ProjectIssue(models.Model):
 
     # 1. Private attributes
@@ -34,6 +34,10 @@ class ProjectIssue(models.Model):
     issue_number = fields.Char(
         string='Issue number',
         help='Number assigned to issue as identifier',
+    )
+    attachment_ids = fields.Many2many(
+        'ir.attachment',
+        string='Attachments',
     )
     doc_count = fields.Integer(
         compute='_compute_attached_docs_count',
@@ -82,7 +86,6 @@ class ProjectIssue(models.Model):
                 ('res_id', '=', record.id),
             ])
 
-
     def _compute_customer_issue_count(self):
         for record in self:
             partner_id = record.partner_id.id
@@ -118,18 +121,20 @@ class ProjectIssue(models.Model):
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
-        # TODO: If issue created from backend, post a message to thread
+        # If issue created from backend, post a message to thread
         # which is sent to customer (autoresponse)
         if issue.issue_type == 'backend':
+            attachments = [(a['datas_fname'], base64.b64decode(a['datas']))
+                           for a in issue.attachment_ids.sudo().read(['datas_fname', 'datas'])]
             issue.sudo().message_post(
                 subject=issue.subject,
                 message_type='comment',
                 subtype='mt_comment',
                 body=issue.description,
+                attachments=attachments,
             )
         print "------ CREATE LOPPUU-------------"
         return issue
-
 
     @api.multi
     def write(self, values):
@@ -141,7 +146,6 @@ class ProjectIssue(models.Model):
         if stage_id:
             values['stage_change_ids'] = [(0, _, {'stage': stage_id})]
         return super(ProjectIssue, self).write(values)
-
 
     # 7. Action methods
     @api.multi
@@ -170,7 +174,6 @@ class ProjectIssue(models.Model):
             'context': "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
         }
 
-
     @api.multi
     def customer_issues_tree_view(self):
         """
@@ -193,7 +196,6 @@ class ProjectIssue(models.Model):
                     </p>'''),
             'limit': 80,
         }
-
 
     # 8. Business methods
     @api.model
@@ -231,7 +233,6 @@ class ProjectIssue(models.Model):
             partner_id = partner_object.create(partner_vals).id
         return partner_id
 
-
     @api.model
     def message_new(self, msg, custom_values=None):
         """
@@ -249,7 +250,6 @@ class ProjectIssue(models.Model):
             issue.description = msg.get('body', False)
         return res
 
-
     @api.model
     def _init_issue_numbers(self):
         """
@@ -261,7 +261,6 @@ class ProjectIssue(models.Model):
             issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
             _logger.debug("Setting issue number and subject for %s", issue.issue_number)
 
-
     @api.model
     def _init_issue_subjects(self):
         """
@@ -272,7 +271,6 @@ class ProjectIssue(models.Model):
             issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
             _logger.debug("Setting issue subject for %s", issue.subject)
 
-
     @api.multi
     @api.returns('mail.message', lambda value: value.id)
     def message_post(self, subtype=None, **kwargs):
@@ -282,10 +280,11 @@ class ProjectIssue(models.Model):
         self.ensure_one()
         messages = len(self.message_ids)
         mail_message = super(ProjectIssue, self).message_post(subtype=subtype, **kwargs)
-        # if messages == 0:
-        #     self.send_issue_autoreply()
+        if messages == 0:
+            # self.send_issue_autoreply()
+            if len(self.attachment_ids) == 0 and len(mail_message.attachment_ids) != 0:
+                self.attachment_ids = [(6, 0, mail_message.attachment_ids.ids)]
         return mail_message
-
 
     @api.multi
     def send_issue_autoreply(self):
