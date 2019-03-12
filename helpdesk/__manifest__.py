@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2018 Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
+#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,17 +22,20 @@
 {
     'name': 'Help Desk',
     'summary': 'Help Desk core bundle',
-    'version': '10.0.0.5.0',
+    'version': '10.0.0.6.0',
     'category': 'Tools',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
-        'project_issue_extension',
+        'project_issue_attachment',
+        'project_issue_email',
+        'project_issue_mattermost',
         'project_issue_opportunity',
         'project_issue_sheet_extension',
-        'website_project_issue_form',
+        'project_issue_stage',
         'website_project_issue_extension',
+        'website_project_issue_form',
         'mail_debrand',
     ],
     'application': True,

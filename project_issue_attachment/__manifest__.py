@@ -18,21 +18,22 @@
 #    along with this program. If not, see http://www.gnu.org/licenses/agpl.html
 #
 ##############################################################################
+
 {
-    'name': 'Project Issue Mattermost integration',
-    'summary': 'Pushes issue events to a Mattermost channel',
-    'category': 'Project',
+    'name': 'Project Issue Attachment',
+    'summary': 'Modifications to Project Issue',
     'version': '10.0.0.1.0',
-    'author': 'Oy Tawasta Technologies Ltd.',
+    'category': 'Project',
     'website': 'http://www.tawasta.fi',
+    'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
-    'application': False,
-    'installable': True,
     'depends': [
         'project_issue',
     ],
     'data': [
-        'data/ir_cron.xml',
-        'views/res_company.xml',
+        'views/ir_attachment_view.xml',
+        'views/project_issue_form.xml',
     ],
+    'application': False,
+    'installable': True,
 }

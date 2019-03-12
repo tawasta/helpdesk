@@ -1,0 +1,164 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_issue_stage
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-12 12:19+0000\n"
+"PO-Revision-Date: 2019-03-12 14:20+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fi\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: project_issue_stage
+#: model:project.task.type,name:project_issue_stage.project_issue_stage_data_2
+msgid "Assigned"
+msgstr "Osoitettu tukihenkilölle"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_task_type_website_label_class
+msgid "Bootstrap label class"
+msgstr "Bootstrap-kirjaston luokka labeleille"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_create_uid
+msgid "Created by"
+msgstr "Luonut"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_create_date
+msgid "Created on"
+msgstr "Luotu"
+
+#. module: project_issue_stage
+#: selection:project.task.type,website_label_class:0
+msgid "Danger"
+msgstr "Danger"
+
+#. module: project_issue_stage
+#: selection:project.task.type,website_label_class:0
+msgid "Default"
+msgstr "Default"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,help:project_issue_stage.field_project_task_type_website_label_class
+msgid "Define label class (Bootstrap) to be used on frontend"
+msgstr "Määritä labelille Bootstrap-kirjaston määrittämä luokka, joka näytetään asiakkaalle asiakasportaalissa"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_display_name
+msgid "Display Name"
+msgstr "Näyttönimi"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_hours
+msgid "Hours"
+msgstr "Tunnit"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_id
+msgid "ID"
+msgstr "Tunniste (ID)"
+
+#. module: project_issue_stage
+#: model:project.task.type,name:project_issue_stage.project_issue_stage_data_1
+msgid "In Progress"
+msgstr "Käynnissä"
+
+#. module: project_issue_stage
+#: selection:project.task.type,website_label_class:0
+msgid "Info"
+msgstr "Info"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_issue_id
+msgid "Issue id"
+msgstr "Tukipyynnön tunniste"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,help:project_issue_stage.field_project_issue_stage_change_ids
+msgid "Issue's stage changes"
+msgstr "Tukipyynnön vaiheiden muutokset"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change___last_update
+msgid "Last Modified on"
+msgstr "Viimeksi muokattu"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_write_uid
+msgid "Last Updated by"
+msgstr "Viimeksi päivittänyt"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_write_date
+msgid "Last Updated on"
+msgstr "Viimeksi päivitetty"
+
+#. module: project_issue_stage
+#: model:project.task.type,name:project_issue_stage.project_issue_stage_data_0
+msgid "New"
+msgstr "Uusi"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_stage
+msgid "New stage"
+msgstr "Uusi vaihe"
+
+#. module: project_issue_stage
+#: selection:project.task.type,website_label_class:0
+msgid "Primary"
+msgstr "Primary"
+
+#. module: project_issue_stage
+#: model:ir.model,name:project_issue_stage.model_project_issue
+msgid "Project Issue"
+msgstr "Projektin huolenaihe"
+
+#. module: project_issue_stage
+#: model:project.task.type,name:project_issue_stage.project_issue_stage_data_5
+msgid "Rejected"
+msgstr "Hylätty"
+
+#. module: project_issue_stage
+#: model:project.task.type,name:project_issue_stage.project_issue_stage_data_4
+msgid "Settled"
+msgstr "Ratkaistu"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_ids
+#: model:ir.ui.view,arch_db:project_issue_stage.project_issue_form_view_inherited
+msgid "Stage changes"
+msgstr "Vaiheiden muutokset"
+
+#. module: project_issue_stage
+#: selection:project.task.type,website_label_class:0
+msgid "Success"
+msgstr "Success"
+
+#. module: project_issue_stage
+#: model:ir.model,name:project_issue_stage.model_project_task_type
+msgid "Task Stage"
+msgstr "Tehtävän vaihe"
+
+#. module: project_issue_stage
+#: model:project.task.type,name:project_issue_stage.project_issue_stage_data_3
+msgid "Waiting Customer"
+msgstr "Odottaa asiakasta"
+
+#. module: project_issue_stage
+#: selection:project.task.type,website_label_class:0
+msgid "Warning"
+msgstr "Warning"
+
+#. module: project_issue_stage
+#: model:ir.model,name:project_issue_stage.model_project_issue_stage_change
+msgid "project.issue.stage.change"
+msgstr "project.issue.stage.change"

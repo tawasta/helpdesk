@@ -40,7 +40,7 @@
                         <tr>
                             <td width="656" bgcolor="white">
                                 <div style="background-color:white;font-family:Helvetica,Arial,Verdana;line-height:1.5">
-                                    <t t-call="project_issue_extension.project_issue_email_header"/>
+                                    <t t-call="project_issue_email.project_issue_email_header"/>
 
                                     <!-- Body -->
                                     <div style="padding:0 22px;margin:0 28px">
@@ -56,7 +56,7 @@
                                         <hr style="color: #f6f6f6"/>
                                     </div>
 
-                                    <t t-call="project_issue_extension.project_issue_email_footer"/>
+                                    <t t-call="project_issue_email.project_issue_email_footer"/>
                                 </div>
                             </td>
                         </tr>
@@ -74,7 +74,7 @@
                         <tr>
                             <td width="656" bgcolor="white">
                                 <div style="background-color:white;font-family:Helvetica,Arial,Verdana;line-height:1.5">
-                                    <t t-call="project_issue_extension.project_issue_email_header"/>
+                                    <t t-call="project_issue_email.project_issue_email_header"/>
 
                                     <!-- Body -->
                                     <div style="padding:0 22px;margin:0 28px">
@@ -89,7 +89,7 @@
                                         </div>
                                         <hr style="color: #f6f6f6"/>
                                     </div>
-                                    <t t-call="project_issue_extension.project_issue_email_footer"/>
+                                    <t t-call="project_issue_email.project_issue_email_footer"/>
                                 </div>
                             </td>
                         </tr>
@@ -104,10 +104,10 @@
             <field name="name">Project Issue Received Email</field>
             <field name="subject">${object.subject}</field>
             <field name="lang">${object.partner_id.lang}</field>
-            <field name="model_id" ref="project_issue_extension.model_project_issue"/>
+            <field name="model_id" ref="project_issue_email.model_project_issue"/>
             <field name="auto_delete" eval="True"/>
             <field name="body_type">qweb</field>
-            <field name="body_view_id" ref="project_issue_extension.project_issue_email_received_autoreply"/>
+            <field name="body_view_id" ref="project_issue_email.project_issue_email_received_autoreply"/>
         </record>
 
 
@@ -116,10 +116,10 @@
             <field name="name">Project Issue Reply Email</field>
             <field name="subject">${object.subject}</field>
             <field name="lang">${object.partner_id.lang}</field>
-            <field name="model_id" ref="project_issue_extension.model_project_issue"/>
+            <field name="model_id" ref="project_issue_email.model_project_issue"/>
             <field name="auto_delete" eval="True"/>
             <field name="body_type">qweb</field>
-            <field name="body_view_id" ref="project_issue_extension.project_issue_email_reply"/>
+            <field name="body_view_id" ref="project_issue_email.project_issue_email_reply"/>
         </record>
     </data>
 </odoo>

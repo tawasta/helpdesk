@@ -35,15 +35,6 @@ class ProjectIssue(models.Model):
         string='Issue number',
         help='Number assigned to issue as identifier',
     )
-    attachment_ids = fields.Many2many(
-        'ir.attachment',
-        string='Attachments',
-    )
-    doc_count = fields.Integer(
-        compute='_compute_attached_docs_count',
-        string='Number of documents attached',
-        help='Number of documents attached to this record',
-    )
     customer_issue_count = fields.Integer(
         compute='_compute_customer_issue_count',
         string='Number of issues on customer',
@@ -52,17 +43,6 @@ class ProjectIssue(models.Model):
     description = fields.Html(
         string='Description',
     )
-    stage_change_ids = fields.One2many(
-        'project.issue.stage.change',
-        'issue_id',
-        string='Stage changes',
-        readonly=True,
-        help="Issue's stage changes",
-    )
-    # Remove thread tracking from fields that aren't needed
-    kanban_state = fields.Selection(track_visibility=False)
-    stage_id = fields.Many2one(track_visibility=False)
-    project_id = fields.Many2one(track_visibility=False)
     subject = fields.Char(
         string='Subject',
         help='Issue subject for emails',
@@ -78,14 +58,6 @@ class ProjectIssue(models.Model):
     # 3. Default methods
 
     # 4. Compute and search fields, in the same order that fields declaration
-    def _compute_attached_docs_count(self):
-        attachment = self.env['ir.attachment']
-        for record in self:
-            record.doc_count = attachment.search_count([
-                ('res_model', '=', record._name),
-                ('res_id', '=', record.id),
-            ])
-
     def _compute_customer_issue_count(self):
         for record in self:
             partner_id = record.partner_id.id
@@ -136,44 +108,7 @@ class ProjectIssue(models.Model):
         print "------ CREATE LOPPUU-------------"
         return issue
 
-    @api.multi
-    def write(self, values):
-        """
-        Add a new row to stage_change_ids, when stage is changed
-        """
-        stage_id = values.get('stage_id')
-        # Create new line to stage change log
-        if stage_id:
-            values['stage_change_ids'] = [(0, _, {'stage': stage_id})]
-        return super(ProjectIssue, self).write(values)
-
     # 7. Action methods
-    @api.multi
-    def attachment_tree_view(self):
-        """
-        Issue's attachments
-        """
-        self.ensure_one()
-        domain = [
-            ('res_model', '=', self._name), ('res_id', 'in', self.ids),
-        ]
-        return {
-            'name': _('Attachments'),
-            'domain': domain,
-            'res_model': 'ir.attachment',
-            'type': 'ir.actions.act_window',
-            'view_id': False,
-            'view_mode': 'tree,kanban,form',
-            'view_type': 'form',
-            'help': _('''<p class="oe_view_nocontent_create">
-                        Documents are attached to the issues.</p><p>
-                        Send messages or log internal notes with attachments to link
-                        documents to issues.
-                    </p>'''),
-            'limit': 80,
-            'context': "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
-        }
-
     @api.multi
     def customer_issues_tree_view(self):
         """

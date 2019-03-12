@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"manager_project_issue_stage_change","manager_project_issue_stage_change","project_issue_stage.model_project_issue_stage_change","project.group_project_manager",1,1,1,1
+"user_project_issue_stage_change","user_project_issue_stage_change","project_issue_stage.model_project_issue_stage_change","project.group_project_user",1,1,1,0
+"portal_user_project_issue_stage_change","portal_user_project_issue_stage_change","project_issue_stage.model_project_issue_stage_change","base.group_portal",1,1,1,0

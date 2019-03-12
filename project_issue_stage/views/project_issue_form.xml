@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project_issue_form_view_inherited" model="ir.ui.view">
+        <field name="name">project.issue.form.view</field>
+        <field name="model">project.issue</field>
+        <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Tree view to follow issue's lifecycle -->
+            <notebook position="inside">
+                <page string="Stage changes">
+                    <field name="stage_change_ids">
+                        <tree>
+                            <field name='create_uid' />
+                            <field name='create_date' />
+                            <field name='stage' />
+                            <field name='hours' widget="float_time"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

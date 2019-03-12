@@ -18,21 +18,29 @@
 #    along with this program. If not, see http://www.gnu.org/licenses/agpl.html
 #
 ##############################################################################
+
 {
-    'name': 'Project Issue Mattermost integration',
-    'summary': 'Pushes issue events to a Mattermost channel',
+    'name': 'Project Issue Email',
+    'summary': 'Email modifications to Project Issue',
+    'version': '10.0.0.10.0',
     'category': 'Project',
-    'version': '10.0.0.1.0',
-    'author': 'Oy Tawasta Technologies Ltd.',
     'website': 'http://www.tawasta.fi',
+    'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
-    'application': False,
-    'installable': True,
     'depends': [
+        'email_template_qweb',
         'project_issue',
+        'project_issue_attachment',
     ],
     'data': [
-        'data/ir_cron.xml',
-        'views/res_company.xml',
+        'data/issue_number_init.xml',
+        'data/project_issue_settings_data.xml',
+        'security/ir.model.access.csv',
+        'views/fetchmail_server_form_view.xml',
+        'views/project_issue_form.xml',
+        'views/project_issue_settings.xml',
+        'views/project_issue_tree.xml',
     ],
+    'application': False,
+    'installable': True,
 }

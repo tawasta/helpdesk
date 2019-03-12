@@ -15,9 +15,6 @@
 
             <!-- Add button for attachements -->
             <button name="toggle_active" position="before">
-                <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">
-                    <field string="Documents" name="doc_count" widget="statinfo"/>
-                </button>
                 <button class="oe_stat_button" name="customer_issues_tree_view" type="object" icon="fa-ticket"
                     attrs="{'invisible': [('partner_id','=',False)]}">
                     <field string="Issues" name="customer_issue_count" widget="statinfo"/>
@@ -39,20 +36,6 @@
                     </group>
                 </page>
             </xpath>
-
-            <!-- Tree view to follow issue's lifecycle -->
-            <notebook position="inside">
-                <page string="Stage changes">
-                    <field name="stage_change_ids">
-                        <tree>
-                            <field name='create_uid' />
-                            <field name='create_date' />
-                            <field name='stage' />
-                            <field name='hours' widget="float_time"/>
-                        </tree>
-                    </field>
-                </page>
-            </notebook>
         </field>
     </record>
 </odoo>

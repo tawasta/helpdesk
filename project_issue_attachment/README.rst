@@ -2,11 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=======================
-Project Issue Extension
-=======================
+========================
+Project Issue Attachment
+========================
 
-Customizations to Project Issue module:
+The following modifications to project attachments are implemented:
 
 * Adds attachments to issues
 * Show file size on attachments in human readable way
