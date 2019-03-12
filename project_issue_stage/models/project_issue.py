@@ -21,8 +21,8 @@ class ProjectIssue(models.Model):
 
     # 2. Fields declaration
     stage_change_ids = fields.One2many(
-        'project.issue.stage.change',
-        'issue_id',
+        comodel_name='project.issue.stage.change',
+        inverse_name='issue_id',
         string='Stage changes',
         readonly=True,
         help="Issue's stage changes",

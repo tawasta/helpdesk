@@ -2,12 +2,12 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=================================
-CRM Claims Mattermost integration
-=================================
+====================================
+Project issue Mattermost integration
+====================================
 
-Pushes claim events to a Mattermost channel.
-This module is in alpha-state. Use at your own risk!
+Pushes issue events to a Mattermost channel.
+
 
 Installation
 ============
@@ -24,7 +24,7 @@ Usage
 
 Known issues / Roadmap
 ======================
-- Encoding issues between python2 and python3
+\-
 
 Credits
 =======
@@ -33,6 +33,7 @@ Contributors
 ------------
 
 * Jarmo Kortetjärvi <jarmo.kortetjarvi@tawasta.fi>
+* Aleksi Savijoki <aleksi.savijoki@tawasta.fi>
 
 Maintainer
 ----------
