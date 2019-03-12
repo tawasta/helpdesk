@@ -36,7 +36,7 @@ class ResCompany(models.Model):
     )
     mattermost_scheme = fields.Selection(
         string='Scheme',
-        selection=[('http', 'http'),('https', 'https')],
+        selection=[('http', 'http'), ('https', 'https')],
         default='https',
     )
     mattermost_verify = fields.Boolean(
