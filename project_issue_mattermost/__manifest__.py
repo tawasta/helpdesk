@@ -22,7 +22,7 @@
     'name': 'Project Issue Mattermost integration',
     'summary': 'Pushes issue events to a Mattermost channel',
     'category': 'Project',
-    'version': '10.0.0.1.1',
+    'version': '10.0.0.1.0',
     'author': 'Oy Tawasta Technologies Ltd.',
     'website': 'http://www.tawasta.fi',
     'license': 'AGPL-3',
@@ -30,9 +30,9 @@
     'installable': True,
     'depends': [
         'project_issue',
+        'mattermost_hook',
     ],
     'data': [
         'data/ir_cron.xml',
-        'views/res_company.xml',
     ],
 }

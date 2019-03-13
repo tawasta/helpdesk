@@ -1,114 +1,59 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* crm_claim_mattermost
+# 	* project_issue_mattermost
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 19:21+0000\n"
-"PO-Revision-Date: 2018-01-05 21:23+0200\n"
+"POT-Creation-Date: 2019-03-13 13:52+0000\n"
+"PO-Revision-Date: 2019-03-13 15:53+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: fi\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"Language: en\n"
+"X-Generator: Poedit 2.0.6\n"
 
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_active:0
-msgid "Active"
-msgstr "Aktiivinen"
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:104
+#, python-format
+msgid "### Issue summary\n"
+msgstr "### Tukipyyntöjen yhteenveto\n"
 
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_channel:0
-msgid "Channel"
-msgstr "Kanava"
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:73
+#, python-format
+msgid "**%(user)s** assigned **%(subject)s** to **%(author)s**"
+msgstr "**%(user)s** ohjasi **%(subject)s** käyttäjälle **%(author)s**"
 
-#. module: crm_claim_mattermost
-#: model:ir.model,name:crm_claim_mattermost.model_crm_claim
-msgid "Claim"
-msgstr "Palaute"
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:85
+#, python-format
+msgid "**%(user)s** changed **%(subject)s** stage to **%(stage)s**"
+msgstr "**%(user)s** vaihtoi tukipyynnön **%(subject)s** vaiheeseen **%(stage)s**"
 
-#. module: crm_claim_mattermost
-#: model:ir.model,name:crm_claim_mattermost.model_res_company
-msgid "Companies"
-msgstr "Yritykset"
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:60
+#, python-format
+msgid ":incoming_envelope: A new issue **%(subject)s** from **%(partner)s**"
+msgstr ":incoming_envelope: Uusi tukipyyntö **%(subject)s** luotiin käyttäjältä **%(partner)s**"
 
-#. module: crm_claim_mattermost
-#: view:res.company:crm_claim_mattermost.view_company_form
-msgid "Configuration"
-msgstr "Asetukset"
+#. module: project_issue_mattermost
+#: model:ir.model,name:project_issue_mattermost.model_project_issue
+msgid "Project Issue"
+msgstr "Tukipyyntö"
 
-#. module: crm_claim_mattermost
-#: view:res.company:crm_claim_mattermost.view_company_form
-msgid "Mattermost"
-msgstr "Mattermost"
-
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_password:0
-msgid "Password"
-msgstr "Salasana"
-
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_basepath:0
-msgid "Path"
-msgstr "Polku"
-
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_port:0
-msgid "Port"
-msgstr "Porti"
-
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_scheme:0
-msgid "Scheme"
-msgstr "Skeema"
-
-#. module: crm_claim_mattermost
-#: view:res.company:crm_claim_mattermost.view_company_form
-msgid "Settings"
-msgstr "Asetukset"
-
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_team:0
-msgid "Team"
-msgstr "Tiimi"
-
-#. module: crm_claim_mattermost
-#: code:addons/crm_claim_mattermost/models/crm_claim.py:76
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:115
 #, python-format
 msgid "Total count"
 msgstr "Yhteensä"
 
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_url:0
-msgid "URL"
-msgstr "URL"
-
-#. module: crm_claim_mattermost
-#: help:res.company,mattermost_active:0
-msgid "Use mattermost notifications for this company?"
-msgstr "Käytä Mattermost-ilmoituksia tälle yritykselle?"
-
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_login_id:0
-msgid "User"
-msgstr "Käyttäjä"
-
-#. module: crm_claim_mattermost
-#: field:res.company,mattermost_verify:0
-msgid "Verify"
-msgstr "Varmenna"
-
-#. module: crm_claim_mattermost
-#: selection:res.company,mattermost_scheme:0
-msgid "http"
-msgstr "http"
-
-#. module: crm_claim_mattermost
-#: selection:res.company,mattermost_scheme:0
-msgid "https"
-msgstr "https"
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:106
+#, python-format
+msgid "| Stage | Count |\n"
+msgstr "| Vaihe | Lukumäärä |\n"
