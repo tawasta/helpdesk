@@ -21,8 +21,8 @@
 
 {
     'name': 'Project Issue Stage',
-    'summary': 'Email modifications to Project Issue',
-    'version': '10.0.0.1.0',
+    'summary': 'Add stages changes records to issue',
+    'version': '10.0.0.1.1',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
