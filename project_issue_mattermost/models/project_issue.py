@@ -55,40 +55,42 @@ class ProjectIssue(models.Model):
     def mattermost_issue_created(self):
         """ Post issue created message """
         function = 'mattermost_issue_created'
-        if self.name and self.partner_id:
-            subject = "[%s](%s)" % (self.name, 'https://www.google.com/')
-            msg = _(':incoming_envelope: A new issue **%(subject)s** from **%(partner)s**') \
-                % {'subject': subject, 'partner': self.partner_id.display_name}
-            hook = self.env['mattermost.hook'].search([
-                ('res_model', '=', 'project.issue'),
-                ('function', '=', function),
-            ], limit=1)
-            return hook.post_mattermost(msg)
-
-    def mattermost_issue_author_changed(self):
-        """ Post author changed message self.mattermost_get_url()"""
-        function = 'mattermost_issue_author_changed'
-        subject = "[%s](%s)" % (self.name, 'https://www.google.com/')
-        author = self.user_id.name or 'No one'
-        msg = _('**%(user)s** assigned **%(subject)s** to **%(author)s**') \
-            % {'user': self.write_uid.name, 'subject': subject, 'author': author}
         hook = self.env['mattermost.hook'].search([
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
         ], limit=1)
-        return hook.post_mattermost(msg)
+        if hook and self.name and self.partner_id:
+            subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
+            msg = _(':incoming_envelope: A new issue **%(subject)s** from **%(partner)s**') \
+                % {'subject': subject, 'partner': self.partner_id.display_name}
+            hook.post_mattermost(msg, verify=False)
+
+    def mattermost_issue_author_changed(self):
+        """ Post author changed message """
+        function = 'mattermost_issue_author_changed'
+        hook = self.env['mattermost.hook'].search([
+            ('res_model', '=', 'project.issue'),
+            ('function', '=', function),
+        ], limit=1)
+        if hook:
+            subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
+            author = self.user_id.name or 'No one'
+            msg = _('**%(user)s** assigned **%(subject)s** to **%(author)s**') \
+                % {'user': self.write_uid.name, 'subject': subject, 'author': author}
+            hook.post_mattermost(msg, verify=False)
 
     def mattermost_issue_stage_changed(self):
         """ Post stage changed message """
         function = 'mattermost_issue_stage_changed'
-        subject = "[%s](%s)" % (self.name, 'https://www.google.com/')
-        msg = _('**%(user)s** changed **%(subject)s** stage to **%(stage)s**') \
-            % {'user': self.write_uid.name, 'subject': subject, 'stage': self.stage_id.name}
         hook = self.env['mattermost.hook'].search([
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
         ], limit=1)
-        return hook.post_mattermost(msg)
+        if hook:
+            subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
+            msg = _('**%(user)s** changed **%(subject)s** stage to **%(stage)s**') \
+                % {'user': self.write_uid.name, 'subject': subject, 'stage': self.stage_id.name}
+            hook.post_mattermost(msg, verify=False)
 
     def mattermost_summary(self):
         """ Post summary of issues """
@@ -113,7 +115,7 @@ class ProjectIssue(models.Model):
                 total_count += count
                 msg += '|%s| **%s**|\n' % (stage.name, count)
             total_string = _('Total count')
-            msg += '\n\n%s: **%s**\n' % (total_string, total_count)
-            return hook.post_mattermost(msg)
+            msg += '|**%s**| **%s**\n' % (total_string, total_count)
+            hook.post_mattermost(msg, verify=False)
 
     # 8. Business methods

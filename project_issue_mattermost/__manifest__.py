@@ -19,10 +19,10 @@
 #
 ##############################################################################
 {
-    'name': 'Project Issue Mattermost integration',
+    'name': 'Project Issue Mattermost hooks',
     'summary': 'Pushes issue events to a Mattermost channel',
     'category': 'Project',
-    'version': '10.0.0.1.0',
+    'version': '10.0.0.2.0',
     'author': 'Oy Tawasta Technologies Ltd.',
     'website': 'http://www.tawasta.fi',
     'license': 'AGPL-3',
@@ -34,5 +34,6 @@
     ],
     'data': [
         'data/ir_cron.xml',
+        'data/mattermost_hook_data.xml',
     ],
 }

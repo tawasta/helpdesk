@@ -2,11 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-====================================
-Project issue Mattermost integration
-====================================
+==============================
+Project issue Mattermost hooks
+==============================
 
-Pushes issue events to a Mattermost channel.
+Pushes issue events to a Mattermost channel using incoming webhooks.
 
 
 Installation
@@ -16,7 +16,10 @@ Install the module form Settings->Local Modules
 
 Configuration
 =============
-\-
+Fill in the missing information under Settings > Technical > Mattermost hooks:
+- company_id
+- hook key
+- option values (channel, username, icon_url)
 
 Usage
 =====
