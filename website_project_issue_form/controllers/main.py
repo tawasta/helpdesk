@@ -85,7 +85,7 @@ class WebsiteAccount(WebsiteAccount):
                 settings = http.request.env['project.issue.settings'].sudo().search([
                     ('company_id', '=', company_id)
                 ])
-                project_id = settings.helpdesk_project.id
+                project_id = settings.project_id.id
                 # Check attachment isn't too big
                 attachment_ids = post.get('issue_attachments') or None
                 max_size = http.request.env['ir.config_parameter'].get_param(
