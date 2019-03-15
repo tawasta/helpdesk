@@ -5,24 +5,28 @@
             <field name="sequence">1</field>
             <field name="name">New</field>
             <field name="website_label_class">info</field>
+            <field name="issue_stage" eval="True"/>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_1" model="project.task.type">
             <field name="sequence">2</field>
             <field name="name">In Progress</field>
             <field name="website_label_class">primary</field>
+            <field name="issue_stage" eval="True"/>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_2" model="project.task.type">
             <field name="sequence">3</field>
             <field name="name">Assigned</field>
             <field name="website_label_class">warning</field>
+            <field name="issue_stage" eval="True"/>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_3" model="project.task.type">
             <field name="sequence">4</field>
             <field name="name">Waiting Customer</field>
             <field name="website_label_class">warning</field>
+            <field name="issue_stage" eval="True"/>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_4" model="project.task.type">
@@ -30,6 +34,7 @@
             <field name="name">Settled</field>
             <field name="fold" eval="True"/>
             <field name="website_label_class">success</field>
+            <field name="issue_stage" eval="True"/>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_5" model="project.task.type">
@@ -37,6 +42,7 @@
             <field name="name">Rejected</field>
             <field name="fold" eval="True"/>
             <field name="website_label_class">danger</field>
+            <field name="issue_stage" eval="True"/>
         </record>
     </data>
 </odoo>

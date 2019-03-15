@@ -33,6 +33,11 @@ class ProjectTaskType(models.Model):
         string='Bootstrap label class',
         help='Define label class (Bootstrap) to be used on frontend',
     )
+    issue_stage = fields.Boolean(
+        string='Issue stage',
+        help='Is the stage used for issues',
+        default=False,
+    )
 
     # 3. Default methods
 
