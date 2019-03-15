@@ -95,27 +95,31 @@ class ProjectIssue(models.Model):
     def mattermost_summary(self):
         """ Post summary of issues """
         function = 'mattermost_summary'
-        hooks = self.env['mattermost.hook'].search([
-            ('res_model', '=', 'project.issue'),
-            ('function', '=', function),
-        ])
-        stages = self.env['project.task.type'].search([
-            ('fold', '=', False),
-        ])
-        for hook in hooks:
-            msg = _('### Issue summary\n')
-            total_count = 0
-            msg += _('| Stage | Count |\n')
-            msg += '|:------|:------|\n'
-            for stage in stages:
-                count = self.search_count([
-                    ('company_id', '=', hook.company_id.id),
-                    ('stage_id', '=', stage.id),
-                ])
-                total_count += count
-                msg += '|%s| **%s**|\n' % (stage.name, count)
-            total_string = _('Total count')
-            msg += '|**%s**| **%s**\n' % (total_string, total_count)
-            hook.post_mattermost(msg, verify=False)
+        helpdesk_settings = self.env['project.issue.settings'].sudo().search([])
+        for setting in helpdesk_settings:
+            hooks = self.env['mattermost.hook'].sudo().search([
+                ('res_model', '=', 'project.issue'),
+                ('function', '=', function),
+                ('company_id', '=', setting.company_id.id)
+            ])
+            stages = self.env['project.task.type'].sudo().search([
+                ('fold', '=', False),
+                ('issue_stage', '=', True),
+            ])
+            for hook in hooks:
+                msg = _('### Issue summary\n')
+                total_count = 0
+                msg += _('| Stage | Count |\n')
+                msg += '|:------|:------|\n'
+                for stage in stages:
+                    count = self.env['project.issue'].sudo().search_count([
+                        ('project_id', '=', setting.project_id.id),
+                        ('stage_id', '=', stage.id),
+                    ])
+                    total_count += count
+                    msg += '|%s| **%s**|\n' % (stage.name, count)
+                total_string = _('Total count')
+                msg += '|**%s**| **%s**\n' % (total_string, total_count)
+                hook.sudo().post_mattermost(msg, verify=False)
 
     # 8. Business methods
