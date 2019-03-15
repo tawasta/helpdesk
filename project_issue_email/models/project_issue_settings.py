@@ -41,7 +41,7 @@ class ProjectIssueSettings(models.Model):
         string='Email template for new reply',
         help='When employee sends a new message from issue, this template is used',
     )
-    helpdesk_project = fields.Many2one(
+    project_id = fields.Many2one(
         'project.project',
         string='Helpdesk project',
         help='Currently used helpdesk project for the company',
