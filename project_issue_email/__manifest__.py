@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Email',
     'summary': 'Email modifications to Project Issue',
-    'version': '10.0.0.10.1',
+    'version': '10.0.0.10.3',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -31,6 +31,7 @@
         'email_template_qweb',
         'project_issue',
         'project_issue_attachment',
+        'project_issue_menu',
     ],
     'data': [
         'data/issue_number_init.xml',
