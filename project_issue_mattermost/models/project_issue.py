@@ -58,6 +58,8 @@ class ProjectIssue(models.Model):
         hook = self.env['mattermost.hook'].search([
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
+            ('company_id', '=', self.company_id.id),
+            ('hook', '=', True),
         ], limit=1)
         if hook and self.name and self.partner_id:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
@@ -71,6 +73,8 @@ class ProjectIssue(models.Model):
         hook = self.env['mattermost.hook'].search([
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
+            ('company_id', '=', self.company_id.id),
+            ('hook', '=', True),
         ], limit=1)
         if hook:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
@@ -85,6 +89,8 @@ class ProjectIssue(models.Model):
         hook = self.env['mattermost.hook'].search([
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
+            ('company_id', '=', self.company_id.id),
+            ('hook', '=', True),
         ], limit=1)
         if hook:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
@@ -100,7 +106,8 @@ class ProjectIssue(models.Model):
             hooks = self.env['mattermost.hook'].sudo().search([
                 ('res_model', '=', 'project.issue'),
                 ('function', '=', function),
-                ('company_id', '=', setting.company_id.id)
+                ('company_id', '=', setting.company_id.id),
+                ('hook', '=', True),
             ])
             stages = self.env['project.task.type'].sudo().search([
                 ('fold', '=', False),
