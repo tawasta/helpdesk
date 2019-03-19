@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem name="Issues"
+        id="project_issue_menu"
+        parent="project.menu_main_pm"
+        sequence="10" groups="base.group_no_one,project.group_project_user"/>
+
+    <record id="project_issue_view_search" model="ir.ui.view">
+        <field name="name">project.issue.search.view</field>
+        <field name="model">project.issue</field>
+        <field name="inherit_id" ref="project_issue.view_project_issue_filter"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <filter string="Active issues" name="active_issues" domain="[('stage_id.fold','=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="project_issue_tree_view" model="ir.ui.view">
+        <field name="name">project.issue.tree.view</field>
+        <field name="model">project.issue</field>
+        <field name="arch" type="xml">
+            <tree string="Issues" colors="grey: stage_sequence in [5, 6];red: date_deadline and (date_deadline&lt;current_date) and stage_sequence in [1, 2]; blue: stage_sequence==1;" decoration-bf="message_needaction==True">
+                <field name="id" invisible="1"/>
+                <field name="name" string="Issue's subject"/>
+                <field name="company_id"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="stage_id" widget="selection" readonly="1"/>
+                <field name="priority" string="Priority"/>
+                <field name="date"/>
+                <field name="write_date"/>
+                <field name="date_deadline"/>
+                <field name="message_needaction" invisible="1"/>
+                <field name="stage_sequence" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="project_issue_action" model="ir.actions.act_window">
+        <field name="name">My issues</field>
+        <field name="res_model">project.issue</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="project_issue_menu.project_issue_tree_view"/>
+        <field name="domain">[('user_id','=',uid)]</field>
+        <field name="context">{'search_default_active_issues': 1}</field>
+        <field name="search_view_id" ref="project_issue.view_project_issue_filter"/>
+        <field name="help" type="html">
+            <p>
+                The Odoo issues tracker allows you to efficiently manage things
+                like internal requests, software development bugs, customer
+                complaints, project troubles, material breakdowns, etc.
+            </p>
+        </field>
+    </record>
+
+    <record id="project_issue_all_action" model="ir.actions.act_window">
+        <field name="name">All issues</field>
+        <field name="res_model">project.issue</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,calendar,form,pivot,graph</field>
+        <field name="view_id" eval="False"/>
+        <field name="context">{
+            'search_default_active_issues': 1,
+        }</field>
+        <field name="search_view_id" ref="project_issue.view_project_issue_filter"/>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                      (0, 0, {'view_mode': 'tree', 'view_id': ref('project_issue_menu.project_issue_tree_view')}),
+                      (0, 0, {'view_mode': 'kanban', 'view_id': ref('project_issue.project_issue_view_kanban_inherit_no_group_create')}),
+                      (0, 0, {'view_mode': 'calendar', 'view_id': ref('project_issue.project_issue_calendar_view')}),
+                      (0, 0, {'view_mode': 'form', 'view_id': ref('project_issue.project_issue_form_view')}),
+                      (0, 0, {'view_mode': 'graph', 'view_id': ref('project_issue.project_issue_graph_view')}),
+                      ]"/>
+        <field name="help" type="html">
+            <p>
+                The Odoo issues tracker allows you to efficiently manage things
+                like internal requests, software development bugs, customer
+                complaints, project troubles, material breakdowns, etc.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="my_issues_menu" name="My Issues" parent="project_issue_menu"
+        action="project_issue_action" sequence="15"/>
+
+    <menuitem id="all_issues_menu" name="All Issues" parent="project_issue_menu"
+        action="project_issue_all_action" sequence="20"/>
+</odoo>
