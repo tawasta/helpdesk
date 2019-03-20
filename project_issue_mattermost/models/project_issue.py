@@ -102,7 +102,6 @@ class ProjectIssue(models.Model):
         """ Post summary of issues """
         function = 'mattermost_summary'
         helpdesk_settings = self.env['project.issue.settings'].sudo().search([])
-        print helpdesk_settings
         for setting in helpdesk_settings:
             hooks = self.env['mattermost.hook'].sudo().search([
                 ('res_model', '=', 'project.issue'),
@@ -114,8 +113,6 @@ class ProjectIssue(models.Model):
                 ('fold', '=', False),
                 ('issue_stage', '=', True),
             ])
-            print hooks
-            print stages
             for hook in hooks:
                 msg = _('### Issue summary\n')
                 total_count = 0
@@ -130,7 +127,6 @@ class ProjectIssue(models.Model):
                     msg += '|%s| **%s**|\n' % (stage.name, count)
                 total_string = _('Total count')
                 msg += '|**%s**| **%s**\n' % (total_string, total_count)
-                print msg
-                # hook.sudo().post_mattermost(msg, verify=False)
+                hook.sudo().post_mattermost(msg, verify=False)
 
     # 8. Business methods
