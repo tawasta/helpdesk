@@ -89,6 +89,20 @@ class ProjectIssue(models.Model):
             vals['subject'] = 'Tukipyyntö' + " #" + vals['issue_number'] + ": " + vals['name']
         if not vals.get('issue_type'):
             vals['issue_type'] = 'backend'
+        if not vals.get('stage_id'):
+            vals['stage_id'] = self.env['project.task.type'].sudo().search([
+                ('issue_stage', '=', True),
+                ('sequence', '=', 1),
+            ], limit=1).id
+        # Get default project from fetchmailserver -> settings -> project
+        # if not supplied in vals
+        fetchmail_server_id = self.env.context.get('fetchmail_server_id')
+        if fetchmail_server_id and not vals.get('project_id'):
+            mailserver = self.env['fetchmail.server'].sudo().browse(fetchmail_server_id)
+            company_id = mailserver.company_id.id
+            vals['project_id'] = self.env['project.issue.settings'].sudo().search([
+                ('company_id', '=', company_id)
+            ], limit=1).project_id.id
         issue = super(ProjectIssue, self).create(vals)
         # Add customer to followers
         if issue.partner_id:
