@@ -59,13 +59,13 @@ class ProjectIssue(models.Model):
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
             ('company_id', '=', self.company_id.id),
-            ('hook', '=', True),
+            ('hook', '!=', False),
         ], limit=1)
         if hook and self.name and self.partner_id:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
             msg = _(':incoming_envelope: A new issue **%(subject)s** from **%(partner)s**') \
                 % {'subject': subject, 'partner': self.partner_id.display_name}
-            hook.post_mattermost(msg, verify=False)
+            hook.sudo().post_mattermost(msg, verify=False)
 
     def mattermost_issue_author_changed(self):
         """ Post author changed message """
@@ -74,14 +74,14 @@ class ProjectIssue(models.Model):
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
             ('company_id', '=', self.company_id.id),
-            ('hook', '=', True),
+            ('hook', '!=', False),
         ], limit=1)
         if hook:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
             author = self.user_id.name or 'No one'
             msg = _('**%(user)s** assigned **%(subject)s** to **%(author)s**') \
                 % {'user': self.write_uid.name, 'subject': subject, 'author': author}
-            hook.post_mattermost(msg, verify=False)
+            hook.sudo().post_mattermost(msg, verify=False)
 
     def mattermost_issue_stage_changed(self):
         """ Post stage changed message """
@@ -90,29 +90,32 @@ class ProjectIssue(models.Model):
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
             ('company_id', '=', self.company_id.id),
-            ('hook', '=', True),
+            ('hook', '!=', False),
         ], limit=1)
         if hook:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
             msg = _('**%(user)s** changed **%(subject)s** stage to **%(stage)s**') \
                 % {'user': self.write_uid.name, 'subject': subject, 'stage': self.stage_id.name}
-            hook.post_mattermost(msg, verify=False)
+            hook.sudo().post_mattermost(msg, verify=False)
 
     def mattermost_summary(self):
         """ Post summary of issues """
         function = 'mattermost_summary'
         helpdesk_settings = self.env['project.issue.settings'].sudo().search([])
+        print helpdesk_settings
         for setting in helpdesk_settings:
             hooks = self.env['mattermost.hook'].sudo().search([
                 ('res_model', '=', 'project.issue'),
                 ('function', '=', function),
                 ('company_id', '=', setting.company_id.id),
-                ('hook', '=', True),
+                ('hook', '!=', False),
             ])
             stages = self.env['project.task.type'].sudo().search([
                 ('fold', '=', False),
                 ('issue_stage', '=', True),
             ])
+            print hooks
+            print stages
             for hook in hooks:
                 msg = _('### Issue summary\n')
                 total_count = 0
@@ -127,6 +130,7 @@ class ProjectIssue(models.Model):
                     msg += '|%s| **%s**|\n' % (stage.name, count)
                 total_string = _('Total count')
                 msg += '|**%s**| **%s**\n' % (total_string, total_count)
-                hook.sudo().post_mattermost(msg, verify=False)
+                print msg
+                # hook.sudo().post_mattermost(msg, verify=False)
 
     # 8. Business methods
