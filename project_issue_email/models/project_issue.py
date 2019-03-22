@@ -184,17 +184,18 @@ class ProjectIssue(models.Model):
 
     @api.model
     def message_new(self, msg, custom_values=None):
-        """
-        This method is called, when a new issue is starting from an email
-        """
-        print "TÄMÄ ON MESSAGE_NEW1"
-        if not custom_values:
-            custom_values = {
-                'issue_type': 'email'
-            }
+        """ This method is called, when a new issue is starting from an email """
+        custom_values['issue_type'] = 'email'
         res = super(ProjectIssue, self).message_new(msg, custom_values)
         issue = self.browse(res)
-        print "TÄMÄ ON MESSAGE_NEW"
+        email_list = issue.email_split(msg)
+        partner_ids = filter(None, issue._find_partner_from_emails(email_list, force_create=True))
+        issue.message_subscribe(partner_ids)
+        # Remove issue inbox from emails
+        helpdesk_settings = self.env['project.issue.settings'].sudo().search([])
+        inbox_emails = [setting.email_reply_to for setting in helpdesk_settings]
+        inbox_ids = filter(None, issue._find_partner_from_emails(inbox_emails))
+        issue.message_unsubscribe(inbox_ids)
         if not issue.description:
             issue.description = msg.get('body', False)
         return res
