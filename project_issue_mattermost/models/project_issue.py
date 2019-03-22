@@ -55,7 +55,7 @@ class ProjectIssue(models.Model):
     def mattermost_issue_created(self):
         """ Post issue created message """
         function = 'mattermost_issue_created'
-        hook = self.env['mattermost.hook'].search([
+        hook = self.env['mattermost.hook'].sudo().search([
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
             ('company_id', '=', self.company_id.id),
@@ -70,7 +70,7 @@ class ProjectIssue(models.Model):
     def mattermost_issue_author_changed(self):
         """ Post author changed message """
         function = 'mattermost_issue_author_changed'
-        hook = self.env['mattermost.hook'].search([
+        hook = self.env['mattermost.hook'].sudo().search([
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
             ('company_id', '=', self.company_id.id),
@@ -86,7 +86,7 @@ class ProjectIssue(models.Model):
     def mattermost_issue_stage_changed(self):
         """ Post stage changed message """
         function = 'mattermost_issue_stage_changed'
-        hook = self.env['mattermost.hook'].search([
+        hook = self.env['mattermost.hook'].sudo().search([
             ('res_model', '=', 'project.issue'),
             ('function', '=', function),
             ('company_id', '=', self.company_id.id),
