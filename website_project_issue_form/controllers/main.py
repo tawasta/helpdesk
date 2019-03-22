@@ -121,8 +121,6 @@ class WebsiteAccount(WebsiteAccount):
                             attachment_list.append(
                                 (attachment_name, attachment_data)
                             )
-                    issue.stage_id = issue.stage_find(project_id)
-
                     # Find recipients in the system or create new ones
                     new_emails = post.get("issue_recipients")
                     if new_emails:
