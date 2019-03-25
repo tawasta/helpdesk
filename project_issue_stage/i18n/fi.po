@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-12 12:19+0000\n"
-"PO-Revision-Date: 2019-03-12 14:20+0200\n"
+"POT-Creation-Date: 2019-03-25 12:40+0000\n"
+"PO-Revision-Date: 2019-03-25 14:41+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -63,6 +63,11 @@ msgid "Hours"
 msgstr "Tunnit"
 
 #. module: project_issue_stage
+#: model:project.task.type,public_name:project_issue_stage.project_issue_stage_data_5
+msgid "Hylätty"
+msgstr "Hylätty"
+
+#. module: project_issue_stage
 #: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_id
 msgid "ID"
 msgstr "Tunniste (ID)"
@@ -78,14 +83,30 @@ msgid "Info"
 msgstr "Info"
 
 #. module: project_issue_stage
+#: model:ir.model.fields,help:project_issue_stage.field_project_task_type_issue_stage
+msgid "Is the stage used for issues"
+msgstr "Käytetäänkö vaihetta tukipyynnöissä"
+
+#. module: project_issue_stage
 #: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_issue_id
 msgid "Issue id"
 msgstr "Tukipyynnön tunniste"
 
 #. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_task_type_issue_stage
+msgid "Issue stage"
+msgstr "Tukipyyntöjen vaihe"
+
+#. module: project_issue_stage
 #: model:ir.model.fields,help:project_issue_stage.field_project_issue_stage_change_ids
 msgid "Issue's stage changes"
 msgstr "Tukipyynnön vaiheiden muutokset"
+
+#. module: project_issue_stage
+#: model:project.task.type,public_name:project_issue_stage.project_issue_stage_data_1
+#: model:project.task.type,public_name:project_issue_stage.project_issue_stage_data_2
+msgid "Käynnissä"
+msgstr "Käynnissä"
 
 #. module: project_issue_stage
 #: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change___last_update
@@ -113,14 +134,29 @@ msgid "New stage"
 msgstr "Uusi vaihe"
 
 #. module: project_issue_stage
+#: model:project.task.type,public_name:project_issue_stage.project_issue_stage_data_3
+msgid "Odottaa asiakasta"
+msgstr "Odottaa asiakasta"
+
+#. module: project_issue_stage
 #: selection:project.task.type,website_label_class:0
 msgid "Primary"
 msgstr "Primary"
 
 #. module: project_issue_stage
+#: model:ir.model,name:project_issue_stage.model_project_project
+msgid "Project"
+msgstr "Projektit"
+
+#. module: project_issue_stage
 #: model:ir.model,name:project_issue_stage.model_project_issue
 msgid "Project Issue"
-msgstr "Projektin huolenaihe"
+msgstr "Tukipyyntö"
+
+#. module: project_issue_stage
+#: model:project.task.type,public_name:project_issue_stage.project_issue_stage_data_4
+msgid "Ratkaistu"
+msgstr "Ratkaistu"
 
 #. module: project_issue_stage
 #: model:project.task.type,name:project_issue_stage.project_issue_stage_data_5
@@ -139,6 +175,16 @@ msgid "Stage changes"
 msgstr "Vaiheiden muutokset"
 
 #. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_task_type_public_name
+msgid "Stage public name"
+msgstr "Vaiheen julkinen nimi"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,help:project_issue_stage.field_project_task_type_public_name
+msgid "Stage public name, which is shown in portal to customer"
+msgstr "Vaiheen julkinen nimi, joka näytetään verkkosivustoportaalissa asiakkaille"
+
+#. module: project_issue_stage
 #: selection:project.task.type,website_label_class:0
 msgid "Success"
 msgstr "Success"
@@ -147,6 +193,11 @@ msgstr "Success"
 #: model:ir.model,name:project_issue_stage.model_project_task_type
 msgid "Task Stage"
 msgstr "Tehtävän vaihe"
+
+#. module: project_issue_stage
+#: model:project.task.type,public_name:project_issue_stage.project_issue_stage_data_0
+msgid "Uusi"
+msgstr "Uusi"
 
 #. module: project_issue_stage
 #: model:project.task.type,name:project_issue_stage.project_issue_stage_data_3
