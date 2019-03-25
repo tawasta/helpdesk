@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Hide projects and tasks from My account -->
+    <template id="portal_layout" inherit_id="website_portal.portal_layout" priority="40">
+        <xpath expr="//a[@href='/my/projects']/.." position="replace"/>
+        <xpath expr="//a[@href='/my/tasks']/.." position="replace"/>
+    </template>
+
+    <!-- Hide projects and tasks from My home -->
+    <template id="portal_my_home" inherit_id="website_portal.portal_my_home" priority="35">
+        <xpath expr="//a[@href='/my/projects']/.." position="replace"/>
+        <xpath expr="//a[@href='/my/tasks']/.." position="replace"/>
+    </template>
+
+</odoo>
