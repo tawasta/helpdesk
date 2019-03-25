@@ -12,6 +12,7 @@ Stage customizations to Project Issue module:
 * Tracks stages changes to save the cycle
 * Adds tab to issue form
 * Adds default stages for project with issues
+* Adds public name to stages, which is shown in portal
 
 Configuration
 =============

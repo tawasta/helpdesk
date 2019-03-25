@@ -17,7 +17,7 @@
                 <a class="btn btn-info"
                     t-att-href="'/web#return_label=Website&amp;model=project.issue&amp;id=%s&amp;view_type=form' % (issue.id)"
                     groups="project.group_project_user">Edit Issue</a>
-                <span t-field="issue.stage_id.name" t-attf-class="pull-right label label-#{issue.stage_id.website_label_class}"
+                <span t-field="issue.stage_id.public_name" t-attf-class="pull-right label label-#{issue.stage_id.website_label_class}"
                     title="Current stage of this issue"/>
             </h4>
             <span t-field="issue.create_date" t-options='{"format": "dd.MM.yyyy HH:mm"}'/>

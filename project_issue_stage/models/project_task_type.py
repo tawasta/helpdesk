@@ -38,6 +38,11 @@ class ProjectTaskType(models.Model):
         help='Is the stage used for issues',
         default=False,
     )
+    public_name = fields.Char(
+        string='Stage public name',
+        help='Stage public name, which is shown in portal to customer',
+        translate=True,
+    )
 
     # 3. Default methods
 

@@ -33,6 +33,7 @@
         <xpath expr="//t[@t-foreach='issues']/tr/td[3]/span" position="attributes">
             <attribute name="class"></attribute>
             <attribute name="t-attf-class">label label-#{issue.stage_id.website_label_class}</attribute>
+            <attribute name="t-esc">issue.stage_id.public_name</attribute>
         </xpath>
 
         <t t-call="website_portal.portal_layout" position="inside">

@@ -6,6 +6,7 @@
             <field name="name">New</field>
             <field name="website_label_class">info</field>
             <field name="issue_stage" eval="True"/>
+            <field name="public_name">New</field>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_1" model="project.task.type">
@@ -13,13 +14,15 @@
             <field name="name">In Progress</field>
             <field name="website_label_class">primary</field>
             <field name="issue_stage" eval="True"/>
+            <field name="public_name">In Progress</field>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_2" model="project.task.type">
             <field name="sequence">3</field>
             <field name="name">Assigned</field>
-            <field name="website_label_class">warning</field>
+            <field name="website_label_class">primary</field>
             <field name="issue_stage" eval="True"/>
+            <field name="public_name">In Progress</field>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_3" model="project.task.type">
@@ -27,6 +30,7 @@
             <field name="name">Waiting Customer</field>
             <field name="website_label_class">warning</field>
             <field name="issue_stage" eval="True"/>
+            <field name="public_name">Waiting Customer</field>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_4" model="project.task.type">
@@ -35,6 +39,7 @@
             <field name="fold" eval="True"/>
             <field name="website_label_class">success</field>
             <field name="issue_stage" eval="True"/>
+            <field name="public_name">Settled</field>
         </record>
 
         <record forcecreate="False" id="project_issue_stage_data_5" model="project.task.type">
@@ -43,6 +48,7 @@
             <field name="fold" eval="True"/>
             <field name="website_label_class">danger</field>
             <field name="issue_stage" eval="True"/>
+            <field name="public_name">Rejected</field>
         </record>
     </data>
 </odoo>
