@@ -10,6 +10,9 @@
             <attribute name="class">panel panel-default table-responsive</attribute>
         </xpath>
 
+        <!-- Hide projects filter -->
+        <xpath expr="//button[@id='project_filters']/.." position="replace" />
+
         <!-- Remove t-if so that table is rendered but hidden -->
         <xpath expr="//div/table" position="attributes">
             <attribute name="t-if"></attribute>
