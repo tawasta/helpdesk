@@ -52,7 +52,7 @@ class ResPartner(models.Model):
             last_message = self.env['mail.message'].sudo().search([
                 ('res_id', '=', issue.id),
                 ('model', '=', 'project.issue'),
-                ('message_type', '!=', 'notification'),
+                ('subtype_id.internal', '=', False),
                 ('id', '!=', mail_message_id),
             ], limit=1)
             email_values = dict()
