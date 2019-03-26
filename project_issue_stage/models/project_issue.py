@@ -48,6 +48,23 @@ class ProjectIssue(models.Model):
         # Create new line to stage change log
         if stage_id:
             values['stage_change_ids'] = [(0, _, {'stage': stage_id})]
+        for record in self:
+            if record.stage_id.fold and 'message_follower_ids' in values:
+                # Reopen ticket / change stage if external user sends message
+                # message_post has 'message_follower_ids' key in values
+                latest_message = record.message_ids.sorted(
+                    key=lambda r: r.create_date, reverse=True)[0]
+                author = self.env['res.users'].search([
+                    ('partner_id', '=', latest_message.author_id.id)
+                ])
+                if not author or (author and not author.has_group('base.group_user')):
+                    values['stage_id'] = self.env.ref('project_issue_stage.project_issue_stage_data_2').id
+                    msg_body = _("Re-opening issue due to a new message.")
+                    record.sudo().message_post(
+                        body=msg_body,
+                        message_type='comment',
+                        subtype='mail.mt_note',
+                    )
         return super(ProjectIssue, self).write(values)
 
     # 7. Action methods
