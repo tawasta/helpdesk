@@ -9,7 +9,7 @@ import base64
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
-from odoo import api, fields, models, _, SUPERUSER_ID
+from odoo import api, fields, models, _
 
 # 4. Imports from Odoo modules:
 
@@ -56,6 +56,17 @@ class ProjectIssue(models.Model):
     )
 
     # 3. Default methods
+    @api.model
+    def default_get(self, fields):
+        res = super(ProjectIssue, self).default_get(fields)
+        company_id = self.env.user.company_id.id
+        setting = self.env['project.issue.settings'].sudo().search([
+            ('company_id', '=', company_id),
+        ])
+        res.update({
+            'project_id': setting.project_id.id,
+        })
+        return res
 
     # 4. Compute and search fields, in the same order that fields declaration
     def _compute_customer_issue_count(self):
