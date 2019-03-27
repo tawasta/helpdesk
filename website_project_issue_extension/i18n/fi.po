@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-11 11:03+0000\n"
-"PO-Revision-Date: 2019-02-11 13:05+0200\n"
+"PO-Revision-Date: 2019-03-27 15:39+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -308,7 +308,7 @@ msgstr "Olet <b>poistamassa</b> seuraajan tukipyynnöstä."
 #: model:ir.ui.view,arch_db:website_project_issue.my_issues
 #: model:ir.ui.view,arch_db:website_project_issue.portal_my_home
 msgid "Your Issues"
-msgstr "Sinun tukipyynnöt"
+msgstr "Omat tukipyynnöt"
 
 #. module: website_project_issue_extension
 #: model:ir.ui.view,arch_db:website_project_issue_extension.single_message_template
