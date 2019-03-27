@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="mattermost_hook_issue_created" model="mattermost.hook">
             <field name="name">Issue created</field>
             <field name="mattermost_url">https://matters.intra.fi</field>
