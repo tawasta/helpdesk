@@ -41,9 +41,7 @@ class IssueStageChange(models.Model):
     # 4. Compute and search fields, in the same order that fields declaration
     @api.multi
     def _compute_hours(self):
-        """
-        Compute how long task was in the previous state
-        """
+        """ Compute how long task was in the previous state """
         all_records = self.sorted(key=lambda stage_change: stage_change.create_date, reverse=True)
         datetime_format = '%Y-%m-%d %H:%M:%S'
         previous_record = False
