@@ -45,7 +45,8 @@
                                         <label for="issue_email">Support email:</label>
                                         <select class="form-control" id="issue_email" name="issue_email" required="true">
                                             <option value="">Select support address...</option>
-                                            <t t-set="mail_servers" t-value="website.env['fetchmail.server'].sudo().search([])"/>
+                                            <t t-set="mail_servers"
+                                                t-value="website.env['fetchmail.server'].sudo().search([('company_id', 'in', user.company_ids.ids)])"/>
                                             <t t-foreach="mail_servers" t-as="server">
                                                 <option t-att-value="server.company_id.id"><t t-esc="server.company_id.name"/></option>
                                             </t>

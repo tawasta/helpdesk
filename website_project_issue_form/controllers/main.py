@@ -2,15 +2,12 @@
 
 # 1. Standard library imports:
 import os
-import json
 import logging
-import base64
 
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
 from odoo import http, _
-from odoo import SUPERUSER_ID
 from odoo.http import request
 from odoo.addons.website_project_issue.controllers.main import WebsiteAccount
 from odoo.addons.website_project_issue_extension.controllers.main import validate_follower_emails, subscribe_issue_followers
@@ -23,8 +20,8 @@ from odoo.addons.website_project_issue_extension.controllers.main import validat
 
 _logger = logging.getLogger(__name__)
 
-class WebsiteAccount(WebsiteAccount):
 
+class WebsiteAccount(WebsiteAccount):
 
     def issue_form_validate(self, values):
         """
@@ -38,7 +35,8 @@ class WebsiteAccount(WebsiteAccount):
             "issue_name", "issue_email", "issue_summary"
         ]
         for key in values:
-            value = values[key].strip() if values.get(key, False) and key != 'issue_attachments' else False
+            value = values[key].strip() if values.get(key, False) \
+                and key != 'issue_attachments' else False
             if key in mandatory:
                 if not value:
                     errors = True
@@ -50,7 +48,6 @@ class WebsiteAccount(WebsiteAccount):
                 if res.get('error', False):
                     errors = True
         return errors
-
 
     @http.route(
         ['/my/issues/create'],
@@ -110,7 +107,8 @@ class WebsiteAccount(WebsiteAccount):
                         'user_id': None,
                         'issue_type': 'portal',
                     }
-                    issue = http.request.env['project.issue'].sudo(current_user).create(issue_values)
+                    issue = http.request.env['project.issue'].sudo(
+                        current_user).create(issue_values)
                     attachment_list = list()
                     if attachment_ids:
                         files_dict = dict(request.httprequest.files)
