@@ -33,8 +33,6 @@
     ],
     'data': [
         'views/project_issue_templates.xml',
-        'security/ir.model.access.csv',
-        'security/project_security.xml',
     ],
     'demo': [
 
