@@ -20,27 +20,20 @@
 ##############################################################################
 
 {
-    'name': 'Help Desk',
-    'summary': 'Help Desk core bundle',
-    'version': '10.0.0.9.0',
-    'category': 'Tools',
+    'name': 'Project Issue Security',
+    'summary': 'Adds security group for portal users',
+    'version': '10.0.0.1.0',
+    'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
-        'project_issue_attachment',
-        'project_issue_email',
-        'project_issue_mattermost',
-        'project_issue_opportunity',
-        'project_issue_security',
-        'project_issue_sheet_extension',
-        'project_issue_stage',
-        'website_project_issue_extension',
-        'website_project_issue_form',
-        'website_project_issue_hide_project',
-        'website_project_issue_redirect',
-        'mail_debrand',
+        'project_issue',
     ],
-    'application': True,
+    'data': [
+        'security/project_issue_security.xml',
+        'security/ir.model.access.csv',
+    ],
+    'application': False,
     'installable': True,
 }

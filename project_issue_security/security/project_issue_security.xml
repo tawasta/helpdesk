@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Add a new group for helpdesk portal users -->
+        <record id="project_issue_group_portal_user" model="res.groups">
+            <field name="name">Issue Portal User</field>
+            <field name="comment">The user has the right to create and view issues.</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_issue_security
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-28 11:45+0000\n"
+"PO-Revision-Date: 2019-03-28 13:46+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: en\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: project_issue_security
+#: model:res.groups,name:project_issue_security.project_issue_group_portal_user
+msgid "Issue Portal User"
+msgstr "Tukipyyntöjen portaalikäyttäjä"
+
+#. module: project_issue_security
+#: model:res.groups,comment:project_issue_security.project_issue_group_portal_user
+msgid "The user has the right to create and view issues."
+msgstr "Käyttäjällä on oikeus lukea ja luoda tukipyyntöjä."
