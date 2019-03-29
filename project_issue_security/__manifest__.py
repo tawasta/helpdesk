@@ -22,13 +22,17 @@
 {
     'name': 'Project Issue Security',
     'summary': 'Adds security group for portal users',
-    'version': '10.0.0.3.1',
+    'version': '10.0.0.3.2',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
+        'analytic',
+        'project',
         'project_issue',
+        'project_issue_stage',
+        'website_unread_messages',
     ],
     'data': [
         'security/project_issue_security.xml',
