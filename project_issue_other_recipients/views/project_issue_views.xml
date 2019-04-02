@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project_issue_form_view_inherited" model="ir.ui.view">
+        <field name="name">project.issue.form.view</field>
+        <field name="model">project.issue</field>
+        <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
+        <field name="arch" type="xml">
+            <field name="email_from" position="after">
+                <field name="email_other_recipients" colspan="2" widget="many2many_tags"/>
+            </field>
+        </field>
+    </record>
+</odoo>
