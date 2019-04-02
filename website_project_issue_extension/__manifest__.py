@@ -22,15 +22,16 @@
 {
     'name': 'Website Project Issue Extension',
     'summary': 'Added functionality to Website Project Issue',
-    'version': '10.0.0.11.3',
+    'version': '10.0.0.12.0',
     'category': 'Website',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
         'project_issue_email',
-        'website_project_issue',
         'project_issue_stage',
+        'project_issue_other_recipients',
+        'website_project_issue',
         'website_unread_messages',
     ],
     'data': [

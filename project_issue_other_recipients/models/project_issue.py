@@ -37,7 +37,7 @@ class ProjectIssue(models.Model):
     def create(self, vals):
         """ Add other recipients to followers when issue created """
         issue = super(ProjectIssue, self).create(vals)
-        if vals.get('email_other_recipients'):
+        if vals.get('email_other_recipients') and vals.get('email_other_recipients')[0][0] == 6:
             partner_ids = vals.get('email_other_recipients')[0][2]
             issue.message_subscribe(partner_ids=partner_ids)
         return issue
@@ -45,7 +45,9 @@ class ProjectIssue(models.Model):
     @api.multi
     def write(self, values):
         """ Add other email recipients to followers when updated """
-        if values.get('email_other_recipients'):
+        print "------- WRITE ---------"
+        print values
+        if values.get('email_other_recipients') and values.get('email_other_recipients')[0][0] == 6:
             partner_ids = values.get('email_other_recipients')[0][2]
             self.message_subscribe(partner_ids=partner_ids)
         return super(ProjectIssue, self).write(values)

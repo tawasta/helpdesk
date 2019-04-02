@@ -98,7 +98,7 @@
             </div>
             <t t-call="website_project_issue_extension.add_issue_followers"/>
             <t t-call="website_project_issue_extension.delete_issue_follower"/>
-            <script type="text/javascript" src="/website_project_issue_extension/static/src/js/issue_followers.js?v=001"/>
+            <script type="text/javascript" src="/website_project_issue_extension/static/src/js/issue_followers.js?v=002"/>
         </xpath>
     </template>
 

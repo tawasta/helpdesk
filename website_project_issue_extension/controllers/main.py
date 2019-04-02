@@ -63,6 +63,11 @@ def subscribe_issue_followers(issue, new_emails):
             }
             partners += request.env['res.partner'].sudo().create(partner_values)
             _logger.debug("New partner (issue id: %s) created with email: %s" % (issue.id, email))
+    # TODO WIP: add followers
+    recipients = issue.email_other_recipients.ids + partners.ids
+    issue.write({
+        'email_other_recipients': [(6, 0, recipients)]
+    })
     issue.message_subscribe(partner_ids=partners.ids)
     return partners.search_read([('id', 'in', partners.ids)], ['email'])
 
@@ -247,14 +252,17 @@ class WebsiteAccount(WebsiteAccount):
         Remove follower from issue
 
         @param issue_id: ID of issue
-        @param follower_id: ID of follower to be deleted
+        @param follower_id: ID of partner to be deleted
         @return result: Created followers (id email)
         """
         res = dict()
         issue = request.env['project.issue'].search([('id', '=', issue_id)])
         follower_id = int(follower_id)
-        _logger.debug("Issue: %s, Follower: %s" % (issue.id, follower_id))
+        _logger.debug("Issue: %s, Partner id: %s" % (issue.id, follower_id))
         if issue and follower_id and follower_id != issue.partner_id.id:
             res['id'] = follower_id
+            issue.write({
+                'email_other_recipients': [(3, int(follower_id))]
+            })
             issue.message_unsubscribe([int(follower_id)])
         return res
