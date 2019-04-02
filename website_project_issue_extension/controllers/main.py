@@ -10,7 +10,7 @@ import re
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
-from odoo import http, _
+from odoo import http
 from odoo.addons.website_project_issue.controllers.main import WebsiteAccount
 from odoo.http import request
 
@@ -69,7 +69,6 @@ def subscribe_issue_followers(issue, new_emails):
 
 class WebsiteAccount(WebsiteAccount):
 
-
     @http.route(
         ['/my/issues/<int:issue_id>'],
         type='http',
@@ -103,7 +102,8 @@ class WebsiteAccount(WebsiteAccount):
         follower_users = request.env['res.users'].sudo().search([
             ('partner_id', 'in', follower_partners)
         ])
-        employees = set([user.partner_id.id for user in follower_users if user.has_group('base.group_user')])
+        employees = set([user.partner_id.id for user in follower_users
+                         if user.has_group('base.group_user')])
         external_partners = list(set(follower_partners) - employees)
         attachments = request.env['ir.attachment'].sudo().search([
             ('res_model', '=', 'project.issue'),
@@ -116,7 +116,6 @@ class WebsiteAccount(WebsiteAccount):
             'attachments': attachments,
         }
         return request.render("website_project_issue.my_issues_issue", values)
-
 
     @http.route(
         ['/my/issues/<int:issue_id>/message'],
@@ -133,7 +132,6 @@ class WebsiteAccount(WebsiteAccount):
         @param post: Contains values of the issue form
         @return: redirect
         """
-        current_user = http.request.env.user
         issue = request.env['project.issue'].search([('id', '=', issue_id)])
         error = False
 
@@ -162,7 +160,7 @@ class WebsiteAccount(WebsiteAccount):
                             )
                 if not error:
                     subtype_id = http.request.env.ref('mail.mt_comment').id
-                    issue.sudo(current_user).with_context(mail_notify_force_send=False).message_post(
+                    issue.with_context(mail_notify_force_send=False).message_post(
                         subject=issue.subject,
                         message_type='comment',
                         subtype_id=subtype_id,
@@ -171,7 +169,6 @@ class WebsiteAccount(WebsiteAccount):
                         portal_message=True,
                     )
         return request.redirect('/my/issues/%d' % issue_id)
-
 
     @http.route(
         ['/my/issues/<int:issue_id>/update_message'],
@@ -216,7 +213,6 @@ class WebsiteAccount(WebsiteAccount):
                     )
         return messages_html
 
-
     @http.route(
         '/my/issues/<int:issue_id>/follower/add',
         type='json',
@@ -240,7 +236,6 @@ class WebsiteAccount(WebsiteAccount):
             if not res.get('error', False):
                 result = subscribe_issue_followers(issue, res['emails'])
         return result
-
 
     @http.route(
         '/my/issues/<int:issue_id>/follower/remove',
