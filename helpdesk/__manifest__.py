@@ -32,6 +32,7 @@
         'project_issue_email',
         'project_issue_mattermost',
         'project_issue_opportunity',
+        'project_issue_other_recipients',
         'project_issue_security',
         'project_issue_sheet_extension',
         'project_issue_stage',
