@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # 1. Standard library imports:
-import json
 import os
 import logging
 from datetime import datetime
@@ -56,14 +55,12 @@ def subscribe_issue_followers(issue, new_emails):
         existing_emails = [partner.email for partner in partners]
     for email in new_emails:
         if email not in existing_emails:
-            # Create partner and add it to recordset
             partner_values = {
                 'name': email,
                 'email': email,
             }
             partners += request.env['res.partner'].sudo().create(partner_values)
             _logger.debug("New partner (issue id: %s) created with email: %s" % (issue.id, email))
-    # TODO WIP: add followers
     recipients = issue.email_other_recipients.ids + partners.ids
     issue.write({
         'email_other_recipients': [(6, 0, recipients)]
@@ -222,7 +219,8 @@ class WebsiteAccount(WebsiteAccount):
         '/my/issues/<int:issue_id>/follower/add',
         type='json',
         auth='public',
-        website=True)
+        website=True,
+    )
     def issue_add_followers(self, issue_id=None, followers=None):
         """
         Add followers to issue
@@ -246,7 +244,8 @@ class WebsiteAccount(WebsiteAccount):
         '/my/issues/<int:issue_id>/follower/remove',
         type='json',
         auth='public',
-        website=True)
+        website=True,
+    )
     def issue_remove_follower(self, issue_id=None, follower_id=None):
         """
         Remove follower from issue

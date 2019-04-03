@@ -10,8 +10,11 @@ Extension for website_project_issue-module.
 
 Features:
 -----------------
+
 * Rewritten message submitting form for issues
 * Can send attachments and images with messages
+* Can add/remove followers on issues
+
 
 Configuration
 =============
