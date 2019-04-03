@@ -45,12 +45,11 @@ class ProjectIssue(models.Model):
     @api.multi
     def write(self, values):
         """ Add other email recipients to followers when updated """
-        print "------- WRITE ---------"
-        print values
         if values.get('email_other_recipients') and values.get('email_other_recipients')[0][0] == 6:
             partner_ids = values.get('email_other_recipients')[0][2]
             self.message_subscribe(partner_ids=partner_ids)
         return super(ProjectIssue, self).write(values)
+
     # 7. Action methods
 
     # 8. Business methods
