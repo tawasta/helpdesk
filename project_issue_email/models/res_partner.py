@@ -70,13 +70,16 @@ class ResPartner(models.Model):
                 localized_time = pytz.utc.localize(datetime.strptime(
                     last_message.create_date, '%Y-%m-%d %H:%M:%S')).astimezone(local)
                 create_date = datetime.strftime(localized_time, "%d.%m.%Y %H:%M:%S")
-                body_html += "<div style='margin-top:30px;padding-left:40px;border-left:solid 3px #ccc;'>"
+                body_html += "<div style='margin-top:30px;padding-left:40px;"
+                body_html += "border-left:solid 3px #ccc;'>"
                 body_html += "<h3>" + _("Previous message") + "</h3>"
                 body_html += _("Author: ") + last_message.author_id.name + ", " + create_date
                 body_html += "<br/>" + last_message.body + "</div>"
                 body_html = email_values['body'].replace('#issuemessagebody', body_html)
             else:
-                # Issue created - send issue received template
+                # Issue created - send issue received template and
+                # pop other recipients from recipients
+                # recipients = recipients - issue.email_other_recipients
                 email_values = settings.email_issue_received.generate_email(issue.id)
                 body_html = email_values['body'].replace('#issuemessagebody', body_html)
             mail_values['body_html'] = body_html

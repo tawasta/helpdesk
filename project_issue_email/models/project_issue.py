@@ -10,6 +10,7 @@ import base64
 
 # 3. Odoo imports (openerp):
 from odoo import api, fields, models, _
+from odoo import SUPERUSER_ID
 
 # 4. Imports from Odoo modules:
 
@@ -82,17 +83,19 @@ class ProjectIssue(models.Model):
     @api.model
     def create(self, vals):
         """
-        When project issue is created:
-            - issue number is set
-            - Auto reply is sent to the customer
+        Set issue default values, remove email_cc (deprecated),
+        generate subject, and add partners as followers.
+
+        @param vals: dict of values
+        @return: issue id
         """
-        print "-------------"
+        print "------- CREATE ------"
         print vals
         if not vals.get('issue_number'):
             vals['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
         # Create patner if it doesn't exist
         if not vals.get('partner_id'):
-            vals['partner_id'] = self._fetch_partner(vals)
+            vals['partner_id'] = self._fetch_partner(vals.get('email_from'))
         if not vals.get('date'):
             vals['date'] = datetime.today()
         if not vals.get('subject'):
@@ -136,9 +139,7 @@ class ProjectIssue(models.Model):
     # 7. Action methods
     @api.multi
     def customer_issues_tree_view(self):
-        """
-        Customer's issues
-        """
+        """ Customer's issues """
         self.ensure_one()
         domain = [
             ('partner_id', '=', self.partner_id.id),
@@ -159,21 +160,18 @@ class ProjectIssue(models.Model):
 
     # 8. Business methods
     @api.model
-    def _fetch_partner(self, vals):
-        """
-        Get partner
-        """
-        email_from = vals.get('email_from')
+    def _fetch_partner(self, email_recipient):
+        """ Fetch partner from email """
         name_regex = re.compile("^[^<]+")
         email_regex = re.compile(r"[\w\.-]+@[\w\.-]+")
 
         try:
-            name = name_regex.findall(email_from)[0]
-            email = email_regex.findall(email_from)[0].lower()
+            name = name_regex.findall(email_recipient)[0]
+            email = email_regex.findall(email_recipient)[0].lower()
         except IndexError:
             # The email has no name information
-            name = email_from
-            email = email_from
+            name = email_recipient
+            email = email_recipient
 
         email = re.sub(r'[<>]', "", email).lower()
         name = re.sub(r'["<>]', "", name)
@@ -195,9 +193,19 @@ class ProjectIssue(models.Model):
 
     @api.model
     def message_new(self, msg, custom_values=None):
-        """ This method is called, when a new issue is starting from an email """
-        custom_values['issue_type'] = 'email'
-        res = super(ProjectIssue, self).message_new(msg, custom_values)
+        """
+        This method is called, when a new issue is starting from an email
+
+        @param msg: message payload json
+        @param custom_values: dict of values
+        @return: issue id
+        """
+        defaults = {
+            'issue_type': 'email'
+        }
+        if custom_values:
+            defaults.update(custom_values)
+        res = super(ProjectIssue, self).message_new(msg, custom_values=defaults)
         issue = self.browse(res)
         email_list = issue.email_split(msg)
         partner_ids = filter(None, issue._find_partner_from_emails(email_list, force_create=True))
@@ -209,13 +217,16 @@ class ProjectIssue(models.Model):
         issue.message_unsubscribe(inbox_ids)
         if not issue.description:
             issue.description = msg.get('body', False)
+        # Other recipients (msg['to']) and CCs (msg['cc']) to other recipients
+        if len(email_list) > 0:
+            other_recipients = [partner_id for partner_id in partner_ids
+                                if partner_id not in inbox_ids]
+            issue.email_other_recipients = [(6, 0, other_recipients)]
         return res
 
     @api.model
     def _init_issue_numbers(self):
-        """
-        Initialize issue numbers when module is installed
-        """
+        """ Initialize issue numbers when module is installed """
         issues = self.search([('issue_number', '=', False)])
         for issue in issues:
             issue.issue_number = self.env['ir.sequence'].next_by_code('project.issue')
@@ -224,9 +235,7 @@ class ProjectIssue(models.Model):
 
     @api.model
     def _init_issue_subjects(self):
-        """
-        Initialize issue subjects when module is installed
-        """
+        """ Initialize issue subjects when module is installed """
         issues = self.search([('subject', '=', False)])
         for issue in issues:
             issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
@@ -236,7 +245,8 @@ class ProjectIssue(models.Model):
     @api.returns('mail.message', lambda value: value.id)
     def message_post(self, subtype=None, **kwargs):
         """
-        When message is posted, check if it's the first message and send autoreply if it was
+        When message is posted, check if it's the first message and
+        add attachments to issue if it was the first message
         """
         self.ensure_one()
         messages = len(self.message_ids)
@@ -250,7 +260,10 @@ class ProjectIssue(models.Model):
     @api.multi
     def send_issue_autoreply(self):
         """
-        Send autoreply email regarding issue "Issue received" to submitter and CCs
+        Send autoreply email regarding issue
+        "Issue received" to submitter and CCs
+
+        TODO: This might be removed (not used atm)
         """
         self.ensure_one()
         settings = self.env['project.issue.settings'].sudo().search([
@@ -270,5 +283,18 @@ class ProjectIssue(models.Model):
             'email_from': settings.email_reply_to,
             'reply_to': settings.email_reply_to,
         }
-        print mail_values
         self.partner_id._notify_send(message.body, self.subject, self.partner_id, **mail_values)
+
+    @api.multi
+    def get_issue_autoreply_values(self, vals):
+        self.ensure_one()
+        settings = self.env['project.issue.settings'].sudo().search([
+            ('company_id', '=', self.company_id.id),
+        ], limit=1)
+        vals.update({
+            'email_from': settings.email_reply_to,
+            'reply_to': settings.email_reply_to,
+            'subject': self.subject,
+            'author_id': SUPERUSER_ID,
+        })
+        return vals

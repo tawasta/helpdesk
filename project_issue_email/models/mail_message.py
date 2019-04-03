@@ -41,11 +41,22 @@ class MailMessage(models.Model):
         Use issue subject in every message.
         """
         model = vals.get('model')
+        real_author = False
+        no_messages = False
         if model and model == 'project.issue':
             # Use subject saved to issue as subject of all messages
             issue = self.env[model].browse([vals['res_id']])
-            vals['subject'] = issue.subject
+            no_messages = True if len(issue.message_ids) == 0 else False
+            real_author = vals.get('author_id')
+            if not real_author:
+                real_author = issue.partner_id.id
+            if no_messages:
+                vals = issue.get_issue_autoreply_values(vals)
+        print "------- MAIL MESSAGE VALS -------"
+        print vals
         res = super(MailMessage, self).create(vals)
+        if model and model == 'project.issue' and no_messages:
+            res.author_id = real_author
         return res
 
     # 7. Action methods
