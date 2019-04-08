@@ -123,7 +123,7 @@ class WebsiteAccount(WebsiteAccount):
                     new_emails = post.get("issue_recipients")
                     if new_emails:
                         subscribe_issue_followers(issue, new_emails)
-                    issue.sudo().with_context(mail_notify_force_send=False).message_post(
+                    issue.with_context(mail_notify_force_send=False).message_post(
                         subject=issue.subject,
                         message_type='comment',
                         subtype='mt_comment',
