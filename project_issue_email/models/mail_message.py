@@ -51,7 +51,7 @@ class MailMessage(models.Model):
             if not real_author:
                 real_author = issue.partner_id.id
             if no_messages:
-                vals = issue.get_issue_autoreply_values(vals)
+                vals.update(issue.get_issue_autoreply_values(vals))
         print "------- MAIL MESSAGE VALS -------"
         print vals
         res = super(MailMessage, self).create(vals)

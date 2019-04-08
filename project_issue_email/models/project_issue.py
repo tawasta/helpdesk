@@ -292,10 +292,8 @@ class ProjectIssue(models.Model):
         settings = self.env['project.issue.settings'].sudo().search([
             ('company_id', '=', self.company_id.id),
         ], limit=1)
-        email_from = "%s <%s>" % (self.env.user.name, settings.email_reply_to)
         vals.update({
-            'email_from': email_from,
-            'reply_to': settings.email_reply_to,
+            'email_from': settings.email_reply_to,
             'subject': self.subject,
             'author_id': SUPERUSER_ID,
         })
