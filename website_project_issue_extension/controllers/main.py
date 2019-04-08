@@ -9,7 +9,7 @@ import re
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
-from odoo import http
+from odoo import http, _
 from odoo.addons.website_project_issue.controllers.main import WebsiteAccount
 from odoo.http import request
 

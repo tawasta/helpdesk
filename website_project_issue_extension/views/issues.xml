@@ -13,30 +13,40 @@
         <!-- Hide projects filter -->
         <xpath expr="//button[@id='project_filters']/.." position="replace" />
 
-        <!-- Remove t-if so that table is rendered but hidden -->
-        <xpath expr="//div/table" position="attributes">
-            <attribute name="t-if"></attribute>
-            <attribute name="class"></attribute>
-            <attribute name="t-att-class">'table table-hover status_table' if issues else 'table table-hover status_table hidden'</attribute>
+        <xpath expr="//button[@id='sortby']" position="replace">
+            <button id="sortby" class="btn btn-default" type="button" data-toggle="dropdown">
+                <t t-set="label">Newest</t>
+                <span class="fa fa-sort" /> <span t-esc="sortings.get(sortby, {}).get('label', label)"/>
+                <span class="caret"></span>
+            </button>
         </xpath>
 
-        <!-- Replace table head row -->
-        <xpath expr="//div/table/thead/tr[@class='active']" position="replace">
-            <tr class="active">
-                <th>#</th>
-                <th class="col-md-8">Issue's subject</th>
-                <th>Stage</th>
-            </tr>
-        </xpath>
 
-        <xpath expr="//t[@t-foreach='issues']/tr/td[1]/a" position="replace">
-            <a t-attf-href="/my/issues/#{issue.id}?{{ keep_query() }}"><t t-esc="issue.issue_number" /></a>
-        </xpath>
-
-        <xpath expr="//t[@t-foreach='issues']/tr/td[3]/span" position="attributes">
-            <attribute name="class"></attribute>
-            <attribute name="t-attf-class">label label-#{issue.stage_id.website_label_class}</attribute>
-            <attribute name="t-esc">issue.stage_id.public_name</attribute>
+        <!-- Replace table -->
+        <xpath expr="//div/table" position="replace">
+            <table t-att-class="'table table-hover status_table' if issues else 'table table-hover status_table hidden'">
+                <thead>
+                    <tr class="active">
+                        <th class="col-xs-1">#</th>
+                        <th class="col-xs-7">Issue's subject</th>
+                        <th class="col-xs-3">Updated on</th>
+                        <th class="col-xs-1">Stage</th>
+                    </tr>
+                </thead>
+                <t t-foreach="issues" t-as="issue">
+                    <tr>
+                        <td>
+                            <a t-attf-href="/my/issues/#{issue.id}?{{ keep_query() }}"><t t-esc="issue.issue_number" /></a>
+                        </td>
+                        <td><span t-field="issue.name"/></td>
+                        <td><span t-field="issue.date_last_stage_update" t-options='{"format": "dd.MM.yyyy HH:mm"}'/></td>
+                        <td>
+                            <span t-attf-class="label label-#{issue.stage_id.website_label_class}"
+                                title="Current stage of the issue" t-esc="issue.stage_id.public_name" />
+                        </td>
+                    </tr>
+                </t>
+            </table>
         </xpath>
 
         <t t-call="website_portal.portal_layout" position="inside">
