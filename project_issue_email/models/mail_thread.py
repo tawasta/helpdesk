@@ -55,13 +55,20 @@ class MailThread(models.AbstractModel):
         """
         res = super(MailThread, self).message_route(
             message, message_dict, model, thread_id, custom_values)
-
+        print "TÄMÄ ON MAIL THREAD MESSAGE_ROUTE1"
+        print res
         # If the fetched message is an issue and isnt' matched,
         # check if the issue exists with issue number
-        if res and res[0][0] == 'project.issue' and res[0][1] == 0:
-            # TODO: Parse the number and and match to issue
-            pass
-        print "TÄMÄ ON MAIL THREAD MESSAGE_ROUTE1"
+        if res and res[0][0] == 'project.issue':
+            if res[0][1]:
+                # Add ccs to existing issue
+                email_ccs = message_dict.get('cc')
+                if email_ccs:
+                    issue = self.env['project.issue'].browse(res[0][1])
+                    issue.update_other_recipients(message_dict)
+        print message_dict
+        print "-----"
+        print res
         return res
 
 
