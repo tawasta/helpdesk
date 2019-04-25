@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # 1. Standard library imports:
+import lxml
+from lxml import etree
+import logging
 
 # 2. Known third party imports:
 
@@ -12,6 +15,9 @@ from odoo import api, models
 # 5. Local imports in the relative form:
 
 # 6. Unknown third party imports:
+
+
+_logger = logging.getLogger(__name__)
 
 
 class MailThread(models.AbstractModel):
@@ -66,11 +72,7 @@ class MailThread(models.AbstractModel):
                 if email_ccs:
                     issue = self.env['project.issue'].browse(res[0][1])
                     issue.update_other_recipients(message_dict)
-        print message_dict
-        print "-----"
-        print res
         return res
-
 
     @api.multi
     def _message_auto_subscribe_notify(self, partner_ids):
@@ -101,19 +103,19 @@ class MailThread(models.AbstractModel):
                 partner_ids=[(4, pid) for pid in partner_ids],
                 auto_delete=True,
                 auto_delete_message=True,
-                parent_id=False, # override accidental context defaults
+                parent_id=False,
                 subtype_id=self.env.ref('mail.mt_note').id
             )
 
     @api.model
     def message_parse(self, message, save_original=False):
-        print "--------------"
-        print "TULEE MESSAGE"
-        print message
-        print "-----"
-        print save_original
+        """ Strip previous messages from email """
         res = super(MailThread, self).message_parse(message, save_original)
-        print "--------"
-        print "RES:"
-        print res
+        root = lxml.html.fromstring(res.get('body'))
+        for bad in root.xpath("//blockquote"):
+            parent = bad.getparent()
+            parent.remove(bad.getprevious())
+            parent.remove(bad)
+            stripped_body = etree.tostring(root, pretty_print=False, encoding='UTF-8')
+            res['body'] = stripped_body
         return res
