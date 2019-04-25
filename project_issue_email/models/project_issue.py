@@ -200,6 +200,8 @@ class ProjectIssue(models.Model):
         @param custom_values: dict of values
         @return: issue id
         """
+        print msg
+        print "------------- NEW MESSAGE YLLÄ"
         defaults = {
             'issue_type': 'email'
         }
@@ -207,21 +209,9 @@ class ProjectIssue(models.Model):
             defaults.update(custom_values)
         res = super(ProjectIssue, self).message_new(msg, custom_values=defaults)
         issue = self.browse(res)
-        email_list = issue.email_split(msg)
-        partner_ids = filter(None, issue._find_partner_from_emails(email_list, force_create=True))
-        issue.message_subscribe(partner_ids)
-        # Remove issue inbox from emails
-        helpdesk_settings = self.env['project.issue.settings'].sudo().search([])
-        inbox_emails = [setting.email_reply_to for setting in helpdesk_settings]
-        inbox_ids = filter(None, issue._find_partner_from_emails(inbox_emails))
-        issue.message_unsubscribe(inbox_ids)
+        issue.update_other_recipients(msg)
         if not issue.description:
             issue.description = msg.get('body', False)
-        # Other recipients (msg['to']) and CCs (msg['cc']) to other recipients
-        if len(email_list) > 0:
-            other_recipients = [partner_id for partner_id in partner_ids
-                                if partner_id not in inbox_ids]
-            issue.email_other_recipients = [(6, 0, other_recipients)]
         return res
 
     @api.model
@@ -257,33 +247,33 @@ class ProjectIssue(models.Model):
                 self.attachment_ids = [(6, 0, mail_message.attachment_ids.ids)]
         return mail_message
 
-    @api.multi
-    def send_issue_autoreply(self):
-        """
-        Send autoreply email regarding issue
-        "Issue received" to submitter and CCs
+    # @api.multi
+    # def send_issue_autoreply(self):
+    #     """
+    #     Send autoreply email regarding issue
+    #     "Issue received" to submitter and CCs
 
-        TODO: This might be removed (not used atm)
-        """
-        self.ensure_one()
-        settings = self.env['project.issue.settings'].sudo().search([
-            ('company_id', '=', self.company_id.id),
-        ], limit=1)
-        message = self.env['mail.message'].sudo().search([
-            ('res_id', '=', self.id),
-            ('model', '=', 'project.issue'),
-        ], limit=1)
-        # TODO: Change email_cc to partners and use that??
-        mail_values = {
-            'mail_message_id': message.id,
-            'mail_server_id': message.mail_server_id.id,
-            'auto_delete': True,
-            'references': False,
-            'email_cc': self.email_cc,
-            'email_from': settings.email_reply_to,
-            'reply_to': settings.email_reply_to,
-        }
-        self.partner_id._notify_send(message.body, self.subject, self.partner_id, **mail_values)
+    #     TODO: This might be removed (not used atm)
+    #     """
+    #     self.ensure_one()
+    #     settings = self.env['project.issue.settings'].sudo().search([
+    #         ('company_id', '=', self.company_id.id),
+    #     ], limit=1)
+    #     message = self.env['mail.message'].sudo().search([
+    #         ('res_id', '=', self.id),
+    #         ('model', '=', 'project.issue'),
+    #     ], limit=1)
+    #     # TODO: Change email_cc to partners and use that??
+    #     mail_values = {
+    #         'mail_message_id': message.id,
+    #         'mail_server_id': message.mail_server_id.id,
+    #         'auto_delete': True,
+    #         'references': False,
+    #         'email_cc': self.email_cc,
+    #         'email_from': settings.email_reply_to,
+    #         'reply_to': settings.email_reply_to,
+    #     }
+    #     self.partner_id._notify_send(message.body, self.subject, self.partner_id, **mail_values)
 
     @api.multi
     def get_issue_autoreply_values(self, vals):
@@ -293,7 +283,8 @@ class ProjectIssue(models.Model):
             ('company_id', '=', self.company_id.id),
         ], limit=1)
         vals.update({
-            'email_from': settings.email_reply_to,
+            'email_from': 'Tukipalvelu <%s>' % settings.email_reply_to,
+            'reply_to': settings.email_reply_to,
             'subject': self.subject,
             'author_id': SUPERUSER_ID,
         })

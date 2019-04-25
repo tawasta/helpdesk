@@ -77,9 +77,7 @@ class ResPartner(models.Model):
                 body_html += "<br/>" + last_message.body + "</div>"
                 body_html = email_values['body'].replace('#issuemessagebody', body_html)
             else:
-                # Issue created - send issue received template and
-                # pop other recipients from recipients
-                # recipients = recipients - issue.email_other_recipients
+                # Issue created - send issue received template
                 email_values = settings.email_issue_received.generate_email(issue.id)
                 body_html = email_values['body'].replace('#issuemessagebody', body_html)
             mail_values['body_html'] = body_html
