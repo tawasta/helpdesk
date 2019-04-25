@@ -95,4 +95,18 @@ class MailThread(models.AbstractModel):
                 auto_delete=True,
                 auto_delete_message=True,
                 parent_id=False, # override accidental context defaults
-                subtype_id=self.env.ref('mail.mt_note').id)
+                subtype_id=self.env.ref('mail.mt_note').id
+            )
+
+    @api.model
+    def message_parse(self, message, save_original=False):
+        print "--------------"
+        print "TULEE MESSAGE"
+        print message
+        print "-----"
+        print save_original
+        res = super(MailThread, self).message_parse(message, save_original)
+        print "--------"
+        print "RES:"
+        print res
+        return res
