@@ -227,7 +227,7 @@
                 </div>
                 <div class="col-md-11 col-xs-9">
                     <h4>
-                        <span t-field="message.author_id"/>  <small t-field="message.date" t-options='{"format": "dd.MM.yyyy HH:mm:ss"}'/>
+                        <span t-field="message.author_id"/>  <small t-field="message.create_date" t-options='{"format": "dd.MM.yyyy HH:mm:ss"}'/>
                     </h4>
                     <p t-raw="message.body"/>
                     <t t-foreach="message.attachment_ids" t-as="attachment">
