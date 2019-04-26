@@ -42,11 +42,9 @@ class MailMessage(models.Model):
         """
         model = vals.get('model')
         real_author = False
-        no_messages = False
         if model and model == 'project.issue':
             # Use subject saved to issue as subject of all messages
             issue = self.env[model].browse([vals['res_id']])
-            no_messages = True if len(issue.message_ids) == 0 else False
             real_author = vals.get('author_id')
             if not real_author:
                 real_author = issue.partner_id.id
@@ -54,7 +52,7 @@ class MailMessage(models.Model):
         print "------- MAIL MESSAGE VALS -------"
         print vals
         res = super(MailMessage, self).create(vals)
-        if model and model == 'project.issue' and no_messages:
+        if model and model == 'project.issue':
             res.author_id = real_author
         return res
 
