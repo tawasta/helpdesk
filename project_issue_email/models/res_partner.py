@@ -73,7 +73,8 @@ class ResPartner(models.Model):
                 body_html += "<div style='margin-top:30px;padding-left:40px;"
                 body_html += "border-left:solid 3px #ccc;'>"
                 body_html += "<h3>" + _("Previous message") + "</h3>"
-                body_html += _("Author: ") + last_message.author_id.name + ", " + create_date
+                body_html += "<span style='margin-bottom:20px;color:#909090;'>" + _("Author: ")
+                body_html += last_message.author_id.name + ", " + create_date
                 body_html += "<br/>" + last_message.body + "</div>"
                 body_html = email_values['body'].replace('#issuemessagebody', body_html)
             else:
