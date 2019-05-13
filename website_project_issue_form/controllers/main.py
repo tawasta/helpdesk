@@ -123,7 +123,7 @@ class WebsiteAccount(WebsiteAccount):
                     new_emails = post.get("issue_recipients")
                     if new_emails:
                         subscribe_issue_followers(issue, new_emails)
-                    issue.with_context(mail_notify_force_send=False).message_post(
+                    message = issue.with_context(mail_notify_force_send=False).message_post(
                         subject=issue.subject,
                         message_type='comment',
                         subtype='mt_comment',
@@ -131,4 +131,8 @@ class WebsiteAccount(WebsiteAccount):
                         attachments=attachment_list,
                         portal_message=True,
                     )
+                    # Remove author from needaction (after email has been sent)
+                    message.write({
+                        'needaction_partner_ids': [(3, current_user.partner_id.id)]
+                    })
         return request.redirect('/my/issues')
