@@ -109,13 +109,25 @@ class MailThread(models.AbstractModel):
 
     @api.model
     def message_parse(self, message, save_original=False):
-        """ Strip previous messages from email """
+        """ Strip previous HTML messages from email """
         res = super(MailThread, self).message_parse(message, save_original)
         root = lxml.html.fromstring(res.get('body'))
-        for bad in root.xpath("//blockquote"):
-            parent = bad.getparent()
-            parent.remove(bad.getprevious())
-            parent.remove(bad)
-            stripped_body = etree.tostring(root, pretty_print=False, encoding='UTF-8')
-            res['body'] = stripped_body
+        to_remove = []
+        for node in root.iter():
+            # Remove blockquote from Gmail / Thunderbird / Mac email...
+            if node.tag == 'blockquote':
+                parent = node.getparent()
+                to_remove.append(parent.getprevious())
+                to_remove.append(parent)
+            # Remove blockquote from Outlook
+            if node.tag == 'div' and node.get('id', '') == 'appendonsend':
+                to_remove.append(node)
+                to_remove.append(node.getnext())
+            if node.tag == 'div' and node.get('id', '').endswith('divRplyFwdMsg'):
+                to_remove.append(node)
+            if node.tag == 'div' and node.get('id', '').endswith('_issue_reply'):
+                to_remove.append(node)
+        for node in to_remove:
+            node.getparent().remove(node)
+        res['body'] = etree.tostring(root, pretty_print=False, encoding='UTF-8')
         return res
