@@ -6,7 +6,8 @@
         <template id="project_issue_email_header" name="Email header for project issues">
             <div style="text-align:center;border-bottom:1px solid #d4d4d4;padding:25px 0;width:100%;">
                 <a t-att-href="object.company_id.website" style="color:#f26321" target="_blank">
-                    <img t-att-alt="object.company_id.name" t-att-src="'data:image/png;base64,%s' % object.company_id.logo" style="border:none;max-width:200px;"/>
+                    <img t-att-alt="object.company_id.name" style="border:none;max-width:200px;"
+                        t-att-src="'/web/image?model=res.company&amp;id=%s&amp;field=logo' % object.company_id.id"/>
                 </a>
             </div>
         </template>
