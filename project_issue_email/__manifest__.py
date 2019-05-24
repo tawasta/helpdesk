@@ -43,7 +43,11 @@
         'views/project_issue_form.xml',
         'views/project_issue_settings.xml',
         'views/project_issue_tree.xml',
+        'views/assets.xml',
     ],
     'application': False,
     'installable': True,
+    'qweb': [
+        'static/src/xml/thread.xml',
+    ],
 }

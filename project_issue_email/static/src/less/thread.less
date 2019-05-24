@@ -1,0 +1,22 @@
+@message-note-color: #E4E4E4;
+@message-comment-color: #F8F8F8;
+@message-email-color: #D1D1E8;
+@message-border-color: rgba(0,0,0,0.03);
+
+.o_chatter .o_mail_thread {
+    .o_thread_message {
+        margin-bottom: 4px;
+        border: solid 1px @message-border-color;
+        padding: 4px 16px 8px;
+        &.o_message_type_note,
+        &.o_message_type_note .o_thread_message_core.o_mail_note {
+            background-color: @message-note-color;
+        }
+        &.o_message_type_comment {
+            background-color: @message-comment-color;
+        }
+        &.o_message_type_email {
+            background-color: @message-email-color;
+        }
+    }
+}
