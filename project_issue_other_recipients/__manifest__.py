@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Other Recipients',
     'summary': 'Add field for other recipients',
-    'version': '10.0.0.1.1',
+    'version': '10.0.0.2.1',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
