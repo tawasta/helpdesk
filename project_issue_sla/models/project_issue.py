@@ -29,7 +29,6 @@ class ProjectIssue(models.Model):
             ('4', 'Level 4'),
         ],
         string='Service level',
-        select=True,
         default='1',
     )
 
