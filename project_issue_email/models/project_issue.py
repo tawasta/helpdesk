@@ -100,7 +100,7 @@ class ProjectIssue(models.Model):
             vals['date'] = datetime.today()
         if not vals.get('subject'):
             # Hardcoded to Finnish since we don't want the subject to ever change
-            vals['subject'] = 'Tukipyyntö' + " #" + vals['issue_number'] + ": " + vals['name']
+            vals['subject'] = u'Tukipyyntö #%s: %s' % (vals['issue_number'], vals['name'])
         if not vals.get('issue_type'):
             vals['issue_type'] = 'backend'
         if not vals.get('stage_id'):
