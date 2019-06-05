@@ -19,21 +19,33 @@ class IssueStageChange(models.Model):
 
     # 1. Private attributes
     _name = 'project.issue.stage.change'
-    _rec_name = 'stage'
     _order = 'create_date DESC'
 
     # 2. Fields declaration
-    stage = fields.Many2one(
+    old_stage_id = fields.Many2one(
         'project.task.type',
-        'New stage',
+        string='Old stage',
+    )
+    new_stage_id = fields.Many2one(
+        'project.task.type',
+        string='New stage',
     )
     issue_id = fields.Many2one(
         'project.issue',
         string='Issue id',
     )
+    start_date = fields.Datetime(
+        string='Start date',
+        help='When stage was started',
+    )
+    end_date = fields.Datetime(
+        string='End date',
+        help='When stage ended',
+    )
     hours = fields.Float(
         string='Hours',
-        compute='_compute_hours',
+        # compute='_compute_hours',
+        # store=True,
     )
 
     # 3. Default methods
@@ -58,6 +70,13 @@ class IssueStageChange(models.Model):
     # 5. Constraints and onchanges
 
     # 6. CRUD methods
+    @api.model
+    def create(self, vals):
+        print "------- TULEE -----------"
+        print vals
+        if not vals.get('hours'):
+            pass
+        return super(IssueStageChange, self).create(vals)
 
     # 7. Action methods
 

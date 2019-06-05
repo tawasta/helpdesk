@@ -78,7 +78,7 @@ class ProjectIssue(models.Model):
             time_open = 0.00
             for stage_change in stage_changes:
                 # Don't calculate folded stage changes
-                if stage_change.stage.fold:
+                if stage_change.new_stage_id.fold:
                     continue
                 time_open += stage_change.hours
             record.time_open = time_open
