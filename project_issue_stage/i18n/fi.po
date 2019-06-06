@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-25 12:40+0000\n"
-"PO-Revision-Date: 2019-03-25 14:41+0200\n"
+"POT-Creation-Date: 2019-06-06 09:45+0000\n"
+"PO-Revision-Date: 2019-06-06 12:47+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -56,6 +56,11 @@ msgstr "Määritä labelille Bootstrap-kirjaston määrittämä luokka, joka nä
 #: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_display_name
 msgid "Display Name"
 msgstr "Näyttönimi"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_end_date
+msgid "End date"
+msgstr "Päättyi"
 
 #. module: project_issue_stage
 #: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_hours
@@ -129,7 +134,7 @@ msgid "New"
 msgstr "Uusi"
 
 #. module: project_issue_stage
-#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_new_stage_id
 msgid "New stage"
 msgstr "Uusi vaihe"
 
@@ -137,6 +142,16 @@ msgstr "Uusi vaihe"
 #: model:project.task.type,public_name:project_issue_stage.project_issue_stage_data_3
 msgid "Odottaa asiakasta"
 msgstr "Odottaa asiakasta"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_old_stage_id
+msgid "Old stage"
+msgstr "Vanha vaihe"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_duration
+msgid "Ongoing stage duration"
+msgstr "Nykyisen vaiheen kesto"
 
 #. module: project_issue_stage
 #: selection:project.task.type,website_label_class:0
@@ -157,6 +172,12 @@ msgstr "Tukipyyntö"
 #: model:project.task.type,public_name:project_issue_stage.project_issue_stage_data_4
 msgid "Ratkaistu"
 msgstr "Ratkaistu"
+
+#. module: project_issue_stage
+#: code:addons/project_issue_stage/models/project_issue.py:93
+#, python-format
+msgid "Re-opening issue due to a new message."
+msgstr "Avataan tukipyyntö uuden tukipyynnön vuoksi."
 
 #. module: project_issue_stage
 #: model:project.task.type,name:project_issue_stage.project_issue_stage_data_5
@@ -185,6 +206,11 @@ msgid "Stage public name, which is shown in portal to customer"
 msgstr "Vaiheen julkinen nimi, joka näytetään verkkosivustoportaalissa asiakkaille"
 
 #. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_start_date
+msgid "Start date"
+msgstr "Alkoi"
+
+#. module: project_issue_stage
 #: selection:project.task.type,website_label_class:0
 msgid "Success"
 msgstr "Success"
@@ -208,6 +234,16 @@ msgstr "Odottaa asiakasta"
 #: selection:project.task.type,website_label_class:0
 msgid "Warning"
 msgstr "Warning"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,help:project_issue_stage.field_project_issue_stage_change_end_date
+msgid "When stage ended"
+msgstr "Vaiheen päättymisen päivämäärä"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,help:project_issue_stage.field_project_issue_stage_change_start_date
+msgid "When stage was started"
+msgstr "Vaiheen alkamisen päivämäärä"
 
 #. module: project_issue_stage
 #: model:ir.model,name:project_issue_stage.model_project_issue_stage_change
