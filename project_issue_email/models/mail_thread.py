@@ -61,8 +61,6 @@ class MailThread(models.AbstractModel):
         """
         res = super(MailThread, self).message_route(
             message, message_dict, model, thread_id, custom_values)
-        print "TÄMÄ ON MAIL THREAD MESSAGE_ROUTE1"
-        print res
         # If the fetched message is an issue and isnt' matched,
         # check if the issue exists with issue number
         if res and res[0][0] == 'project.issue':

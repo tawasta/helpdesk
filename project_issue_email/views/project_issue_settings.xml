@@ -25,6 +25,7 @@
                             <field name="company_id" required="1"/>
                             <field name="project_id" required="1"/>
                             <field name="email_reply_to" required="1"/>
+                            <field name="mail_server_id" />
                         </group>
                         <group>
                             <field name="email_issue_received" required="1"/>

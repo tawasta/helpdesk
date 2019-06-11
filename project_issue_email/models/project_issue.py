@@ -89,8 +89,6 @@ class ProjectIssue(models.Model):
         @param vals: dict of values
         @return: issue id
         """
-        print "------- CREATE ------"
-        print vals
         if not vals.get('issue_number'):
             vals['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
         # Create patner if it doesn't exist
@@ -133,7 +131,6 @@ class ProjectIssue(models.Model):
                 body=issue.description,
                 attachments=attachments,
             )
-        print "------ CREATE LOPPUU-------------"
         return issue
 
     # 7. Action methods
@@ -184,7 +181,6 @@ class ProjectIssue(models.Model):
             partner_id = existing_partner.id
         else:
             _logger.info("No partner found. Creating %s (%s)" % (name, email))
-
             partner_vals = dict()
             partner_vals['name'] = name
             partner_vals['email'] = email
@@ -200,8 +196,6 @@ class ProjectIssue(models.Model):
         @param custom_values: dict of values
         @return: issue id
         """
-        print msg
-        print "------------- NEW MESSAGE YLLÄ"
         defaults = {
             'issue_type': 'email'
         }
@@ -247,34 +241,6 @@ class ProjectIssue(models.Model):
                 self.attachment_ids = [(6, 0, mail_message.attachment_ids.ids)]
         return mail_message
 
-    # @api.multi
-    # def send_issue_autoreply(self):
-    #     """
-    #     Send autoreply email regarding issue
-    #     "Issue received" to submitter and CCs
-
-    #     TODO: This might be removed (not used atm)
-    #     """
-    #     self.ensure_one()
-    #     settings = self.env['project.issue.settings'].sudo().search([
-    #         ('company_id', '=', self.company_id.id),
-    #     ], limit=1)
-    #     message = self.env['mail.message'].sudo().search([
-    #         ('res_id', '=', self.id),
-    #         ('model', '=', 'project.issue'),
-    #     ], limit=1)
-    #     # TODO: Change email_cc to partners and use that??
-    #     mail_values = {
-    #         'mail_message_id': message.id,
-    #         'mail_server_id': message.mail_server_id.id,
-    #         'auto_delete': True,
-    #         'references': False,
-    #         'email_cc': self.email_cc,
-    #         'email_from': settings.email_reply_to,
-    #         'reply_to': settings.email_reply_to,
-    #     }
-    #     self.partner_id._notify_send(message.body, self.subject, self.partner_id, **mail_values)
-
     @api.multi
     def get_issue_autoreply_values(self, vals):
         """ Update values for autoreply """
@@ -287,5 +253,6 @@ class ProjectIssue(models.Model):
             'reply_to': settings.email_reply_to,
             'subject': self.subject,
             'author_id': SUPERUSER_ID,
+            'mail_server_id': settings.mail_server_id.id or None,
         })
         return vals

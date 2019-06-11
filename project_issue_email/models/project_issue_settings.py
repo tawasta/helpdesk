@@ -46,6 +46,11 @@ class ProjectIssueSettings(models.Model):
         string='Helpdesk project',
         help='Currently used helpdesk project for the company',
     )
+    mail_server_id = fields.Many2one(
+        'ir.mail_server',
+        string='Force sending mail server',
+        help='Force the sending mail server for this company',
+    )
     # 3. Default methods
 
     # 4. Compute and search fields, in the same order that fields declaration

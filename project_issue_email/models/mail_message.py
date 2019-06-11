@@ -49,8 +49,6 @@ class MailMessage(models.Model):
             if not real_author:
                 real_author = issue.partner_id.id
             vals.update(issue.get_issue_autoreply_values(vals))
-        print "------- MAIL MESSAGE VALS -------"
-        print vals
         res = super(MailMessage, self).create(vals)
         if model and model == 'project.issue':
             res.author_id = real_author
@@ -63,7 +61,6 @@ class MailMessage(models.Model):
         TODO:
         Check if message is "issue received" and set force_send = True (now uses email queue)??
         """
-        print "MENIKÖ TÄNNEKIN??!?"
         return super(MailMessage, self)._notify(force_send, send_after_commit, user_signature)
 
     # 8. Business methods
