@@ -22,7 +22,7 @@
 {
     'name': 'Help Desk',
     'summary': 'Help Desk core bundle',
-    'version': '10.0.0.9.0',
+    'version': '10.0.1.0.0',
     'category': 'Tools',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -30,7 +30,6 @@
     'depends': [
         'project_issue_attachment',
         'project_issue_email',
-        'project_issue_mattermost',
         'project_issue_opportunity',
         'project_issue_other_recipients',
         'project_issue_security',
