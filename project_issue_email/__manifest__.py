@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Email',
     'summary': 'Email modifications to Project Issue',
-    'version': '10.0.0.17.1',
+    'version': '10.0.0.17.2',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -43,11 +43,11 @@
         'views/project_issue_form.xml',
         'views/project_issue_settings.xml',
         'views/project_issue_tree.xml',
-        'views/assets.xml',
+        # 'views/assets.xml',
     ],
     'application': False,
     'installable': True,
     'qweb': [
-        'static/src/xml/thread.xml',
+        # 'static/src/xml/thread.xml',
     ],
 }
