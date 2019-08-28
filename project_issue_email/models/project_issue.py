@@ -135,6 +135,22 @@ class ProjectIssue(models.Model):
             )
         return issue
 
+    @api.multi
+    def write(self, vals):
+        if vals.get('partner_id'):
+            # Force-write partner email even when it's readonly
+            partner_id = self.env['res.partner'].browse([vals['partner_id']])
+            vals['email_from'] = partner_id.email
+
+            # Unsubscribe/subscribe if partner is changed
+            for record in self:
+                # Remove current partner
+                record.message_unsubscribe([record.partner_id.id])
+                # Set the new partner as follower
+                record.message_subscribe([vals.get('partner_id')])
+
+        return super(ProjectIssue, self).write(vals)
+
     # 7. Action methods
     @api.multi
     def customer_issues_tree_view(self):
