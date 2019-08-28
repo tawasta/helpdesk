@@ -18,8 +18,13 @@
                 <div style="padding:30px 0;margin:20px 0;">
                     <t t-set="settings" t-value="object.env['project.issue.settings'].sudo().search([('company_id', '=', object.company_id.id)])"/>
                     <strong>Best regards,</strong><br/>
-                    <t t-esc="object.company_id.name"/> support<br/>
-                    <t t-esc="settings.email_reply_to"/>
+                    <div t-if="object.env.user.signature">
+                        <span t-field="object.env.user.signature" />
+                    </div>
+                    <div t-else="">
+                        <t t-esc="object.company_id.name"/> support<br/>
+                        <t t-esc="settings.email_reply_to"/>
+                    </div>
                 </div>
             </div>
             <table style="outline-color:beige;background-color:#eae8e8;border-top:1px solid #d4d4d4;text-align:center;padding:20px 0;color:#b8b8b8" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#eae8e8">
@@ -68,7 +73,7 @@
         </template>
 
 
-        <!-- QWeb template for issue reply by emplyees -->
+        <!-- QWeb template for issue reply by employees -->
         <template id="project_issue_email_reply" name="Email template for replying to customer">
             <div id="issue_reply" style="width:100%;background-color:#eae8e8">
                 <table style="max-width:656px;margin:0 auto" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#eae8e8">
@@ -83,7 +88,7 @@
                                         <div style="font-weight:bold;font-size:22px;margin:32px 0">
                                             Hey
                                         </div>
-                                        <p>There's a new messsage for your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_number, object.name)"/></strong>. You can see the response below in the next section or in <a t-att-href="object.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/my/issues/' + str(object.id)" target="_blank" rel="noopener noreferrer">the website portal</a> by signing in to your account. If you don't have a portal account and would prefer using it instead of emails, you can request it from us.</p>
+                                        <p>There's a new message for your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_number, object.name)"/></strong>. You can see the response below in the next section or in <a t-att-href="object.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/my/issues/' + str(object.id)" target="_blank" rel="noopener noreferrer">the website portal</a> by signing in to your account. If you don't have a portal account and would prefer using it instead of emails, you can request it from us.</p>
                                         <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
                                         <hr style="color: #f6f6f6"/>
                                         <div style="padding:30px 0;margin:20px 0;">
