@@ -18,7 +18,7 @@
                 <div style="padding:30px 0;margin:20px 0;">
                     <t t-set="settings" t-value="object.env['project.issue.settings'].sudo().search([('company_id', '=', object.company_id.id)])"/>
                     <strong>Best regards,</strong><br/>
-                    <div t-if="object.env.user.signature">
+                    <div t-if="object.env.user.signature and object.env.user.id != 1">
                         <span t-field="object.env.user.signature" />
                     </div>
                     <div t-else="">
