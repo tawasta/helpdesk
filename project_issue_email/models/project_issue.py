@@ -142,12 +142,18 @@ class ProjectIssue(models.Model):
             partner_id = self.env['res.partner'].browse([vals['partner_id']])
             vals['email_from'] = partner_id.email
 
+        for record in self:
             # Unsubscribe/subscribe if partner is changed
-            for record in self:
+            if vals.get('partner_id'):
                 # Remove current partner
                 record.message_unsubscribe([record.partner_id.id])
                 # Set the new partner as follower
                 record.message_subscribe([vals.get('partner_id')])
+
+            # Auto-assign the issue on stage change, if no assignee is set
+            if vals.get('stage_id') and not vals.get(
+                    'user_id') and not record.user_id:
+                record.user_id = self.env.user.id
 
         return super(ProjectIssue, self).write(vals)
 
