@@ -10,7 +10,15 @@ Help Desk core bundle
 
 Configuration
 =============
-\-
+
+1. Install the module
+2. Create an outgoing email server
+3. Create incoming email server
+    - Set a company to which the issues are created
+    - Assign "Create a new record": "Project issue"
+4. Setup helpdesk
+    - Go to Projects->Configuration->Helpdesk settings
+    - Create a record for each company
 
 Usage
 =====
