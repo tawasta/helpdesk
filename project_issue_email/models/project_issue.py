@@ -115,6 +115,8 @@ class ProjectIssue(models.Model):
             vals['project_id'] = self.env['project.issue.settings'].sudo().search([
                 ('company_id', '=', company_id)
             ], limit=1).project_id.id
+
+            vals['company_id'] = company_id
         issue = super(ProjectIssue, self).create(vals)
         # Add customer to followers
         if issue.partner_id:
