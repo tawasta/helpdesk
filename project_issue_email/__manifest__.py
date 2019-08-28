@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Email',
     'summary': 'Email modifications to Project Issue',
-    'version': '10.0.0.17.5',
+    'version': '10.0.0.17.6',
     'category': 'Project',
     'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -41,6 +41,8 @@
         'security/ir.model.access.csv',
         'views/fetchmail_server_form_view.xml',
         'views/project_issue_form.xml',
+        'views/project_issue_kanban.xml',
+        'views/project_issue_search.xml',
         'views/project_issue_settings.xml',
         'views/project_issue_tree.xml',
         # 'views/assets.xml',
