@@ -81,6 +81,10 @@ class ProjectIssue(models.Model):
         @param vals: dict of values
         @return: issue id
         """
+        # Create issue code
+        if vals.get('issue_code', '/') == '/':
+            vals['issue_code'] = self.env['ir.sequence'].next_by_code(
+                'project.issue') or '/'
         # Create partner if it doesn't exist
         if not vals.get('partner_id'):
             vals['partner_id'] = self._fetch_partner(vals.get('email_from'))
