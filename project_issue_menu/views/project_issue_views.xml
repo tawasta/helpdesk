@@ -22,7 +22,7 @@
         <field name="inherit_id" ref="project_issue.project_issue_tree_view"/>
         <field name="arch" type="xml">
             <tree position="attributes">
-                <attribute name="colors">grey: stage_sequence in [5, 6];red: date_deadline and (date_deadline&lt;current_date) and stage_sequence in [1, 2]; blue: stage_sequence==1;</attribute>
+                <attribute name="colors">grey: stage_sequence in [5, 6];green: stage_sequence in [2, 3];red: date_deadline and (date_deadline&lt;current_date) and stage_sequence in [1, 2]; blue: stage_sequence==1;</attribute>
                 <attribute name="decoration-bf">message_needaction==True</attribute>
             </tree>
 
