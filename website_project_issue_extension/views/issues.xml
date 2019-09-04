@@ -36,7 +36,7 @@
                 <t t-foreach="issues" t-as="issue">
                     <tr>
                         <td>
-                            <a t-attf-href="/my/issues/#{issue.id}?{{ keep_query() }}"><t t-esc="issue.issue_number" /></a>
+                            <a t-attf-href="/my/issues/#{issue.id}?{{ keep_query() }}"><t t-esc="issue.issue_code" /></a>
                         </td>
                         <td><span t-field="issue.name"/></td>
                         <td><span t-field="issue.write_date" t-options='{"format": "dd.MM.yyyy HH:mm"}'/></td>

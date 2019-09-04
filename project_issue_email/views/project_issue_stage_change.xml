@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="project_issue_stage.project_issue_stage_change_tree"/>
         <field name="arch" type="xml">
             <field name="issue_partner_id" position="before">
-                <field name="issue_number" />
+                <field name="issue_code" />
             </field>
         </field>
     </record>
@@ -18,7 +18,7 @@
         <field name="inherit_id" ref="project_issue_stage.project_issue_stage_change_filters"/>
         <field name="arch" type="xml">
             <field name="issue_partner_id" position="before">
-                <field name="issue_number" />
+                <field name="issue_code" />
             </field>
         </field>
     </record>

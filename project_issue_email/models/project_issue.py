@@ -27,15 +27,7 @@ class ProjectIssue(models.Model):
     # 1. Private attributes
     _inherit = 'project.issue'
 
-    _sql_constraints = [
-        ('issue_number', 'unique(issue_number)', _('This issue number is already in use.'))
-    ]
-
     # 2. Fields declaration
-    issue_number = fields.Char(
-        string='Issue number',
-        help='Number assigned to issue as identifier',
-    )
     customer_issue_count = fields.Integer(
         compute='_compute_customer_issue_count',
         string='Number of issues on customer',
@@ -89,16 +81,14 @@ class ProjectIssue(models.Model):
         @param vals: dict of values
         @return: issue id
         """
-        if not vals.get('issue_number'):
-            vals['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
-        # Create patner if it doesn't exist
+        # Create partner if it doesn't exist
         if not vals.get('partner_id'):
             vals['partner_id'] = self._fetch_partner(vals.get('email_from'))
         if not vals.get('date'):
             vals['date'] = datetime.today()
         if not vals.get('subject'):
             # Hardcoded to Finnish since we don't want the subject to ever change
-            vals['subject'] = u'Tukipyyntö #%s: %s' % (vals['issue_number'], vals['name'])
+            vals['subject'] = u'Tukipyyntö #%s: %s' % (vals['issue_code'], vals['name'])
         if not vals.get('issue_type'):
             vals['issue_type'] = 'backend'
         if not vals.get('stage_id'):
@@ -233,20 +223,11 @@ class ProjectIssue(models.Model):
         return res
 
     @api.model
-    def _init_issue_numbers(self):
-        """ Initialize issue numbers when module is installed """
-        issues = self.search([('issue_number', '=', False)])
-        for issue in issues:
-            issue.issue_number = self.env['ir.sequence'].next_by_code('project.issue')
-            issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
-            _logger.debug("Setting issue number and subject for %s", issue.issue_number)
-
-    @api.model
     def _init_issue_subjects(self):
         """ Initialize issue subjects when module is installed """
         issues = self.search([('subject', '=', False)])
         for issue in issues:
-            issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
+            issue.subject = 'Tukipyyntö' + " #" + issue.issue_code + ": " + issue.name
             _logger.debug("Setting issue subject for %s", issue.subject)
 
     @api.multi

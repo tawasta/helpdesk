@@ -7,11 +7,11 @@
         <field name="inherit_id" ref="project_issue.view_project_issue_filter"/>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="issue_number" />
+                <field name="issue_code" />
             </field>
 
             <field name="name" position="attributes">
-                <attribute name="filter_domain">['|', '|', '|', '|', ('issue_number', 'like', self), ('partner_id','child_of',self), ('description','ilike',self),('email_from','ilike',self),('name','ilike',self)]</attribute>
+                <attribute name="filter_domain">['|', '|', '|', '|', ('issue_code', 'like', self), ('partner_id','child_of',self), ('description','ilike',self),('email_from','ilike',self),('name','ilike',self)]</attribute>
             </field>
         </field>
     </record>

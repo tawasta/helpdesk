@@ -50,7 +50,7 @@
 
                                     <!-- Body -->
                                     <div style="padding:0 22px;margin:0 28px">
-                                        <p>Thank your for contacting <t t-esc="object.company_id.name"/> support. This is an automated message that your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_number,object.name)"/></strong> has been received. We will reply to you as soon as possible.</p>
+                                        <p>Thank your for contacting <t t-esc="object.company_id.name"/> support. This is an automated message that your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_code,object.name)"/></strong> has been received. We will reply to you as soon as possible.</p>
                                         <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
                                         <hr style="color: #f6f6f6"/>
                                         <div style="margin:20px 0;">
@@ -88,7 +88,7 @@
                                         <div style="font-weight:bold;font-size:22px;margin:32px 0">
                                             Hey
                                         </div>
-                                        <p>There's a new message for your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_number, object.name)"/></strong>. You can see the response below in the next section or in <a t-att-href="object.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/my/issues/' + str(object.id)" target="_blank" rel="noopener noreferrer">the website portal</a> by signing in to your account. If you don't have a portal account and would prefer using it instead of emails, you can request it from us.</p>
+                                        <p>There's a new message for your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_code, object.name)"/></strong>. You can see the response below in the next section or in <a t-att-href="object.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/my/issues/' + str(object.id)" target="_blank" rel="noopener noreferrer">the website portal</a> by signing in to your account. If you don't have a portal account and would prefer using it instead of emails, you can request it from us.</p>
                                         <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
                                         <hr style="color: #f6f6f6"/>
                                         <div style="padding:30px 0;margin:20px 0;">

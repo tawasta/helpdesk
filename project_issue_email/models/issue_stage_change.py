@@ -6,6 +6,6 @@ class IssueStageChange(models.Model):
 
     _inherit = 'project.issue.stage.change'
 
-    issue_number = fields.Char(
-        related='issue_id.issue_number',
+    issue_code = fields.Char(
+        related='issue_id.issue_code',
     )
