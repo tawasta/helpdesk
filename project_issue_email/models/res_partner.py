@@ -61,7 +61,7 @@ class ResPartner(models.Model):
                 ('message_type', '!=', 'notification'),
                 ('id', '!=', mail_message_id),
             ], limit=1)
-            email_values = dict()
+
             if last_message:
                 # If previous message in thread,
                 # send issue reply template with body and last message
@@ -77,10 +77,7 @@ class ResPartner(models.Model):
                 body_html += last_message.author_id.name + ", " + create_date
                 body_html += "<br/>" + last_message.body + "</div>"
                 body_html = email_values['body'].replace('#issuemessagebody', body_html)
-            else:
-                # Issue created - send issue received template
-                email_values = settings.email_issue_received.generate_email(issue.id)
-                body_html = email_values['body'].replace('#issuemessagebody', body_html)
+
             mail_values['body_html'] = body_html
         return super(ResPartner, self)._notify_send(body_html, subject, recipients, **mail_values)
 

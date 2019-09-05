@@ -41,17 +41,14 @@ class MailMessage(models.Model):
         Use issue subject in every message.
         """
         model = vals.get('model')
-        real_author = False
         if model and model == 'project.issue':
-            # Use subject saved to issue as subject of all messages
             issue = self.env[model].browse([vals['res_id']])
-            real_author = vals.get('author_id')
-            if not real_author:
-                real_author = issue.partner_id.id
+
+            # Override subject, reply to and email server
             vals.update(issue.get_issue_autoreply_values(vals))
+
         res = super(MailMessage, self).create(vals)
-        if model and model == 'project.issue':
-            res.author_id = real_author
+
         return res
 
     # 7. Action methods

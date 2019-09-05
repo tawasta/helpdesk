@@ -115,18 +115,18 @@ class ProjectIssue(models.Model):
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
-        # If issue created from backend, post a message to thread
-        # which is sent to customer (autoresponse)
-        if issue.issue_type == 'backend':
-            attachments = [(a['datas_fname'], base64.b64decode(a['datas']))
-                           for a in issue.attachment_ids.sudo().read(['datas_fname', 'datas'])]
-            issue.sudo().message_post(
-                subject=issue.subject,
-                message_type='comment',
-                subtype='mt_comment',
-                body=issue.description,
-                attachments=attachments,
-            )
+        # Post an auto-response message to thread
+        attachments = [(a['datas_fname'], base64.b64decode(a['datas']))
+                       for a in issue.attachment_ids.sudo().read(['datas_fname', 'datas'])]
+
+        settings = self.env['project.issue.settings'].sudo().search([
+            ('company_id', '=', issue.company_id.id),
+        ], limit=1)
+
+        email_values = settings.email_issue_received.generate_email(issue.id)
+        email_values['attachments'] = attachments
+
+        issue.sudo().message_post(email_values)
         return issue
 
     @api.multi
@@ -261,7 +261,6 @@ class ProjectIssue(models.Model):
             'email_from': 'Tukipalvelu <%s>' % settings.email_reply_to,
             'reply_to': settings.email_reply_to,
             'subject': self.subject,
-            'author_id': SUPERUSER_ID,
             'mail_server_id': settings.mail_server_id.id or None,
         })
         return vals
