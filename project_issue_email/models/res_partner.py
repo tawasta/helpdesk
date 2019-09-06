@@ -32,6 +32,8 @@ class ResPartner(models.Model):
     # 6. CRUD methods
 
     # 7. Action methods
+    # TODO: Add this to mail template
+    '''
     @api.model
     def _notify_send(self, body, subject, recipients, **mail_values):
         """
@@ -80,5 +82,6 @@ class ResPartner(models.Model):
 
             mail_values['body_html'] = body_html
         return super(ResPartner, self)._notify_send(body_html, subject, recipients, **mail_values)
+    '''
 
     # 8. Business methods

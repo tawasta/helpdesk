@@ -58,7 +58,7 @@
                                                 <span t-field="object.create_date" t-options="{'format': 'dd.MM.yyyy HH:mm'}"/>
                                             </p>
                                             <b>Issue description:</b><br/>
-                                            #issuemessagebody
+                                            <div t-field="object.description"/>
                                         </div>
                                         <hr style="color: #f6f6f6"/>
                                     </div>
@@ -92,7 +92,7 @@
                                         <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
                                         <hr style="color: #f6f6f6"/>
                                         <div style="padding:30px 0;margin:20px 0;">
-                                            #issuemessagebody
+                                            <div t-field="object.description"/>
                                         </div>
                                         <hr style="color: #f6f6f6"/>
                                     </div>

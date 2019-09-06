@@ -124,9 +124,17 @@ class ProjectIssue(models.Model):
         ], limit=1)
 
         email_values = settings.email_issue_received.generate_email(issue.id)
-        email_values['attachments'] = attachments
 
-        issue.sudo().message_post(email_values)
+        # Post auto-reply
+        issue.message_post(
+            body=email_values['body'],
+            subject=email_values['subject'],
+            message_type='email',
+            subtype='mt_comment',
+            attachments=attachments,
+            # Only send the auto-reply to partner. CC-recipients don't need it
+            partner_ids=[issue.partner_id.id],
+        )
         return issue
 
     @api.multi
@@ -215,7 +223,8 @@ class ProjectIssue(models.Model):
         @return: issue id
         """
         defaults = {
-            'issue_type': 'email'
+            'issue_type': 'email',
+            'description': msg.get('body'),
         }
         if custom_values:
             defaults.update(custom_values)
