@@ -4,6 +4,8 @@
         <record id="project_issue_group_portal_user" model="res.groups">
             <field name="name">Issue Portal User</field>
             <field name="comment">The user has the right to create and view issues.</field>
+            <field name="is_portal" eval="True"/>
+            <field name="category_id" ref="base.module_category_extra"/>
         </record>
 
         <record id="project_project_rule_issue_portal_user" model="ir.rule">
