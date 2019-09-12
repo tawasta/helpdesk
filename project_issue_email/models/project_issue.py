@@ -48,6 +48,19 @@ class ProjectIssue(models.Model):
         readonly=True,
     )
 
+    latest_message_id = fields.Many2one(
+        comodel_name='mail.message',
+        string='Latest message',
+        help='Latest message (in thread)',
+        compute='_compute_latest_message',
+    )
+    previous_message_id = fields.Many2one(
+        comodel_name='mail.message',
+        string='Previous message',
+        help='Previous message (in thread)',
+        compute='_compute_previous_message',
+    )
+
     # 3. Default methods
     @api.model
     def default_get(self, fields):
@@ -68,6 +81,34 @@ class ProjectIssue(models.Model):
             record.customer_issue_count = self.search_count([
                 ('partner_id', '=', partner_id),
             ])
+
+    def _compute_latest_message(self):
+        """ Search the latest message """
+        mail_message = self.env['mail.message'].sudo()
+
+        for record in self:
+            previous_message = mail_message.search([
+                ('res_id', '=', record.id),
+                ('model', '=', self._name),
+                ('subtype_id.internal', '=', False),
+                ('message_type', '!=', 'notification'),
+            ], limit=1)
+
+            record.previous_message_id = previous_message.id
+
+    def _compute_previous_message(self):
+        """ Search the message that precedes the latest message """
+        mail_message = self.env['mail.message'].sudo()
+
+        for record in self:
+            previous_message = mail_message.search([
+                ('res_id', '=', record.id),
+                ('model', '=', self._name),
+                ('subtype_id.internal', '=', False),
+                ('message_type', '!=', 'notification'),
+            ], limit=1, offset=1)
+
+            record.previous_message_id = previous_message.id
 
     # 5. Constraints and onchanges
 
@@ -123,7 +164,8 @@ class ProjectIssue(models.Model):
             ('company_id', '=', issue.company_id.id),
         ], limit=1)
 
-        email_values = settings.email_issue_received.generate_email(issue.id)
+        email_values = settings.email_issue_received.generate_email(
+            issue.id)
 
         # Post auto-reply
         issue.message_post(
@@ -132,7 +174,8 @@ class ProjectIssue(models.Model):
             message_type='email',
             subtype='mt_comment',
             attachments=attachments,
-            # Only send the auto-reply to partner. CC-recipients don't need it
+            # Only send the auto-reply to partner.
+            # CC-recipients don't need it
             partner_ids=[issue.partner_id.id],
         )
         return issue
@@ -245,18 +288,34 @@ class ProjectIssue(models.Model):
 
     @api.multi
     @api.returns('mail.message', lambda value: value.id)
-    def message_post(self, subtype=None, **kwargs):
+    def message_post(self, **kwargs):
         """
         When message is posted, check if it's the first message and
         add attachments to issue if it was the first message
         """
         self.ensure_one()
         messages = len(self.message_ids)
-        mail_message = super(ProjectIssue, self).message_post(subtype=subtype, **kwargs)
+        values = kwargs
+
+        if messages != 0:
+            settings = self.env['project.issue.settings'].sudo().search([
+                ('company_id', '=', self.company_id.id),
+            ], limit=1)
+
+            email_values = settings.email_issue_reply.generate_email(self.id)
+
+            values.update({
+                'subject': email_values['subject'],
+                'body': email_values['body'],
+            })
+
+        mail_message = super(ProjectIssue, self).message_post(
+            **values
+        )
         if messages == 0:
-            # self.send_issue_autoreply()
             if len(self.attachment_ids) == 0 and len(mail_message.attachment_ids) != 0:
                 self.attachment_ids = [(6, 0, mail_message.attachment_ids.ids)]
+
         return mail_message
 
     @api.multi
