@@ -160,24 +160,19 @@ class ProjectIssue(models.Model):
         attachments = [(a['datas_fname'], base64.b64decode(a['datas']))
                        for a in issue.attachment_ids.sudo().read(['datas_fname', 'datas'])]
 
-        settings = self.env['project.issue.settings'].sudo().search([
-            ('company_id', '=', issue.company_id.id),
-        ], limit=1)
-
-        email_values = settings.email_issue_received.generate_email(
-            issue.id)
-
-        # Post auto-reply
-        issue.message_post(
-            body=email_values['body'],
-            subject=email_values['subject'],
-            message_type='email',
-            subtype='mt_comment',
-            attachments=attachments,
-            # Only send the auto-reply to partner.
-            # CC-recipients don't need it
-            partner_ids=[issue.partner_id.id],
-        )
+        if vals.get('issue_type') != 'email':
+            # Send an automated message for issues created from backend
+            # Post auto-reply
+            issue.message_post(
+                body=vals['description'],
+                subject=vals['subject'],
+                message_type='email',
+                subtype='mt_comment',
+                attachments=attachments,
+                # Only send the auto-reply to partner.
+                # CC-recipients don't necessarily need it
+                partner_ids=[issue.partner_id.id],
+            )
         return issue
 
     @api.multi
@@ -297,23 +292,46 @@ class ProjectIssue(models.Model):
         messages = len(self.message_ids)
         values = kwargs
 
-        if messages != 0:
-            settings = self.env['project.issue.settings'].sudo().search([
-                ('company_id', '=', self.company_id.id),
-            ], limit=1)
+        settings = self.env['project.issue.settings'].search([
+            ('company_id', '=', self.company_id.id),
+        ], limit=1)
 
+        if messages == 0:
+            # Use autoreply-template for first message
+            email_values = settings.email_issue_received.generate_email(self.id)
+
+        else:
+            # Otherwise use default reply template
             email_values = settings.email_issue_reply.generate_email(self.id)
+            # The content div syntax is very spesific - this could be improved
+            content_div = '<div id="message-content"></div>'
 
-            values.update({
-                'subject': email_values['subject'],
-                'body': email_values['body'],
-            })
+            if content_div not in email_values['body']:
+                raise Exception(
+                    _("Reply template is missing element '%s'. "
+                      "Please add this before using messages in issues"
+                      % content_div)
+                )
+
+            # Replace the empty content div in template with message body
+            email_values['body'] = email_values['body'].replace(
+                content_div,
+                kwargs.get('body', ''),
+            )
+        # Use updated subject and body
+        values.update({
+            'subject': email_values['subject'],
+            'body': email_values['body'],
+        })
 
         mail_message = super(ProjectIssue, self).message_post(
             **values
         )
+
         if messages == 0:
-            if len(self.attachment_ids) == 0 and len(mail_message.attachment_ids) != 0:
+            # TODO is this necessary?
+            if len(self.attachment_ids) == 0 and len(
+                    mail_message.attachment_ids) != 0:
                 self.attachment_ids = [(6, 0, mail_message.attachment_ids.ids)]
 
         return mail_message

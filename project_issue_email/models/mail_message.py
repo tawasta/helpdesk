@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
 # 1. Standard library imports:
-import re
 
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
 from odoo import api, fields, models, _
-from odoo import SUPERUSER_ID
 
 # 4. Imports from Odoo modules:
 

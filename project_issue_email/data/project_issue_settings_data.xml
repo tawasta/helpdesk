@@ -17,21 +17,29 @@
             <div style="padding:0 22px 10px;margin:0 28px">
                 <div style="padding:30px 0;margin:20px 0;">
                     <t t-set="settings" t-value="object.env['project.issue.settings'].sudo().search([('company_id', '=', object.company_id.id)])"/>
-                    <strong>Best regards,</strong><br/>
                     <div t-if="object.env.user.signature and object.env.user.id != 1">
                         <span t-field="object.env.user.signature" />
                     </div>
                     <div t-else="">
-                        <t t-esc="object.company_id.name"/> support<br/>
-                        <t t-esc="settings.email_reply_to"/>
+                        <strong>Best regards,</strong><br/>
+                        <span t-field="object.company_id.name"/> support<br/>
+                        <span t-field="settings.email_reply_to"/>
                     </div>
                 </div>
             </div>
             <table style="outline-color:beige;background-color:#eae8e8;border-top:1px solid #d4d4d4;text-align:center;padding:20px 0;color:#b8b8b8" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#eae8e8">
-                <tbody>
+                <tbody style="margin: 25px 0 10px;font-size: 13px">
                     <tr>
                         <td>
-                            <div style="margin: 25px 0 10px;font-size: 13px">Copyright © <t t-esc="datetime.date.today().strftime('%Y')"/> <t t-esc="object.company_id.name"/>, All rights reserved.</div>
+                            <div>Copyright © <t t-esc="datetime.date.today().strftime('%Y')"/> <t t-esc="object.company_id.name"/>, All rights reserved.</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>The information contained in this message and in any attachments is confidential and is intended solely for the attention and use of the named addressee(s). If you are not the intended recipient and / or you have received this message in error, please contact the sender immediately and delete all material you have received in this message. You are hereby notified that any use of the information, which you have received in error in whatsoever form, is strictly prohibited.</div>
                         </td>
                     </tr>
                 </tbody>
@@ -84,18 +92,30 @@
                                     <t t-call="project_issue_email.project_issue_email_header"/>
 
                                     <!-- Body -->
-                                    <div style="padding:0 22px;margin:0 28px">
-                                        <div style="font-weight:bold;font-size:22px;margin:32px 0">
-                                            Hey
+                                    <div
+                                         style="padding:0 22px;margin:0 28px">
+                                        <div id="portal-header" t-if="object.partner_id.user_id and object.partner_id.user_id.has_group('base.group_portal')">
+                                            <div style="font-weight:bold;font-size:22px;margin:32px 0">
+                                                Hey
+                                            </div>
+                                            <p>There's a new message for your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_code, object.name)"/></strong>. You can see the response below in the next section or in <a t-att-href="object.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/my/issues/' + str(object.id)" target="_blank" rel="noopener noreferrer">the website portal</a> by signing in to your account. If you don't have a portal account and would prefer using it instead of emails, you can request it from us.</p>
                                         </div>
-                                        <p>There's a new message for your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_code, object.name)"/></strong>. You can see the response below in the next section or in <a t-att-href="object.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/my/issues/' + str(object.id)" target="_blank" rel="noopener noreferrer">the website portal</a> by signing in to your account. If you don't have a portal account and would prefer using it instead of emails, you can request it from us.</p>
                                         <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
                                         <hr style="color: #f6f6f6"/>
                                         <div style="padding:30px 0;margin:20px 0;">
-                                            <div t-field="object.description"/>
+                                            <div id="message-content"></div>
                                         </div>
                                         <hr style="color: #f6f6f6"/>
                                     </div>
+
+                                    <div t-if="object.latest_message_id" style='margin-top:30px;padding-left:40px; border-left:solid 3px #ccc;'>
+                                        <h3>Latest message</h3>
+                                        <span style='margin-bottom:20px;color:#909090;'>Author:</span>
+                                         <span t-field="object.latest_message_id.author_id" /> (<span t-field="object.latest_message_id.create_date" />):
+                                        <br />
+                                        <div t-field="object.latest_message_id.body"></div>
+                                    </div>
+
                                     <t t-call="project_issue_email.project_issue_email_footer"/>
                                 </div>
                             </td>
