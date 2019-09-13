@@ -295,15 +295,16 @@ class ProjectIssue(models.Model):
         settings = self.env['project.issue.settings'].search([
             ('company_id', '=', self.company_id.id),
         ], limit=1)
+        email_values = {}
 
         if messages == 0:
             # Use autoreply-template for first message
             email_values = settings.email_issue_received.generate_email(self.id)
 
-        else:
+        elif self.env.uid != 1 and self.env.user.has_group('base.group_user'):
             # Otherwise use default reply template
             email_values = settings.email_issue_reply.generate_email(self.id)
-            # The content div syntax is very spesific - this could be improved
+            # The content div syntax is very specific - this could be improved
             content_div = '<div id="message-content"></div>'
 
             if content_div not in email_values['body']:
@@ -329,8 +330,8 @@ class ProjectIssue(models.Model):
 
         # Use updated subject and body
         values.update({
-            'subject': email_values['subject'],
-            'body': email_values['body'],
+            'subject': email_values.get('subject', values.get('subject')),
+            'body': email_values.get('body', values.get('body')),
         })
 
         mail_message = super(ProjectIssue, self).message_post(
