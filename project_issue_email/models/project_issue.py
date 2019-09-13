@@ -314,10 +314,19 @@ class ProjectIssue(models.Model):
                 )
 
             # Replace the empty content div in template with message body
-            email_values['body'] = email_values['body'].replace(
-                content_div,
-                unicode(kwargs.get('body', ''), 'utf-8'),
-            )
+            try:
+                email_values['body'] = email_values['body'].replace(
+                    content_div,
+                    kwargs.get('body', ''),
+                )
+            except UnicodeDecodeError:
+                # A cheap way to handle UnicodeDecodeError
+                # If an error occurs, the content most likely was utf-8
+                email_values['body'] = email_values['body'].replace(
+                    content_div,
+                    unicode(kwargs.get('body', ''), 'utf-8'),
+                )
+
         # Use updated subject and body
         values.update({
             'subject': email_values['subject'],
