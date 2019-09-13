@@ -316,7 +316,7 @@ class ProjectIssue(models.Model):
             # Replace the empty content div in template with message body
             email_values['body'] = email_values['body'].replace(
                 content_div,
-                kwargs.get('body', ''),
+                unicode(kwargs.get('body', ''), 'utf-8'),
             )
         # Use updated subject and body
         values.update({
