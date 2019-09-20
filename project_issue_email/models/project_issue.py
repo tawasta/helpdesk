@@ -27,15 +27,7 @@ class ProjectIssue(models.Model):
     # 1. Private attributes
     _inherit = 'project.issue'
 
-    _sql_constraints = [
-        ('issue_number', 'unique(issue_number)', _('This issue number is already in use.'))
-    ]
-
     # 2. Fields declaration
-    issue_number = fields.Char(
-        string='Issue number',
-        help='Number assigned to issue as identifier',
-    )
     customer_issue_count = fields.Integer(
         compute='_compute_customer_issue_count',
         string='Number of issues on customer',
@@ -54,6 +46,19 @@ class ProjectIssue(models.Model):
         string='Issue type',
         help='How issue was created',
         readonly=True,
+    )
+
+    latest_message_id = fields.Many2one(
+        comodel_name='mail.message',
+        string='Latest message',
+        help='Latest message (in thread)',
+        compute='_compute_latest_message',
+    )
+    previous_message_id = fields.Many2one(
+        comodel_name='mail.message',
+        string='Previous message',
+        help='Previous message (in thread)',
+        compute='_compute_previous_message',
     )
 
     # 3. Default methods
@@ -77,6 +82,34 @@ class ProjectIssue(models.Model):
                 ('partner_id', '=', partner_id),
             ])
 
+    def _compute_latest_message(self):
+        """ Search the latest message """
+        mail_message = self.env['mail.message'].sudo()
+
+        for record in self:
+            previous_message = mail_message.search([
+                ('res_id', '=', record.id),
+                ('model', '=', self._name),
+                ('subtype_id.internal', '=', False),
+                ('message_type', '!=', 'notification'),
+            ], limit=1)
+
+            record.previous_message_id = previous_message.id
+
+    def _compute_previous_message(self):
+        """ Search the message that precedes the latest message """
+        mail_message = self.env['mail.message'].sudo()
+
+        for record in self:
+            previous_message = mail_message.search([
+                ('res_id', '=', record.id),
+                ('model', '=', self._name),
+                ('subtype_id.internal', '=', False),
+                ('message_type', '!=', 'notification'),
+            ], limit=1, offset=1)
+
+            record.previous_message_id = previous_message.id
+
     # 5. Constraints and onchanges
 
     # 6. CRUD methods
@@ -89,16 +122,18 @@ class ProjectIssue(models.Model):
         @param vals: dict of values
         @return: issue id
         """
-        if not vals.get('issue_number'):
-            vals['issue_number'] = self.env['ir.sequence'].sudo().next_by_code('project.issue')
-        # Create patner if it doesn't exist
+        # Create issue code
+        if vals.get('issue_code', '/') == '/':
+            vals['issue_code'] = self.env['ir.sequence'].next_by_code(
+                'project.issue') or '/'
+        # Create partner if it doesn't exist
         if not vals.get('partner_id'):
             vals['partner_id'] = self._fetch_partner(vals.get('email_from'))
         if not vals.get('date'):
             vals['date'] = datetime.today()
         if not vals.get('subject'):
             # Hardcoded to Finnish since we don't want the subject to ever change
-            vals['subject'] = u'Tukipyyntö #%s: %s' % (vals['issue_number'], vals['name'])
+            vals['subject'] = u'Tukipyyntö #%s: %s' % (vals['issue_code'], vals['name'])
         if not vals.get('issue_type'):
             vals['issue_type'] = 'backend'
         if not vals.get('stage_id'):
@@ -115,23 +150,52 @@ class ProjectIssue(models.Model):
             vals['project_id'] = self.env['project.issue.settings'].sudo().search([
                 ('company_id', '=', company_id)
             ], limit=1).project_id.id
+
+            vals['company_id'] = company_id
         issue = super(ProjectIssue, self).create(vals)
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
-        # If issue created from backend, post a message to thread
-        # which is sent to customer (autoresponse)
-        if issue.issue_type == 'backend':
-            attachments = [(a['datas_fname'], base64.b64decode(a['datas']))
-                           for a in issue.attachment_ids.sudo().read(['datas_fname', 'datas'])]
-            issue.sudo().message_post(
-                subject=issue.subject,
-                message_type='comment',
+        # Post an auto-response message to thread
+        attachments = [(a['datas_fname'], base64.b64decode(a['datas']))
+                       for a in issue.attachment_ids.sudo().read(['datas_fname', 'datas'])]
+
+        if vals.get('issue_type') != 'email':
+            # Send an automated message for issues created from backend
+            # Post auto-reply
+            issue.message_post(
+                body=vals['description'],
+                subject=vals['subject'],
+                message_type='email',
                 subtype='mt_comment',
-                body=issue.description,
                 attachments=attachments,
+                # Only send the auto-reply to partner.
+                # CC-recipients don't necessarily need it
+                partner_ids=[issue.partner_id.id],
             )
         return issue
+
+    @api.multi
+    def write(self, vals):
+        if vals.get('partner_id'):
+            # Force-write partner email even when it's readonly
+            partner_id = self.env['res.partner'].browse([vals['partner_id']])
+            vals['email_from'] = partner_id.email
+
+        for record in self:
+            # Unsubscribe/subscribe if partner is changed
+            if vals.get('partner_id'):
+                # Remove current partner
+                record.message_unsubscribe([record.partner_id.id])
+                # Set the new partner as follower
+                record.message_subscribe([vals.get('partner_id')])
+
+            # Auto-assign the issue on stage change, if no assignee is set
+            if vals.get('stage_id') and not vals.get(
+                    'user_id') and not record.user_id:
+                record.user_id = self.env.user.id
+
+        return super(ProjectIssue, self).write(vals)
 
     # 7. Action methods
     @api.multi
@@ -197,7 +261,8 @@ class ProjectIssue(models.Model):
         @return: issue id
         """
         defaults = {
-            'issue_type': 'email'
+            'issue_type': 'email',
+            'description': msg.get('body'),
         }
         if custom_values:
             defaults.update(custom_values)
@@ -209,36 +274,76 @@ class ProjectIssue(models.Model):
         return res
 
     @api.model
-    def _init_issue_numbers(self):
-        """ Initialize issue numbers when module is installed """
-        issues = self.search([('issue_number', '=', False)])
-        for issue in issues:
-            issue.issue_number = self.env['ir.sequence'].next_by_code('project.issue')
-            issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
-            _logger.debug("Setting issue number and subject for %s", issue.issue_number)
-
-    @api.model
     def _init_issue_subjects(self):
         """ Initialize issue subjects when module is installed """
         issues = self.search([('subject', '=', False)])
         for issue in issues:
-            issue.subject = 'Tukipyyntö' + " #" + issue.issue_number + ": " + issue.name
+            issue.subject = 'Tukipyyntö' + " #" + issue.issue_code + ": " + issue.name
             _logger.debug("Setting issue subject for %s", issue.subject)
 
     @api.multi
     @api.returns('mail.message', lambda value: value.id)
-    def message_post(self, subtype=None, **kwargs):
+    def message_post(self, **kwargs):
         """
         When message is posted, check if it's the first message and
         add attachments to issue if it was the first message
         """
         self.ensure_one()
         messages = len(self.message_ids)
-        mail_message = super(ProjectIssue, self).message_post(subtype=subtype, **kwargs)
+        values = kwargs
+
+        settings = self.env['project.issue.settings'].search([
+            ('company_id', '=', self.company_id.id),
+        ], limit=1)
+        email_values = {}
+
         if messages == 0:
-            # self.send_issue_autoreply()
-            if len(self.attachment_ids) == 0 and len(mail_message.attachment_ids) != 0:
+            # Use autoreply-template for first message
+            email_values = settings.email_issue_received.generate_email(self.id)
+
+        elif self.env.uid != 1 and self.env.user.has_group('base.group_user'):
+            # Otherwise use default reply template
+            email_values = settings.email_issue_reply.generate_email(self.id)
+            # The content div syntax is very specific - this could be improved
+            content_div = '<div id="message-content"></div>'
+
+            if content_div not in email_values['body']:
+                raise Exception(
+                    _("Reply template is missing element '%s'. "
+                      "Please add this before using messages in issues"
+                      % content_div)
+                )
+
+            # Replace the empty content div in template with message body
+            try:
+                email_values['body'] = email_values['body'].replace(
+                    content_div,
+                    kwargs.get('body', ''),
+                )
+            except UnicodeDecodeError:
+                # A cheap way to handle UnicodeDecodeError
+                # If an error occurs, the content most likely was utf-8
+                email_values['body'] = email_values['body'].replace(
+                    content_div,
+                    unicode(kwargs.get('body', ''), 'utf-8'),
+                )
+
+        # Use updated subject and body
+        values.update({
+            'subject': email_values.get('subject', values.get('subject')),
+            'body': email_values.get('body', values.get('body')),
+        })
+
+        mail_message = super(ProjectIssue, self).message_post(
+            **values
+        )
+
+        if messages == 0:
+            # TODO is this necessary?
+            if len(self.attachment_ids) == 0 and len(
+                    mail_message.attachment_ids) != 0:
                 self.attachment_ids = [(6, 0, mail_message.attachment_ids.ids)]
+
         return mail_message
 
     @api.multi
@@ -252,7 +357,6 @@ class ProjectIssue(models.Model):
             'email_from': 'Tukipalvelu <%s>' % settings.email_reply_to,
             'reply_to': settings.email_reply_to,
             'subject': self.subject,
-            'author_id': SUPERUSER_ID,
             'mail_server_id': settings.mail_server_id.id or None,
         })
         return vals

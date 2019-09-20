@@ -91,11 +91,14 @@ class ProjectIssue(models.Model):
                     values['stage_id'] = self.env.ref(
                         'project_issue_stage.project_issue_stage_data_2').id
                     msg_body = _("Re-opening issue due to a new message.")
-                    record.sudo().message_post(
+
+                    msg = record.sudo().message_post(
                         body=msg_body,
                         message_type='comment',
                         subtype='mail.mt_note',
                     )
+
+                    msg.needaction_partner_ids = [record.user_id.partner_id.id]
         return super(ProjectIssue, self).write(values)
 
     # 7. Action methods

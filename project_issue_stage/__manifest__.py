@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
+#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (https://tawasta.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,18 +22,20 @@
 {
     'name': 'Project Issue Stage',
     'summary': 'Add stages changes records to issue',
-    'version': '10.0.0.5.4',
+    'version': '10.0.0.6.1',
     'category': 'Project',
-    'website': 'http://www.tawasta.fi',
+    'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
         'project_issue',
+        'project_issue_menu',
     ],
     'data': [
         'data/project_task_type.xml',
         'security/ir.model.access.csv',
         'views/project_issue_form.xml',
+        'views/project_issue_stage_change.xml',
         'views/project_task_type.xml',
     ],
     'application': False,

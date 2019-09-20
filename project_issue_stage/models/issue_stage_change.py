@@ -34,6 +34,13 @@ class IssueStageChange(models.Model):
         'project.issue',
         string='Issue id',
     )
+    issue_partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        related='issue_id.partner_id',
+    )
+    issue_date = fields.Datetime(
+        related='issue_id.date',
+    )
     start_date = fields.Datetime(
         string='Start date',
         help='When stage was started',

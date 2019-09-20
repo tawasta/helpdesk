@@ -6,13 +6,6 @@
         <field name="model">project.issue</field>
         <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
         <field name="arch" type="xml">
-            <!-- Issue number as heading -->
-            <div class="oe_title" position="replace">
-                <div class="oe_title">
-                    <h1>Issue #<field name="issue_number" readonly="1"/></h1>
-                </div>
-            </div>
-
             <!-- Add button for attachements -->
             <button name="toggle_active" position="before">
                 <button class="oe_stat_button" name="customer_issues_tree_view" type="object" icon="fa-ticket"

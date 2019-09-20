@@ -51,7 +51,7 @@ class ProjectIssue(models.Model):
         """
         for rec in self:
             partner_name = rec.partner_id.parent_id.name or rec.partner_id.name
-            msg = "%s (#%s): " % (partner_name, rec.issue_number)
+            msg = "%s (#%s): " % (partner_name, rec.issue_code)
             rec.suggested_message = msg
 
     @api.multi

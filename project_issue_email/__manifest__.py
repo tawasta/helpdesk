@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
+#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (https://tawasta.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,27 +22,29 @@
 {
     'name': 'Project Issue Email',
     'summary': 'Email modifications to Project Issue',
-    'version': '10.0.0.17.2',
+    'version': '10.0.0.19.2',
     'category': 'Project',
-    'website': 'http://www.tawasta.fi',
+    'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
         'email_template_qweb',
         'project_issue',
         'project_issue_attachment',
+        'project_issue_code',
         'project_issue_menu',
         'project_issue_other_recipients',
         'project_issue_stage',
     ],
     'data': [
-        'data/issue_number_init.xml',
+        'data/issue_subject_init.xml',
         'data/project_issue_settings_data.xml',
         'security/ir.model.access.csv',
         'views/fetchmail_server_form_view.xml',
         'views/project_issue_form.xml',
+        'views/project_issue_search.xml',
         'views/project_issue_settings.xml',
-        'views/project_issue_tree.xml',
+        'views/project_issue_stage_change.xml',
         # 'views/assets.xml',
     ],
     'application': False,
