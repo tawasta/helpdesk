@@ -156,6 +156,11 @@ class ProjectIssue(models.Model):
         # Add customer to followers
         if issue.partner_id:
             issue.message_subscribe([issue.partner_id.id])
+
+        # Unsubscribe admin
+        issue.message_unsubscribe(
+            self.env['res.users'].browse([SUPERUSER_ID]).partner_id.id)
+
         # Post an auto-response message to thread
         attachments = [(a['datas_fname'], base64.b64decode(a['datas']))
                        for a in issue.attachment_ids.sudo().read(['datas_fname', 'datas'])]
