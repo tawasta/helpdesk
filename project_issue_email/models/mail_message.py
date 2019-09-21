@@ -42,6 +42,10 @@ class MailMessage(models.Model):
         if model and model == 'project.issue':
             issue = self.env[model].browse([vals['res_id']])
 
+            # If this is the first message, use admin as author
+            if not vals.get('parent_id'):
+                vals['author_id'] = 1
+
             # Override subject, reply to and email server
             vals.update(issue.get_issue_autoreply_values(vals))
 
