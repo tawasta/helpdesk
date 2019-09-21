@@ -5,7 +5,7 @@
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, SUPERUSER_ID
 
 # 4. Imports from Odoo modules:
 
@@ -44,7 +44,8 @@ class MailMessage(models.Model):
 
             # If this is the first message, use admin as author
             if not vals.get('parent_id'):
-                vals['author_id'] = 1
+                vals['author_id'] = \
+                    self.env['res.users'].browse([SUPERUSER_ID]).partner_id.id
 
             # Override subject, reply to and email server
             vals.update(issue.get_issue_autoreply_values(vals))
