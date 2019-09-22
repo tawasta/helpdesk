@@ -87,14 +87,14 @@ class ProjectIssue(models.Model):
         mail_message = self.env['mail.message'].sudo()
 
         for record in self:
-            previous_message = mail_message.search([
+            latest_message_id = mail_message.search([
                 ('res_id', '=', record.id),
                 ('model', '=', self._name),
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
             ], limit=1)
 
-            record.previous_message_id = previous_message.id
+            record.latest_message_id = latest_message_id.id
 
     def _compute_previous_message(self):
         """ Search the message that precedes the latest message """
