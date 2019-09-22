@@ -164,7 +164,7 @@ class ProjectIssue(models.Model):
 
         # Unsubscribe admin
         issue.message_unsubscribe(
-            self.env['res.users'].browse([SUPERUSER_ID]).partner_id.id)
+            [self.env['res.users'].browse([SUPERUSER_ID]).partner_id.id])
 
         # Post an auto-response message to thread
         attachments = [(a['datas_fname'], base64.b64decode(a['datas']))
