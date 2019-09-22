@@ -92,8 +92,11 @@ class ProjectIssue(models.Model):
                 ('model', '=', self._name),
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
-                ('author_id', 'in', record.message_partner_ids.ids),
+                ('author_id', 'in', record.author_id.id),
             ], limit=1)
+
+            # TODO: the author id limit should be
+            #  "partner in followers, but doesn't belong to employees group"
 
             record.latest_message_id = latest_message_id.id
 
@@ -107,7 +110,7 @@ class ProjectIssue(models.Model):
                 ('model', '=', self._name),
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
-                ('author_id', 'in', record.message_partner_ids.ids),
+                ('author_id', 'in', record.author_id.id),
             ], limit=1, offset=1)
 
             record.previous_message_id = previous_message.id
