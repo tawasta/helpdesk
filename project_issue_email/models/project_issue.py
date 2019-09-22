@@ -92,6 +92,7 @@ class ProjectIssue(models.Model):
                 ('model', '=', self._name),
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
+                ('author_id', 'in', record.partner_ids.ids),
             ], limit=1)
 
             record.latest_message_id = latest_message_id.id
@@ -106,6 +107,7 @@ class ProjectIssue(models.Model):
                 ('model', '=', self._name),
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
+                ('author_id', 'in', record.partner_ids.ids),
             ], limit=1, offset=1)
 
             record.previous_message_id = previous_message.id
