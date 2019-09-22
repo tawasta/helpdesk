@@ -308,7 +308,7 @@ class ProjectIssue(models.Model):
         email_values = {}
 
         internal_note = kwargs.get('subtype') and kwargs[
-            'subtype'] == 'mail.mt_comment'
+            'subtype'] == 'mail.mt_note'
         employee = self.env.user.has_group('base.group_user')
 
         if messages == 0:
