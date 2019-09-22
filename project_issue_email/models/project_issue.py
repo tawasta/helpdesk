@@ -92,7 +92,7 @@ class ProjectIssue(models.Model):
                 ('model', '=', self._name),
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
-                ('author_id', 'in', record.author_id.id),
+                ('author_id', 'in', record.partner_id.id),
             ], limit=1)
 
             # TODO: the author id limit should be
@@ -110,7 +110,7 @@ class ProjectIssue(models.Model):
                 ('model', '=', self._name),
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
-                ('author_id', 'in', record.author_id.id),
+                ('author_id', 'in', record.partner_id.id),
             ], limit=1, offset=1)
 
             record.previous_message_id = previous_message.id
