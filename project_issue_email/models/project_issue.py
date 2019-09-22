@@ -307,11 +307,15 @@ class ProjectIssue(models.Model):
         ], limit=1)
         email_values = {}
 
+        internal_note = kwargs.get('subtype') and kwargs[
+            'subtype'] == 'mail.mt_comment'
+        employee = self.env.user.has_group('base.group_user')
+
         if messages == 0:
             # Use autoreply-template for first message
             email_values = settings.email_issue_received.generate_email(self.id)
 
-        elif self.env.uid != 1 and self.env.user.has_group('base.group_user'):
+        elif self.env.uid != 1 and employee and not internal_note:
             # Otherwise use default reply template
             email_values = settings.email_issue_reply.generate_email(self.id)
             # The content div syntax is very specific - this could be improved
