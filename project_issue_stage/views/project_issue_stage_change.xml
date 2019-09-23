@@ -78,7 +78,6 @@
                     <filter name="groupby_issue_partner" string="Issue partner" context="{'group_by':'issue_partner_id'}"/>
                     <filter name="groupby_issue" string="Issue" context="{'group_by':'issue_id'}"/>
                     <filter name="groupby_stage" string="Stage" context="{'group_by':'new_stage_id'}"/>
-                    <filter name="groupby_company_id" string="Company" context="{'group_by':'issue_company_id'}"/>
                 </group>
             </search>
 
