@@ -34,6 +34,11 @@ class IssueStageChange(models.Model):
         'project.issue',
         string='Issue id',
     )
+    issue_company_id = fields.Many2one(
+        'res.company',
+        related='issue_id.company_id',
+        string='Company id',
+    )
     issue_partner_id = fields.Many2one(
         comodel_name='res.partner',
         related='issue_id.partner_id',
