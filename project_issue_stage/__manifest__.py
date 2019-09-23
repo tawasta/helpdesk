@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Stage',
     'summary': 'Add stages changes records to issue',
-    'version': '10.0.0.6.4',
+    'version': '10.0.0.7.0',
     'category': 'Project',
     'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',

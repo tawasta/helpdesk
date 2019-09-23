@@ -38,21 +38,26 @@ class IssueStageChange(models.Model):
         'res.company',
         related='issue_id.company_id',
         string='Company id',
+        store=True,
     )
     issue_partner_id = fields.Many2one(
         comodel_name='res.partner',
         related='issue_id.partner_id',
+        store=True,
     )
     issue_date = fields.Datetime(
         related='issue_id.date',
+        store=True,
     )
     start_date = fields.Datetime(
         string='Start date',
         help='When stage was started',
+        store=True,
     )
     end_date = fields.Datetime(
         string='End date',
         help='When stage ended',
+        store=True,
     )
     hours = fields.Float(
         string='Hours',
