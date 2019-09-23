@@ -24,6 +24,7 @@
             <tree position="attributes">
                 <attribute name="colors">grey: stage_sequence in [5, 6];green: stage_sequence in [2, 3];red: date_deadline and (date_deadline&lt;current_date) and stage_sequence in [1, 2]; blue: stage_sequence==1;</attribute>
                 <attribute name="decoration-bf">message_needaction==True</attribute>
+                <attribute name="default_order">stage_id, name DESC</attribute>
             </tree>
 
             <field name="id" position="attributes">
