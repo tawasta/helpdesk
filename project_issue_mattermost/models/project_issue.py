@@ -48,7 +48,7 @@ class ProjectIssue(models.Model):
     def mattermost_get_url(self):
         """ Generate url for related issue """
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
-        url = "%(base_url)sweb/#id=%(record_id)s&view_type=form&model=project.issue" \
+        url = "%(base_url)s/web/#id=%(record_id)s&view_type=form&model=project.issue" \
               % {'base_url': base_url, 'record_id': self.id}
         return url
 
