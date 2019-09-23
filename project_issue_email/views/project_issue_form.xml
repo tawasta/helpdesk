@@ -15,7 +15,7 @@
             </button>
 
             <field name="name" position="attributes">
-                <attribute name="placeholder=">Issue's subject</attribute>
+                <attribute name="placeholder">Issue's subject</attribute>
             </field>
 
             <field name="user_id" position="before">
