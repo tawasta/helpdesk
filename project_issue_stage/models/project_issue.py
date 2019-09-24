@@ -81,22 +81,27 @@ class ProjectIssue(models.Model):
                     'hours': record.stage_duration,
                 })]
                 # Reset stage_duration
-            if record.stage_id.fold and 'message_follower_ids' in values:
+
+            closed = record.stage_id.fold or record.stage_id.closed
+            if closed and 'message_follower_ids' in values:
                 latest_message = record.message_ids.sorted(
                     key=lambda r: r.create_date, reverse=True)[0]
                 author = self.env['res.users'].search([
                     ('partner_id', '=', latest_message.author_id.id)
                 ])
-                if not author or (author and not author.has_group('base.group_user')):
+                if not author:
                     values['stage_id'] = self.env.ref(
                         'project_issue_stage.project_issue_stage_data_2').id
-                    msg_body = _("Re-opening issue due to a new message.")
 
-                    msg = record.sudo().message_post(
-                        body=msg_body,
-                        message_type='comment',
-                        subtype='mail.mt_note',
-                    )
+                    if record.stage_id.fold:
+                        # Only post message for folded stages
+                        msg_body = _("Re-opening issue due to a new message.")
+
+                        msg = record.sudo().message_post(
+                            body=msg_body,
+                            message_type='comment',
+                            subtype='mail.mt_note',
+                        )
 
                     msg.needaction_partner_ids = [record.user_id.partner_id.id]
         return super(ProjectIssue, self).write(values)
