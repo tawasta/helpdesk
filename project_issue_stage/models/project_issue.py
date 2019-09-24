@@ -103,7 +103,7 @@ class ProjectIssue(models.Model):
                             subtype='mail.mt_note',
                         )
 
-                    msg.needaction_partner_ids = [record.user_id.partner_id.id]
+                        msg.needaction_partner_ids = [record.user_id.partner_id.id]
         return super(ProjectIssue, self).write(values)
 
     # 7. Action methods
