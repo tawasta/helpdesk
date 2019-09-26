@@ -2,6 +2,7 @@
 
 # 1. Standard library imports:
 import logging
+from datetime import datetime
 
 # 2. Known third party imports:
 
@@ -71,16 +72,19 @@ class ProjectIssue(models.Model):
     @api.depends('stage_change_ids')
     def compute_time_open(self):
         for record in self:
-            # Skip this if there are less than two stage changes
+            # If issue doesn't have atleast 
             if len(record.stage_change_ids) < 2:
-                continue
-            stage_changes = record.stage_change_ids.sorted(key=lambda r: r.create_date, reverse=True)
-            time_open = 0.00
-            for stage_change in stage_changes:
-                # Don't calculate folded stage changes
-                if stage_change.new_stage_id.fold:
-                    continue
-                time_open += stage_change.hours
+                datetime_format = '%Y-%m-%d %H:%M:%S'
+                difference = datetime.now() - datetime.strptime(record.create_date, datetime_format)
+                time_open = difference.total_seconds() / 3600
+            else:
+                stage_changes = record.stage_change_ids.sorted(key=lambda r: r.create_date, reverse=True)
+                time_open = 0.00
+                for stage_change in stage_changes:
+                    # Don't calculate folded stage changes
+                    if stage_change.new_stage_id.fold:
+                        continue
+                    time_open += stage_change.hours
             record.time_open = time_open
 
     # 5. Constraints and onchanges
