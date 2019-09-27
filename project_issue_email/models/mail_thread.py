@@ -123,14 +123,14 @@ class MailThread(models.AbstractModel):
         to_remove = []
         for node in root.iter():
             # Gmail / Mac email parsing
-            if node.tag == 'blockquote' and node.getprevious().get('class') != 'moz-cite-prefix':
+            if node.tag == 'blockquote' and node.getprevious() and node.getprevious().get('class') != 'moz-cite-prefix':
                 postprocessed = True
                 parent = node.getparent()
                 to_remove.append(parent.getprevious())
                 to_remove.append(parent)
             # Gmail / Mac parsing ends
             # Thunderbird parsing
-            if node.tag == 'blockquote' and node.getprevious().get('class') == 'moz-cite-prefix':
+            if node.tag == 'blockquote' and node.getprevious() and node.getprevious().get('class') == 'moz-cite-prefix':
                 postprocessed = True
                 to_remove.append(node.getprevious())
                 to_remove.append(node)
