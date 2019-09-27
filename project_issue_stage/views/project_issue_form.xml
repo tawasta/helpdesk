@@ -9,6 +9,7 @@
             <notebook position="inside">
                 <page string="Stage changes">
                     <group>
+                        <field name="time_open" widget="float_time"/>
                         <field name="stage_duration" widget="float_time"/>
                     </group>
                     <field name="stage_change_ids">
