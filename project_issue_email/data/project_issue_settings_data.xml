@@ -5,9 +5,9 @@
         <!-- QWeb template for email header -->
         <template id="project_issue_email_header" name="Email header for project issues">
             <div style="text-align:center;border-bottom:1px solid #d4d4d4;padding:25px 0;width:100%;">
-                <a t-att-href="object.company_id.website" style="color:#f26321" target="_blank">
-                    <img t-att-alt="object.company_id.name" style="border:none;max-width:200px;"
-                         t-att-src="'/logo.png?company=%s' % object.company_id.id"/>
+                <a t-att-href="object.sudo().company_id.website" style="color:#f26321" target="_blank">
+                    <img t-att-alt="object.sudo().company_id.name" style="border:none;max-width:200px;"
+                         t-att-src="'/logo.png?company=%s' % object.sudo().company_id.id"/>
                 </a>
             </div>
         </template>
@@ -22,7 +22,7 @@
                     </div>
                     <div t-else="">
                         <strong>Best regards,</strong><br/>
-                        <span t-field="object.company_id.name"/> support<br/>
+                        <span t-field="object.sudo().company_id.name"/> support<br/>
                         <span t-field="settings.email_reply_to"/>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                 <tbody style="margin: 25px 0 10px;font-size: 13px">
                     <tr>
                         <td>
-                            <div>Copyright © <t t-esc="datetime.date.today().strftime('%Y')"/> <t t-esc="object.company_id.name"/>, All rights reserved.</div>
+                            <div>Copyright © <t t-esc="datetime.date.today().strftime('%Y')"/> <t t-esc="object.sudo().company_id.name"/>, All rights reserved.</div>
                         </td>
                     </tr>
                     <tr>
