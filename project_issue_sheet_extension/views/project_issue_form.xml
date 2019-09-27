@@ -17,11 +17,6 @@
                     'default_unit_amount': suggested_time,
                 }</attribute>
             </field>
-            <field name="timesheet_ids" position="after">
-                <group name="timesheets_extra">
-                    <field name="time_open" widget="float_time"/>
-                </group>
-            </field>
         </field>
     </record>
 </odoo>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-04 11:03+0000\n"
-"PO-Revision-Date: 2019-09-24 11:46+0300\n"
+"POT-Creation-Date: 2019-09-27 07:14+0000\n"
+"PO-Revision-Date: 2019-09-27 10:15+0300\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: fi\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: project_issue_stage
 #: model:project.task.type,name:project_issue_stage.project_issue_stage_data_2
@@ -28,9 +28,19 @@ msgid "Bootstrap label class"
 msgstr "Bootstrap-kirjaston luokka labeleille"
 
 #. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_issue_company_id
+msgid "Company id"
+msgstr "Company id"
+
+#. module: project_issue_stage
 #: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_issue_partner_id
 msgid "Contact"
 msgstr "Kontakti"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,help:project_issue_stage.field_project_issue_time_open
+msgid "Count how long the issue has been open (closed stages excluded), updates only when stage is changed."
+msgstr "Laskee kuinka pitkään tukpyyntö on ollut auki (suljetut vaiheet poissuljetaan ajasta), kenttä päivitetään ainoastaan vaiheiden vaihtuessa."
 
 #. module: project_issue_stage
 #: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_stage_change_create_uid
@@ -112,7 +122,7 @@ msgstr "Käytetäänkö vaihetta tukipyynnöissä"
 #. module: project_issue_stage
 #: model:ir.ui.view,arch_db:project_issue_stage.project_issue_stage_change_filters
 msgid "Issue"
-msgstr "Tapaus"
+msgstr "Tukipyyntö"
 
 #. module: project_issue_stage
 #: model:ir.ui.view,arch_db:project_issue_stage.project_issue_stage_change_graph
@@ -203,14 +213,13 @@ msgstr "Projektit"
 #. module: project_issue_stage
 #: model:ir.model,name:project_issue_stage.model_project_issue
 msgid "Project Issue"
-msgstr "Projektin tapaus"
+msgstr "Tukipyyntö"
 
 #. module: project_issue_stage
-#: code:addons/mpg/helpdesk/project_issue_stage/models/project_issue.py:93
-#: code:addons/project_issue_stage/models/project_issue.py:93
+#: code:addons/project_issue_stage/models/project_issue.py:122
 #, python-format
 msgid "Re-opening issue due to a new message."
-msgstr "Avataan tukipyyntö uuden viestin vuoksi."
+msgstr "Re-opening issue due to a new message."
 
 #. module: project_issue_stage
 #: model:project.task.type,name:project_issue_stage.project_issue_stage_data_5
@@ -278,6 +287,11 @@ msgstr "Kuluva kuukausi"
 #: model:ir.ui.view,arch_db:project_issue_stage.project_issue_stage_change_filters
 msgid "This year"
 msgstr "Kuluva vuosi"
+
+#. module: project_issue_stage
+#: model:ir.model.fields,field_description:project_issue_stage.field_project_issue_time_open
+msgid "Time open"
+msgstr "Aika avoinna"
 
 #. module: project_issue_stage
 #: model:ir.ui.view,arch_db:project_issue_stage.project_issue_stage_change_tree

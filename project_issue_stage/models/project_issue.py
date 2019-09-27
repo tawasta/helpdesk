@@ -36,6 +36,12 @@ class ProjectIssue(models.Model):
         string='Ongoing stage duration',
         compute='_compute_stage_duration',
     )
+    time_open = fields.Float(
+        string='Time open',
+        compute='compute_time_open',
+        store=True,
+        help='Count how long the issue has been open (closed stages excluded), updates only when stage is changed.',
+    )
 
     # 3. Default methods
 
@@ -57,6 +63,24 @@ class ProjectIssue(models.Model):
             difference = datetime.now() - last_end_date
             duration = difference.total_seconds() / 3600
             record.stage_duration = duration
+
+    @api.multi
+    @api.depends('stage_change_ids')
+    def compute_time_open(self):
+        for record in self:
+            time_open = 0.00
+            if record.create_date and not record.stage_change_ids:
+                datetime_format = '%Y-%m-%d %H:%M:%S'
+                difference = datetime.now() - datetime.strptime(record.create_date, datetime_format)
+                time_open = difference.total_seconds() / 3600
+            else:
+                stage_changes = record.stage_change_ids.sorted(key=lambda r: r.create_date, reverse=True)
+                for stage_change in stage_changes:
+                    # Don't calculate folded stage changes
+                    if stage_change.old_stage_id.fold:
+                        continue
+                    time_open += stage_change.hours
+            record.time_open = time_open
 
     # 5. Constraints and onchanges
 
