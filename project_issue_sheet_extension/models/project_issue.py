@@ -2,6 +2,7 @@
 
 # 1. Standard library imports:
 import logging
+from datetime import datetime
 
 # 2. Known third party imports:
 
@@ -34,12 +35,6 @@ class ProjectIssue(models.Model):
         compute='compute_suggested_time',
         help='Suggested time for a timesheet record based on stage changes',
     )
-    time_open = fields.Float(
-        'Time open',
-        compute='compute_time_open',
-        store=True,
-        help='Count how long the issue has been open (closed stages excluded)',
-    )
 
     # 3. Default methods
 
@@ -66,22 +61,6 @@ class ProjectIssue(models.Model):
                 if len(stage_changes) < 2:
                     continue
                 rec.suggested_time = round(stage_changes[1].hours, 2)
-
-    @api.multi
-    @api.depends('stage_change_ids')
-    def compute_time_open(self):
-        for record in self:
-            # Skip this if there are less than two stage changes
-            if len(record.stage_change_ids) < 2:
-                continue
-            stage_changes = record.stage_change_ids.sorted(key=lambda r: r.create_date, reverse=True)
-            time_open = 0.00
-            for stage_change in stage_changes:
-                # Don't calculate folded stage changes
-                if stage_change.new_stage_id.fold:
-                    continue
-                time_open += stage_change.hours
-            record.time_open = time_open
 
     # 5. Constraints and onchanges
 
