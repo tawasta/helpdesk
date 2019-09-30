@@ -22,7 +22,9 @@
                 <field name='issue_partner_id'/>
                 <field name='issue_date'/>
                 <field name='issue_id'/>
-                <field name='new_stage_id' string='Stage'/>
+                <field name='issue_sla'/>
+                <field name='create_date' string='Stage changed'/>
+                <field name='old_stage_id' string='Stage'/>
                 <field name='hours' widget="float_time" sum='Total hours'/>
             </tree>
 
@@ -52,8 +54,9 @@
             <search string="Search stage changes">
                 <field name="issue_id" />
                 <field name="issue_partner_id" />
-                <field name="new_stage_id" />
+                <field name="old_stage_id" />
                 <field name="issue_company_id" />
+                <field name='issue_sla'/>
 
                 <separator />
 
@@ -77,7 +80,7 @@
                 <group expand="0" string="Group By">
                     <filter name="groupby_issue_partner" string="Issue partner" context="{'group_by':'issue_partner_id'}"/>
                     <filter name="groupby_issue" string="Issue" context="{'group_by':'issue_id'}"/>
-                    <filter name="groupby_stage" string="Stage" context="{'group_by':'new_stage_id'}"/>
+                    <filter name="groupby_stage" string="Stage" context="{'group_by':'old_stage_id'}"/>
                 </group>
             </search>
 

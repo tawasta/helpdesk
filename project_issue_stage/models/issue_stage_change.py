@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 # 1. Standard library imports:
-from datetime import datetime
 
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
-from odoo import api, fields, models
+from odoo import fields, models
 
 # 4. Imports from Odoo modules:
 
@@ -47,6 +46,10 @@ class IssueStageChange(models.Model):
     )
     issue_date = fields.Datetime(
         related='issue_id.date',
+        store=True,
+    )
+    issue_sla = fields.Selection(
+        related='issue_id.sla',
         store=True,
     )
     start_date = fields.Datetime(
