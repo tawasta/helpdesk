@@ -91,21 +91,7 @@ class ProjectIssue(models.Model):
         Add a new row to stage_change_ids, when stage is changed
         Reopen ticket / change stage if external user sends message
         """
-        stage_id = values.get('stage_id')
         for record in self:
-            if stage_id:
-                end_date = record.create_date
-                if record.stage_change_ids:
-                    end_date = record.stage_change_ids[0].end_date
-                values['stage_change_ids'] = [(0, 0, {
-                    'old_stage_id': record.stage_id.id,
-                    'new_stage_id': stage_id,
-                    'start_date': end_date,
-                    'end_date': fields.Datetime.now(),
-                    'hours': record.stage_duration,
-                })]
-                # Reset stage_duration
-
             closed = record.stage_id.fold or record.stage_id.closed
             if closed and 'message_follower_ids' in values:
                 latest_message = record.message_ids.sorted(
@@ -126,8 +112,21 @@ class ProjectIssue(models.Model):
                             message_type='comment',
                             subtype='mail.mt_note',
                         )
-
                         msg.needaction_partner_ids = [record.user_id.partner_id.id]
+
+            stage_id = values.get('stage_id')
+            if stage_id:
+                end_date = record.create_date
+                if record.stage_change_ids:
+                    end_date = record.stage_change_ids[0].end_date
+                values['stage_change_ids'] = [(0, 0, {
+                    'old_stage_id': record.stage_id.id,
+                    'new_stage_id': stage_id,
+                    'start_date': end_date,
+                    'end_date': fields.Datetime.now(),
+                    'hours': record.stage_duration,
+                })]
+                # Reset stage_duration
         return super(ProjectIssue, self).write(values)
 
     # 7. Action methods
