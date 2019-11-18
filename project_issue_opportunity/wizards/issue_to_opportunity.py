@@ -37,10 +37,9 @@ class IssueToOpportunity(models.TransientModel):
         string='Description',
         help=_("Opportunity's description in plain text")
     )
-    user = fields.Many2one(
+    user_id = fields.Many2one(
         comodel_name='res.users',
-        string='User',
-        help=_("Created by user")
+        string='Salesperson',
     )
 
     # 3. Default methods
@@ -61,7 +60,7 @@ class IssueToOpportunity(models.TransientModel):
             'name': name,
             'description': description,
             'partner_id': issue.partner_id.id,
-            'user': self._uid,
+            'user_id': self._uid,
         }
         return values
 
@@ -85,6 +84,7 @@ class IssueToOpportunity(models.TransientModel):
             'partner_id': self.partner_id.id,
             'name': self.name,
             'description': self.description,
+            'user_id': self.user_id.id,
             'type': 'opportunity',
         }
         opportunity = self.env['crm.lead'].create(values)

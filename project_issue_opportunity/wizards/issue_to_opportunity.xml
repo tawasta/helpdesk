@@ -8,7 +8,7 @@
             <form string="Create an Opportunity">
                 <group>
                     <field name="partner_id" />
-                    <field name="user" />
+                    <field name="user_id" />
                     <field name="name" />
                     <field name="description" />
                 </group>
