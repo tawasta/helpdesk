@@ -258,6 +258,8 @@ class ProjectIssue(models.Model):
             partner_vals = dict()
             partner_vals['name'] = name
             partner_vals['email'] = email
+            partner_vals['is_company'] = False
+            partner_vals['company_type'] = 'person'
             partner_id = partner_object.create(partner_vals).id
         return partner_id
 
