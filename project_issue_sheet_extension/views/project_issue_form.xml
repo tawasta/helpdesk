@@ -21,7 +21,7 @@
             </field>
 
             <xpath expr="//tree/field[@name='project_id']" position="after">
-                <field name="task_id" />
+                <field name="task_id" domain="[('project_id', '=', project_id)]"/>
             </xpath>
         </field>
     </record>
