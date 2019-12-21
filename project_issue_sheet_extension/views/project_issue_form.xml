@@ -8,7 +8,7 @@
             <field name="task_id"  position="after">
                 <field name="suggested_message" invisible="1"/>
                 <field name="suggested_time" invisible="1"/>
-                <field name="suggested_task_id" invisible="1"/>
+                <field name="suggested_task_id" invisible="0"/>
             </field>
             <field name="timesheet_ids"  position="attributes">
                 <attribute name="context">{
@@ -21,7 +21,7 @@
             </field>
 
             <xpath expr="//tree/field[@name='project_id']" position="after">
-                <field name="task_id" required="True"/>
+                <field name="task_id" />
             </xpath>
         </field>
     </record>

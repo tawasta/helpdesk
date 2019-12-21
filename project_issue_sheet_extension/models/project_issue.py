@@ -38,7 +38,7 @@ class ProjectIssue(models.Model):
     suggested_task_id = fields.Many2one(
         comodel_name='project.task',
         string='Suggested task',
-        compute='_compute_suggested_task_id'
+        compute='_compute_suggested_task_id',
     )
 
     # 3. Default methods
