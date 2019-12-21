@@ -8,6 +8,7 @@
             <field name="task_id"  position="after">
                 <field name="suggested_message" invisible="1"/>
                 <field name="suggested_time" invisible="1"/>
+                <field name="suggested_task_id" invisible="0"/>
             </field>
             <field name="timesheet_ids"  position="attributes">
                 <attribute name="context">{
@@ -15,8 +16,13 @@
                     'default_project_id': project_id,
                     'default_name': suggested_message,
                     'default_unit_amount': suggested_time,
+                    'default_task_id': suggested_task_id,
                 }</attribute>
             </field>
+
+            <xpath expr="//tree/field[@name='project_id']" position="after">
+                <field name="task_id" required="True"/>
+            </xpath>
         </field>
     </record>
 </odoo>

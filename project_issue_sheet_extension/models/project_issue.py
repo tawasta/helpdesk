@@ -27,20 +27,25 @@ class ProjectIssue(models.Model):
     # 2. Fields declaration
     suggested_message = fields.Char(
         'Suggested message',
-        compute='compute_suggested_message',
+        compute='_compute_suggested_message',
         help='Issue prefix to timesheet message as suggestion',
     )
     suggested_time = fields.Float(
         'Suggested time',
-        compute='compute_suggested_time',
+        compute='_compute_suggested_time',
         help='Suggested time for a timesheet record based on stage changes',
+    )
+    suggested_task_id = fields.Many2one(
+        comodel_name='project.task',
+        string='Suggested task',
+        compute='_compute_suggested_task_id'
     )
 
     # 3. Default methods
 
     # 4. Compute and search fields, in the same order that fields declaration
     @api.multi
-    def compute_suggested_message(self):
+    def _compute_suggested_message(self):
         """
         Compute suggested message to timesheet record
         """
@@ -50,7 +55,7 @@ class ProjectIssue(models.Model):
             rec.suggested_message = msg
 
     @api.multi
-    def compute_suggested_time(self):
+    def _compute_suggested_time(self):
         """
         Compute suggested time to timesheet record
         """
@@ -61,6 +66,19 @@ class ProjectIssue(models.Model):
                 if len(stage_changes) < 2:
                     continue
                 rec.suggested_time = round(stage_changes[1].hours, 2)
+
+    @api.multi
+    def _compute_suggested_task_id(self):
+        """
+        Compute suggested task to timesheet record
+        """
+        project_task = self.env['project.task']
+        for rec in self:
+            rec.suggested_task_id = project_task.search([
+                ('project_id', '=', rec.project_id.id),
+                ('stage_id.sequence', '>', 1),
+                ('stage_closed', '=', False),
+            ], limit=1)
 
     # 5. Constraints and onchanges
 
