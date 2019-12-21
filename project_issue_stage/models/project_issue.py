@@ -94,25 +94,32 @@ class ProjectIssue(models.Model):
         for record in self:
             closed = record.stage_id.fold or record.stage_id.closed
             if closed and 'message_follower_ids' in values:
+                '''
+                # This part disables auto-reopen for internal users, which
+                # is kind of a bad idea if there are internal issues or
+                # portal users
                 latest_message = record.message_ids.sorted(
                     key=lambda r: r.create_date, reverse=True)[0]
+                
                 author = self.env['res.users'].search([
                     ('partner_id', '=', latest_message.author_id.id)
                 ])
+                
                 if not author:
-                    values['stage_id'] = self.env.ref(
-                        'project_issue_stage.project_issue_stage_data_2').id
+                '''
+                values['stage_id'] = self.env.ref(
+                    'project_issue_stage.project_issue_stage_data_2').id
 
-                    if record.stage_id.fold:
-                        # Only post message for folded stages
-                        msg_body = _("Re-opening issue due to a new message.")
+                if closed:
+                    # Only post message for closed stages
+                    msg_body = _("Re-opening issue due to a new message.")
 
-                        msg = record.sudo().message_post(
-                            body=msg_body,
-                            message_type='comment',
-                            subtype='mail.mt_note',
-                        )
-                        msg.needaction_partner_ids = [record.user_id.partner_id.id]
+                    msg = record.sudo().message_post(
+                        body=msg_body,
+                        message_type='comment',
+                        subtype='mail.mt_note',
+                    )
+                    msg.needaction_partner_ids = [record.user_id.partner_id.id]
 
             stage_id = values.get('stage_id')
             if stage_id:
