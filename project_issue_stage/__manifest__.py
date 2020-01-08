@@ -31,7 +31,6 @@
         'project_issue',
         'project_issue_menu',
         'project_stage_closed',
-        'project_issue_other_recipients',
     ],
     'data': [
         'data/project_task_type.xml',
