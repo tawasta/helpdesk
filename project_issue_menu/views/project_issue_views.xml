@@ -3,7 +3,7 @@
     <menuitem name="Issues"
         id="project_issue_menu"
         parent="project.menu_main_pm"
-        sequence="10" groups="base.group_no_one,project.group_project_user"/>
+        sequence="10" groups="project.group_project_user"/>
 
     <record id="project_issue_view_search" model="ir.ui.view">
         <field name="name">project.issue.search.view</field>

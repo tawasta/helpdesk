@@ -57,7 +57,8 @@ class ProjectIssue(models.Model):
         for record in self:
             if record.stage_change_ids:
                 last_stage = record.stage_change_ids[0]
-                last_end_date = datetime.strptime(last_stage.create_date, datetime_format)
+                last_end_date = datetime.strptime(
+                    last_stage.create_date, datetime_format)
             else:
                 last_end_date = datetime.strptime(record.create_date, datetime_format)
             difference = datetime.now() - last_end_date
@@ -74,7 +75,8 @@ class ProjectIssue(models.Model):
                 difference = datetime.now() - datetime.strptime(record.create_date, datetime_format)
                 time_open = difference.total_seconds() / 3600
             else:
-                stage_changes = record.stage_change_ids.sorted(key=lambda r: r.create_date, reverse=True)
+                stage_changes = record.stage_change_ids.sorted(
+                    key=lambda r: r.create_date, reverse=True)
                 for stage_change in stage_changes:
                     # Don't calculate folded stage changes
                     if stage_change.old_stage_id.fold:
@@ -93,33 +95,18 @@ class ProjectIssue(models.Model):
         """
         for record in self:
             closed = record.stage_id.fold or record.stage_id.closed
-            if closed and 'message_follower_ids' in values:
-                '''
-                # This part disables auto-reopen for internal users, which
-                # is kind of a bad idea if there are internal issues or
-                # portal users
-                latest_message = record.message_ids.sorted(
-                    key=lambda r: r.create_date, reverse=True)[0]
-                
-                author = self.env['res.users'].search([
-                    ('partner_id', '=', latest_message.author_id.id)
-                ])
-                
-                if not author:
-                '''
+            if closed and values.get('message_follower_ids'):
                 values['stage_id'] = self.env.ref(
                     'project_issue_stage.project_issue_stage_data_2').id
+                # Only post message for folded stages
+                msg_body = _("Re-opening issue due to a new message.")
 
-                if closed:
-                    # Only post message for closed stages
-                    msg_body = _("Re-opening issue due to a new message.")
-
-                    msg = record.sudo().message_post(
-                        body=msg_body,
-                        message_type='comment',
-                        subtype='mail.mt_note',
-                    )
-                    msg.needaction_partner_ids = [record.user_id.partner_id.id]
+                msg = record.sudo().message_post(
+                    body=msg_body,
+                    message_type='comment',
+                    subtype='mail.mt_note',
+                )
+                msg.needaction_partner_ids = [record.user_id.partner_id.id]
 
             stage_id = values.get('stage_id')
             if stage_id:
