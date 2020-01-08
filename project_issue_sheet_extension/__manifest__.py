@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Timesheet Extension',
     'summary': 'Modifications to Project Issue timesheets',
-    'version': '10.0.1.1.0',
+    'version': '10.0.1.1.1',
     'category': 'Project',
     'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -30,6 +30,7 @@
     'depends': [
         'project_issue_sheet',
         'project_issue_stage',
+        'hr_timesheet_no_closed_project_task',
     ],
     'data': [
         'views/project_issue_form.xml',
