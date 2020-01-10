@@ -98,15 +98,16 @@ class ProjectIssue(models.Model):
             if closed and values.get('message_follower_ids'):
                 values['stage_id'] = self.env.ref(
                     'project_issue_stage.project_issue_stage_data_2').id
+                # TODO: Issue reopened message removed for now to prevent recursion
                 # Only post message for folded stages
-                msg_body = _("Re-opening issue due to a new message.")
+                # msg_body = _("Re-opening issue due to a new message.")
 
-                msg = record.sudo().message_post(
-                    body=msg_body,
-                    message_type='comment',
-                    subtype='mail.mt_note',
-                )
-                msg.needaction_partner_ids = [record.user_id.partner_id.id]
+                # msg = record.sudo().message_post(
+                #     body=msg_body,
+                #     message_type='comment',
+                #     subtype='mail.mt_note',
+                # )
+                # msg.needaction_partner_ids = [record.user_id.partner_id.id]
 
             stage_id = values.get('stage_id')
             if stage_id:
