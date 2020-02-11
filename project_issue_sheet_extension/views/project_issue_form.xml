@@ -20,8 +20,12 @@
                 }</attribute>
             </field>
 
+            <field name="project_id" position="attributes">
+                <attribute name="options">{'no_quick_create':True,'no_create_edit':True}</attribute>
+            </field>
+
             <xpath expr="//tree/field[@name='project_id']" position="after">
-                <field name="task_id" domain="[('project_id', '=', project_id)]"/>
+                <field name="task_id" domain="[('project_id', '=', project_id)]" options="{'no_quick_create':True,'no_create_edit':True}"/>
             </xpath>
         </field>
     </record>

@@ -50,7 +50,7 @@ class ProjectIssue(models.Model):
         Compute suggested message to timesheet record
         """
         for rec in self:
-            partner_name = rec.partner_id.parent_id.name or rec.partner_id.name
+            partner_name = rec.commercial_partner_id.name
             msg = "%s (#%s): " % (partner_name, rec.issue_code)
             rec.suggested_message = msg
 
