@@ -19,11 +19,6 @@
             <field name="priority" position="after">
                 <field name="sla" widget="selection"/>
             </field>
-
-            <field name="description" position="after">
-                <field name="date_started" />
-                <field name="date_finished" />
-            </field>
         </field>
     </record>
 </odoo>
