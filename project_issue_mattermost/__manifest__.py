@@ -22,7 +22,7 @@
     'name': 'Project Issue Mattermost hooks',
     'summary': 'Pushes issue events to a Mattermost channel',
     'category': 'Project',
-    'version': '10.0.0.3.6',
+    'version': '10.0.0.3.7',
     'author': 'Oy Tawasta Technologies Ltd.',
     'website': 'http://www.tawasta.fi',
     'license': 'AGPL-3',
