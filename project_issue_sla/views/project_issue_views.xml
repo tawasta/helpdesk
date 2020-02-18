@@ -17,7 +17,12 @@
         <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
         <field name="arch" type="xml">
             <field name="priority" position="after">
-                <field name="sla" widget="priority"/>
+                <field name="sla" widget="selection"/>
+            </field>
+
+            <field name="description" position="after">
+                <field name="date_started" />
+                <field name="date_finished" />
             </field>
         </field>
     </record>
