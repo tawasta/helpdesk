@@ -1,33 +1,17 @@
 # -*- coding: utf-8 -*-
-
-# 1. Standard library imports:
 import logging
 import re
 from datetime import datetime
 import base64
-
-# 2. Known third party imports:
-
-# 3. Odoo imports (openerp):
 from odoo import api, fields, models, _
 from odoo import SUPERUSER_ID
-
-# 4. Imports from Odoo modules:
-
-# 5. Local imports in the relative form:
-
-# 6. Unknown third party imports:
-
-
 _logger = logging.getLogger(__name__)
 
 
 class ProjectIssue(models.Model):
 
-    # 1. Private attributes
     _inherit = 'project.issue'
 
-    # 2. Fields declaration
     customer_issue_count = fields.Integer(
         compute='_compute_customer_issue_count',
         string='Number of issues on customer',
@@ -61,7 +45,6 @@ class ProjectIssue(models.Model):
         compute='_compute_previous_message',
     )
 
-    # 3. Default methods
     @api.model
     def default_get(self, fields):
         res = super(ProjectIssue, self).default_get(fields)
@@ -74,7 +57,6 @@ class ProjectIssue(models.Model):
         })
         return res
 
-    # 4. Compute and search fields, in the same order that fields declaration
     def _compute_customer_issue_count(self):
         for record in self:
             partner_id = record.partner_id.id
@@ -115,9 +97,6 @@ class ProjectIssue(models.Model):
 
             record.previous_message_id = previous_message.id
 
-    # 5. Constraints and onchanges
-
-    # 6. CRUD methods
     @api.model
     def create(self, vals):
         """
@@ -207,7 +186,6 @@ class ProjectIssue(models.Model):
 
         return super(ProjectIssue, self).write(vals)
 
-    # 7. Action methods
     @api.multi
     def customer_issues_tree_view(self):
         """ Customer's issues """
@@ -229,7 +207,6 @@ class ProjectIssue(models.Model):
             'limit': 80,
         }
 
-    # 8. Business methods
     @api.model
     def _fetch_partner(self, email_recipient):
         """ Fetch partner from email """

@@ -1,26 +1,12 @@
 # -*- coding: utf-8 -*-
-
-# 1. Standard library imports:
-
-# 2. Known third party imports:
-
-# 3. Odoo imports (openerp):
 from odoo import fields, models
-
-# 4. Imports from Odoo modules:
-
-# 5. Local imports in the relative form:
-
-# 6. Unknown third party imports:
 
 
 class ProjectIssueSettings(models.Model):
 
-    # 1. Private attributes
     _name = 'project.issue.settings'
     _description = "Project issue settings"
 
-    # 2. Fields declaration
     def _default_email_issue_received(self):
         template_id = self.env.ref(
             'project_issue_email.project_issue_email_received_autoreply')
@@ -72,14 +58,3 @@ class ProjectIssueSettings(models.Model):
         string='Force sending mail server',
         help='Force the sending mail server for this company',
     )
-    # 3. Default methods
-
-    # 4. Compute and search fields, in the same order that fields declaration
-
-    # 5. Constraints and onchanges
-
-    # 6. CRUD methods
-
-    # 7. Action methods
-
-    # 8. Business methods

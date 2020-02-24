@@ -1,38 +1,20 @@
 # -*- coding: utf-8 -*-
-
-# 1. Standard library imports:
-
-# 2. Known third party imports:
-
-# 3. Odoo imports (openerp):
-from odoo import api, fields, models, _, SUPERUSER_ID
-
-# 4. Imports from Odoo modules:
-
-# 5. Local imports in the relative form:
-
-# 6. Unknown third party imports:
+from odoo import api
+from odoo import fields
+from odoo import models
+from odoo import SUPERUSER_ID
 
 
 class MailMessage(models.Model):
 
-    # 1. Private attributes
     _inherit = 'mail.message'
 
-    # 2. Fields declaration
     portal_message = fields.Boolean(
         string="Message was sent from portal",
         default=False,
         help="This field is used for sending issue comments through portal",
     )
 
-    # 3. Default methods
-
-    # 4. Compute and search fields, in the same order that fields declaration
-
-    # 5. Constraints and onchanges
-
-    # 6. CRUD methods
     @api.model
     def create(self, vals):
         """
@@ -54,7 +36,6 @@ class MailMessage(models.Model):
 
         return res
 
-    # 7. Action methods
     @api.multi
     def _notify(self, force_send=False, send_after_commit=True, user_signature=True):
         """
@@ -63,4 +44,3 @@ class MailMessage(models.Model):
         """
         return super(MailMessage, self)._notify(force_send, send_after_commit, user_signature)
 
-    # 8. Business methods
