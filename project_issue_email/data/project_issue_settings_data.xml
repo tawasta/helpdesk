@@ -4,8 +4,11 @@
 
         <!-- QWeb template for email header -->
         <template id="project_issue_email_header" name="Email header for project issues">
-            <div style="text-align:center;border-bottom:1px solid #d4d4d4;padding:25px 0;width:100%;">
-                <a t-att-href="object.sudo().company_id.website" style="color:#f26321" target="_blank">
+            <div style="text-align:center;border-bottom:1px solid #d4d4d4; padding-bottom:2em; width:100%;">
+                <hr style="color: #ccc"/>
+                <p style='color: #ccc;'>Please reply above this line. Any content below it will be disregarded.</p>
+
+                <a t-att-href="object.sudo().company_id.website" style="color: #f26321 padding-top: 2em;" target="_blank">
                     <img t-att-alt="object.sudo().company_id.name" style="border:none;max-width:200px;"
                          t-att-src="'/logo.png?company=%s' % object.sudo().company_id.id"/>
                 </a>
@@ -100,18 +103,18 @@
                                             </div>
                                             <p>There's a new message for your ticket  <strong><t t-esc="'#%s: %s' % (object.issue_code, object.name)"/></strong>. You can see the response below in the next section or in <a t-att-href="object.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/my/issues/' + str(object.id)" target="_blank" rel="noopener noreferrer">the website portal</a> by signing in to your account. If you don't have a portal account and would prefer using it instead of emails, you can request it from us.</p>
                                         </div>
-                                        <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
-                                        <hr style="color: #f6f6f6"/>
+                                        <p style="color: #ccc">Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
+                                        <hr style="color: #ccc"/>
                                         <div style="padding:30px 0;margin:20px 0;">
                                             <div id="message-content"></div>
                                         </div>
-                                        <hr style="color: #f6f6f6"/>
                                     </div>
+
+                                    <hr style="color: #ccc"/>
 
                                     <div t-if="object.latest_message_id" style='margin-top:30px;padding-left:40px; border-left:solid 3px #ccc;'>
                                         <h3>Latest message</h3>
-                                        <span style='margin-bottom:20px;color:#909090;'>Author:</span>
-                                         <span t-field="object.latest_message_id.author_id" /> (<span t-field="object.latest_message_id.create_date" />):
+                                        <span t-field="object.latest_message_id.author_id" /> (<span t-field="object.latest_message_id.create_date" />):
                                         <br />
                                         <div t-field="object.latest_message_id.body"></div>
                                     </div>
