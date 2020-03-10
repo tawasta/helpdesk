@@ -38,6 +38,7 @@
     ],
     'data': [
         'data/issue_subject_init.xml',
+        'data/mail_notification_template.xml',
         'data/project_issue_settings_data.xml',
         'security/ir.model.access.csv',
         'views/fetchmail_server_form_view.xml',

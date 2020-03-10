@@ -291,6 +291,14 @@ class ProjectIssue(models.Model):
         system_note = not kwargs.get('message_type')
         employee = self.env.user.has_group('base.group_user')
 
+        # Replace the empty content div in template with message body
+        try:
+            content_body = values.get('body', '')
+        except UnicodeDecodeError:
+            # A cheap way to handle UnicodeDecodeError
+            # If an error occurs, the content most likely was utf-8
+            content_body = unicode(values.get('body', ''), 'utf-8')
+
         if messages == 0:
             # Use autoreply-template for first message
             email_values = settings.email_issue_received.generate_email(self.id)
@@ -309,19 +317,10 @@ class ProjectIssue(models.Model):
                       % content_div)
                 )
 
-            # Replace the empty content div in template with message body
-            try:
-                email_values['body'] = email_values['body'].replace(
-                    content_div,
-                    kwargs.get('body', ''),
-                )
-            except UnicodeDecodeError:
-                # A cheap way to handle UnicodeDecodeError
-                # If an error occurs, the content most likely was utf-8
-                email_values['body'] = email_values['body'].replace(
-                    content_div,
-                    unicode(kwargs.get('body', ''), 'utf-8'),
-                )
+            email_values['body'] = email_values['body'].replace(
+                content_div,
+                content_body,
+            )
 
         # Use updated subject and body
         values.update({
@@ -329,9 +328,18 @@ class ProjectIssue(models.Model):
             'body': email_values.get('body', values.get('body')),
         })
 
-        mail_message = super(ProjectIssue, self).message_post(
+        ctx = {
+            'signature': False,
+            'custom_layout': 'project_issue_email.mail_notification_helpdesk',
+        }
+        mail_message = super(
+            ProjectIssue, self.with_context(ctx)).message_post(
             **values
         )
+
+        # After posting the message, remove the template from thread
+        # This way the mail thread keeps cleaner
+        mail_message.body = content_body
 
         if messages == 0:
             # TODO is this necessary?
