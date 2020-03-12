@@ -1,25 +1,10 @@
 # -*- coding: utf-8 -*-
-
-# 1. Standard library imports:
-
-# 2. Known third party imports:
-
-# 3. Odoo imports (openerp):
-from odoo import models, fields
-
-# 4. Imports from Odoo modules:
-
-# 5. Local imports in the relative form:
-
-# 6. Unknown third party imports:
+from odoo import models, fields, api
 
 
 class ProjectIssue(models.Model):
-
-    # 1. Private attributes
     _inherit = 'project.issue'
 
-    # 2. Fields declaration
     sla = fields.Selection(
         [
             ('0', '-'),
@@ -32,14 +17,18 @@ class ProjectIssue(models.Model):
         default='1',
     )
 
-    # 3. Default methods
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        for record in self:
+            if record.partner_id and record.partner_id.sla:
+                record.sla = record.partner_id.sla
 
-    # 4. Compute and search fields, in the same order that fields declaration
+    @api.model
+    def create(self, vals):
+        partner_id = vals.get('partner_id')
 
-    # 5. Constraints and onchanges
+        # When creating a new task, get SLA from partner
+        if partner_id and not vals.get('sla'):
+            vals['sla'] = self.env['res.partner'].browse([partner_id]).sla
 
-    # 6. CRUD methods
-
-    # 7. Action methods
-
-    # 8. Business methods
+        return super(ProjectIssue, self).create(vals)

@@ -32,11 +32,8 @@ class Project(models.Model):
     def create(self, vals):
         """ Default stages for projects' that contain issues """
         project = super(Project, self).create(vals)
-        print "---------------"
-        print vals
         if vals.get('use_issues') and (not vals.get('type_ids') or
                                        len(vals.get('type_ids')[0][2]) == 0):
-            print "ALUSTETAAN"
             issue_stages = self.env['project.task.type'].sudo().search([
                 ('issue_stage', '=', True),
             ])

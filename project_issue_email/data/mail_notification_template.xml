@@ -1,0 +1,24 @@
+<odoo>
+
+<!-- Helpdesk Notification Email template -->
+        <record id="mail_notification_helpdesk" model="mail.template">
+            <field name="name">Notification Email</field>
+            <field name="subject">${object.subject or (object.record_name and 'Re: %s' % object.record_name) or (object.parent_id and object.parent_id.subject and 'Re: %s' % object.parent_id.subject) or (object.parent_id and object.parent_id.record_name and 'Re: %s' % object.parent_id.record_name)}</field>
+            <field name="model_id" ref="mail.model_mail_message"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+% set company = ctx.get('company', user.company_id)
+<div>
+${object.body | safe}
+% if ctx.get('tracking'):
+    <ul>
+    % for tracking in ctx['tracking']
+        <li>${tracking[0]} : ${tracking[1]} -&gt; ${tracking[2]}</li>
+    % endfor
+    </ul>
+% endif
+<br/>
+</div>]]></field>
+        </record>
+
+</odoo>

@@ -81,7 +81,7 @@ class ProjectIssue(models.Model):
             author = self.user_id.name or 'No one'
             msg = _('**%(user)s** assigned **%(subject)s** to **%(author)s**') \
                 % {'user': self.write_uid.name, 'subject': subject, 'author': author}
-            hook.sudo().post_mattermost(msg, verify=False)
+            hook.post_mattermost(msg, verify=False)
 
     def mattermost_issue_stage_changed(self):
         """ Post stage changed message """
