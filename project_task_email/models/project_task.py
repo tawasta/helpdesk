@@ -1,47 +1,41 @@
-# -*- coding: utf-8 -*-
-
-# 1. Standard library imports:
 import logging
 import re
 from datetime import datetime
 import base64
-
-# 2. Known third party imports:
-
-# 3. Odoo imports (openerp):
 from odoo import api, fields, models, _
 from odoo import SUPERUSER_ID
-
-# 4. Imports from Odoo modules:
-
-# 5. Local imports in the relative form:
-
-# 6. Unknown third party imports:
-
 
 _logger = logging.getLogger(__name__)
 
 
-class ProjectIssue(models.Model):
+class ProjectTask(models.Model):
 
     # 1. Private attributes
-    _inherit = 'project.issue'
+    _inherit = 'project.task'
 
     # 2. Fields declaration
+    '''
+    Duplicate with task_count and task_ids, but they count ALL tasks    
     customer_issue_count = fields.Integer(
         compute='_compute_customer_issue_count',
         string='Number of issues on customer',
         help='Number of issues on customer',
     )
-    description = fields.Html(
-        string='Description',
-    )
+    
+    def _compute_customer_issue_count(self):
+        for record in self:
+            partner_id = record.partner_id.id
+            record.customer_issue_count = self.search_count([
+                ('partner_id', '=', partner_id),
+            ])    
+    '''
+
     subject = fields.Char(
         string='Subject',
-        help='Issue subject for emails',
-        required=True,
-        readonly=True,
+        help='Task subject for emails',
+        compute='_compute_subject',
     )
+
     issue_type = fields.Char(
         string='Issue type',
         help='How issue was created',
@@ -62,27 +56,14 @@ class ProjectIssue(models.Model):
     )
 
     # 3. Default methods
-    @api.model
-    def default_get(self, fields):
-        res = super(ProjectIssue, self).default_get(fields)
-        company_id = self.env.user.company_id.id
-        setting = self.env['project.issue.settings'].sudo().search([
-            ('company_id', '=', company_id),
-        ])
-        res.update({
-            'project_id': setting.project_id.id,
-        })
-        return res
 
-    # 4. Compute and search fields, in the same order that fields declaration
-    def _compute_customer_issue_count(self):
+    # 4. Compute and search fields
+    def _compute_subject(self):
+        """ Compute task subjects for helpdesk """
         for record in self:
-            partner_id = record.partner_id.id
-            record.customer_issue_count = self.search_count([
-                ('partner_id', '=', partner_id),
-            ])
+            record.subject = _("Issue {}").format(record.display_name)
 
-    def _compute_latest_message(self):
+    def _compute_latest_message(self, offset=0):
         """ Search the latest message """
         mail_message = self.env['mail.message'].sudo()
 
@@ -93,7 +74,7 @@ class ProjectIssue(models.Model):
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
                 ('author_id', '=', record.partner_id.id),
-            ], limit=1)
+            ], limit=1, offset=offset)
 
             # TODO: the author id limit should be
             #  "partner in followers, but doesn't belong to employees group"
@@ -102,22 +83,32 @@ class ProjectIssue(models.Model):
 
     def _compute_previous_message(self):
         """ Search the message that precedes the latest message """
-        mail_message = self.env['mail.message'].sudo()
 
         for record in self:
-            previous_message = mail_message.search([
-                ('res_id', '=', record.id),
-                ('model', '=', self._name),
-                ('subtype_id.internal', '=', False),
-                ('message_type', '!=', 'notification'),
-                ('author_id', '=', record.partner_id.id),
-            ], limit=1, offset=1)
-
-            record.previous_message_id = previous_message.id
+            record.previous_message_id = \
+                self._compute_latest_message(offset=1).id
 
     # 5. Constraints and onchanges
 
     # 6. CRUD methods
+    @api.model
+    def create(self, vals):
+
+        # Get default project from fetchmail server, if not supplied in vals
+        fetchmail_server_id = self.env.context.get('fetchmail_server_id')
+        if fetchmail_server_id and not vals.get('project_id'):
+            mail_server = \
+                self.env['fetchmail.server'].sudo().browse(fetchmail_server_id)
+            vals['company_id'] = mail_server.company_id.id or \
+                mail_server.project_id.company_id.id
+            vals['project_id'] = \
+                mail_server.project_id and mail_server.project_id.id or False
+
+        res = super(ProjectTask, self).create(vals)
+
+        return res
+    '''
+    10.0 create
     @api.model
     def create(self, vals):
         """
@@ -184,7 +175,9 @@ class ProjectIssue(models.Model):
                 partner_ids=[issue.partner_id.id],
             )
         return issue
+    '''
 
+    '''
     @api.multi
     def write(self, vals):
         if vals.get('partner_id'):
@@ -206,6 +199,7 @@ class ProjectIssue(models.Model):
                 record.user_id = self.env.user.id
 
         return super(ProjectIssue, self).write(vals)
+        '''
 
     # 7. Action methods
     @api.multi
@@ -218,7 +212,7 @@ class ProjectIssue(models.Model):
         return {
             'name': _("Customer's issues"),
             'domain': domain,
-            'res_model': 'project.issue',
+            'res_model': 'project.task',
             'type': 'ir.actions.act_window',
             'view_id': False,
             'view_mode': 'tree,form',
@@ -230,39 +224,6 @@ class ProjectIssue(models.Model):
         }
 
     # 8. Business methods
-    @api.model
-    def _fetch_partner(self, email_recipient):
-        """ Fetch partner from email """
-        name_regex = re.compile("^[^<]+")
-        email_regex = re.compile(r"[\w\.-]+@[\w\.-]+")
-
-        try:
-            name = name_regex.findall(email_recipient)[0]
-            email = email_regex.findall(email_recipient)[0].lower()
-        except IndexError:
-            # The email has no name information
-            name = email_recipient
-            email = email_recipient
-
-        email = re.sub(r'[<>]', "", email).lower()
-        name = re.sub(r'["<>]', "", name)
-
-        _logger.info("Fetching partner for email %s", email)
-
-        partner_object = self.env['res.partner']
-        existing_partner = partner_object.search([('email', '=ilike', email)], limit=1)
-        if existing_partner:
-            partner_id = existing_partner.id
-        else:
-            _logger.info("No partner found. Creating %s (%s)" % (name, email))
-            partner_vals = dict()
-            partner_vals['name'] = name
-            partner_vals['email'] = email
-            partner_vals['is_company'] = False
-            partner_vals['company_type'] = 'person'
-            partner_id = partner_object.create(partner_vals).id
-        return partner_id
-
     @api.model
     def message_new(self, msg, custom_values=None):
         """
@@ -278,103 +239,43 @@ class ProjectIssue(models.Model):
         }
         if custom_values:
             defaults.update(custom_values)
-        res = super(ProjectIssue, self).message_new(msg, custom_values=defaults)
-        issue = self.browse(res)
-        issue.update_other_recipients(msg)
-        if not issue.description:
-            issue.description = msg.get('body', False)
-        return res
+        res = super(ProjectTask, self).message_new(msg, custom_values=defaults)
 
-    @api.model
-    def _init_issue_subjects(self):
-        """ Initialize issue subjects when module is installed """
-        issues = self.search([('subject', '=', False)])
-        for issue in issues:
-            issue.subject = 'Tukipyyntö' + " #" + issue.issue_code + ": " + issue.name
-            _logger.debug("Setting issue subject for %s", issue.subject)
+        if not res.description:
+            res.description = msg.get('body', False)
+
+        return res
 
     @api.multi
     @api.returns('mail.message', lambda value: value.id)
-    def message_post(self, **kwargs):
-        """
-        When message is posted, check if it's the first message and
-        add attachments to issue if it was the first message
-        """
-        self.ensure_one()
-        messages = len(self.message_ids)
+    def message_post(self, *args, **kwargs):
+
         values = kwargs
 
-        settings = self.env['project.issue.settings'].search([
-            ('company_id', '=', self.company_id.id),
-        ], limit=1)
-        email_values = {}
+        # Use custom notification layout
+        values['notif_layout'] = \
+            'project_task_email.message_notification_helpdesk'
 
-        internal_note = kwargs.get('subtype') and kwargs[
-            'subtype'] == 'mail.mt_note'
-        system_note = not kwargs.get('message_type')
-        employee = self.env.user.has_group('base.group_user')
+        # Signature/no signature
+        values['add_sign'] = True
 
-        if messages == 0:
-            # Use autoreply-template for first message
-            email_values = settings.email_issue_received.generate_email(self.id)
-
-        elif self.env.uid != 1 and employee \
-                and not internal_note and not system_note:
-            # Otherwise use default reply template
-            email_values = settings.email_issue_reply.generate_email(self.id)
-            # The content div syntax is very specific - this could be improved
-            content_div = '<div id="message-content"></div>'
-
-            if content_div not in email_values['body']:
-                raise Exception(
-                    _("Reply template is missing element '%s'. "
-                      "Please add this before using messages in issues"
-                      % content_div)
-                )
-
-            # Replace the empty content div in template with message body
-            try:
-                email_values['body'] = email_values['body'].replace(
-                    content_div,
-                    kwargs.get('body', ''),
-                )
-            except UnicodeDecodeError:
-                # A cheap way to handle UnicodeDecodeError
-                # If an error occurs, the content most likely was utf-8
-                email_values['body'] = email_values['body'].replace(
-                    content_div,
-                    unicode(kwargs.get('body', ''), 'utf-8'),
-                )
-
-        # Use updated subject and body
-        values.update({
-            'subject': email_values.get('subject', values.get('subject')),
-            'body': email_values.get('body', values.get('body')),
-        })
-
-        mail_message = super(ProjectIssue, self).message_post(
-            **values
+        return super(ProjectTask, self).message_post(
+            *args,
+            **values,
         )
 
-        if messages == 0:
-            # TODO is this necessary?
-            if len(self.attachment_ids) == 0 and len(
-                    mail_message.attachment_ids) != 0:
-                self.attachment_ids = [(6, 0, mail_message.attachment_ids.ids)]
-
-        return mail_message
-
     @api.multi
-    def get_issue_autoreply_values(self, vals):
-        """ Update values for autoreply """
-        self.ensure_one()
-        settings = self.env['project.issue.settings'].sudo().search([
-            ('company_id', '=', self.company_id.id),
-        ], limit=1)
-        vals.update({
-            'email_from': 'Tukipalvelu <%s>' % settings.email_reply_to,
-            'reply_to': settings.email_reply_to,
-            'subject': self.subject,
-            'mail_server_id': settings.mail_server_id.id or None,
-        })
-        return vals
+    def message_post_with_template(self, template_id, **kwargs):
+        values = kwargs
+
+        # Use custom notification layout
+        values['notif_layout'] = \
+            'project_task_email.message_notification_helpdesk'
+
+        # Signature/no signature
+        values['add_sign'] = True
+
+        return super(ProjectTask, self).message_post_with_template(
+            template_id,
+            **values,
+        )

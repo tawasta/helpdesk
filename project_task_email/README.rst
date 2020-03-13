@@ -2,15 +2,16 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-===================
-Project Issue Email
-===================
+==================
+Project Task Email
+==================
 
-Email customizations to Project Issue module:
+Email customizations to Project Task module:
 
 * Adds issue settins tab to control company's issue settings
 * Configurable autoresponse / reply email templates
 * Email handling logic
+* Adds project information to fetchmail server
 
 Configuration
 =============
@@ -36,8 +37,8 @@ Contributors
 Maintainer
 ----------
 
-.. image:: http://tawasta.fi/templates/tawastrap/images/logo.png
+.. image:: https://tawasta.fi/templates/tawastrap/images/logo.png
    :alt: Oy Tawasta OS Technologies Ltd.
-   :target: http://tawasta.fi/
+   :target: http:s//tawasta.fi/
 
 This module is maintained by Oy Tawasta OS Technologies Ltd.

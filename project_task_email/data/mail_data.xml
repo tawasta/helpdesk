@@ -1,0 +1,143 @@
+<odoo>
+    <!-- Template for helpdesk notifications -->
+    <!-- This is derivated from mail.message_notification_email  -->
+    <template id="message_notification_helpdesk">
+        <div>
+            <div t-if="has_button_access" itemscope="itemscope"
+                 itemtype="http://schema.org/EmailMessage">
+                <div itemprop="potentialAction" itemscope="itemscope"
+                     itemtype="http://schema.org/ViewAction">
+                    <link itemprop="target"
+                          t-att-href="button_access['url']"/>
+                    <link itemprop="url" t-att-href="button_access['url']"/>
+                    <meta itemprop="name"
+                          t-att-content="button_access['title']"/>
+                </div>
+            </div>
+            <t t-call="project_task_email.helpdesk_email_header"/>
+
+            <!-- TODO: show button access
+            <t t-call="project_task_email.helpdesk_button_access" />
+            -->
+            <div t-raw="message.body"/>
+
+            <!-- Show latest reply if stage is not closed -->
+            <t t-if="not record.stage_id.closed" t-call="project_task_email.helpdesk_latest_message" />
+
+            <ul t-if="tracking_values">
+                <t t-foreach="tracking_values" t-as="tracking">
+                    <li><t t-esc="tracking[0]"/>:
+                        <t t-esc="tracking[1]"/>
+                        -&gt;
+                        <t t-esc="tracking[2]"/>
+                    </li>
+                </t>
+            </ul>
+
+            <t t-call="project_task_email.helpdesk_email_footer" />
+
+        </div>
+    </template>
+
+    <!-- Template for latest message -->
+    <template id="helpdesk_latest_message" name="Helpdesk latest message">
+        <div t-if="record.latest_message_id" style='margin-top: 2em; padding-left: 4em; border-left: solid 3px #ccc;'>
+            <h3>Latest message</h3>
+            <div style='margin-bottom: 2em; color: #909090;'><span t-field="record.latest_message_id.email_from" /> (<span t-field="record.latest_message_id.create_date" />):</div>
+            <br />
+            <div t-field="record.latest_message_id.body"></div>
+        </div>
+    </template>
+
+    <!-- Template for email header -->
+    <template id="helpdesk_email_header" name="Email header for helpdesk tasks">
+
+        <div style="text-align: center; border-bottom: 1px solid #d4d4d4; padding: 2em 0 0 0; width: 100%;">
+            <p style='color: #ccc; border-top: 1px solid #d4d4d4;'>Please reply above this line. Any content below it will be disregarded.</p>
+
+            <a t-att-href="website_url" style="color:#f26321"
+               target="_blank">
+                <img t-att-alt="company.name"
+                     style="border: none; padding: 0px; margin: 0px; height: auto; max-width: 200px; max-height: 200px;"
+                     t-att-src="'/logo.png?company=%s' % company.id"/>
+            </a>
+            <p style="color: #ccc;">Please ensure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
+        </div>
+    </template>
+
+    <!-- Template for email footer -->
+    <template id="helpdesk_email_footer" name="Email footer for helpdesk tasks">
+        <div>
+            <div style="padding:30px 0;margin:20px 0;">
+                <div t-if="signature" t-raw="signature" style="font-size: 13px;"/>
+                <div t-else="" style="font-size: 13px;">
+                    <span>--</span><br/>
+                    <t t-if="company.name"><span t-field="company.name" /> Support<br/></t>
+                    <t t-if="website_url"><a t-att-href="website_url" t-esc="website_url" /><br/></t>
+                    <!--<span t-field="settings.email_reply_to"/>-->
+                </div>
+            </div>
+        </div>
+        <table style="outline-color:beige;background-color:#eae8e8;border-top:1px solid #d4d4d4;text-align:center;padding:1em 2em;color:#b8b8b8" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#eae8e8">
+            <tbody style="font-size: 13px;">
+                <tr>
+                    <td>
+                        <div>Copyright © <span t-esc="message.create_date.year"/> <t t-esc="company.name"/>, All rights reserved.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>The information contained in this message and in any attachments is confidential and is intended solely for the attention and use of the named addressee(s). If you are not the intended recipient and / or you have received this message in error, please contact the sender immediately and delete all material you have received in this message. You are hereby notified that any use of the information, which you have received in error in whatsoever form, is strictly prohibited.</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
+    <!-- Template for button access -->
+    <template id="helpdesk_button_access" name="Button access for helpdesk tasks">
+        <div t-if="has_button_access or len(actions) &gt; 0 or not is_discussion"
+             summary="o_mail_notification"
+             style="padding: 0px; width:600px;">
+            <table cellspacing="0" cellpadding="0" border="0"
+                   style="width: 600px; margin-top: 5px;">
+                <tbody>
+                    <tr>
+                        <td valign="center">
+                            <a t-if="has_button_access"
+                               t-att-href="button_access['url']"
+                               style="padding: 8px 12px; font-size: 12px; color: #FFFFFF; text-decoration: none !important; font-weight: 400; background-color: #875A7B; border: 0px solid #875A7B; border-radius:3px">
+                                <t t-esc="button_access['title']"/>
+                            </a>
+                            <t t-if="actions">
+                                <t t-foreach="actions" t-as="action">
+                                    |
+                                    <a t-att-href="action['url']"
+                                       style="color: #875A7B; text-decoration:none !important;">
+                                        <t t-esc="action['title']"/>
+                                    </a>
+                                </t>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center;">
+                            <hr width="100%"
+                                style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0 12px 0;"/>
+                            <p t-if="subtype.internal"
+                               style="background-color: #f2dede; padding: 5px; margin-bottom: 16px;">
+                                <strong>Internal communication</strong>:
+                                Replying will post an internal note.
+                                Followers won't receive any email
+                                notification.
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+</odoo>

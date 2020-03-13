@@ -1,50 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data noupdate="0">
-
-        <!-- QWeb template for email header -->
-        <template id="project_issue_email_header" name="Email header for project issues">
-            <div style="text-align:center;border-bottom:1px solid #d4d4d4;padding:25px 0;width:100%;">
-                <a t-att-href="object.sudo().company_id.website" style="color:#f26321" target="_blank">
-                    <img t-att-alt="object.sudo().company_id.name" style="border:none;max-width:200px;"
-                         t-att-src="'/logo.png?company=%s' % object.sudo().company_id.id"/>
-                </a>
-            </div>
-        </template>
-
-        <!-- QWeb template for email footer -->
-        <template id="project_issue_email_footer" name="Email footer for project issues">
-            <div style="padding:0 22px 10px;margin:0 28px">
-                <div style="padding:30px 0;margin:20px 0;">
-                    <t t-set="settings" t-value="object.env['project.issue.settings'].sudo().search([('company_id', '=', object.company_id.id)])"/>
-                    <div t-if="object.env.user.signature and object.env.user.id != 1">
-                        <span t-field="object.env.user.signature" />
-                    </div>
-                    <div t-else="">
-                        <strong>Best regards,</strong><br/>
-                        <span t-field="object.sudo().company_id.name"/> support<br/>
-                        <span t-field="settings.email_reply_to"/>
-                    </div>
-                </div>
-            </div>
-            <table style="outline-color:beige;background-color:#eae8e8;border-top:1px solid #d4d4d4;text-align:center;padding:20px 0;color:#b8b8b8" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#eae8e8">
-                <tbody style="margin: 25px 0 10px;font-size: 13px">
-                    <tr>
-                        <td>
-                            <div>Copyright © <t t-esc="datetime.date.today().strftime('%Y')"/> <t t-esc="object.sudo().company_id.name"/>, All rights reserved.</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>The information contained in this message and in any attachments is confidential and is intended solely for the attention and use of the named addressee(s). If you are not the intended recipient and / or you have received this message in error, please contact the sender immediately and delete all material you have received in this message. You are hereby notified that any use of the information, which you have received in error in whatsoever form, is strictly prohibited.</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </template>
 
         <!-- QWeb template for email received autoreply -->
         <template id="project_issue_email_received_autoreply" name="Issue received autoreply email">
@@ -102,7 +57,7 @@
                                         </div>
                                         <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>
                                         <hr style="color: #f6f6f6"/>
-                                        <div style="padding:30px 0;margin:20px 0;">
+                                        <div style="padding 2em 0; margin: 2em 0">
                                             <div id="message-content"></div>
                                         </div>
                                         <hr style="color: #f6f6f6"/>
@@ -124,7 +79,6 @@
                 </table>
             </div>
         </template>
-
 
         <!--Default Issue Received Email template -->
         <record id="mail_template_project_issue_received_email" model="mail.template">
@@ -148,5 +102,4 @@
             <field name="body_type">qweb</field>
             <field name="body_view_id" ref="project_issue_email.project_issue_email_reply"/>
         </record>
-    </data>
 </odoo>

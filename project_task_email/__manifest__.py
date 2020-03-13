@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
@@ -20,31 +19,32 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue Email',
-    'summary': 'Email modifications to Project Issue',
-    'version': '10.0.0.19.17',
+    'name': 'Project Task Email',
+    'summary': 'Email modifications to Project Task',
+    'version': '12.0.1.0.0',
     'category': 'Project',
-    'website': 'https://tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
+    'website': 'https://gitlab.com/tawasta/odoo/helpdesk',
+    'author': 'Tawasta',
     'license': 'AGPL-3',
     'depends': [
+        'fetchmail_company',
         'email_template_qweb',
-        'project_issue',
-        'project_issue_attachment',
-        'project_issue_code',
-        'project_issue_menu',
-        'project_issue_other_recipients',
-        'project_issue_stage',
+        'project',
+        # 'project_issue_attachment',
+        'project_task_code',
+        # 'project_issue_menu',
+        # 'project_issue_other_recipients',
+        # 'project_issue_stage',
     ],
     'data': [
-        'data/issue_subject_init.xml',
-        'data/project_issue_settings_data.xml',
-        'security/ir.model.access.csv',
-        'views/fetchmail_server_form_view.xml',
-        'views/project_issue_form.xml',
-        'views/project_issue_search.xml',
-        'views/project_issue_settings.xml',
-        'views/project_issue_stage_change.xml',
+        'data/mail_data.xml',
+        'data/task_mail_template.xml',
+        'views/fetchmail_server_form.xml',
+        # #'views/project_issue_form.xml',
+        # 'views/project_issue_search.xml',
+        # 'views/project_issue_settings.xml',
+        # 'views/project_issue_stage_change.xml',
+        'views/project_task_form.xml',
         # 'views/assets.xml',
     ],
     'application': False,
