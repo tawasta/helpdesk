@@ -2,16 +2,16 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-===================
-Project Issue Stage
-===================
+==================
+Project Task Stage
+==================
 
-Stage customizations to Project Issue module:
+Stage customizations to Project module:
 
-* Adds stages to issues
+* Adds stages to tasks
 * Tracks stages changes to save the cycle
-* Adds tab to issue form
-* Adds default stages for project with issues
+* Adds tab to task form
+* Adds default stages for project with tasks
 * Adds public name to stages, which is shown in portal
 
 Configuration

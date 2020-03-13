@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
-
 # 1. Standard library imports:
-from datetime import datetime
 
 # 2. Known third party imports:
 
-# 3. Odoo imports (openerp):
-from odoo import api, fields, models
+# 3. Odoo imports:
+from odoo import fields, models
 
 # 4. Imports from Odoo modules:
 
@@ -15,10 +12,10 @@ from odoo import api, fields, models
 # 6. Unknown third party imports:
 
 
-class IssueStageChange(models.Model):
+class TaskStageChange(models.Model):
 
     # 1. Private attributes
-    _name = 'project.issue.stage.change'
+    _name = 'project.task.stage.change'
     _order = 'create_date DESC'
 
     # 2. Fields declaration
@@ -30,23 +27,23 @@ class IssueStageChange(models.Model):
         'project.task.type',
         string='New stage',
     )
-    issue_id = fields.Many2one(
-        'project.issue',
-        string='Issue id',
+    task_id = fields.Many2one(
+        'project.task',
+        string='Task id',
     )
-    issue_company_id = fields.Many2one(
+    task_company_id = fields.Many2one(
         'res.company',
-        related='issue_id.company_id',
+        related='task_id.company_id',
         string='Company id',
         store=True,
     )
-    issue_partner_id = fields.Many2one(
+    task_partner_id = fields.Many2one(
         comodel_name='res.partner',
-        related='issue_id.partner_id',
+        related='task_id.partner_id',
         store=True,
     )
-    issue_date = fields.Datetime(
-        related='issue_id.date',
+    task_date = fields.Datetime(
+        related='task_id.date',
         store=True,
     )
     start_date = fields.Datetime(
@@ -66,7 +63,7 @@ class IssueStageChange(models.Model):
 
     # 3. Default methods
 
-    # 4. Compute and search fields, in the same order that fields declaration
+    # 4. Compute and search fields
 
     # 5. Constraints and onchanges
 

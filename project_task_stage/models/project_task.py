@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # 1. Standard library imports:
 from datetime import datetime
 
@@ -15,18 +13,18 @@ from odoo import api, fields, models, _
 # 6. Unknown third party imports:
 
 
-class ProjectIssue(models.Model):
+class ProjectTask(models.Model):
 
     # 1. Private attributes
-    _inherit = 'project.issue'
+    _inherit = 'project.task'
 
     # 2. Fields declaration
     stage_change_ids = fields.One2many(
-        comodel_name='project.issue.stage.change',
-        inverse_name='issue_id',
+        comodel_name='project.task.stage.change',
+        inverse_name='task_id',
         string='Stage changes',
         readonly=True,
-        help="Issue's stage changes",
+        help="Task's stage changes",
     )
     # Remove thread tracking from fields that aren't needed
     kanban_state = fields.Selection(track_visibility=False)
@@ -40,7 +38,7 @@ class ProjectIssue(models.Model):
         string='Time open',
         compute='compute_time_open',
         store=True,
-        help='Count how long the issue has been open (closed stages excluded), updates only when stage is changed.',
+        help='Count how long the task has been open (closed stages excluded), updates only when stage is changed.',
     )
 
     # 3. Default methods
@@ -97,10 +95,10 @@ class ProjectIssue(models.Model):
             closed = record.stage_id.fold or record.stage_id.closed
             if closed and values.get('message_follower_ids'):
                 values['stage_id'] = self.env.ref(
-                    'project_issue_stage.project_issue_stage_data_2').id
-                # TODO: Issue reopened message removed for now to prevent recursion
+                    'project_task_stage.project_task_stage_data_2').id
+                # TODO: Task reopened message removed for now to prevent recursion
                 # Only post message for folded stages
-                # msg_body = _("Re-opening issue due to a new message.")
+                # msg_body = _("Re-opening task due to a new message.")
 
                 # msg = record.sudo().message_post(
                 #     body=msg_body,
@@ -122,7 +120,7 @@ class ProjectIssue(models.Model):
                     'hours': record.stage_duration,
                 })]
                 # Reset stage_duration
-        return super(ProjectIssue, self).write(values)
+        return super(ProjectTask, self).write(values)
 
     # 7. Action methods
 

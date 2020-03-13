@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
@@ -20,23 +19,23 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue Stage',
-    'summary': 'Add stages changes records to issue',
-    'version': '10.0.1.2.2',
+    'name': 'Project Task Stage',
+    'summary': 'Add stages changes records to tasks',
+    'version': '12.0.1.2.2',
     'category': 'Project',
     'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
     'license': 'AGPL-3',
     'depends': [
-        'project_issue',
-        'project_issue_menu',
+        'project',
+        # 'project_task_menu',
         'project_stage_closed',
     ],
     'data': [
         'data/project_task_type.xml',
         'security/ir.model.access.csv',
-        'views/project_issue_form.xml',
-        'views/project_issue_stage_change.xml',
+        'views/project_task_form.xml',
+        'views/project_task_stage_change.xml',
         'views/project_task_type.xml',
     ],
     'application': False,

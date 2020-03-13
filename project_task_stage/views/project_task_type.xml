@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <field name="mail_template_id" position="after">
                 <field name="website_label_class"/>
-                <field name="issue_stage" />
+                <field name="task_stage" />
                 <field name="public_name"/>
             </field>
         </field>

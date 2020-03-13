@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="project_issue_form_view_inherited" model="ir.ui.view">
-        <field name="name">project.issue.form.view</field>
-        <field name="model">project.issue</field>
-        <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
+    <record id="view_task_form2" model="ir.ui.view">
+        <field name="name">project.form.view.stage.changes</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
-            <!-- Tree view to follow issue's lifecycle -->
+            <!-- Tree view to follow tasks lifecycle -->
             <notebook position="inside">
                 <page string="Stage changes">
                     <group>

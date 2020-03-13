@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
-
 # 1. Standard library imports:
 
 # 2. Known third party imports:
 
-# 3. Odoo imports (openerp):
+# 3. Odoo imports:
 from odoo import fields, models
 
 # 4. Imports from Odoo modules:
@@ -33,9 +31,9 @@ class ProjectTaskType(models.Model):
         string='Bootstrap label class',
         help='Define label class (Bootstrap) to be used on frontend',
     )
-    issue_stage = fields.Boolean(
-        string='Issue stage',
-        help='Is the stage used for issues',
+    task_stage = fields.Boolean(
+        string='Task stage',
+        help='Is the stage used for tasks',
         default=False,
     )
     public_name = fields.Char(
