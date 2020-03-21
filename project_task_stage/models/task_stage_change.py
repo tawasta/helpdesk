@@ -42,8 +42,8 @@ class TaskStageChange(models.Model):
         related='task_id.partner_id',
         store=True,
     )
-    task_date = fields.Datetime(
-        related='task_id.date',
+    task_create_date = fields.Datetime(
+        related='task_id.create_date',
         store=True,
     )
     start_date = fields.Datetime(

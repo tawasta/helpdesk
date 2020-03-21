@@ -20,7 +20,7 @@
             <tree string='Stage changes' readonly='1'
                   default_order='id DESC'>
                 <field name='task_partner_id'/>
-                <field name='task_date'/>
+                <field name='task_create_date'/>
                 <field name='task_id'/>
                 <field name='new_stage_id' string='Stage'/>
                 <field name='hours' widget="float_time" sum='Total hours'/>
@@ -38,7 +38,7 @@
             <graph string="Task Analysis" type="pivot">
                  <field name="task_partner_id" type="row"/>
                  <field name="hours" type="measure"/>
-                 <field name="task_date" interval="month" type="col"/>
+                 <field name="task_create_date" interval="month" type="col"/>
              </graph>
         </field>
     </record>
@@ -60,18 +60,18 @@
                 <group string="Year">
                         <filter string="This year"
                                 name="year_this"
-                                domain="['&amp;',('task_date','&lt;=', time.strftime('%Y-12-31')),('task_date','&gt;=',time.strftime('%Y-01-01'))]"/>
+                                domain="['&amp;',('task_create_date','&lt;=', time.strftime('%Y-12-31')),('task_create_date','&gt;=',time.strftime('%Y-01-01'))]"/>
                         <filter string="Last year"
                                 name="year_last"
-                                domain="[('task_date','&gt;=',(context_today()-relativedelta(years=1)).strftime('%Y-01-01')),('task_date','&lt;', time.strftime('%Y-01-01'))]"/>
+                                domain="[('task_create_date','&gt;=',(context_today()-relativedelta(years=1)).strftime('%Y-01-01')),('task_create_date','&lt;', time.strftime('%Y-01-01'))]"/>
                 </group>
                 <group string="Month">
                     <filter string="This month"
                             name="month_this"
-                            domain="[('task_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%Y-%m-01')), ('task_date','&gt;=',time.strftime('%Y-%m-01'))]"/>
+                            domain="[('task_create_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%Y-%m-01')), ('task_create_date','&gt;=',time.strftime('%Y-%m-01'))]"/>
                     <filter string="Last month"
                             name="month_last"
-                            domain="[('task_date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%Y-%m-01')),('task_date','&lt;',time.strftime('%Y-%m-01'))]"/>
+                            domain="[('task_create_date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%Y-%m-01')),('task_create_date','&lt;',time.strftime('%Y-%m-01'))]"/>
                 </group>
 
                 <group expand="0" string="Group By">
