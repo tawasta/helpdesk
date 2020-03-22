@@ -3,7 +3,7 @@
     <!-- Template for autoreply content -->
     <template id="helpdesk_autoreply_content" name="Helpdesk autoreply content">
         <div style="padding:0 22px;margin:0 28px">
-            <p>Thank your for contacting<t t-esc="object.company_id.name"/>support.</p>
+            <p>Thank your for contacting <t t-esc="object.company_id.name"/> support.</p>
             <p>This is an automated message that your ticket <strong t-field="object.display_name"/> has been received.</p>
             <p>We will reply to you as soon as possible.</p>
             <p>Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.</p>

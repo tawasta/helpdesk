@@ -1,7 +1,10 @@
 import lxml
-from lxml import etree
 import logging
-from odoo import api, models
+from lxml import etree
+
+from odoo import api
+from odoo import models
+from odoo.tools import pycompat
 _logger = logging.getLogger(__name__)
 
 
@@ -51,8 +54,16 @@ class MailThread(models.AbstractModel):
                 postprocessed = True
                 to_remove.append(node)
             # Outlook ends
+            # This module - Remove automatic content set by this module
+            if node.tag == 'div' and node.get('id', '').endswith('issue-header'):
+                postprocessed = True
+                to_remove.append(node.getparent())
+            # This module ends
+
         for node in to_remove:
             node.getparent().remove(node)
         if postprocessed:
             body = etree.tostring(root, pretty_print=False, encoding='UTF-8')
+            body = pycompat.to_native(body)
+
         return body, attachments

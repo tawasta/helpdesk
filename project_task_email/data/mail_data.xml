@@ -52,7 +52,7 @@
     <!-- Template for email header -->
     <template id="helpdesk_email_header" name="Email header for helpdesk tasks">
 
-        <div style="text-align: center; border-bottom: 1px solid #d4d4d4; padding: 2em 0 0 0; width: 100%;">
+        <div id="issue-header" class="issue-header" style="text-align: center; border-bottom: 1px solid #d4d4d4; padding: 2em 0 0 0; width: 100%;">
             <p style='color: #ccc; border-top: 1px solid #d4d4d4;'>Please reply above this line. Any content below it will be disregarded.</p>
 
             <a t-att-href="website_url" style="color:#f26321"
