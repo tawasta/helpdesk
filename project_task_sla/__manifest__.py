@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
@@ -20,20 +19,20 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue SLA',
-    'summary': 'Add SLA to issues',
-    'version': '12.0.0.1.2',
+    'name': 'Project Task SLA',
+    'summary': 'Add SLA to tasks',
+    'version': '12.0.0.2.0',
     'category': 'Project',
-    'website': 'http://www.tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
+    'website': 'https://gitlab.com/tawasta/odoo/helpdesk',
+    'author': 'Tawasta',
     'license': 'AGPL-3',
     'depends': [
-        'project_issue',
-        'project_issue_menu',
+        'project',
     ],
     'data': [
-        'views/project_issue_views.xml',
+        'views/partner.xml',
+        'views/project_task.xml',
     ],
     'application': False,
-    'installable': False,
+    'installable': True,
 }
