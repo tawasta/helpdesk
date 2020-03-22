@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_task_form2_inherited" model="ir.ui.view">
+        <field name="name">project.task.form.timesheet.suggestions</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <field name="project_id"  position="after">
+                <field name="suggested_message" invisible="1"/>
+                <field name="suggested_time" invisible="1"/>
+            </field>
+            <field name="timesheet_ids"  position="attributes">
+                <attribute name="context">{
+                    'default_name': suggested_message,
+                    'default_unit_amount': suggested_time,
+                }</attribute>
+            </field>
+
+            <field name="project_id" position="attributes">
+                <attribute name="options">{'no_quick_create':True,'no_create_edit':True}</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

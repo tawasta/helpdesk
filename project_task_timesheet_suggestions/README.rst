@@ -2,15 +2,14 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=======================
-Project Issue Timesheet
-=======================
+==================================
+Project Task Timesheet Suggestions
+==================================
 
-Customizations to issue timesheets. Adds:
+Suggest task timesheet time and description
 
-- Prefix to timesheet record description (customer name and ticket number)
+- Prefix to timesheet record description
 - Suggests time used (based on stage changes)
-- How long ticket has stayed open
 
 
 Configuration
@@ -37,8 +36,8 @@ Contributors
 Maintainer
 ----------
 
-.. image:: http://tawasta.fi/templates/tawastrap/images/logo.png
+.. image:: https://tawasta.fi/templates/tawastrap/images/logo.png
    :alt: Oy Tawasta OS Technologies Ltd.
-   :target: http://tawasta.fi/
+   :target: https://tawasta.fi/
 
 This module is maintained by Oy Tawasta OS Technologies Ltd.
