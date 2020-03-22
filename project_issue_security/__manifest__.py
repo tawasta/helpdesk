@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Security',
     'summary': 'Adds security group for portal users',
-    'version': '10.0.0.6.0',
+    'version': '12.0.0.6.0',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -39,5 +39,5 @@
         'security/ir.model.access.csv',
     ],
     'application': False,
-    'installable': True,
+    'installable': False
 }

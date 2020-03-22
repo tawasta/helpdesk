@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue SLA',
     'summary': 'Add SLA to issues',
-    'version': '10.0.0.1.2',
+    'version': '12.0.0.1.2',
     'category': 'Project',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -35,5 +35,5 @@
         'views/project_issue_views.xml',
     ],
     'application': False,
-    'installable': True,
+    'installable': False,
 }

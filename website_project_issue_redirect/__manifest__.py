@@ -22,7 +22,7 @@
 {
     'name': 'Website Project Issue Redirect',
     'summary': 'Redirect to issues',
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     'category': 'Website',
     'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -33,5 +33,5 @@
     'data': [
     ],
     'application': False,
-    'installable': True,
+    'installable': False,
 }

@@ -22,7 +22,7 @@
 {
     'name': 'Website Project Issue Hide Project',
     'summary': 'Hide projects and tasks from website portal',
-    'version': '10.0.0.1.0',
+    'version': '12.0.0.1.0',
     'category': 'Website',
     'website': 'http://www.tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
@@ -34,5 +34,5 @@
         'views/project_templates.xml',
     ],
     'application': False,
-    'installable': True,
+    'installable': False,
 }
