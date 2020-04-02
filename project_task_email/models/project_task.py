@@ -73,11 +73,7 @@ class ProjectTask(models.Model):
                 ('model', '=', self._name),
                 ('subtype_id.internal', '=', False),
                 ('message_type', '!=', 'notification'),
-                ('author_id', '=', record.partner_id.id),
             ], limit=1, offset=offset)
-
-            # TODO: the author id limit should be
-            #  "partner in followers, but doesn't belong to employees group"
 
             record.latest_message_id = latest_message_id.id
 
