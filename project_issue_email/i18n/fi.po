@@ -1,27 +1,83 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* project_issue_email
+#	* project_issue_email
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-10 10:42+0000\n"
-"PO-Revision-Date: 2020-03-10 12:45+0200\n"
+"POT-Creation-Date: 2020-04-02 03:42+0000\n"
+"PO-Revision-Date: 2020-04-02 03:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: fi\n"
-"X-Generator: Poedit 2.2.1\n"
 
 #. module: project_issue_email
 #: model:mail.template,body_html:project_issue_email.mail_notification_helpdesk
-msgid ""
-"\n"
+msgid "\n"
 "% set company = ctx.get('company', user.company_id)\n"
+"\n"
+"<div>\n"
+"% if ctx.get('has_button_access'):\n"
+"<div itemscope itemtype=\"http://schema.org/EmailMessage\">\n"
+"    <div itemprop=\"potentialAction\" itemscope itemtype=\"http://schema.org/ViewAction\">\n"
+"        <link itemprop=\"target\" href=\"${ctx['button_access']['url']}\"/>\n"
+"        <link itemprop=\"url\" href=\"${ctx['button_access']['url']}\"/>\n"
+"        <meta itemprop=\"name\" content=\"View ${ctx['model_name']}\"/>\n"
+"    </div>\n"
+"</div>\n"
+"% endif\n"
+"\n"
+"% if not ctx['is_discussion'] or not len(ctx['actions']) == 0 or ctx.get('has_button_access'):\n"
+"<div summary=\"o_mail_notification\" style=\"padding: 0px; width:600px;\">\n"
+"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"width: 600px; margin-top: 5px;\">\n"
+"<tbody><tr>\n"
+"    <td valign=\"center\">\n"
+"        % if ctx.get('has_button_access'):\n"
+"        <a href=\"${ctx['button_access']['url']}\" style=\"padding: 8px 12px; font-size: 12px; color: #FFFFFF; text-decoration: none !important; font-weight: 400; background-color: #875A7B; border: 0px solid #875A7B; border-radius:3px\">${ctx['button_access']['title']}</a>\n"
+"        % endif\n"
+"\n"
+"        % if ctx.get('has_button_follow'):\n"
+"        % if ctx.get('has_button_access'):\n"
+"           |\n"
+"        % endif\n"
+"        <a href=\"${ctx['button_follow']['url']}\" style=\"color: #875A7B; text-decoration: none !important;\">${ctx['button_follow']['title']}</a>\n"
+"        % elif ctx.get('has_button_unfollow'):\n"
+"        % if ctx.get('has_button_access'):\n"
+"           |\n"
+"        % endif\n"
+"        <a href=\"${ctx['button_unfollow']['url']}\" style=\"color: #875A7B; text-decoration: none !important;\">${ctx['button_unfollow']['title']}</a>\n"
+"        % endif\n"
+"\n"
+"        % if ctx.get('actions'):\n"
+"        % for action in ctx['actions']:\n"
+"        |\n"
+"        <a href=\"${action['url']}\" style=\"color: #875A7B; text-decoration:none !important;\">${action['title']}</a>\n"
+"        % endfor\n"
+"        % endif\n"
+"    </td>\n"
+"    <td valign=\"center\" align=\"right\">\n"
+"        <img src=\"/logo.png?company=${company.id}\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${company.name}\">\n"
+"    </td>\n"
+"</tr>\n"
+"<tr>\n"
+"    <td colspan=\"2\" style=\"text-align:center;\">\n"
+"        <hr width=\"100%\"\n"
+"            style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:10px 0;\">\n"
+"        % if ctx.get('subtype') and ctx.get('subtype').internal:\n"
+"        <span style=\"background-color: #f2dede; padding: 5px;\">\n"
+"            <strong>Internal note</strong>: replies are not sent to followers.\n"
+"        </span>\n"
+"        % endif\n"
+"    </td>\n"
+"</tr>\n"
+"</tbody></table>\n"
+"</div>\n"
+"% endif\n"
+"\n"
 "<div>\n"
 "${object.body | safe}\n"
 "% if ctx.get('tracking'):\n"
@@ -33,9 +89,67 @@ msgid ""
 "% endif\n"
 "<br/>\n"
 "</div>"
-msgstr ""
-"\n"
+msgstr "\n"
 "% set company = ctx.get('company', user.company_id)\n"
+"\n"
+"<div>\n"
+"% if ctx.get('has_button_access'):\n"
+"<div itemscope itemtype=\"http://schema.org/EmailMessage\">\n"
+"    <div itemprop=\"potentialAction\" itemscope itemtype=\"http://schema.org/ViewAction\">\n"
+"        <link itemprop=\"target\" href=\"${ctx['button_access']['url']}\"/>\n"
+"        <link itemprop=\"url\" href=\"${ctx['button_access']['url']}\"/>\n"
+"        <meta itemprop=\"name\" content=\"View ${ctx['model_name']}\"/>\n"
+"    </div>\n"
+"</div>\n"
+"% endif\n"
+"\n"
+"% if not ctx['is_discussion'] or not len(ctx['actions']) == 0 or ctx.get('has_button_access'):\n"
+"<div summary=\"o_mail_notification\" style=\"padding: 0px; width:600px;\">\n"
+"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"width: 600px; margin-top: 5px;\">\n"
+"<tbody><tr>\n"
+"    <td valign=\"center\">\n"
+"        % if ctx.get('has_button_access'):\n"
+"        <a href=\"${ctx['button_access']['url']}\" style=\"padding: 8px 12px; font-size: 12px; color: #FFFFFF; text-decoration: none !important; font-weight: 400; background-color: #875A7B; border: 0px solid #875A7B; border-radius:3px\">${ctx['button_access']['title']}</a>\n"
+"        % endif\n"
+"\n"
+"        % if ctx.get('has_button_follow'):\n"
+"        % if ctx.get('has_button_access'):\n"
+"           |\n"
+"        % endif\n"
+"        <a href=\"${ctx['button_follow']['url']}\" style=\"color: #875A7B; text-decoration: none !important;\">${ctx['button_follow']['title']}</a>\n"
+"        % elif ctx.get('has_button_unfollow'):\n"
+"        % if ctx.get('has_button_access'):\n"
+"           |\n"
+"        % endif\n"
+"        <a href=\"${ctx['button_unfollow']['url']}\" style=\"color: #875A7B; text-decoration: none !important;\">${ctx['button_unfollow']['title']}</a>\n"
+"        % endif\n"
+"\n"
+"        % if ctx.get('actions'):\n"
+"        % for action in ctx['actions']:\n"
+"        |\n"
+"        <a href=\"${action['url']}\" style=\"color: #875A7B; text-decoration:none !important;\">${action['title']}</a>\n"
+"        % endfor\n"
+"        % endif\n"
+"    </td>\n"
+"    <td valign=\"center\" align=\"right\">\n"
+"        <img src=\"/logo.png?company=${company.id}\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${company.name}\">\n"
+"    </td>\n"
+"</tr>\n"
+"<tr>\n"
+"    <td colspan=\"2\" style=\"text-align:center;\">\n"
+"        <hr width=\"100%\"\n"
+"            style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:10px 0;\">\n"
+"        % if ctx.get('subtype') and ctx.get('subtype').internal:\n"
+"        <span style=\"background-color: #f2dede; padding: 5px;\">\n"
+"            <strong>Internal note</strong>: replies are not sent to followers.\n"
+"        </span>\n"
+"        % endif\n"
+"    </td>\n"
+"</tr>\n"
+"</tbody></table>\n"
+"</div>\n"
+"% endif\n"
+"\n"
 "<div>\n"
 "${object.body | safe}\n"
 "% if ctx.get('tracking'):\n"
@@ -72,30 +186,28 @@ msgstr ". Näet vastauksen alla olevassa osiossa tai"
 #. module: project_issue_email
 #: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_received_autoreply
 msgid "<b>Issue description:</b><br/>"
-msgstr "<b>Tapauksen kuvaus:</b><br/>"
+msgstr "<b>Tukipyynnön kuvaus:</b><br/>"
 
 #. module: project_issue_email
 #: code:addons/mpg/helpdesk/project_issue_email/models/project_issue.py:204
 #: code:addons/project_issue_email/models/project_issue.py:204
 #, python-format
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                        Issues are attached to customers.</p><p>\n"
 "                    </p>"
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
 "                        Tukipyynnöt liitetään asiakkaisiin.</p><p>\n"
 "                    </p>"
-
-#. module: project_issue_email
-#: model:mail.template,body_html:project_issue_email.mail_template_project_issue_received_email
-msgid "<p style=\"margin:0px 0px 9px 0px;\"><br></p>"
-msgstr "<p style=\"margin:0px 0px 9px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\"><br></p>"
 
 #. module: project_issue_email
 #: model:mail.template,body_html:project_issue_email.mail_template_project_issue_reply_email
 msgid "<p style=\"margin:0px 0px 9px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\"><br></p>"
 msgstr "<p style=\"margin:0px 0px 9px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\"><br></p>"
+
+#. module: project_issue_email
+#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
+msgid "<span style=\"margin-bottom:20px;color:#909090;\">Author:</span>"
+msgstr "<span style=\"margin-bottom:20px;color:#909090;\">Kirjoittaja:</span>"
 
 #. module: project_issue_email
 #: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_footer
@@ -216,14 +328,15 @@ msgid "ID"
 msgstr "Tunniste (ID)"
 
 #. module: project_issue_email
+#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
 #: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
 msgid "Issue"
-msgstr "Tapaus"
+msgstr "Tukipyyntö"
 
 #. module: project_issue_email
 #: model:ir.model.fields,field_description:project_issue_email.field_project_issue_stage_change_issue_code
 msgid "Issue Code"
-msgstr "Tapauksen tunniste"
+msgstr "Tukipyynnön tunniste"
 
 #. module: project_issue_email
 #: model:ir.ui.menu,name:project_issue_email.menu_project_issue_settings
@@ -253,7 +366,7 @@ msgstr "Tukipyynnön otsikko"
 #. module: project_issue_email
 #: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
 msgid "Issues"
-msgstr "Tapaukset"
+msgstr "Tukipyynnöt"
 
 #. module: project_issue_email
 #: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings___last_update
@@ -279,7 +392,7 @@ msgstr "Viimeisin viesti"
 #. module: project_issue_email
 #: model:ir.model.fields,help:project_issue_email.field_project_issue_latest_message_id
 msgid "Latest message (in thread)"
-msgstr "Viimeisin viesti (threadissa)"
+msgstr "Viimesin viesti (threadissa)"
 
 #. module: project_issue_email
 #: model:ir.model,name:project_issue_email.model_mail_message
@@ -317,6 +430,7 @@ msgstr "Ole hyvä ja vastaa tämän viivan yläpuolelle. Sen alla olevaa sisält
 
 #. module: project_issue_email
 #: model:ir.model.fields,field_description:project_issue_email.field_project_issue_previous_message_id
+#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
 msgid "Previous message"
 msgstr "Edellinen viesti"
 
@@ -328,7 +442,7 @@ msgstr "Edellinen viesti (threadissa)"
 #. module: project_issue_email
 #: model:ir.model,name:project_issue_email.model_project_issue
 msgid "Project Issue"
-msgstr "Projektin tapaus"
+msgstr "Projektin tukipyyntö"
 
 #. module: project_issue_email
 #: model:ir.actions.act_window,name:project_issue_email.action_project_issue_settings
@@ -354,6 +468,11 @@ msgstr "Vastausmallista puuttuu elementti '%s'. Ole hyvä ja lisää tämä enne
 #: model:ir.model.fields,help:project_issue_email.field_project_issue_settings_email_reply_to
 msgid "Reply to email address for the company"
 msgstr "Yrityksen vastausosoite"
+
+#. module: project_issue_email
+#: model:ir.model.fields,field_description:project_issue_email.field_res_users_sla
+msgid "Service level"
+msgstr "Palvelutaso"
 
 #. module: project_issue_email
 #: model:ir.model.fields,field_description:project_issue_email.field_project_issue_subject
@@ -416,3 +535,4 @@ msgstr "tukipalvelu<br/>"
 #: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
 msgid "the website portal"
 msgstr "asiakasportaalista"
+
