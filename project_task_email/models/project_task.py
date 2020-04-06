@@ -48,6 +48,7 @@ class ProjectTask(models.Model):
         help='Latest message (in thread)',
         compute='_compute_latest_message',
     )
+
     previous_message_id = fields.Many2one(
         comodel_name='mail.message',
         string='Previous message',
@@ -63,26 +64,32 @@ class ProjectTask(models.Model):
         for record in self:
             record.subject = _("Issue {}").format(record.display_name)
 
-    def _compute_latest_message(self, offset=0):
+    def _get_latest_message(self, offset=0):
         """ Search the latest message """
         mail_message = self.env['mail.message'].sudo()
 
-        for record in self:
-            latest_message_id = mail_message.search([
-                ('res_id', '=', record.id),
-                ('model', '=', self._name),
-                ('subtype_id.internal', '=', False),
-                ('message_type', '!=', 'notification'),
+        self.ensure_one()
+        latest = mail_message.search([
+            ('res_id', '=', self.id),
+            ('model', '=', self._name),
+            ('subtype_id.internal', '=', False),
+            ('message_type', '!=', 'notification'),
             ], limit=1, offset=offset)
 
-            record.latest_message_id = latest_message_id.id
+        return latest
+
+    def _compute_latest_message(self):
+        """ Set the latest message """
+        for record in self:
+            latest = self._get_latest_message()
+            record.latest_message_id = latest and latest.id or False
 
     def _compute_previous_message(self):
-        """ Search the message that precedes the latest message """
+        """ Set the message that precedes the latest message """
 
         for record in self:
-            record.previous_message_id = \
-                self._compute_latest_message(offset=1).id
+            previous = self._get_latest_message(offset=1)
+            record.previous_message_id = previous and previous.id or False
 
     # 5. Constraints and onchanges
 
