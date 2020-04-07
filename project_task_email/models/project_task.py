@@ -64,7 +64,7 @@ class ProjectTask(models.Model):
         for record in self:
             record.subject = _("Issue {}").format(record.display_name)
 
-    def _get_latest_message(self, offset=0):
+    def _get_latest_message(self, offset=1):
         """ Search the latest message """
         mail_message = self.env['mail.message'].sudo()
 
@@ -88,7 +88,7 @@ class ProjectTask(models.Model):
         """ Set the message that precedes the latest message """
 
         for record in self:
-            previous = self._get_latest_message(offset=1)
+            previous = self._get_latest_message(offset=2)
             record.previous_message_id = previous and previous.id or False
 
     # 5. Constraints and onchanges

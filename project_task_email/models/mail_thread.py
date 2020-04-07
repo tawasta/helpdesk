@@ -67,3 +67,20 @@ class MailThread(models.AbstractModel):
             body = pycompat.to_native(body)
 
         return body, attachments
+
+    @api.multi
+    def _message_add_suggested_recipient(self, result, partner=None, email=None, reason=''):
+        """ Override suggested recipients to remove fetchmail addresses from recipients """
+
+        fetchmail_emails = \
+            self.env['fetchmail.server'].sudo().search([]).mapped('user')
+
+        if email in fetchmail_emails:
+            # Disallow using fetchmail email address as a follower or recipient
+            return False
+
+        res = super(MailThread, self)._message_add_suggested_recipient(
+            result, partner, email, reason,
+        )
+
+        return res
