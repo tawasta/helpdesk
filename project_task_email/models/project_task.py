@@ -262,6 +262,9 @@ class ProjectTask(models.Model):
         # Signature/no signature
         values['add_sign'] = True
 
+        # Overwrite subject
+        values['subject'] = self.subject
+
         return super(ProjectTask, self).message_post(
             *args,
             **values,
