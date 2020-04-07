@@ -1,9 +1,5 @@
 import logging
-import re
-from datetime import datetime
-import base64
 from odoo import api, fields, models, _
-from odoo import SUPERUSER_ID
 
 _logger = logging.getLogger(__name__)
 
