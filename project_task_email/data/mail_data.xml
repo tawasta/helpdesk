@@ -26,9 +26,10 @@
             <t t-if="not record.stage_id.closed" t-call="project_task_email.helpdesk_previous_message" />
 
             <!-- TODO: Show the original issue description? -->
-            <!--
-            <div t-raw="record.description" />
-            -->
+            <div t-if="record.latest_message_id" style='margin-top: 2em; padding-left: 4em; border-left: solid 3px #ccc;'>
+                <h3>Issue</h3><br/>
+                <div t-raw="record.description" />
+            </div>
 
             <ul t-if="tracking_values">
                 <t t-foreach="tracking_values" t-as="tracking">
@@ -48,7 +49,6 @@
     <!-- Template for latest message -->
     <template id="helpdesk_latest_message" name="Helpdesk latest message">
         <div t-if="record.latest_message_id" style='margin-top: 2em; padding-left: 4em; border-left: solid 3px #ccc;'>
-            <h3>Latest message</h3>
             <div style='margin-bottom: 2em; color: #909090;'><span t-field="record.latest_message_id.email_from" /> (<span t-field="record.latest_message_id.create_date" />):</div>
             <br />
             <div t-field="record.latest_message_id.body"></div>
@@ -58,7 +58,6 @@
     <!-- Template for previous message -->
     <template id="helpdesk_previous_message" name="Helpdesk latest message">
         <div t-if="record.previous_message_id" style='margin-top: 2em; padding-left: 4em; border-left: solid 3px #ccc;'>
-            <h3>Previous message</h3>
             <div style='margin-bottom: 2em; color: #909090;'><span t-field="record.previous_message_id.email_from" /> (<span t-field="record.previous_message_id.create_date" />):</div>
             <br />
             <div t-field="record.previous_message_id.body"></div>
