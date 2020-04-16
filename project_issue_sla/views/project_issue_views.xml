@@ -16,7 +16,7 @@
         <field name="model">project.issue</field>
         <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
         <field name="arch" type="xml">
-            <field name="priority" position="after">
+            <field name="partner_id" position="after">
                 <field name="sla" widget="selection"/>
             </field>
         </field>
