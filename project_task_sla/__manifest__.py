@@ -21,7 +21,7 @@
 {
     'name': 'Project Task SLA',
     'summary': 'Add SLA to tasks',
-    'version': '12.0.0.2.0',
+    'version': '12.0.0.3.0',
     'category': 'Project',
     'website': 'https://gitlab.com/tawasta/odoo/helpdesk',
     'author': 'Tawasta',

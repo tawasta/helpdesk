@@ -17,13 +17,12 @@
         <field name="model">project.task.stage.change</field>
         <field name="arch" type="xml">
 
-            <tree string='Stage changes' readonly='1'
-                  default_order='id DESC'>
-                <field name='task_partner_id'/>
-                <field name='task_create_date'/>
-                <field name='task_id'/>
-                <field name='new_stage_id' string='Stage'/>
-                <field name='hours' widget="float_time" sum='Total hours'/>
+            <tree string="Stage changes" default_order="id DESC">
+                <field name="task_partner_id" />
+                <field name="task_create_date" />
+                <field name="task_id" />
+                <field name="new_stage_id" string="Stage" />
+                <field name="hours" widget="float_time" sum="Total hours" />
             </tree>
 
         </field>
