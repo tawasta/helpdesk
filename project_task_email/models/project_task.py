@@ -77,14 +77,14 @@ class ProjectTask(models.Model):
     def _compute_latest_message(self):
         """ Set the latest message """
         for record in self:
-            latest = self._get_latest_message()
+            latest = record._get_latest_message()
             record.latest_message_id = latest and latest.id or False
 
     def _compute_previous_message(self):
         """ Set the message that precedes the latest message """
 
         for record in self:
-            previous = self._get_latest_message(offset=2)
+            previous = record._get_latest_message(offset=2)
             record.previous_message_id = previous and previous.id or False
 
     # 5. Constraints and onchanges
