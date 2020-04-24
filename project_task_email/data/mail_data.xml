@@ -22,8 +22,8 @@
             <div t-raw="message.body"/>
 
             <!-- Show latest replies if stage is not closed -->
-            <!-- <t t-if="not record.stage_id.closed" t-call="project_task_email.helpdesk_latest_message" /> -->
-            <!-- <t t-if="not record.stage_id.closed" t-call="project_task_email.helpdesk_previous_message" /> -->
+            <t t-if="not record.stage_id.closed" t-call="project_task_email.helpdesk_latest_message" />
+            <t t-if="not record.stage_id.closed" t-call="project_task_email.helpdesk_previous_message" />
 
             <!-- TODO: Show the original issue description? -->
             <div t-if="record.latest_message_id" style='margin-top: 2em; padding-left: 4em; border-left: solid 3px #ccc;'>
