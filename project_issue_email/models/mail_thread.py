@@ -120,7 +120,9 @@ class MailThread(models.AbstractModel):
                 to_remove.append(node)
             # Outlook ends
         for node in to_remove:
-            node.getparent().remove(node)
+            parent = node.getparent()
+            if parent:
+                parent.remove(node)
         if postprocessed:
             body = etree.tostring(root, pretty_print=False, encoding='UTF-8')
         return body, attachments
