@@ -58,7 +58,9 @@ class ProjectTask(models.Model):
     def _compute_subject(self):
         """ Compute task subjects for helpdesk """
         for record in self:
-            record.subject = _("Issue {}").format(record.display_name)
+            record.subject = _("{} {}").format(
+                record.project_id.label_tasks,
+                record.display_name)
 
     def _get_latest_message(self, offset=1):
         """ Search the latest message """
