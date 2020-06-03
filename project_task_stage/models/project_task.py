@@ -84,29 +84,40 @@ class ProjectTask(models.Model):
     @api.multi
     def _track_template(self, tracking):
         res = super(ProjectTask, self)._track_template(tracking)
-        test_task = self[0]
-        changes, tracking_value_ids = tracking[test_task.id]
-
-        if 'stage_id' not in changes:
-            # Stage is not changed. Nothing else to do
-            return res
 
         stage_change = self.env['project.task.stage.change']
 
         # Stage was changed. Save a state change record
         for record in self:
+            changes, tracking_value_ids = tracking[record.id]
+
+            if 'stage_id' not in changes:
+                # Stage is not changed. Nothing else to do
+                continue
+
             # Create stage change record
             start_date = record.create_date
             if record.stage_change_ids:
                 start_date = record.stage_change_ids[0].end_date
-            stage_change.create({
+
+            values = {
                 'task_id': record.id,
-                'old_stage_id': tracking.get('old_value_integer'),
-                'new_stage_id': tracking.get('new_value_integer'),
                 'start_date': start_date,
                 'end_date': fields.Datetime.now(),
                 'hours': record.stage_duration,
-            })
+            }
+
+            try:
+                # Get the actual values
+                tracking_dict = tracking_value_ids[0][2]
+                values['old_stage_id'] = tracking_dict.get('old_value_integer')
+                values['new_stage_id'] = tracking_dict.get('new_value_integer')
+            except IndexError:
+                # Didn't get tracking values
+                # Nothing we can do here
+                pass
+
+            stage_change.create(values)
 
         return res
 
