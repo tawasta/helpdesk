@@ -21,7 +21,7 @@
 {
     'name': 'Project Task Stage',
     'summary': 'Add stages changes records to tasks',
-    'version': '12.0.1.2.2',
+    'version': '12.0.1.2.3',
     'category': 'Project',
     'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',
