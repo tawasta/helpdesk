@@ -44,17 +44,18 @@ class MailThread(models.AbstractModel):
                     issue = self.env['project.issue'].browse(res[0][1])
                     issue.update_other_recipients(message_dict)
 
-        # Fallback for matching with issue number
-        subject_match = re.findall('[#][0-9]{5,6}', message_dict.get('subject'))
-        if subject_match:
-            issue_code = subject_match[0][1:]
-            issue = self.env['project.issue'].search([('issue_code', '=', issue_code)])
-            author = message_dict.get('author_id')
+            else:
+                # Fallback for matching with issue number
+                subject_match = re.findall('[#][0-9]{5,6}', message_dict.get('subject'))
+                if subject_match:
+                    issue_code = subject_match[0][1:]
+                    issue = self.env['project.issue'].search([('issue_code', '=', issue_code)])
+                    author = message_dict.get('author_id')
 
-            if issue and author in issue.message_partner_ids.ids:
-                res_list = list(res[0])
-                res_list[1] = issue.id
-                res[0] = tuple(res_list)
+                    if issue and author in issue.message_partner_ids.ids:
+                        res_list = list(res[0])
+                        res_list[1] = issue.id
+                        res[0] = tuple(res_list)
 
         return res
 
