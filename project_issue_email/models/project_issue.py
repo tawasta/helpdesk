@@ -45,6 +45,11 @@ class ProjectIssue(models.Model):
         compute='_compute_previous_message',
     )
 
+    preceding_issue_id = fields.Many2one(
+        comodel_name='project.issue',
+        string='Preceding issue',
+    )
+
     @api.model
     def default_get(self, fields):
         res = super(ProjectIssue, self).default_get(fields)
