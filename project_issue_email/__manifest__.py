@@ -22,7 +22,7 @@
 {
     'name': 'Project Issue Email',
     'summary': 'Email modifications to Project Issue',
-    'version': '10.0.0.21.4',
+    'version': '10.0.0.21.5',
     'category': 'Project',
     'website': 'https://tawasta.fi',
     'author': 'Oy Tawasta Technologies Ltd.',

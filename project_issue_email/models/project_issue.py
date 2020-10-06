@@ -75,6 +75,19 @@ class ProjectIssue(models.Model):
         issues = self.search(domain + args, limit=limit)
         return issues.name_get()
 
+    @api.multi
+    def name_get(self):
+        result = []
+
+        for record in self:
+            issue_name = []
+            if record.issue_code:
+                issue_name.append(record.issue_code)
+            issue_name.append(record.name)
+            result.append((record.id, " - ".join(issue_name)))
+
+        return result
+
     def _compute_customer_issue_count(self):
         for record in self:
             partner_id = record.partner_id.id
