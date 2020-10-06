@@ -62,6 +62,19 @@ class ProjectIssue(models.Model):
         })
         return res
 
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = [
+                '|',
+                ('issue_code', 'ilike', name),
+                ('name', operator, name)
+            ]
+        issues = self.search(domain + args, limit=limit)
+        return issues.name_get()
+
     def _compute_customer_issue_count(self):
         for record in self:
             partner_id = record.partner_id.id
