@@ -1,24 +1,12 @@
-# 1. Standard library imports:
-
-# 2. Known third party imports:
-
-# 3. Odoo imports:
 from odoo import fields, models
-
-# 4. Imports from Odoo modules:
-
-# 5. Local imports in the relative form:
-
-# 6. Unknown third party imports:
 
 
 class TaskStageChange(models.Model):
 
-    # 1. Private attributes
     _name = "project.task.stage.change"
     _order = "create_date DESC"
+    _description = "Project task stage changes"
 
-    # 2. Fields declaration
     old_stage_id = fields.Many2one("project.task.type", string="Old stage",)
     new_stage_id = fields.Many2one("project.task.type", string="New stage",)
     task_id = fields.Many2one("project.task", string="Task id",)
@@ -34,15 +22,3 @@ class TaskStageChange(models.Model):
     )
     end_date = fields.Datetime(string="End date", help="When stage ended", store=True,)
     hours = fields.Float(string="Hours", help="Duration of the stage",)
-
-    # 3. Default methods
-
-    # 4. Compute and search fields
-
-    # 5. Constraints and onchanges
-
-    # 6. CRUD methods
-
-    # 7. Action methods
-
-    # 8. Business methods
