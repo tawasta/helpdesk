@@ -17,13 +17,10 @@ from odoo import models, fields
 class ProjectIssue(models.Model):
 
     # 1. Private attributes
-    _inherit = 'project.issue'
+    _inherit = "project.issue"
 
     # 2. Fields declaration
-    stage_sequence = fields.Integer(
-        string='Issue Stage',
-        related="stage_id.sequence",
-    )
+    stage_sequence = fields.Integer(string="Issue Stage", related="stage_id.sequence",)
 
     # 3. Default methods
 

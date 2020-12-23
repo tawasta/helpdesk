@@ -19,37 +19,37 @@
 ##############################################################################
 
 {
-    'name': 'Project Task Email',
-    'summary': 'Email modifications to Project Task',
-    'version': '12.0.1.0.2',
-    'category': 'Project',
-    'website': 'https://gitlab.com/tawasta/odoo/helpdesk',
-    'author': 'Tawasta',
-    'license': 'AGPL-3',
-    'depends': [
-        'fetchmail_company',
-        'email_template_qweb',
-        'project',
+    "name": "Project Task Email",
+    "summary": "Email modifications to Project Task",
+    "version": "12.0.1.0.2",
+    "category": "Project",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": [
+        "fetchmail_company",
+        "email_template_qweb",
+        "project",
         # 'project_issue_attachment',
-        'project_task_code',
+        "project_task_code",
         # 'project_issue_menu',
         # 'project_issue_other_recipients',
         # 'project_issue_stage',
     ],
-    'data': [
-        'data/mail_data.xml',
-        'data/task_mail_template.xml',
-        'views/fetchmail_server_form.xml',
+    "data": [
+        "data/mail_data.xml",
+        "data/task_mail_template.xml",
+        "views/fetchmail_server_form.xml",
         # #'views/project_issue_form.xml',
         # 'views/project_issue_search.xml',
         # 'views/project_issue_stage_change.xml',
-        'views/project_project_form.xml',
-        'views/project_task_form.xml',
+        "views/project_project_form.xml",
+        "views/project_task_form.xml",
         # 'views/assets.xml',
     ],
-    'application': False,
-    'installable': True,
-    'qweb': [
+    "application": False,
+    "installable": True,
+    "qweb": [
         # 'static/src/xml/thread.xml',
     ],
 }

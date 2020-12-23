@@ -17,7 +17,7 @@ from odoo import api, models, _
 class ProjectIssue(models.Model):
 
     # 1. Private attributes
-    _inherit = 'project.issue'
+    _inherit = "project.issue"
 
     # 2. Fields declaration
 
@@ -38,95 +38,138 @@ class ProjectIssue(models.Model):
     def write(self, values):
         res = super(ProjectIssue, self).write(values)
         for record in self:
-            if 'user_id' in values:
+            if "user_id" in values:
                 record.mattermost_issue_author_changed()
-            if 'stage_id' in values:
+            if "stage_id" in values:
                 record.mattermost_issue_stage_changed()
         return res
 
     # 7. Action methods
     def mattermost_get_url(self):
         """ Generate url for related issue """
-        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
-        url = "%(base_url)s/web/#id=%(record_id)s&view_type=form&model=project.issue" \
-              % {'base_url': base_url, 'record_id': self.id}
+        base_url = self.env["ir.config_parameter"].get_param("web.base.url")
+        url = (
+            "%(base_url)s/web/#id=%(record_id)s&view_type=form&model=project.issue"
+            % {"base_url": base_url, "record_id": self.id}
+        )
         return url
 
     def mattermost_issue_created(self):
         """ Post issue created message """
-        function = 'mattermost_issue_created'
-        hook = self.env['mattermost.hook'].sudo().search([
-            ('res_model', '=', 'project.issue'),
-            ('function', '=', function),
-            ('company_id', '=', self.company_id.id),
-            ('hook', '!=', False),
-        ], limit=1)
+        function = "mattermost_issue_created"
+        hook = (
+            self.env["mattermost.hook"]
+            .sudo()
+            .search(
+                [
+                    ("res_model", "=", "project.issue"),
+                    ("function", "=", function),
+                    ("company_id", "=", self.company_id.id),
+                    ("hook", "!=", False),
+                ],
+                limit=1,
+            )
+        )
         if hook and self.name and self.partner_id:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
-            msg = _(':incoming_envelope: A new issue **%(subject)s** from **%(partner)s**') \
-                % {'subject': subject, 'partner': self.partner_id.display_name}
+            msg = _(
+                ":incoming_envelope: A new issue **%(subject)s** from **%(partner)s**"
+            ) % {"subject": subject, "partner": self.partner_id.display_name}
             hook.sudo().post_mattermost(msg, verify=False)
 
     def mattermost_issue_author_changed(self):
         """ Post author changed message """
-        function = 'mattermost_issue_author_changed'
-        hook = self.env['mattermost.hook'].sudo().search([
-            ('res_model', '=', 'project.issue'),
-            ('function', '=', function),
-            ('company_id', '=', self.company_id.id),
-            ('hook', '!=', False),
-        ], limit=1)
+        function = "mattermost_issue_author_changed"
+        hook = (
+            self.env["mattermost.hook"]
+            .sudo()
+            .search(
+                [
+                    ("res_model", "=", "project.issue"),
+                    ("function", "=", function),
+                    ("company_id", "=", self.company_id.id),
+                    ("hook", "!=", False),
+                ],
+                limit=1,
+            )
+        )
         if hook:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
-            author = self.user_id.name or 'No one'
-            msg = _('**%(user)s** assigned **%(subject)s** to **%(author)s**') \
-                % {'user': self.write_uid.name, 'subject': subject, 'author': author}
+            author = self.user_id.name or "No one"
+            msg = _("**%(user)s** assigned **%(subject)s** to **%(author)s**") % {
+                "user": self.write_uid.name,
+                "subject": subject,
+                "author": author,
+            }
             hook.sudo().post_mattermost(msg, verify=False)
 
     def mattermost_issue_stage_changed(self):
         """ Post stage changed message """
-        function = 'mattermost_issue_stage_changed'
-        hook = self.env['mattermost.hook'].sudo().search([
-            ('res_model', '=', 'project.issue'),
-            ('function', '=', function),
-            ('company_id', '=', self.company_id.id),
-            ('hook', '!=', False),
-        ], limit=1)
+        function = "mattermost_issue_stage_changed"
+        hook = (
+            self.env["mattermost.hook"]
+            .sudo()
+            .search(
+                [
+                    ("res_model", "=", "project.issue"),
+                    ("function", "=", function),
+                    ("company_id", "=", self.company_id.id),
+                    ("hook", "!=", False),
+                ],
+                limit=1,
+            )
+        )
         if hook:
             subject = "[%s](%s)" % (self.name, self.mattermost_get_url())
-            msg = _('**%(user)s** changed **%(subject)s** stage to **%(stage)s**') \
-                % {'user': self.write_uid.name, 'subject': subject, 'stage': self.stage_id.name}
+            msg = _("**%(user)s** changed **%(subject)s** stage to **%(stage)s**") % {
+                "user": self.write_uid.name,
+                "subject": subject,
+                "stage": self.stage_id.name,
+            }
             hook.sudo().post_mattermost(msg, verify=False)
 
     def mattermost_summary(self):
         """ Post summary of issues """
-        function = 'mattermost_summary'
-        helpdesk_settings = self.env['project.issue.settings'].sudo().search([])
+        function = "mattermost_summary"
+        helpdesk_settings = self.env["project.issue.settings"].sudo().search([])
         for setting in helpdesk_settings:
-            hooks = self.env['mattermost.hook'].sudo().search([
-                ('res_model', '=', 'project.issue'),
-                ('function', '=', function),
-                ('company_id', '=', setting.company_id.id),
-                ('hook', '!=', False),
-            ])
-            stages = self.env['project.task.type'].sudo().search([
-                ('fold', '=', False),
-                ('issue_stage', '=', True),
-            ])
+            hooks = (
+                self.env["mattermost.hook"]
+                .sudo()
+                .search(
+                    [
+                        ("res_model", "=", "project.issue"),
+                        ("function", "=", function),
+                        ("company_id", "=", setting.company_id.id),
+                        ("hook", "!=", False),
+                    ]
+                )
+            )
+            stages = (
+                self.env["project.task.type"]
+                .sudo()
+                .search([("fold", "=", False), ("issue_stage", "=", True),])
+            )
             for hook in hooks:
-                msg = _('### Issue summary\n')
+                msg = _("### Issue summary\n")
                 total_count = 0
-                msg += _('| Stage | Count |\n')
-                msg += '|:------|:------|\n'
+                msg += _("| Stage | Count |\n")
+                msg += "|:------|:------|\n"
                 for stage in stages:
-                    count = self.env['project.issue'].sudo().search_count([
-                        ('project_id', '=', setting.project_id.id),
-                        ('stage_id', '=', stage.id),
-                    ])
+                    count = (
+                        self.env["project.issue"]
+                        .sudo()
+                        .search_count(
+                            [
+                                ("project_id", "=", setting.project_id.id),
+                                ("stage_id", "=", stage.id),
+                            ]
+                        )
+                    )
                     total_count += count
-                    msg += '|%s| **%s**|\n' % (stage.name, count)
-                total_string = _('Total count')
-                msg += '|**%s**| **%s**\n' % (total_string, total_count)
+                    msg += "|%s| **%s**|\n" % (stage.name, count)
+                total_string = _("Total count")
+                msg += "|**%s**| **%s**\n" % (total_string, total_count)
                 hook.sudo().post_mattermost(msg, verify=False)
 
     # 8. Business methods

@@ -11,13 +11,13 @@ _logger = logging.getLogger(__name__)
 class ProjectTask(models.Model):
 
     # 1. Private attributes
-    _inherit = 'project.task'
+    _inherit = "project.task"
 
     # 2. Fields declaration
     stage_change_ids = fields.One2many(
-        comodel_name='project.task.stage.change',
-        inverse_name='task_id',
-        string='Stage changes',
+        comodel_name="project.task.stage.change",
+        inverse_name="task_id",
+        string="Stage changes",
         readonly=True,
         help="Task's stage changes",
     )
@@ -26,14 +26,13 @@ class ProjectTask(models.Model):
     # stage_id = fields.Many2one(track_visibility=False)
     # project_id = fields.Many2one(track_visibility=False)
     stage_duration = fields.Float(
-        string='Ongoing stage duration',
-        compute='_compute_stage_duration',
+        string="Ongoing stage duration", compute="_compute_stage_duration",
     )
     time_open = fields.Float(
-        string='Time open',
-        compute='compute_time_open',
+        string="Time open",
+        compute="compute_time_open",
         store=True,
-        help='Count how long the task has been open (closed stages excluded), updates only when stage is changed.',
+        help="Count how long the task has been open (closed stages excluded), updates only when stage is changed.",
     )
 
     # 3. Default methods
@@ -57,7 +56,7 @@ class ProjectTask(models.Model):
             record.stage_duration = duration
 
     @api.multi
-    @api.depends('stage_change_ids')
+    @api.depends("stage_change_ids")
     def compute_time_open(self):
         for record in self:
             time_open = 0.00
@@ -66,7 +65,8 @@ class ProjectTask(models.Model):
                 time_open = difference.total_seconds() / 3600
             else:
                 stage_changes = record.stage_change_ids.sorted(
-                    key=lambda r: r.create_date, reverse=True)
+                    key=lambda r: r.create_date, reverse=True
+                )
                 for stage_change in stage_changes:
                     # Don't calculate folded stage changes
                     if stage_change.old_stage_id.fold:
@@ -85,13 +85,13 @@ class ProjectTask(models.Model):
     def _track_template(self, tracking):
         res = super(ProjectTask, self)._track_template(tracking)
 
-        stage_change = self.env['project.task.stage.change']
+        stage_change = self.env["project.task.stage.change"]
 
         # Stage was changed. Save a state change record
         for record in self:
             changes, tracking_value_ids = tracking[record.id]
 
-            if 'stage_id' not in changes:
+            if "stage_id" not in changes:
                 # Stage is not changed. Nothing else to do
                 continue
 
@@ -101,17 +101,17 @@ class ProjectTask(models.Model):
                 start_date = record.stage_change_ids[0].end_date
 
             values = {
-                'task_id': record.id,
-                'start_date': start_date,
-                'end_date': fields.Datetime.now(),
-                'hours': record.stage_duration,
+                "task_id": record.id,
+                "start_date": start_date,
+                "end_date": fields.Datetime.now(),
+                "hours": record.stage_duration,
             }
 
             try:
                 # Get the actual values
                 tracking_dict = tracking_value_ids[0][2]
-                values['old_stage_id'] = tracking_dict.get('old_value_integer')
-                values['new_stage_id'] = tracking_dict.get('new_value_integer')
+                values["old_stage_id"] = tracking_dict.get("old_value_integer")
+                values["new_stage_id"] = tracking_dict.get("new_value_integer")
             except IndexError:
                 # Didn't get tracking values
                 # Nothing we can do here
@@ -122,30 +122,26 @@ class ProjectTask(models.Model):
         return res
 
     @api.multi
-    @api.returns('mail.message', lambda value: value.id)
+    @api.returns("mail.message", lambda value: value.id)
     def message_post(self, *args, **kwargs):
 
         # Reopen the issue if a message is posted to a closed stage
         # TODO: Does this check work with portal?
-        if kwargs.get('message_type') and kwargs.get('message_type') == 'email':
+        if kwargs.get("message_type") and kwargs.get("message_type") == "email":
             self._reopen()
 
-        return super(ProjectTask, self).message_post(
-            *args,
-            **kwargs,
-        )
+        return super(ProjectTask, self).message_post(*args, **kwargs,)
 
     @api.multi
     def message_post_with_template(self, template_id, **kwargs):
 
         # Reopen the issue if a message is posted to a closed stage
         # TODO: Does this check work with portal?
-        if kwargs.get('message_type') and kwargs.get('message_type') == 'email':
+        if kwargs.get("message_type") and kwargs.get("message_type") == "email":
             self._reopen()
 
         return super(ProjectTask, self).message_post_with_template(
-            template_id,
-            **kwargs,
+            template_id, **kwargs,
         )
 
     def _reopen(self):
@@ -172,9 +168,7 @@ class ProjectTask(models.Model):
             msg_body = _("Re-opening task due to a new message.")
 
             msg = record.sudo().message_post(
-                body=msg_body,
-                message_type='comment',
-                subtype='mail.mt_note',
+                body=msg_body, message_type="comment", subtype="mail.mt_note",
             )
 
             if record.user_id:
@@ -184,7 +178,7 @@ class ProjectTask(models.Model):
         self.ensure_one()
 
         task_types = self.project_id.type_ids
-        reopen_stage = task_types.filtered('reopen')
+        reopen_stage = task_types.filtered("reopen")
 
         if len(reopen_stage) == 0:
             # No reopen stage

@@ -17,14 +17,11 @@ from odoo import fields, models
 class CrmLead(models.Model):
 
     # 1. Private attributes
-    _inherit = 'crm.lead'
+    _inherit = "crm.lead"
 
     # 2. Fields declaration
     issue = fields.Many2one(
-        comodel_name='project.issue',
-        string='Issue',
-        readonly=True,
-        copy=False,
+        comodel_name="project.issue", string="Issue", readonly=True, copy=False,
     )
 
     # 3. Default methods

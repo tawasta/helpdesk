@@ -19,20 +19,15 @@
 ##############################################################################
 
 {
-    'name': 'Project Task SLA',
-    'summary': 'Add SLA to tasks',
-    'version': '12.0.0.3.0',
-    'category': 'Project',
-    'website': 'https://gitlab.com/tawasta/odoo/helpdesk',
-    'author': 'Tawasta',
-    'license': 'AGPL-3',
-    'depends': [
-        'project',
-    ],
-    'data': [
-        'views/partner.xml',
-        'views/project_task.xml',
-    ],
-    'application': False,
-    'installable': True,
+    "name": "Project Task SLA",
+    "summary": "Add SLA to tasks",
+    "version": "12.0.0.3.0",
+    "category": "Project",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": ["project",],
+    "data": ["views/partner.xml", "views/project_task.xml",],
+    "application": False,
+    "installable": True,
 }

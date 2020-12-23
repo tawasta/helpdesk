@@ -7,10 +7,10 @@ _logger = logging.getLogger(__name__)
 class ProjectTask(models.Model):
 
     # 1. Private attributes
-    _inherit = 'project.task'
+    _inherit = "project.task"
 
     # 2. Fields declaration
-    '''
+    """
     Duplicate with task_count and task_ids, but they count ALL tasks    
     customer_issue_count = fields.Integer(
         compute='_compute_customer_issue_count',
@@ -24,32 +24,28 @@ class ProjectTask(models.Model):
             record.customer_issue_count = self.search_count([
                 ('partner_id', '=', partner_id),
             ])    
-    '''
+    """
 
     subject = fields.Char(
-        string='Subject',
-        help='Task subject for emails',
-        compute='_compute_subject',
+        string="Subject", help="Task subject for emails", compute="_compute_subject",
     )
 
     issue_type = fields.Char(
-        string='Issue type',
-        help='How issue was created',
-        readonly=True,
+        string="Issue type", help="How issue was created", readonly=True,
     )
 
     latest_message_id = fields.Many2one(
-        comodel_name='mail.message',
-        string='Latest message',
-        help='Latest message (in thread)',
-        compute='_compute_latest_message',
+        comodel_name="mail.message",
+        string="Latest message",
+        help="Latest message (in thread)",
+        compute="_compute_latest_message",
     )
 
     previous_message_id = fields.Many2one(
-        comodel_name='mail.message',
-        string='Previous message',
-        help='Previous message (in thread)',
-        compute='_compute_previous_message',
+        comodel_name="mail.message",
+        string="Previous message",
+        help="Previous message (in thread)",
+        compute="_compute_previous_message",
     )
 
     # 3. Default methods
@@ -59,20 +55,24 @@ class ProjectTask(models.Model):
         """ Compute task subjects for helpdesk """
         for record in self:
             record.subject = _("{} {}").format(
-                record.project_id.label_tasks,
-                record.display_name)
+                record.project_id.label_tasks, record.display_name
+            )
 
     def _get_latest_message(self, offset=1):
         """ Search the latest message """
-        mail_message = self.env['mail.message'].sudo()
+        mail_message = self.env["mail.message"].sudo()
 
         self.ensure_one()
-        latest = mail_message.search([
-            ('res_id', '=', self.id),
-            ('model', '=', self._name),
-            ('subtype_id.internal', '=', False),
-            ('message_type', '!=', 'notification'),
-            ], limit=1, offset=offset)
+        latest = mail_message.search(
+            [
+                ("res_id", "=", self.id),
+                ("model", "=", self._name),
+                ("subtype_id.internal", "=", False),
+                ("message_type", "!=", "notification"),
+            ],
+            limit=1,
+            offset=offset,
+        )
 
         return latest
 
@@ -96,18 +96,22 @@ class ProjectTask(models.Model):
     def create(self, vals):
 
         # Get default project from fetchmail server, if not supplied in vals
-        fetchmail_server_id = self.env.context.get('fetchmail_server_id')
-        if fetchmail_server_id and not vals.get('project_id'):
-            mail_server = \
-                self.env['fetchmail.server'].sudo().browse(fetchmail_server_id)
-            vals['company_id'] = mail_server.company_id.id or \
-                mail_server.project_id.company_id.id
-            vals['project_id'] = \
+        fetchmail_server_id = self.env.context.get("fetchmail_server_id")
+        if fetchmail_server_id and not vals.get("project_id"):
+            mail_server = (
+                self.env["fetchmail.server"].sudo().browse(fetchmail_server_id)
+            )
+            vals["company_id"] = (
+                mail_server.company_id.id or mail_server.project_id.company_id.id
+            )
+            vals["project_id"] = (
                 mail_server.project_id and mail_server.project_id.id or False
+            )
 
         res = super(ProjectTask, self).create(vals)
 
         return res
+
     '''
     10.0 create
     @api.model
@@ -178,7 +182,7 @@ class ProjectTask(models.Model):
         return issue
     '''
 
-    '''
+    """
     @api.multi
     def write(self, vals):
         if vals.get('partner_id'):
@@ -200,7 +204,7 @@ class ProjectTask(models.Model):
                 record.user_id = self.env.user.id
 
         return super(ProjectIssue, self).write(vals)
-        '''
+        """
 
     # 7. Action methods
     @api.multi
@@ -208,20 +212,22 @@ class ProjectTask(models.Model):
         """ Customer's issues """
         self.ensure_one()
         domain = [
-            ('partner_id', '=', self.partner_id.id),
+            ("partner_id", "=", self.partner_id.id),
         ]
         return {
-            'name': _("Customer's issues"),
-            'domain': domain,
-            'res_model': 'project.task',
-            'type': 'ir.actions.act_window',
-            'view_id': False,
-            'view_mode': 'tree,form',
-            'view_type': 'form',
-            'help': _('''<p class="oe_view_nocontent_create">
+            "name": _("Customer's issues"),
+            "domain": domain,
+            "res_model": "project.task",
+            "type": "ir.actions.act_window",
+            "view_id": False,
+            "view_mode": "tree,form",
+            "view_type": "form",
+            "help": _(
+                """<p class="oe_view_nocontent_create">
                         Issues are attached to customers.</p><p>
-                    </p>'''),
-            'limit': 80,
+                    </p>"""
+            ),
+            "limit": 80,
         }
 
     # 8. Business methods
@@ -235,51 +241,45 @@ class ProjectTask(models.Model):
         @return: issue id
         """
         defaults = {
-            'issue_type': 'email',
-            'description': msg.get('body'),
+            "issue_type": "email",
+            "description": msg.get("body"),
         }
         if custom_values:
             defaults.update(custom_values)
         res = super(ProjectTask, self).message_new(msg, custom_values=defaults)
 
         if not res.description:
-            res.description = msg.get('body', False)
+            res.description = msg.get("body", False)
 
         return res
 
     @api.multi
-    @api.returns('mail.message', lambda value: value.id)
+    @api.returns("mail.message", lambda value: value.id)
     def message_post(self, *args, **kwargs):
 
         values = kwargs
 
         # Use custom notification layout
-        values['notif_layout'] = \
-            'project_task_email.message_notification_helpdesk'
+        values["notif_layout"] = "project_task_email.message_notification_helpdesk"
 
         # Signature/no signature
-        values['add_sign'] = True
+        values["add_sign"] = True
 
         # Overwrite subject
-        values['subject'] = self.subject
+        values["subject"] = self.subject
 
-        return super(ProjectTask, self).message_post(
-            *args,
-            **values,
-        )
+        return super(ProjectTask, self).message_post(*args, **values,)
 
     @api.multi
     def message_post_with_template(self, template_id, **kwargs):
         values = kwargs
 
         # Use custom notification layout
-        values['notif_layout'] = \
-            'project_task_email.message_notification_helpdesk'
+        values["notif_layout"] = "project_task_email.message_notification_helpdesk"
 
         # Signature/no signature
-        values['add_sign'] = True
+        values["add_sign"] = True
 
         return super(ProjectTask, self).message_post_with_template(
-            template_id,
-            **values,
+            template_id, **values,
         )

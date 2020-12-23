@@ -20,19 +20,15 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue Menu',
-    'summary': 'Add menu items for issues',
-    'version': '12.0.0.2.2',
-    'category': 'Project',
-    'website': 'http://www.tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'license': 'AGPL-3',
-    'depends': [
-        'project_issue',
-    ],
-    'data': [
-        'views/project_issue_views.xml',
-    ],
-    'application': False,
-    'installable': False,
+    "name": "Project Issue Menu",
+    "summary": "Add menu items for issues",
+    "version": "12.0.0.2.2",
+    "category": "Project",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": ["project_issue",],
+    "data": ["views/project_issue_views.xml",],
+    "application": False,
+    "installable": False,
 }

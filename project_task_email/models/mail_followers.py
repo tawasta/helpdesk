@@ -8,11 +8,11 @@ class Followers(models.Model):
     def _add_followers(self, res_model, res_ids, partner_ids, *args, **kwargs):
         """ Override to disallow adding admin to followers for tasks """
 
-        if res_model == 'project.task':
+        if res_model == "project.task":
             # These partner ids will never be added to followers
             remove_ids = [
-                self.env.ref('base.partner_admin').id,
-                self.env.ref('base.partner_root').id,
+                self.env.ref("base.partner_admin").id,
+                self.env.ref("base.partner_root").id,
             ]
 
             for remove_id in remove_ids:

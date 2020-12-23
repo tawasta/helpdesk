@@ -20,24 +20,16 @@
 ##############################################################################
 
 {
-    'name': 'Issue to Opportunity',
-    'summary': 'Create an opportunity from issue',
-    'version': '12.0.0.2.0',
-    'category': 'Project',
-    'website': 'http://www.tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'license': 'AGPL-3',
-    'depends': [
-        'crm',
-        'project_issue',
-    ],
-    'data': [
-        'views/project_issue_views.xml',
-        'wizards/issue_to_opportunity.xml',
-    ],
-    'demo': [
-
-    ],
-    'application': False,
-    'installable': False,
+    "name": "Issue to Opportunity",
+    "summary": "Create an opportunity from issue",
+    "version": "12.0.0.2.0",
+    "category": "Project",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": ["crm", "project_issue",],
+    "data": ["views/project_issue_views.xml", "wizards/issue_to_opportunity.xml",],
+    "demo": [],
+    "application": False,
+    "installable": False,
 }

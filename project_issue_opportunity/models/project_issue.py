@@ -17,13 +17,13 @@ from odoo import fields, models
 class ProjectIssue(models.Model):
 
     # 1. Private attributes
-    _inherit = 'project.issue'
+    _inherit = "project.issue"
 
     # 2. Fields declaration
     opportunities = fields.One2many(
-        comodel_name='crm.lead',
-        inverse_name='issue',
-        string='Opportunity',
+        comodel_name="crm.lead",
+        inverse_name="issue",
+        string="Opportunity",
         readonly=True,
         copy=False,
     )

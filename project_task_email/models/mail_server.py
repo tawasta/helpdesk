@@ -1,11 +1,12 @@
 import logging
 from odoo import api, models
+
 _logger = logging.getLogger(__name__)
 
 
 class MailServer(models.Model):
 
-    _inherit = 'ir.mail_server'
+    _inherit = "ir.mail_server"
 
     @api.multi
     def build_email(self, *args, **kwargs):
@@ -13,16 +14,16 @@ class MailServer(models.Model):
 
         values = kwargs
 
-        if values.get('object_id'):
-            res_id, res_model = values.get('object_id').split('-')
+        if values.get("object_id"):
+            res_id, res_model = values.get("object_id").split("-")
 
-            if res_model == 'project.task':
+            if res_model == "project.task":
                 # Only apply for project tasks
                 record = self.env[res_model].browse([int(res_id)])
 
                 if record.project_id.email_from:
                     # Override the sender address, if it is set
-                    values['email_from'] = record.project_id.email_from
-                    values['reply_to'] = record.project_id.email_from
+                    values["email_from"] = record.project_id.email_from
+                    values["reply_to"] = record.project_id.email_from
 
         return super(MailServer, self).build_email(*args, **values)

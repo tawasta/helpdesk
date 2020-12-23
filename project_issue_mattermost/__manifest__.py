@@ -19,23 +19,20 @@
 #
 ##############################################################################
 {
-    'name': 'Project Issue Mattermost hooks',
-    'summary': 'Pushes issue events to a Mattermost channel',
-    'category': 'Project',
-    'version': '12.0.0.3.6',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'website': 'http://www.tawasta.fi',
-    'license': 'AGPL-3',
-    'application': False,
-    'installable': False,
-    'depends': [
-        'mattermost_hook',
-        'project_issue',
-        'project_issue_email',
-        'project_issue_stage',
+    "name": "Project Issue Mattermost hooks",
+    "summary": "Pushes issue events to a Mattermost channel",
+    "category": "Project",
+    "version": "12.0.0.3.6",
+    "author": "Tawasta",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "license": "AGPL-3",
+    "application": False,
+    "installable": False,
+    "depends": [
+        "mattermost_hook",
+        "project_issue",
+        "project_issue_email",
+        "project_issue_stage",
     ],
-    'data': [
-        'data/ir_cron.xml',
-        'data/mattermost_hook_data.xml',
-    ],
+    "data": ["data/ir_cron.xml", "data/mattermost_hook_data.xml",],
 }

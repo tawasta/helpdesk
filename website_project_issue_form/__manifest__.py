@@ -20,23 +20,16 @@
 ##############################################################################
 
 {
-    'name': 'Website Project Issue Form',
-    'summary': 'Issues can be submitted from website',
-    'version': '12.0.0.12.2',
-    'category': 'Website',
-    'website': 'http://www.tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'license': 'AGPL-3',
-    'depends': [
-        'website_project_issue',
-        'website_project_issue_extension',
-    ],
-    'data': [
-        'views/project_issue_templates.xml',
-    ],
-    'demo': [
-
-    ],
-    'application': False,
-    'installable': False,
+    "name": "Website Project Issue Form",
+    "summary": "Issues can be submitted from website",
+    "version": "12.0.0.12.2",
+    "category": "Website",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": ["website_project_issue", "website_project_issue_extension",],
+    "data": ["views/project_issue_templates.xml",],
+    "demo": [],
+    "application": False,
+    "installable": False,
 }

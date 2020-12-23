@@ -7,17 +7,17 @@ _logger = logging.getLogger(__name__)
 
 class ProjectTask(models.Model):
 
-    _inherit = 'project.task'
+    _inherit = "project.task"
 
     suggested_message = fields.Char(
-        string='Suggested message',
-        compute='_compute_suggested_message',
-        help='Task display name timesheet message as suggestion',
+        string="Suggested message",
+        compute="_compute_suggested_message",
+        help="Task display name timesheet message as suggestion",
     )
     suggested_time = fields.Float(
-        string='Suggested time',
-        compute='_compute_suggested_time',
-        help='Suggested time for a timesheet record based on stage changes',
+        string="Suggested time",
+        compute="_compute_suggested_time",
+        help="Suggested time for a timesheet record based on stage changes",
     )
 
     @api.multi

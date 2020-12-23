@@ -20,18 +20,15 @@
 ##############################################################################
 
 {
-    'name': 'Website Project Issue Redirect',
-    'summary': 'Redirect to issues',
-    'version': '12.0.1.0.0',
-    'category': 'Website',
-    'website': 'https://tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'license': 'AGPL-3',
-    'depends': [
-        'web',
-    ],
-    'data': [
-    ],
-    'application': False,
-    'installable': False,
+    "name": "Website Project Issue Redirect",
+    "summary": "Redirect to issues",
+    "version": "12.0.1.0.0",
+    "category": "Website",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": ["web",],
+    "data": [],
+    "application": False,
+    "installable": False,
 }

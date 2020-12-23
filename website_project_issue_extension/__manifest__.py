@@ -20,25 +20,21 @@
 ##############################################################################
 
 {
-    'name': 'Website Project Issue Extension',
-    'summary': 'Added functionality to Website Project Issue',
-    'version': '12.0.0.14.3',
-    'category': 'Website',
-    'website': 'http://www.tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'license': 'AGPL-3',
-    'depends': [
-        'project_issue_email',
-        'project_issue_stage',
-        'project_issue_other_recipients',
-        'website_project_issue',
-        'website_unread_messages',
+    "name": "Website Project Issue Extension",
+    "summary": "Added functionality to Website Project Issue",
+    "version": "12.0.0.14.3",
+    "category": "Website",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": [
+        "project_issue_email",
+        "project_issue_stage",
+        "project_issue_other_recipients",
+        "website_project_issue",
+        "website_unread_messages",
     ],
-    'data': [
-        'data/project_issue.xml',
-        'views/my_issue.xml',
-        'views/issues.xml',
-    ],
-    'application': False,
-    'installable': False,
+    "data": ["data/project_issue.xml", "views/my_issue.xml", "views/issues.xml",],
+    "application": False,
+    "installable": False,
 }

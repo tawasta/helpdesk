@@ -20,20 +20,15 @@
 ##############################################################################
 
 {
-    'name': 'Project Task Timesheet Suggestions',
-    'summary': 'Suggest task timesheet time and description',
-    'version': '12.0.1.2.1',
-    'category': 'Project',
-    'website': 'https://gitlab.com/tawasta/odoo/helpdesk',
-    'author': 'Tawasta',
-    'license': 'AGPL-3',
-    'depends': [
-        'hr_timesheet',
-        'project_task_stage',
-    ],
-    'data': [
-        'views/project_task.xml',
-    ],
-    'application': False,
-    'installable': True,
+    "name": "Project Task Timesheet Suggestions",
+    "summary": "Suggest task timesheet time and description",
+    "version": "12.0.1.2.1",
+    "category": "Project",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": ["hr_timesheet", "project_task_stage",],
+    "data": ["views/project_task.xml",],
+    "application": False,
+    "installable": True,
 }

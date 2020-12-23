@@ -19,25 +19,25 @@
 ##############################################################################
 
 {
-    'name': 'Project Task Stage',
-    'summary': 'Add stages changes records to tasks',
-    'version': '12.0.1.2.3',
-    'category': 'Project',
-    'website': 'https://tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'license': 'AGPL-3',
-    'depends': [
-        'project',
+    "name": "Project Task Stage",
+    "summary": "Add stages changes records to tasks",
+    "version": "12.0.1.2.3",
+    "category": "Project",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": [
+        "project",
         # 'project_task_menu',
-        'project_stage_closed',
+        "project_stage_closed",
     ],
-    'data': [
-        'data/project_task_type.xml',
-        'security/ir.model.access.csv',
-        'views/project_task_form.xml',
-        'views/project_task_stage_change.xml',
-        'views/project_task_type.xml',
+    "data": [
+        "data/project_task_type.xml",
+        "security/ir.model.access.csv",
+        "views/project_task_form.xml",
+        "views/project_task_stage_change.xml",
+        "views/project_task_type.xml",
     ],
-    'application': False,
-    'installable': True,
+    "application": False,
+    "installable": True,
 }

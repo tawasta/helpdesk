@@ -20,19 +20,15 @@
 ##############################################################################
 
 {
-    'name': 'Website Project Issue Hide Project',
-    'summary': 'Hide projects and tasks from website portal',
-    'version': '12.0.0.1.0',
-    'category': 'Website',
-    'website': 'http://www.tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'license': 'AGPL-3',
-    'depends': [
-        'website_project',
-    ],
-    'data': [
-        'views/project_templates.xml',
-    ],
-    'application': False,
-    'installable': False,
+    "name": "Website Project Issue Hide Project",
+    "summary": "Hide projects and tasks from website portal",
+    "version": "12.0.0.1.0",
+    "category": "Website",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": ["website_project",],
+    "data": ["views/project_templates.xml",],
+    "application": False,
+    "installable": False,
 }

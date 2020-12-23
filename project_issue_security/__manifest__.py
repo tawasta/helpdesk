@@ -20,24 +20,21 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue Security',
-    'summary': 'Adds security group for portal users',
-    'version': '12.0.0.6.0',
-    'category': 'Project',
-    'website': 'http://www.tawasta.fi',
-    'author': 'Oy Tawasta Technologies Ltd.',
-    'license': 'AGPL-3',
-    'depends': [
-        'analytic',
-        'project',
-        'project_issue',
-        'project_issue_stage',
-        'website_unread_messages',
+    "name": "Project Issue Security",
+    "summary": "Adds security group for portal users",
+    "version": "12.0.0.6.0",
+    "category": "Project",
+    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
+    "license": "AGPL-3",
+    "depends": [
+        "analytic",
+        "project",
+        "project_issue",
+        "project_issue_stage",
+        "website_unread_messages",
     ],
-    'data': [
-        'security/project_issue_security.xml',
-        'security/ir.model.access.csv',
-    ],
-    'application': False,
-    'installable': False
+    "data": ["security/project_issue_security.xml", "security/ir.model.access.csv",],
+    "application": False,
+    "installable": False,
 }
