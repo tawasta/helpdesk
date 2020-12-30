@@ -40,7 +40,7 @@
                             <field name="email_from" string="Recipient" colspan="2" readonly="1"/>
                         </group>
                         <group col="2">
-                            <field name="date" colspan="2"/>
+                            <field name="date" colspan="2" readonly="1" />
                             <field name="date_deadline" colspan="2"/>
                         </group>
                         <group col="4">
