@@ -392,3 +392,17 @@ class ProjectIssue(models.Model):
             'mail_server_id': settings.mail_server_id.id or None,
         })
         return vals
+
+    def update_date_closed(self, stage_id):
+        vals = super(ProjectIssue, self).update_date_closed(stage_id)
+
+        if vals.get('date_closed') == False:
+            # Dont re-open issue
+            vals.pop('date_closed')
+
+        for record in self:
+            # Don't update date_closed after it's once set
+            if record.date_closed:
+                vals.pop('date_closed')
+
+        return vals
