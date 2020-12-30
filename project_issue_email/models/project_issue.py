@@ -398,11 +398,11 @@ class ProjectIssue(models.Model):
 
         if vals.get('date_closed') == False:
             # Dont re-open issue
-            vals.pop('date_closed')
+            vals.pop('date_closed', None)
 
         for record in self:
             # Don't update date_closed after it's once set
             if record.date_closed:
-                vals.pop('date_closed')
+                vals.pop('date_closed', None)
 
         return vals
