@@ -50,6 +50,8 @@ class ProjectIssue(models.Model):
         string='Preceding issue',
     )
 
+    date_reply = fields.Datetime(string='First reply', readonly=True)
+
     @api.model
     def default_get(self, fields):
         res = super(ProjectIssue, self).default_get(fields)
@@ -350,6 +352,9 @@ class ProjectIssue(models.Model):
                 content_div,
                 content_body,
             )
+
+            if not self.date_reply:
+                values.update({'date_reply': fields.Datetime.now()})
 
         # Use updated subject and body
         values.update({

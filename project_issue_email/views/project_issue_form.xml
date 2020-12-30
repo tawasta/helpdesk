@@ -32,6 +32,10 @@
                 <attribute name="required">1</attribute>
             </field>
 
+            <field name="day_open" position="after">
+                <field name="date_reply" />
+            </field>
+
             <xpath expr="//notebook/page[1]" position="replace">
                 <page string="Description">
                     <group name="issue" string="Issue">
