@@ -353,8 +353,6 @@ class ProjectIssue(models.Model):
                 content_body,
             )
 
-            if not self.date_reply:
-                values.update({'date_reply': fields.Datetime.now()})
 
         # Use updated subject and body
         values.update({
@@ -370,6 +368,9 @@ class ProjectIssue(models.Model):
             ProjectIssue, self.with_context(ctx)).message_post(
             **values
         )
+
+        if not self.date_reply:
+            self.date_reply = fields.Datetime.now()
 
         # After posting the message, remove the template from thread
         # This way the mail thread keeps cleaner
