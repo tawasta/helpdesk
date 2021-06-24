@@ -135,6 +135,8 @@ class MailThread(models.AbstractModel):
                 to_remove.append(node)
             # Outlook ends
         for node in to_remove:
+            if not node:
+                continue
             parent = node.getparent()
             if parent:
                 parent.remove(node)
