@@ -138,7 +138,7 @@ class MailThread(models.AbstractModel):
             if not node:
                 continue
             parent = node.getparent()
-            if parent:
+            if parent and parent.tag != 'body' and parent.tag != 'section':
                 parent.remove(node)
         if postprocessed:
             body = etree.tostring(root, pretty_print=False, encoding='UTF-8')
