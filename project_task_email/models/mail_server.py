@@ -1,4 +1,5 @@
 import logging
+
 from odoo import api, models
 
 _logger = logging.getLogger(__name__)
@@ -10,7 +11,7 @@ class MailServer(models.Model):
 
     @api.multi
     def build_email(self, *args, **kwargs):
-        """ Override the sender if project has sender email """
+        """Override the sender if project has sender email"""
 
         values = kwargs
 

@@ -1,9 +1,9 @@
-import lxml
 import logging
+
+import lxml
 from lxml import etree
 
-from odoo import api
-from odoo import models
+from odoo import api, models
 from odoo.tools import pycompat
 
 _logger = logging.getLogger(__name__)
@@ -83,7 +83,7 @@ class MailThread(models.AbstractModel):
     def _message_add_suggested_recipient(
         self, result, partner=None, email=None, reason=""
     ):
-        """ Override suggested recipients to remove fetchmail addresses from recipients """
+        """Override suggested recipients to remove fetchmail addresses from recipients"""
 
         fetchmail_emails = self.env["fetchmail.server"].sudo().search([]).mapped("user")
 
@@ -92,7 +92,10 @@ class MailThread(models.AbstractModel):
             return False
 
         res = super(MailThread, self)._message_add_suggested_recipient(
-            result, partner, email, reason,
+            result,
+            partner,
+            email,
+            reason,
         )
 
         return res

@@ -1,5 +1,4 @@
-from odoo import models
-from odoo import fields
+from odoo import fields, models
 
 
 class FetchmailServer(models.Model):
@@ -14,4 +13,6 @@ class FetchmailServer(models.Model):
     )
 
     # Helper for XML conditions
-    object_model = fields.Char(related="object_id.model",)
+    object_model = fields.Char(
+        related="object_id.model",
+    )

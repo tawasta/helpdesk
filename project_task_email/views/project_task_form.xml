@@ -1,26 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
     <record id="view_task_form2" model="ir.ui.view">
         <field name="name">project.task.form.helpdesk</field>
         <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
             <field name="project_id" position="before">
                 <field name="subject" />
             </field>
-
-            <!-- Move partner and cc:s (watchers) to header -->
-            <field name="partner_id" position="replace" />
-            <field name="email_from" position="replace" />
-            <field name="email_cc" position="replace" />
-
-            <field name="user_id" position="after">
-                <field name="partner_id" />
-                <field name="email_from" />
-                <field name="email_cc" />
-            </field>
         </field>
     </record>
-
 </odoo>

@@ -1,0 +1,68 @@
+<odoo noupdate="0">
+
+    <template id="mail_notification_helpdesk">
+
+        <html t-att-lang="lang">
+            <header>
+                <meta http-equiv="Content-Type" content="text/html charset=UTF-8"/>
+            </header>
+            <body>
+
+                <table role="presentation"
+                       border="0"
+                       cellpadding="0"
+                       cellspacing="0"
+                       style="padding-top: 16px;
+                       font-family:Verdana, Arial,sans-serif;
+                       color: #454748;
+                       width: 100%;
+                       border-collapse:separate;">
+                    <tbody>
+                        <!-- HEADER -->
+                        <tr>
+                            <td>
+
+                                <span style="font-size: 20px; font-weight: bold;">
+                                    <span t-esc="message.record_name and message.record_name.replace('/','-') or ''"/>
+                                </span>
+
+                                <t t-set="subtype_internal" t-value="subtype.internal"/>
+                            </td>
+                        </tr>
+                        <!-- CONTENT -->
+                        <tr>
+                            <td>
+                                <div t-field="message.body"/>
+                            </td>
+                        </tr>
+                        <!-- FOOTER -->
+                        <tr>
+                            <td>
+                                <hr width="100%" style="clear:both;"/>
+                                <span t-field="record.env.user.display_name"/><br/>
+                                <span t-field="company.name"/> <br/>
+                                <div>
+                                    <span t-if="company.phone" t-field="company.phone"/>
+                                    <a t-if="company.website" t-att-href="'%s' % company.website" style="text-decoration:none; color: #000;" t-field="company.website"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <ul t-if="tracking_values">
+                    <t t-foreach="tracking_values" t-as="tracking">
+                        <li><t t-esc="tracking[0]"/>:
+                            <t t-esc="tracking[1]"/> &#8594;
+                            <t t-esc="tracking[2]"/>
+                        </li>
+                    </t>
+                </ul>
+
+            </body>
+        </html>
+
+    </template>
+
+</odoo>
