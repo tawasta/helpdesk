@@ -1,0 +1,59 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_issue_mattermost
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-14 09:07+0000\n"
+"PO-Revision-Date: 2019-03-14 11:07+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fi\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:106
+#, python-format
+msgid "### Issue summary\n"
+msgstr "### Tukipyyntöjen yhteenveto\n"
+
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:78
+#, python-format
+msgid "**%(user)s** assigned **%(subject)s** to **%(author)s**"
+msgstr "**%(user)s** ohjasi **%(subject)s** käyttäjälle **%(author)s**"
+
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:91
+#, python-format
+msgid "**%(user)s** changed **%(subject)s** stage to **%(stage)s**"
+msgstr "**%(user)s** vaihtoi tukipyynnön **%(subject)s** vaiheeseen **%(stage)s**"
+
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:64
+#, python-format
+msgid ":incoming_envelope: A new issue **%(subject)s** from **%(partner)s**"
+msgstr ":incoming_envelope: Uusi tukipyyntö **%(subject)s** luotiin käyttäjältä **%(partner)s**"
+
+#. module: project_issue_mattermost
+#: model:ir.model,name:project_issue_mattermost.model_project_issue
+msgid "Project Issue"
+msgstr "Tukipyyntö"
+
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:117
+#, python-format
+msgid "Total count"
+msgstr "Yhteensä"
+
+#. module: project_issue_mattermost
+#: code:addons/project_issue_mattermost/models/project_issue.py:108
+#, python-format
+msgid "| Stage | Count |\n"
+msgstr "| Vaihe | Lukumäärä |\n"

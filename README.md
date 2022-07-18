@@ -11,5 +11,6 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [project_task_email](project_task_email/) | 14.0.1.0.0 |  | Email modifications to Project Task
+[project_task_mattermost](project_task_mattermost/) | 14.0.0.3.6 |  | Pushes task events to a Mattermost channel
 
 [//]: # (end addons)

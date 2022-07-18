@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="edit_project" model="ir.ui.view">
+        <field name="name">project.project.form.mattemorst</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="arch" type="xml">
+            <field name="privacy_visibility" position="before">
+                <field name="use_mattermost_hooks" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
