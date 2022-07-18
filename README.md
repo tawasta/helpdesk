@@ -1,14 +1,15 @@
-Help Desk bundles
-=================
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Pipeline Status](https://gitlab.com/tawasta/odoo/helpdesk/badges/14.0-dev/pipeline.svg)](https://gitlab.com/tawasta/odoo/helpdesk/-/pipelines/)
+
+Invoicing
+=========
 
 [//]: # (addons)
 
 Available addons
 ----------------
-**Addon** | **Summary**
---- | ---
-[helpdesk](helpdesk/) | Help Desk's core bundle
-[project_issue_extension](project_issue_extension/) | Customizations related to project issue on backend
-[project_issue_opportunity](project_issue_opportunity/) | Create an opportunity from issue
-[website_project_issue_extension](website_project_issue_extension/) | Modifications to website_project_issue
-[website_project_issue_form](website_project_issue_form/) | Issues can be created from website
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[project_task_email](project_task_email/) | 14.0.1.0.0 |  | Email modifications to Project Task
+
+[//]: # (end addons)

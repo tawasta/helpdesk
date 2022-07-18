@@ -40,10 +40,8 @@
                 <tr>
                     <td>
                         <div>Copyright ©
-                            <span t-esc="object.create_date.year"/>
-                            <t
-                                t-esc="object.company_id.name"
-                            />, All rights reserved.
+                            <span t-esc="object.create_date.year" />
+                            <t t-esc="object.company_id.name" />, All rights reserved.
                         </div>
                     </td>
                 </tr>

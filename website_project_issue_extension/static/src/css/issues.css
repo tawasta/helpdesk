@@ -1,7 +1,0 @@
-/* My issues page style changes */
-@media (max-width: 516px) {
-    .dropdown.pull-right {
-        margin: 15px 0px;
-        float: none !important;
-    }
-}
