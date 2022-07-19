@@ -1,59 +1,101 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* project_issue_mattermost
+# 	* project_task_mattermost
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0\n"
+"Project-Id-Version: Odoo Server 14.0-20220425\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-14 09:07+0000\n"
-"PO-Revision-Date: 2019-03-14 11:07+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2022-07-19 06:46+0000\n"
+"PO-Revision-Date: 2022-07-19 09:49+0300\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: fi\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 3.1.1\n"
 
-#. module: project_issue_mattermost
-#: code:addons/project_issue_mattermost/models/project_issue.py:106
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
 #, python-format
-msgid "### Issue summary\n"
-msgstr "### Tukipyyntöjen yhteenveto\n"
+msgid "### Task summary for {}\n"
+msgstr "### Tehtävien yhteenveto projektille {}\n"
 
-#. module: project_issue_mattermost
-#: code:addons/project_issue_mattermost/models/project_issue.py:78
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
 #, python-format
 msgid "**%(user)s** assigned **%(subject)s** to **%(author)s**"
-msgstr "**%(user)s** ohjasi **%(subject)s** käyttäjälle **%(author)s**"
+msgstr "**%(user)s** määritti tehtävän **%(subject)s** vastuuhenkilöksi **%(author)s**"
 
-#. module: project_issue_mattermost
-#: code:addons/project_issue_mattermost/models/project_issue.py:91
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
 #, python-format
 msgid "**%(user)s** changed **%(subject)s** stage to **%(stage)s**"
-msgstr "**%(user)s** vaihtoi tukipyynnön **%(subject)s** vaiheeseen **%(stage)s**"
+msgstr "**%(user)s** vaihtoi **%(subject)s** tilaksi **%(stage)s**"
 
-#. module: project_issue_mattermost
-#: code:addons/project_issue_mattermost/models/project_issue.py:64
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
 #, python-format
-msgid ":incoming_envelope: A new issue **%(subject)s** from **%(partner)s**"
-msgstr ":incoming_envelope: Uusi tukipyyntö **%(subject)s** luotiin käyttäjältä **%(partner)s**"
+msgid ":incoming_envelope: A new task **%(subject)s** from **%(partner)s**\n"
+msgstr ":incoming_envelope: Uusi tehtävä **%(subject)s** kumppanilta **%(partner)s**\n"
 
-#. module: project_issue_mattermost
-#: model:ir.model,name:project_issue_mattermost.model_project_issue
-msgid "Project Issue"
-msgstr "Tukipyyntö"
+#. module: project_task_mattermost
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__display_name
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_task__display_name
+msgid "Display Name"
+msgstr "Näyttönimi"
 
-#. module: project_issue_mattermost
-#: code:addons/project_issue_mattermost/models/project_issue.py:117
+#. module: project_task_mattermost
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__id
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_task__id
+msgid "ID"
+msgstr "Tunniste (ID)"
+
+#. module: project_task_mattermost
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_project____last_update
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_task____last_update
+msgid "Last Modified on"
+msgstr "Viimeksi muokattu"
+
+#. module: project_task_mattermost
+#: model:ir.actions.server,name:project_task_mattermost.ir_cron_scheduler_mattermost_task_summary_ir_actions_server
+#: model:ir.cron,cron_name:project_task_mattermost.ir_cron_scheduler_mattermost_task_summary
+#: model:ir.cron,name:project_task_mattermost.ir_cron_scheduler_mattermost_task_summary
+msgid "Mattermost task summary"
+msgstr "Mattermost tehtävien yhteenveto"
+
+#. module: project_task_mattermost
+#: model:ir.model,name:project_task_mattermost.model_project_project
+msgid "Project"
+msgstr "Projektit"
+
+#. module: project_task_mattermost
+#: model:ir.model,name:project_task_mattermost.model_project_task
+msgid "Task"
+msgstr "Tehtävä"
+
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
 #, python-format
 msgid "Total count"
 msgstr "Yhteensä"
 
-#. module: project_issue_mattermost
-#: code:addons/project_issue_mattermost/models/project_issue.py:108
+#. module: project_task_mattermost
+#: model:ir.model.fields,help:project_task_mattermost.field_project_project__use_mattermost_hooks
+#: model:ir.model.fields,help:project_task_mattermost.field_project_task__use_mattermost_hooks
+msgid "Trigger Mattermost hooks from tasks belonging to this project"
+msgstr "Laukause Mattermost-hookit tähän projektiin kuuluvilta tehtäviltä"
+
+#. module: project_task_mattermost
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__use_mattermost_hooks
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_task__use_mattermost_hooks
+msgid "Use Mattermost hooks"
+msgstr "Käytä Mattermost-hookkeja"
+
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
 #, python-format
 msgid "| Stage | Count |\n"
-msgstr "| Vaihe | Lukumäärä |\n"
+msgstr "| Tila | Lukumäärä |\n"

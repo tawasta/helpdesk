@@ -50,29 +50,34 @@ class ProjectTask(models.Model):
             )
         )
         if hook and self.name and self.partner_id:
-            subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
-            msg = _(
-                ":incoming_envelope: A new task **%(subject)s** from **%(partner)s**\n"
-            ) % {"subject": subject, "partner": self.partner_id.display_name}
-
-            # Tags
-            if self.tag_ids:
-                msg += "\n{}".format(", ".join(self.tag_ids.mapped("name")))
-
-            # Priority
-            priority = int(self.priority)
-            if priority > 0:
-                msg += "\n"
-            for i in range(priority):
-                # Add star icons depending on the priority
-                msg += ":star:"
-
-            # Description
-            desc = html2plaintext(self.description).replace("\n", " ")
-            dots = "..." if len(desc) > 300 else ""
-            msg += "\n*{}{}*".format(desc[:300], dots)
+            msg = self._get_mattermost_task_created_content()
 
             hook.sudo().post_mattermost(msg, verify=False)
+
+    def _get_mattermost_task_created_content(self):
+        subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
+        msg = _(
+            ":incoming_envelope: A new task **%(subject)s** from **%(partner)s**\n"
+        ) % {"subject": subject, "partner": self.partner_id.display_name}
+
+        # Tags
+        if self.tag_ids:
+            msg += "\n{}".format(", ".join(self.tag_ids.mapped("name")))
+
+        # Priority
+        priority = int(self.priority)
+        if priority > 0:
+            msg += "\n"
+        for i in range(priority):
+            # Add star icons depending on the priority
+            msg += ":star:"
+
+        # Description
+        desc = html2plaintext(self.description).replace("\n", " ")
+        dots = "..." if len(desc) > 300 else ""
+        msg += "\n*{}{}*".format(desc[:300], dots)
+
+        return msg
 
     def mattermost_task_author_changed(self):
         """Post author changed message"""
@@ -158,7 +163,7 @@ class ProjectTask(models.Model):
                 )
             )
             for hook in hooks:
-                msg = _("### Task summary\n")
+                msg = _("### Task summary for {}\n").format(project.name)
                 total_count = 0
                 msg += _("| Stage | Count |\n")
                 msg += "|:------|:------|\n"
