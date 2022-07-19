@@ -56,10 +56,7 @@
                 </table>
 
                 <!-- FOOTER -->
-                <t
-                    t-set="object"
-                    t-value="record"
-                />
+                <t t-set="object" t-value="record" />
 
                 <t t-call="project_task_email.helpdesk_email_footer" />
 

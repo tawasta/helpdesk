@@ -40,10 +40,14 @@
                 <tr>
                     <td>
                         <div>
-                            <span>Copyright © <t t-esc="object.create_date.year" /> <t t-esc="object.company_id.name" /></span><br/>
+                            <span>Copyright © <t t-esc="object.create_date.year" /> <t
+                                    t-esc="object.company_id.name"
+                                /></span><br />
                             <span>All rights reserved.</span>
-                            <span t-if="object.company_id.website" >
-                                <br /><a t-att-href="object.company_id.website"><t t-esc="object.company_id.website" /></a>
+                            <span t-if="object.company_id.website">
+                                <br /><a t-att-href="object.company_id.website"><t
+                                        t-esc="object.company_id.website"
+                                    /></a>
                             </span>
                         </div>
                     </td>
