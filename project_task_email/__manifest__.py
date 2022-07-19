@@ -34,9 +34,9 @@
         "project_task_code",
     ],
     "data": [
-        "data/mail_data.xml",
+        "data/mail_helpdesk_autoreply.xml",
         "data/mail_layout.xml",
-        "data/mail_template_task.xml",
+        "data/mail_notification_helpdesk.xml",
         "views/fetchmail_server_form.xml",
         "views/project_project_form.xml",
         # "views/project_task_form.xml",

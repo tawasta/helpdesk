@@ -1,370 +1,183 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* project_issue_email
+# 	* project_task_email
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0\n"
+"Project-Id-Version: Odoo Server 14.0-20220425\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-14 05:16+0000\n"
-"PO-Revision-Date: 2019-06-14 08:17+0300\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2022-07-19 10:17+0000\n"
+"PO-Revision-Date: 2022-07-19 13:23+0300\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: fi\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 3.1.1\n"
 
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
-msgid "#issuemessagebody"
-msgstr "#issuemessagebody"
+#. module: project_task_email
+#: model:mail.template,subject:project_task_email.mail_template_helpdesk_autoreply
+msgid "${object.display_name} received"
+msgstr "${object.display_name} otettu vastaan"
 
-#. module: project_issue_email
-#: model:mail.template,subject:project_issue_email.mail_template_project_issue_received_email
-#: model:mail.template,subject:project_issue_email.mail_template_project_issue_reply_email
-msgid "${object.subject}"
-msgstr "${object.subject}"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_footer
-msgid ", All rights reserved."
-msgstr ", kaikki oikeudet pidätetään."
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
-msgid ". You can see the response below in the next section or in"
-msgstr ". Näät vastauksen alla olevassa osiossa tai"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_received_autoreply
+#. module: project_task_email
+#: model:mail.template,body_html:project_task_email.mail_template_helpdesk_autoreply
 msgid ""
-"<b>Issue description:</b><br/>\n"
-"                                            #issuemessagebody"
+"<p style=\"margin:0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, "
+"Helvetica, Verdana, Arial, sans-serif;\"><br></p>"
 msgstr ""
-"<b>Ongelman kuvaus:</b><br/>\n"
-"                                            #issuemessagebody"
+"<p style=\"margin:0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, "
+"Helvetica, Verdana, Arial, sans-serif;\"><br></p>"
 
-#. module: project_issue_email
-#: code:addons/project_issue_email/models/project_issue.py:152
-#, python-format
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                        Issues are attached to customers.</p><p>\n"
-"                    </p>"
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                        Tukipyynnöt liitetään asiakkaisiin.</p><p>\n"
-"                    </p>"
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_email_footer
+msgid "<span>All rights reserved.</span>"
+msgstr "<span>Kaikki oikeudet pidätetään.</span>"
 
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_footer
-msgid "<strong>Best regards,</strong><br/>"
-msgstr "<strong>Terveisin,</strong><br/>"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_received_autoreply
-msgid "Author:"
-msgstr "Kirjoittaja:"
-
-#. module: project_issue_email
-#: code:addons/project_issue_email/models/res_partner.py:76
-#, python-format
-msgid "Author: "
-msgstr "Kirjoittaja: "
-
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_settings_email_issue_received
-msgid "Auto reply email when customer submits a new issue"
-msgstr "Automaattivastaus asiakkaalle, kun uusi tukipyyntö vastaanotetaan"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_fetchmail_server_company_id
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_company_id
-msgid "Company"
-msgstr "Yritys"
-
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_settings_company_id
-msgid "Company for which these settings are defined"
-msgstr "Yritys, jolle tukipyynnön asetukset on määritetty"
-
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_fetchmail_server_company_id
-msgid "Company which the mail server belongs to"
-msgstr "Yritys, jolle sähköpostipalvelin kuuluu"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_footer
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_email_footer
 msgid "Copyright ©"
 msgstr "Copyright ©"
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_create_uid
-msgid "Created by"
-msgstr "Luonut"
+#. module: project_task_email
+#: model:ir.model.fields,help:project_task_email.field_fetchmail_server__project_id
+msgid "Create task to project"
+msgstr "Luo tehtävä projektille"
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_create_date
-msgid "Created on"
-msgstr "Luotu"
-
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_settings_project_id
-msgid "Currently used helpdesk project for the company"
-msgstr "Yrityksen nykyinen tukipalveluprojekti"
-
-#. module: project_issue_email
-#: code:addons/project_issue_email/models/project_issue.py:145
-#, python-format
-msgid "Customer's issues"
-msgstr "Asiakkaan tukipyynnöt"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
-msgid "Description"
-msgstr "Kuvaus"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_display_name
+#. module: project_task_email
+#: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__display_name
+#: model:ir.model.fields,field_description:project_task_email.field_project_project__display_name
+#: model:ir.model.fields,field_description:project_task_email.field_project_task__display_name
 msgid "Display Name"
 msgstr "Näyttönimi"
 
-#. module: project_issue_email
-#: model:ir.model,name:project_issue_email.model_mail_thread
-msgid "Email Thread"
-msgstr "Sähköpostiviestiketju"
+#. module: project_task_email
+#: model:ir.model.fields,help:project_task_email.field_project_project__email_from
+msgid "Force sender email address on tasks"
+msgstr "Pakota lähettäjän osoite tehtäville"
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_email_issue_received
-msgid "Email template for autoreply"
-msgstr "Automaattivastauksen sähköpostipohja"
+#. module: project_task_email
+#: model:mail.template,name:project_task_email.mail_template_helpdesk_autoreply
+msgid "Helpdesk: Reception Acknowledgment"
+msgstr "Helpdesk: Vastaanottokuittaus"
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_email_issue_reply
-msgid "Email template for new reply"
-msgstr "Vastauksien sähköpostipohja"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_mail_server_id
-msgid "Force sending mail server"
-msgstr "Pakota lähtevä sähköpostipalvelin"
-
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_settings_mail_server_id
-msgid "Force the sending mail server for this company"
-msgstr "Pakota lähteävä sähköpostipalvelin tämän yrityksen helpparille"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_project_id
-msgid "Helpdesk project"
-msgstr "Tukipalveluprojekti"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_email_reply_to
-msgid "Helpdesk reply to email address"
-msgstr "Tukipalvelun vastausosoite"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
-msgid "Hey"
-msgstr "Hei"
-
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_issue_type
+#. module: project_task_email
+#: model:ir.model.fields,help:project_task_email.field_project_task__issue_type
 msgid "How issue was created"
-msgstr "Mitä kautta tukipyyntö luotiin"
+msgstr "Kuinka tehtävä luotiin"
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_id
+#. module: project_task_email
+#: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__id
+#: model:ir.model.fields,field_description:project_task_email.field_project_project__id
+#: model:ir.model.fields,field_description:project_task_email.field_project_task__id
 msgid "ID"
 msgstr "Tunniste (ID)"
 
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
-msgid "Issue"
-msgstr "Tukipyyntö"
+#. module: project_task_email
+#: model:ir.model,name:project_task_email.model_fetchmail_server
+msgid "Incoming Mail Server"
+msgstr "Saapuvan sähköpostin palvelin"
 
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
-msgid "Issue #"
-msgstr "Tukipyyntö #"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_issue_number
-msgid "Issue number"
-msgstr "Tukipyynnön numero"
-
-#. module: project_issue_email
-#: model:ir.ui.menu,name:project_issue_email.menu_project_issue_settings
-msgid "Issue settings"
-msgstr "Tukipyyntöjen asetukset"
-
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_subject
-msgid "Issue subject for emails"
-msgstr "Tukipyynnön aihe sähköposteille"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_issue_type
+#. module: project_task_email
+#: model:ir.model.fields,field_description:project_task_email.field_project_task__issue_type
 msgid "Issue type"
-msgstr "Tukipyynnön tyyppi"
+msgstr "Tehtävän tyyppi"
 
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
-msgid "Issue's description"
-msgstr "Tukipyynnön kuvaus"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
-msgid "Issue's subject"
-msgstr "Tukipyynnön otsikko"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
-msgid "Issues"
-msgstr "Tukipyynnöt"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings___last_update
+#. module: project_task_email
+#: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server____last_update
+#: model:ir.model.fields,field_description:project_task_email.field_project_project____last_update
+#: model:ir.model.fields,field_description:project_task_email.field_project_task____last_update
 msgid "Last Modified on"
 msgstr "Viimeksi muokattu"
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_write_uid
-msgid "Last Updated by"
-msgstr "Viimeksi päivittänyt"
+#. module: project_task_email
+#: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__object_model
+msgid "Model"
+msgstr "Tietomalli"
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_settings_write_date
-msgid "Last Updated on"
-msgstr "Viimeksi päivitetty"
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
+msgid ""
+"Please do not alter the subject of the message, so it will be tracked "
+"properly."
+msgstr ""
+"Älä muuta viestin otsikkoa, jotta viesti pystytään käsittelemään oikein."
 
-#. module: project_issue_email
-#: model:ir.model,name:project_issue_email.model_mail_message
-msgid "Message"
-msgstr "Viesti"
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_email_header
+msgid ""
+"Please ensure that the ticket ID is kept in the subject of the emails so "
+"your ticket is tracked properly."
+msgstr ""
+"Huolehdi että tehtävän tunniste pysyy viestin otsikossa, jotta viesti "
+"käsitellään oikein."
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_mail_compose_message_portal_message
-#: model:ir.model.fields,field_description:project_issue_email.field_mail_mail_portal_message
-#: model:ir.model.fields,field_description:project_issue_email.field_mail_message_portal_message
-msgid "Message was sent from portal"
-msgstr "Viesti lähetettiin asiakasportaalista"
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_email_header
+msgid ""
+"Please reply above this line. Any content below it will be disregarded."
+msgstr ""
+"Vastaa tämän viivan yläpuolelle. Alapuolella olevaa sisältöä ei huomioida"
 
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_issue_number
-msgid "Number assigned to issue as identifier"
-msgstr "Tukipyynnön tunnisteena käytetty numero"
+#. module: project_task_email
+#: model:ir.model,name:project_task_email.model_project_project
+msgid "Project"
+msgstr "Projektit"
 
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_customer_issue_count
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_customer_issue_count
-msgid "Number of issues on customer"
-msgstr "Asiakkaan tukipyyntöjen lukumäärä"
+#. module: project_task_email
+#: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__project_id
+msgid "Related project"
+msgstr "Liittyvä projekti"
 
-#. module: project_issue_email
-#: model:ir.model,name:project_issue_email.model_fetchmail_server
-msgid "POP/IMAP Server"
-msgstr "POP/IMAP-palvelin"
+#. module: project_task_email
+#: model:ir.model.fields,field_description:project_task_email.field_project_project__email_from
+msgid "Sender email"
+msgstr "Lähettäjän sähköposti"
 
-#. module: project_issue_email
-#: model:ir.model,name:project_issue_email.model_res_partner
-msgid "Partner"
-msgstr "Kumppani"
+#. module: project_task_email
+#: model:ir.model,name:project_task_email.model_project_task
+msgid "Task"
+msgstr "Tehtävä"
 
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_received_autoreply
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
-msgid "Please make sure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly."
-msgstr "Varmistathan, että tukipyynnön tunniste pysyy sähköpostin otsikossa, jotta tukipyyntöäsi seurataan asianmukaisesti."
-
-#. module: project_issue_email
-#: code:addons/project_issue_email/models/res_partner.py:75
-#, python-format
-msgid "Previous message"
-msgstr "Edellinen viesti"
-
-#. module: project_issue_email
-#: model:ir.model,name:project_issue_email.model_project_issue
-msgid "Project Issue"
-msgstr "Tukipyyntö"
-
-#. module: project_issue_email
-#: model:ir.actions.act_window,name:project_issue_email.action_project_issue_settings
-#: model:ir.model,name:project_issue_email.model_project_issue_settings
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_settings_form
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_settings_tree
-msgid "Project issue settings"
-msgstr "Tukipyyntöjen asetukset"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_form_view_inherited
-msgid "Recipient"
-msgstr "Vastaanottaja"
-
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_settings_email_reply_to
-msgid "Reply to email address for the company"
-msgstr "Yrityksen vastausosoite"
-
-#. module: project_issue_email
-#: model:ir.model.fields,field_description:project_issue_email.field_project_issue_subject
-msgid "Subject"
-msgstr "Aihe"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_received_autoreply
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
 msgid "Thank your for contacting"
-msgstr "Kiitos yhteydenotostanne"
+msgstr "Kiitos kun otit yhteyttä"
 
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
-msgid "There's a new messsage for your ticket"
-msgstr "Sinulle on uusi viesti tukipyynnössä"
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_email_footer
+msgid ""
+"The information contained in this message and in any attachments is "
+"confidential and is\n"
+"                            intended solely for the attention and use of "
+"the named addressee(s). If you are not the\n"
+"                            intended recipient and / or you have received "
+"this message in error, please contact the\n"
+"                            sender immediately and delete all material you "
+"have received in this message. You are hereby\n"
+"                            notified that any use of the information, which "
+"you have received in error in whatsoever\n"
+"                            form, is strictly prohibited."
+msgstr ""
 
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_mail_compose_message_portal_message
-#: model:ir.model.fields,help:project_issue_email.field_mail_mail_portal_message
-#: model:ir.model.fields,help:project_issue_email.field_mail_message_portal_message
-msgid "This field is used for sending issue comments through portal"
-msgstr "Tätä kenttää käytetään tunnistamaan, mitkä viestit lähetetään asiakasportaalista"
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
+msgid "This is an automated message that your message"
+msgstr "Tämä on automaattikuittaus viestisi"
 
-#. module: project_issue_email
-#: code:addons/project_issue_email/models/project_issue.py:31
-#: sql_constraint:project.issue:0
-#, python-format
-msgid "This issue number is already in use."
-msgstr "Tukipyynnön numero on jo käytössä."
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
+msgid "We will reply to you as soon as possible."
+msgstr "Vastaamme sinulle niin pian kuin mahdollista."
 
-#. module: project_issue_email
-#: model:ir.model.fields,help:project_issue_email.field_project_issue_settings_email_issue_reply
-msgid "When employee sends a new message from issue, this template is used"
-msgstr "Kun työntekijä lähettää uuden viestin tukipyynnöstä, tätä sähköpostipohjaa käytetään."
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
+msgid "has been received."
+msgstr "vastaanotosta."
 
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
-msgid "by signing in to your account. If you don't have a portal account and would prefer using it instead of emails, you can request it from us."
-msgstr "kirjautumalla tilillesi. Jos haluaisit käyttää asiakasportaalia, mutta sinulla ei vielä ole käyttäjätiliä, ota meihin yhteyttä."
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_received_autoreply
-msgid "has been received. We will reply to you as soon as possible."
-msgstr "on vastaanotettu. Vastaamme teille mahdollisimman pian."
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_received_autoreply
-msgid "support. This is an automated message that your ticket"
-msgstr "tukipalveluun. Tämä on automaattisesti lähetetty viesti, että tukipyyntönne"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_footer
-msgid "support<br/>"
-msgstr "tukipalvelu<br/>"
-
-#. module: project_issue_email
-#: model:ir.ui.view,arch_db:project_issue_email.project_issue_email_reply
-msgid "the website portal"
-msgstr "asiakasportaalista"
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
+msgid "support."
+msgstr "tukeen."

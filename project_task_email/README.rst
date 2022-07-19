@@ -15,7 +15,10 @@ Email customizations to Project Task module:
 
 Configuration
 =============
-\-
+You might want to install additional modules:
+- mail_debrand
+- mail_tracking
+- mail_show_follower
 
 Usage
 =====

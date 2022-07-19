@@ -65,15 +65,20 @@ class ProjectTask(models.Model):
         # Overwrite values
         values["subject"] = self.display_name
         values["email_layout_xmlid"] = "project_task_email.mail_notification_helpdesk"
-        values["email_layout_xmlid"] = "project_task_email.mail_notification_helpdesk"
 
         if self.project_id.email_from:
             values["email_from"] = self.project_id.email_from
 
-        return super().message_post(
+        res = super().message_post(
             *args,
             **values,
         )
+
+        if self.project_id.email_from:
+            # Change the author
+            res.email_from = self.env.user.partner_id.email
+
+        return res
 
     def message_post_with_template(self, template_id, **kwargs):
         values = kwargs
