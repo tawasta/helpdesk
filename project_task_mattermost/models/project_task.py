@@ -68,7 +68,7 @@ class ProjectTask(models.Model):
         priority = int(self.priority)
         if priority > 0:
             msg += "\n"
-        for i in range(priority):
+        for _i in range(priority):
             # Add star icons depending on the priority
             msg += ":star:"
 
