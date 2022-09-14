@@ -26,7 +26,7 @@ class ProjectTask(models.Model):
 
     def mattermost_get_url(self):
         """Generate url for related task"""
-        base_url = self.env["ir.config_parameter"].get_param("web.base.url")
+        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
         url = "%(base_url)s/web/#id=%(record_id)s&view_type=form&model=project.task" % {
             "base_url": base_url,
             "record_id": self.id,
