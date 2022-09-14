@@ -47,8 +47,6 @@
                                     </div>
                                     <hr style="color: #f6f6f6" />
                                 </div>
-
-                                <t t-call="project_task_email.helpdesk_email_footer" />
                             </div>
                         </td>
                     </tr>
