@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0-20220425\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-19 06:46+0000\n"
-"PO-Revision-Date: 2022-07-19 09:49+0300\n"
+"POT-Creation-Date: 2022-09-21 08:21+0000\n"
+"PO-Revision-Date: 2022-09-21 11:22+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -16,6 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "X-Generator: Poedit 3.1.1\n"
+
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
+#, python-format
+msgid " from **{}**"
+msgstr " kumppanilta **{}**"
 
 #. module: project_task_mattermost
 #: code:addons/project_task_mattermost/models/project_task.py:0
@@ -38,8 +44,8 @@ msgstr "**%(user)s** vaihtoi **%(subject)s** tilaksi **%(stage)s**"
 #. module: project_task_mattermost
 #: code:addons/project_task_mattermost/models/project_task.py:0
 #, python-format
-msgid ":incoming_envelope: A new task **%(subject)s** from **%(partner)s**\n"
-msgstr ":incoming_envelope: Uusi tehtävä **%(subject)s** kumppanilta **%(partner)s**\n"
+msgid ":incoming_envelope: A new task **{}**"
+msgstr ":incoming_envelope: Uusi tehtävä **{}**"
 
 #. module: project_task_mattermost
 #: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__display_name
@@ -86,7 +92,7 @@ msgstr "Yhteensä"
 #: model:ir.model.fields,help:project_task_mattermost.field_project_project__use_mattermost_hooks
 #: model:ir.model.fields,help:project_task_mattermost.field_project_task__use_mattermost_hooks
 msgid "Trigger Mattermost hooks from tasks belonging to this project"
-msgstr "Laukause Mattermost-hookit tähän projektiin kuuluvilta tehtäviltä"
+msgstr "Laukaise Mattermost-hookit tähän projektiin kuuluvilta tehtäviltä"
 
 #. module: project_task_mattermost
 #: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__use_mattermost_hooks
