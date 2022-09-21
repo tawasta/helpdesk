@@ -21,7 +21,7 @@
     "name": "Project Task Mattermost hooks",
     "summary": "Pushes task events to a Mattermost channel",
     "category": "Project",
-    "version": "14.0.0.3.7",
+    "version": "14.0.0.4.0",
     "author": "Tawasta",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "license": "AGPL-3",

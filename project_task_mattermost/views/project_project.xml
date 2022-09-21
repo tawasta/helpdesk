@@ -8,6 +8,18 @@
         <field name="arch" type="xml">
             <field name="privacy_visibility" position="before">
                 <field name="use_mattermost_hooks" />
+                <field
+                    name="mattermost_channel"
+                    attrs="{'invisible': [('use_mattermost_hooks', '=', False)]}"
+                />
+                <field
+                    name="mattermost_username"
+                    attrs="{'invisible': [('use_mattermost_hooks', '=', False)]}"
+                />
+                <field
+                    name="mattermost_icon_url"
+                    attrs="{'invisible': [('use_mattermost_hooks', '=', False)]}"
+                />
             </field>
         </field>
     </record>

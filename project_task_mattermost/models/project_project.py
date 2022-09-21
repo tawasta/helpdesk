@@ -11,3 +11,16 @@ class ProjectProject(models.Model):
         copy=True,
         help="Trigger Mattermost hooks from tasks belonging to this project",
     )
+
+    mattermost_channel = fields.Char(
+        string="Mattermost Channel",
+        help="Channel the message is posted to. Leave empty to use default",
+    )
+    mattermost_username = fields.Char(
+        string="Mattermost Username",
+        help="Username who posts the message to Mattermost. Leave empty to use default",
+    )
+    mattermost_icon_url = fields.Char(
+        string="Mattermost Icon URL",
+        help="Icon url to be used for posting the message. Leave empty to use default",
+    )

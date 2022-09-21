@@ -33,6 +33,15 @@ class ProjectTask(models.Model):
         }
         return url
 
+    def mattermost_post(self, hook, msg):
+        hook.sudo().post_mattermost(
+            msg,
+            channel=self.project_id.mattermost_channel,
+            username=self.project_id.mattermost_username,
+            icon_url=self.project_id.mattermost_icon_url,
+            verify=False,
+        )
+
     def mattermost_task_created(self):
         """Post task created message"""
         function = "mattermost_task_created"
@@ -49,21 +58,22 @@ class ProjectTask(models.Model):
                 limit=1,
             )
         )
-        if hook and self.name and self.partner_id:
+        if hook and self.name:
             msg = self._get_mattermost_task_created_content()
 
-            hook.sudo().post_mattermost(msg, verify=False)
+            self.mattermost_post(hook, msg)
 
     def _get_mattermost_task_created_content(self):
         subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
-        msg = _(
-            ":incoming_envelope: A new task **%(subject)s** from **%(partner)s**\n"
-        ) % {"subject": subject, "partner": self.partner_id.display_name}
+        msg = _(":incoming_envelope: A new task **{}**").format(subject)
 
+        if self.partner_id:
+            msg += _(" from **{}**".format(self.partner_id.display_name))
+
+        msg += "\n"
         # Tags
         if self.tag_ids:
             msg += "\n{}".format(", ".join(self.tag_ids.mapped("name")))
-
         # Priority
         priority = int(self.priority)
         if priority > 0:
@@ -71,12 +81,11 @@ class ProjectTask(models.Model):
         for _i in range(priority):
             # Add star icons depending on the priority
             msg += ":star:"
-
         # Description
         desc = html2plaintext(self.description).replace("\n", " ")
-        dots = "..." if len(desc) > 300 else ""
-        msg += "\n*{}{}*".format(desc[:300], dots)
-
+        if desc:
+            dots = "..." if len(desc) > 300 else ""
+            msg += "\n*{}{}*".format(desc[:300], dots)
         return msg
 
     def mattermost_task_author_changed(self):
@@ -103,7 +112,7 @@ class ProjectTask(models.Model):
                 "subject": subject,
                 "author": author,
             }
-            hook.sudo().post_mattermost(msg, verify=False)
+            self.mattermost_post(hook, msg)
 
     def mattermost_task_stage_changed(self):
         """Post stage changed message"""
@@ -128,7 +137,7 @@ class ProjectTask(models.Model):
                 "subject": subject,
                 "stage": self.stage_id.display_name,
             }
-            hook.sudo().post_mattermost(msg, verify=False)
+            self.mattermost_post(hook, msg)
 
     def mattermost_task_summary(self):
         """Post summary of tasks"""
@@ -156,11 +165,7 @@ class ProjectTask(models.Model):
             stages = (
                 self.env["project.task.type"]
                 .sudo()
-                .search(
-                    [
-                        ("project_ids", "=", project.id),
-                    ]
-                )
+                .search([("project_ids", "=", project.id), ("is_closed", "=", False)])
             )
             for hook in hooks:
                 msg = _("### Task summary for {}\n").format(project.name)
@@ -182,4 +187,5 @@ class ProjectTask(models.Model):
                     msg += "|%s| **%s**|\n" % (stage.name, count)
                 total_string = _("Total count")
                 msg += "|**%s**| **%s**\n" % (total_string, total_count)
-                hook.sudo().post_mattermost(msg, verify=False)
+
+                self.mattermost_post(hook, msg)

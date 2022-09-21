@@ -76,7 +76,9 @@ class ProjectTask(models.Model):
 
         if self.project_id.email_from:
             # Change the author
-            res.email_from = self.env.user.partner_id.email
+            if self.env.user.partner_id.email:
+                res.email_from = self.env.user.partner_id.email
+            res.author_id = self.env.user.partner_id.id
 
         return res
 
