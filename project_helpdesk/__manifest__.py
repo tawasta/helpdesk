@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
+#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (https://tawasta.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 {
     "name": "Project Helpdesk",
     "summary": "Project Helpdesk core bundle",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "category": "Tools",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "author": "Tawasta",
@@ -32,4 +32,10 @@
     ],
     "application": True,
     "installable": True,
+    "data": [
+        "views/project_form.xml",
+        "views/project_menu.xml",
+        "views/project_task.xml",
+        "views/project_task_menu.xml",
+    ],
 }
