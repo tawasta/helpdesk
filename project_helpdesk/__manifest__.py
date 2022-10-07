@@ -21,7 +21,7 @@
 {
     "name": "Project Helpdesk",
     "summary": "Project Helpdesk core bundle",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.2.0",
     "category": "Tools",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "author": "Tawasta",

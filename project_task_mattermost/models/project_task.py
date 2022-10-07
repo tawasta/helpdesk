@@ -24,6 +24,16 @@ class ProjectTask(models.Model):
                 record.mattermost_task_stage_changed()
         return res
 
+    def _message_post_after_hook(self, message, msg_vals):
+        # Mattermost post on internal messages only
+        if (
+            self.use_mattermost_hooks
+            and message.subtype_id
+            and message.subtype_id.internal
+        ):
+            self.mattermost_task_comment_posted(message)
+        return super(ProjectTask, self)._message_post_after_hook(message, msg_vals)
+
     def mattermost_get_url(self):
         """Generate url for related task"""
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
@@ -41,6 +51,26 @@ class ProjectTask(models.Model):
             icon_url=self.project_id.mattermost_icon_url,
             verify=False,
         )
+
+    def mattermost_task_comment_posted(self, message):
+        """Post task comment posted message"""
+        function = "mattermost_task_comment_posted"
+        hook = (
+            self.env["mattermost.hook"]
+            .sudo()
+            .search(
+                [
+                    ("res_model", "=", "project.task"),
+                    ("function", "=", function),
+                    ("company_id", "=", self.company_id.id),
+                    ("hook", "!=", False),
+                ],
+                limit=1,
+            )
+        )
+        if hook:
+            msg = self._get_mattermost_task_comment_posted_content(message)
+            self.mattermost_post(hook, msg)
 
     def mattermost_task_created(self):
         """Post task created message"""
@@ -68,7 +98,7 @@ class ProjectTask(models.Model):
         msg = _(":incoming_envelope: A new task **{}**").format(subject)
 
         if self.partner_id:
-            msg += _(" from **{}**".format(self.partner_id.display_name))
+            msg += _(" from **{}**").format(self.partner_id.display_name)
 
         msg += "\n"
         # Tags
@@ -86,6 +116,18 @@ class ProjectTask(models.Model):
         if desc:
             dots = "..." if len(desc) > 300 else ""
             msg += "\n*{}{}*".format(desc[:300], dots)
+        return msg
+
+    def _get_mattermost_task_comment_posted_content(self, message):
+        subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
+        msg = _("**{}** posted an internal comment on **{}**").format(
+            message.author_id.display_name, subject
+        )
+        # Description
+        content = html2plaintext(message.body).replace("\n", " ")
+        if content:
+            dots = "..." if len(content) > 300 else ""
+            msg += "\n*{}{}*".format(content[:300], dots)
         return msg
 
     def mattermost_task_author_changed(self):
