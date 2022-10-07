@@ -15,5 +15,6 @@ addon | version | maintainers | summary
 [project_task_email](project_task_email/) | 14.0.1.0.0 |  | Email modifications to Project Task
 [project_task_mattermost](project_task_mattermost/) | 14.0.0.4.0 |  | Pushes task events to a Mattermost channel
 [project_task_stage](project_task_stage/) | 14.0.1.2.3 |  | Add stages changes records to tasks
+[project_task_stage_ensure_partner](project_task_stage_ensure_partner/) | 14.0.1.0.0 |  | Ensure partner is set before allowing stage changes
 
 [//]: # (end addons)
