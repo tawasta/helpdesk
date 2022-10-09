@@ -21,7 +21,7 @@
 {
     "name": "Project Task Email",
     "summary": "Email modifications to Project Task",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "category": "Project",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "author": "Tawasta",
@@ -36,14 +36,10 @@
     "data": [
         "data/mail_helpdesk_autoreply.xml",
         "data/mail_layout.xml",
-        "data/mail_notification_helpdesk.xml",
         "views/fetchmail_server_form.xml",
         "views/project_project_form.xml",
-        # "views/project_task_form.xml",
     ],
     "application": False,
     "installable": True,
-    "qweb": [
-        # 'static/src/xml/thread.xml',
-    ],
+    "qweb": [],
 }
