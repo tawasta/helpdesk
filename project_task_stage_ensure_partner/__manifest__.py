@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
+#    Copyright 2021- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,22 +18,15 @@
 #
 ##############################################################################
 {
-    "name": "Project Task Mattermost hooks",
-    "summary": "Pushes task events to a Mattermost channel",
+    "name": "Project Task Stage Ensure Partner",
+    "version": "14.0.1.0.0",
     "category": "Project",
-    "version": "14.0.0.5.0",
-    "author": "Tawasta",
+    "summary": "Ensure partner is set before allowing stage changes",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "author": "Tawasta",
     "license": "AGPL-3",
     "application": False,
     "installable": True,
-    "depends": [
-        "mattermost_hook",
-        "project",
-    ],
-    "data": [
-        "data/ir_cron.xml",
-        "data/mattermost_hook_data.xml",
-        "views/project_project.xml",
-    ],
+    "depends": ["project"],
+    "data": [],
 }
