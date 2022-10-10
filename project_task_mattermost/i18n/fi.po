@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20220915\n"
+"Project-Id-Version: Odoo Server 14.0-20221005\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-07 18:12+0000\n"
-"PO-Revision-Date: 2022-10-07 18:12+0000\n"
+"POT-Creation-Date: 2022-10-10 16:16+0000\n"
+"PO-Revision-Date: 2022-10-10 16:16+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -40,6 +40,12 @@ msgstr ""
 #, python-format
 msgid "**%(user)s** changed **%(subject)s** stage to **%(stage)s**"
 msgstr "**%(user)s** vaihtoi **%(subject)s** tilaksi **%(stage)s**"
+
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
+#, python-format
+msgid "**{}** posted a message on **{}**"
+msgstr "**{}** lähetti viestin tehtävälle **{}**"
 
 #. module: project_task_mattermost
 #: code:addons/project_task_mattermost/models/project_task.py:0

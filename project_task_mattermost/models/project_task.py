@@ -26,11 +26,7 @@ class ProjectTask(models.Model):
 
     def _message_post_after_hook(self, message, msg_vals):
         # Mattermost post on internal messages only
-        if (
-            self.use_mattermost_hooks
-            and message.subtype_id
-            and message.subtype_id.internal
-        ):
+        if self.use_mattermost_hooks and message:
             self.mattermost_task_comment_posted(message)
         return super(ProjectTask, self)._message_post_after_hook(message, msg_vals)
 
@@ -43,12 +39,12 @@ class ProjectTask(models.Model):
         }
         return url
 
-    def mattermost_post(self, hook, msg):
+    def mattermost_post(self, hook, msg, project):
         hook.sudo().post_mattermost(
             msg,
-            channel=self.project_id.mattermost_channel,
-            username=self.project_id.mattermost_username,
-            icon_url=self.project_id.mattermost_icon_url,
+            channel=project.mattermost_channel,
+            username=project.mattermost_username,
+            icon_url=project.mattermost_icon_url,
             verify=False,
         )
 
@@ -70,7 +66,7 @@ class ProjectTask(models.Model):
         )
         if hook:
             msg = self._get_mattermost_task_comment_posted_content(message)
-            self.mattermost_post(hook, msg)
+            self.mattermost_post(hook, msg, self.project_id)
 
     def mattermost_task_created(self):
         """Post task created message"""
@@ -91,7 +87,7 @@ class ProjectTask(models.Model):
         if hook and self.name:
             msg = self._get_mattermost_task_created_content()
 
-            self.mattermost_post(hook, msg)
+            self.mattermost_post(hook, msg, self.project_id)
 
     def _get_mattermost_task_created_content(self):
         subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
@@ -112,20 +108,26 @@ class ProjectTask(models.Model):
             # Add star icons depending on the priority
             msg += ":star:"
         # Description
-        desc = html2plaintext(self.description).replace("\n", " ")
-        if desc:
+        if self.description:
+            desc = html2plaintext(self.description).replace("\n", " ")
             dots = "..." if len(desc) > 300 else ""
             msg += "\n*{}{}*".format(desc[:300], dots)
         return msg
 
     def _get_mattermost_task_comment_posted_content(self, message):
         subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
-        msg = _("**{}** posted an internal comment on **{}**").format(
-            message.author_id.display_name, subject
-        )
+        if message.subtype_id and message.subtype_id.internal:
+            msg = _("**{}** posted an internal comment on **{}**").format(
+                message.author_id.display_name, subject
+            )
+        else:
+            msg = _("**{}** posted a message on **{}**").format(
+                message.author_id.display_name, subject
+            )
+
         # Description
-        content = html2plaintext(message.body).replace("\n", " ")
-        if content:
+        if message.body:
+            content = html2plaintext(message.body).replace("\n", " ")
             dots = "..." if len(content) > 300 else ""
             msg += "\n*{}{}*".format(content[:300], dots)
         return msg
@@ -154,7 +156,7 @@ class ProjectTask(models.Model):
                 "subject": subject,
                 "author": author,
             }
-            self.mattermost_post(hook, msg)
+            self.mattermost_post(hook, msg, self.project_id)
 
     def mattermost_task_stage_changed(self):
         """Post stage changed message"""
@@ -179,7 +181,7 @@ class ProjectTask(models.Model):
                 "subject": subject,
                 "stage": self.stage_id.display_name,
             }
-            self.mattermost_post(hook, msg)
+            self.mattermost_post(hook, msg, self.project_id)
 
     def mattermost_task_summary(self):
         """Post summary of tasks"""
@@ -230,4 +232,4 @@ class ProjectTask(models.Model):
                 total_string = _("Total count")
                 msg += "|**%s**| **%s**\n" % (total_string, total_count)
 
-                self.mattermost_post(hook, msg)
+                self.mattermost_post(hook, msg, project)
