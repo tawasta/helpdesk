@@ -64,7 +64,6 @@ class ProjectTask(models.Model):
 
         # Overwrite values
         values["subject"] = self.display_name
-        values["email_layout_xmlid"] = "project_task_email.mail_notification_helpdesk"
 
         if self.project_id.email_from:
             values["email_from"] = self.project_id.email_from
@@ -87,7 +86,6 @@ class ProjectTask(models.Model):
 
         # Overwrite values
         values["subject"] = self.display_name
-        values["email_layout_xmlid"] = "project_task_email.mail_notification_helpdesk"
 
         if self.project_id.email_from:
             values["email_from"] = self.project_id.email_from
