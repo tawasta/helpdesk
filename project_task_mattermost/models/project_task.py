@@ -26,7 +26,10 @@ class ProjectTask(models.Model):
 
     def _message_post_after_hook(self, message, msg_vals):
         # Mattermost post on internal messages only
-        if self.use_mattermost_hooks and message:
+        if self.use_mattermost_hooks and message.message_type not in [
+            "notification",
+            "user_notification",
+        ]:
             self.mattermost_task_comment_posted(message)
         return super(ProjectTask, self)._message_post_after_hook(message, msg_vals)
 
