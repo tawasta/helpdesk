@@ -1,5 +1,9 @@
+import logging
+
 from odoo import _, api, fields, models
 from odoo.tools import html2plaintext
+
+_logger = logging.getLogger(__name__)
 
 
 class ProjectTask(models.Model):
@@ -43,6 +47,10 @@ class ProjectTask(models.Model):
         return url
 
     def mattermost_post(self, hook, msg, project):
+        _logger.info(
+            _("Posting project mattermost hook %(hook_id)s:\n%(msg)s")
+            % {"hook_id": hook, "msg": msg}
+        )
         hook.sudo().post_mattermost(
             msg,
             channel=project.mattermost_channel,
@@ -63,6 +71,7 @@ class ProjectTask(models.Model):
                     ("function", "=", function),
                     ("company_id", "=", self.company_id.id),
                     ("hook", "!=", False),
+                    ("id", "in", self.project_id.mattermost_hook_ids.ids),
                 ],
                 limit=1,
             )
@@ -83,6 +92,7 @@ class ProjectTask(models.Model):
                     ("function", "=", function),
                     ("company_id", "=", self.company_id.id),
                     ("hook", "!=", False),
+                    ("id", "in", self.project_id.mattermost_hook_ids.ids),
                 ],
                 limit=1,
             )
@@ -147,6 +157,7 @@ class ProjectTask(models.Model):
                     ("function", "=", function),
                     ("company_id", "=", self.company_id.id),
                     ("hook", "!=", False),
+                    ("id", "in", self.project_id.mattermost_hook_ids.ids),
                 ],
                 limit=1,
             )
@@ -173,6 +184,7 @@ class ProjectTask(models.Model):
                     ("function", "=", function),
                     ("company_id", "=", self.company_id.id),
                     ("hook", "!=", False),
+                    ("id", "in", self.project_id.mattermost_hook_ids.ids),
                 ],
                 limit=1,
             )
@@ -205,6 +217,7 @@ class ProjectTask(models.Model):
                         ("function", "=", function),
                         ("company_id", "=", project.company_id.id),
                         ("hook", "!=", False),
+                        ("id", "in", project.mattermost_hook_ids.ids),
                     ]
                 )
             )
