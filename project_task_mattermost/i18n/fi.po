@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0-20221005\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-10 16:16+0000\n"
-"PO-Revision-Date: 2022-10-10 16:16+0000\n"
+"POT-Creation-Date: 2022-10-11 17:57+0000\n"
+"PO-Revision-Date: 2022-10-11 17:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr ":incoming_envelope: Uusi tehtävä **{}**"
 #. module: project_task_mattermost
 #: model:ir.model.fields,help:project_task_mattermost.field_project_project__mattermost_channel
 msgid "Channel the message is posted to. Leave empty to use default"
-msgstr ""
+msgstr "Kanava, jolle viesti lähetetään. Jätä tyhjäksi käyttääksesi oletusta"
 
 #. module: project_task_mattermost
 #: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__display_name
@@ -80,7 +80,7 @@ msgstr "Tunniste (ID)"
 #: model:ir.model.fields,help:project_task_mattermost.field_project_project__mattermost_icon_url
 msgid ""
 "Icon url to be used for posting the message. Leave empty to use default"
-msgstr ""
+msgstr "Kuvakkeen url, jota käytetään viestin lähetyksessä. Jätä tyhjäksi käyttääksesi oletusta"
 
 #. module: project_task_mattermost
 #: model:ir.model.fields,field_description:project_task_mattermost.field_project_project____last_update
@@ -91,17 +91,22 @@ msgstr "Viimeksi muokattu"
 #. module: project_task_mattermost
 #: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__mattermost_channel
 msgid "Mattermost Channel"
-msgstr ""
+msgstr "Mattermost kanava"
+
+#. module: project_task_mattermost
+#: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__mattermost_hook_ids
+msgid "Mattermost Hooks"
+msgstr "Mattermost hookit"
 
 #. module: project_task_mattermost
 #: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__mattermost_icon_url
 msgid "Mattermost Icon URL"
-msgstr ""
+msgstr "Mattermost kuvakkeen URL"
 
 #. module: project_task_mattermost
 #: model:ir.model.fields,field_description:project_task_mattermost.field_project_project__mattermost_username
 msgid "Mattermost Username"
-msgstr ""
+msgstr "Mattermost käyttäjätunnus"
 
 #. module: project_task_mattermost
 #: model:ir.actions.server,name:project_task_mattermost.ir_cron_scheduler_mattermost_task_summary_ir_actions_server
@@ -109,6 +114,16 @@ msgstr ""
 #: model:ir.cron,name:project_task_mattermost.ir_cron_scheduler_mattermost_task_summary
 msgid "Mattermost task summary"
 msgstr "Mattermost tehtävien yhteenveto"
+
+#. module: project_task_mattermost
+#: code:addons/project_task_mattermost/models/project_task.py:0
+#, python-format
+msgid ""
+"Posting project mattermost hook %(hook_id)s:\n"
+"%(msg)s"
+msgstr ""
+"Lähetetään projektin mattermost hook %(hook_id)s:\n"
+"%(msg)s"
 
 #. module: project_task_mattermost
 #: model:ir.model,name:project_task_mattermost.model_project_project
@@ -143,6 +158,7 @@ msgstr "Käytä Mattermost-hookkeja"
 msgid ""
 "Username who posts the message to Mattermost. Leave empty to use default"
 msgstr ""
+"Käyttäjätunnus kuka lähettää viestin Mattermostiin. Jätä tyhjäksi käyttääksesi oletusta"
 
 #. module: project_task_mattermost
 #: code:addons/project_task_mattermost/models/project_task.py:0
