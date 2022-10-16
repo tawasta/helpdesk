@@ -11,6 +11,7 @@ class ProjectProject(models.Model):
         copy=True,
         help="Trigger Mattermost hooks from tasks belonging to this project",
     )
+    mattermost_hook_ids = fields.Many2many("mattermost.hook", string="Mattermost Hooks")
 
     mattermost_channel = fields.Char(
         string="Mattermost Channel",
