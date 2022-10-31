@@ -16,6 +16,7 @@ Configuration
 3. Create incoming email server
     - Set a company to which the issues are created
     - Assign "Create a new record": "Project task"
+    - (Assign "Related project")
 4. Setup helpdesk project(s)
     - Go to project settings
     - Set "Sender email"
