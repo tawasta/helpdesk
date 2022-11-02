@@ -10,7 +10,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[project_helpdesk](project_helpdesk/) | 14.0.1.2.0 |  | Project Helpdesk core bundle
+[project_helpdesk](project_helpdesk/) | 14.0.1.3.0 |  | Project Helpdesk core bundle
 [project_task_auto_reopen](project_task_auto_reopen/) | 14.0.1.0.0 |  | Reopen closed tasks when the task receives a new message
 [project_task_email](project_task_email/) | 14.0.1.1.1 |  | Email modifications to Project Task
 [project_task_mattermost](project_task_mattermost/) | 14.0.0.7.0 |  | Pushes task events to a Mattermost channel

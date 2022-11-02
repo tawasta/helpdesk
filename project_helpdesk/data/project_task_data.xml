@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="internal_user_discussions" model="mail.message.subtype">
+        <field name="name">Discussions by Internal User</field>
+        <field name="res_model">project.task</field>
+        <field name="default" eval="False" />
+        <field name="highlight" eval="True" />
+    </record>
+</odoo>

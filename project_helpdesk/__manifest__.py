@@ -21,7 +21,7 @@
 {
     "name": "Project Helpdesk",
     "summary": "Project Helpdesk core bundle",
-    "version": "14.0.1.2.0",
+    "version": "14.0.1.3.0",
     "category": "Tools",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "author": "Tawasta",
@@ -29,6 +29,7 @@
     "depends": [
         "project_task_auto_reopen",
         "project_task_email",
+        "mail_highlight",
     ],
     "application": True,
     "installable": True,
@@ -37,5 +38,6 @@
         "views/project_menu.xml",
         "views/project_task.xml",
         "views/project_task_menu.xml",
+        "data/project_task_data.xml",
     ],
 }
