@@ -100,7 +100,7 @@ class ProjectTask(models.Model):
                 if not message.subtype_id.internal:
                     blockquote += _("From: {}<br/>").format(message.email_from)
                     blockquote += _("Date: {}<br/>".format(message.date))
-                    blockquote += _("Subject: {}<br/>".format(message.subject))
+                    # blockquote += _("Subject: {}<br/>".format(message.subject))
                     blockquote += _("{}<br/>".format(message.body))
 
             if blockquote:
