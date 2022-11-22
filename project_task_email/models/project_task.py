@@ -1,6 +1,6 @@
 import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -62,35 +62,54 @@ class ProjectTask(models.Model):
 
         values = kwargs
 
-        # Overwrite values
+        # Overwrite subject
         values["subject"] = self.display_name
 
-        if self.project_id.email_from:
-            values["email_from"] = self.project_id.email_from
+        blockquote = self._get_blockquote(values)
+        if blockquote:
+            values["body"] += blockquote
 
         res = super().message_post(
             *args,
             **values,
         )
 
-        if self.project_id.email_from:
-            # Change the author
-            if self.env.user.partner_id.email:
-                res.email_from = self.env.user.partner_id.email
-            res.author_id = self.env.user.partner_id.id
-
         return res
 
     def message_post_with_template(self, template_id, **kwargs):
         values = kwargs
 
-        # Overwrite values
+        # Overwrite subject
         values["subject"] = self.display_name
 
-        if self.project_id.email_from:
-            values["email_from"] = self.project_id.email_from
+        blockquote = self._get_blockquote(values)
+        if blockquote:
+            values["body"] += blockquote
 
         return super().message_post_with_template(
             template_id,
             **values,
         )
+
+    def _get_blockquote(self, values):
+        blockquote = ""
+        # subtype_xmlid won't work when using "with_template"
+        # if values.get("subtype_xmlid") == 'mail.mt_comment':
+        if values.get("message_type") == "comment":
+            for message in self.message_ids:
+                if not message.subtype_id.internal:
+                    blockquote += _("From: {}<br/>").format(message.email_from)
+                    blockquote += _("Date: {}<br/>".format(message.date))
+                    blockquote += _("Subject: {}<br/>".format(message.subject))
+                    blockquote += _("{}<br/>".format(message.body))
+
+            if blockquote:
+                blockquote = (
+                    "<br/><blockquote "
+                    "style='padding-right:0px; padding-left:5px; "
+                    "border-left-color: #000; margin-left:5px; "
+                    "margin-right:0px;border-left-width: 2px; "
+                    "border-left-style:solid'>{}</blockquote>".format(blockquote)
+                )
+
+        return blockquote
