@@ -97,7 +97,10 @@ class ProjectTask(models.Model):
         # if values.get("subtype_xmlid") == 'mail.mt_comment':
         if values.get("message_type") == "comment":
             for message in self.message_ids:
-                if not message.subtype_id.internal:
+                if (
+                    message.message_type == "comment"
+                    and not message.subtype_id.internal
+                ):
                     blockquote += _("From: {}<br/>").format(message.email_from)
                     blockquote += _("Date: {}<br/>".format(message.date))
                     # blockquote += _("Subject: {}<br/>".format(message.subject))
