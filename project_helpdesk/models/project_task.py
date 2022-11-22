@@ -11,7 +11,7 @@ class ProjectTask(models.Model):
 
     helpdesk_project = fields.Boolean(related="project_id.helpdesk_project")
 
-    def _message_create(self, values_list):
+    def _message_create_disabled(self, values_list):
         if values_list.get("author_id") and values_list.get("subtype_id"):
             # search interal user for message author
             internal_user = self.env["res.users"].search(

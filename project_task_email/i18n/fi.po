@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20220425\n"
+"Project-Id-Version: Odoo Server 14.0-20221025\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-21 06:43+0000\n"
-"PO-Revision-Date: 2022-09-21 09:54+0300\n"
+"POT-Creation-Date: 2022-11-22 07:11+0000\n"
+"PO-Revision-Date: 2022-11-22 09:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.1\n"
 
 #. module: project_task_email
 #: model:mail.template,subject:project_task_email.mail_template_helpdesk_autoreply
@@ -23,35 +23,20 @@ msgid "${object.display_name} received"
 msgstr "${object.display_name} otettu vastaan"
 
 #. module: project_task_email
-#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_email_footer
-msgid ""
-"<br/>\n"
-"                            <span>All rights reserved.</span>"
-msgstr ""
-"<br/>\n"
-"                            <span>Kaikki oikeudet pidätetään.</span>"
-
-#. module: project_task_email
-#: model:mail.template,body_html:project_task_email.mail_template_helpdesk_autoreply
-msgid ""
-"<p style=\"margin:0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, "
-"Helvetica, Verdana, Arial, sans-serif;\"><br></p>"
-msgstr ""
-"<p style=\"margin:0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, "
-"Helvetica, Verdana, Arial, sans-serif;\"><br></p>"
-
-#. module: project_task_email
-#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_email_footer
-msgid "Copyright ©"
-msgstr "Copyright ©"
-
-#. module: project_task_email
 #: model:ir.model.fields,help:project_task_email.field_fetchmail_server__project_id
 msgid "Create task to project"
 msgstr "Luo tehtävä projektille"
 
 #. module: project_task_email
+#: code:addons/project_task_email/models/project_task.py:0
+#, python-format
+msgid "Date: {}<br/>"
+msgstr "Pvm: {}<br/>"
+
+#. module: project_task_email
 #: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__display_name
+#: model:ir.model.fields,field_description:project_task_email.field_ir_mail_server__display_name
+#: model:ir.model.fields,field_description:project_task_email.field_mail_message__display_name
 #: model:ir.model.fields,field_description:project_task_email.field_project_project__display_name
 #: model:ir.model.fields,field_description:project_task_email.field_project_task__display_name
 msgid "Display Name"
@@ -63,9 +48,10 @@ msgid "Force sender email address on tasks"
 msgstr "Pakota lähettäjän osoite tehtäville"
 
 #. module: project_task_email
-#: model:mail.template,name:project_task_email.mail_template_helpdesk_autoreply
-msgid "Helpdesk: Reception Acknowledgment"
-msgstr "Helpdesk: Vastaanottokuittaus"
+#: code:addons/project_task_email/models/project_task.py:0
+#, python-format
+msgid "From: {}<br/>"
+msgstr "Lähettäjä: {}<br/>"
 
 #. module: project_task_email
 #: model:ir.model.fields,help:project_task_email.field_project_task__issue_type
@@ -74,6 +60,8 @@ msgstr "Kuinka tehtävä luotiin"
 
 #. module: project_task_email
 #: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__id
+#: model:ir.model.fields,field_description:project_task_email.field_ir_mail_server__id
+#: model:ir.model.fields,field_description:project_task_email.field_mail_message__id
 #: model:ir.model.fields,field_description:project_task_email.field_project_project__id
 #: model:ir.model.fields,field_description:project_task_email.field_project_task__id
 msgid "ID"
@@ -91,10 +79,22 @@ msgstr "Tehtävän tyyppi"
 
 #. module: project_task_email
 #: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server____last_update
+#: model:ir.model.fields,field_description:project_task_email.field_ir_mail_server____last_update
+#: model:ir.model.fields,field_description:project_task_email.field_mail_message____last_update
 #: model:ir.model.fields,field_description:project_task_email.field_project_project____last_update
 #: model:ir.model.fields,field_description:project_task_email.field_project_task____last_update
 msgid "Last Modified on"
 msgstr "Viimeksi muokattu"
+
+#. module: project_task_email
+#: model:ir.model,name:project_task_email.model_ir_mail_server
+msgid "Mail Server"
+msgstr "Sähköpostipalvelin"
+
+#. module: project_task_email
+#: model:ir.model,name:project_task_email.model_mail_message
+msgid "Message"
+msgstr "Viesti"
 
 #. module: project_task_email
 #: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__object_model
@@ -123,7 +123,8 @@ msgstr ""
 msgid ""
 "Please reply above this line. Any content below it will be disregarded."
 msgstr ""
-"Vastaa tämän viivan yläpuolelle. Alapuolella olevaa sisältöä ei huomioida"
+"Vastaa tämän viivan yläpuolelle. Alapuolella olevaa sisältöä ei "
+"huomioida."
 
 #. module: project_task_email
 #: model:ir.model,name:project_task_email.model_project_project
@@ -141,6 +142,12 @@ msgid "Sender email"
 msgstr "Lähettäjän sähköposti"
 
 #. module: project_task_email
+#: code:addons/project_task_email/models/project_task.py:0
+#, python-format
+msgid "Subject: {}<br/>"
+msgstr "Aihe {}<br/>"
+
+#. module: project_task_email
 #: model:ir.model,name:project_task_email.model_project_task
 msgid "Task"
 msgstr "Tehtävä"
@@ -149,22 +156,6 @@ msgstr "Tehtävä"
 #: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
 msgid "Thank your for contacting"
 msgstr "Kiitos kun otit yhteyttä"
-
-#. module: project_task_email
-#: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_email_footer
-msgid ""
-"The information contained in this message and in any attachments is "
-"confidential and is\n"
-"                            intended solely for the attention and use of "
-"the named addressee(s). If you are not the\n"
-"                            intended recipient and / or you have received "
-"this message in error, please contact the\n"
-"                            sender immediately and delete all material you "
-"have received in this message. You are hereby\n"
-"                            notified that any use of the information, which "
-"you have received in error in whatsoever\n"
-"                            form, is strictly prohibited."
-msgstr ""
 
 #. module: project_task_email
 #: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
@@ -185,3 +176,9 @@ msgstr "vastaanotosta."
 #: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
 msgid "support."
 msgstr "tukeen."
+
+#. module: project_task_email
+#: code:addons/project_task_email/models/project_task.py:0
+#, python-format
+msgid "{}<br/>"
+msgstr "{}<br/>"
