@@ -105,6 +105,8 @@ class ProjectTask(models.Model):
                     blockquote += _("Date: {}<br/>".format(message.date))
                     # blockquote += _("Subject: {}<br/>".format(message.subject))
                     blockquote += _("{}<br/>".format(message.body))
+                    # Just show the latest message to avoid bloating the thread
+                    break
 
             if blockquote:
                 blockquote = (

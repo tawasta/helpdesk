@@ -6,7 +6,8 @@ class MailMessage(models.Model):
     _inherit = "mail.message"
 
     @api.model
-    def create(self, values):
+    def create_removed(self, values):
+        # REMOVED this due over-zealous parsing
         if (
             values.get("model") == "project.task"
             and values.get("body")
