@@ -1,4 +1,4 @@
-<odoo noupdate="0">
+<odoo noupdate="1">
     <template id="helpdesk_autoreply_content" name="Helpdesk autoreply content">
         <div style="width:100%;background-color:#eae8e8">
             <table
