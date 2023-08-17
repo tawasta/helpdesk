@@ -93,20 +93,37 @@ class ProjectTask(models.Model):
 
     def _get_blockquote(self, values):
         blockquote = ""
-        # subtype_xmlid won't work when using "with_template"
-        # if values.get("subtype_xmlid") == 'mail.mt_comment':
-        if values.get("message_type") == "comment":
+
+        subtype_xmlid = values.get("subtype_xmlid")
+        internal = False
+
+        # The "subtype_xmlid" won't work when using "with_template",
+        # but internal notes rarely are done with template.
+        # Posting an internal note with template would add blockquotes to internal note,
+        # but will not expose any internal notes to external recipients.
+        # It just adds unnecessary junk to internal notes
+        if subtype_xmlid:
+            subtype = self.env.ref(subtype_xmlid)
+            # Set message as internal to avoid unnecessarily adding blockquotes
+            if subtype.internal:
+                internal = True
+
+        if values.get("message_type") == "comment" and not internal:
             for message in self.message_ids:
                 if (
-                    message.message_type == "comment"
+                    message.message_type in ["comment", "email"]
                     and not message.subtype_id.internal
                 ):
                     blockquote += _("From: {}<br/>").format(message.email_from)
                     blockquote += _("Date: {}<br/>".format(message.date))
                     # blockquote += _("Subject: {}<br/>".format(message.subject))
                     blockquote += _("{}<br/>".format(message.body))
-                    # Just show the latest message to avoid bloating the thread
-                    break
+
+                    # Dummy variable, if we want to implement this as an option
+                    full_thread = True
+                    if not full_thread:
+                        # Just show the latest message to avoid bloating the thread
+                        break
 
             if blockquote:
                 blockquote = (
