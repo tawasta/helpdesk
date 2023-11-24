@@ -274,6 +274,11 @@ class PortalSupportTicket(CustomerPortal):
         values.pop("timesheets_by_subtask")
         return values
 
+    @http.route(["/my/project/<int:project_id>"], type="http", auth="public", website=True)
+    def portal_my_project(self, project_id=None, access_token=None, **kw):
+        # Prevent project view
+        return request.redirect("/my")
+
 
 class TimesheetCustomerPortal(TimesheetCustomerPortal):
     @http.route(
