@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (https://tawasta.fi)
+#    Copyright 2021- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,23 +19,27 @@
 ##############################################################################
 
 {
-    "name": "Project Task Stage",
-    "summary": "Add stages changes records to tasks",
-    "version": "14.0.1.2.3",
+    "name": "Website Helpdesk",
+    "summary": "Website Helpdesk",
+    "version": "14.0.1.0.0",
     "category": "Project",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "author": "Tawasta",
     "license": "AGPL-3",
+    "application": False,
+    "installable": True,
     "depends": [
-        "project",
+        "portal",
+        "project_helpdesk",
+        "account",
+        "contract",
+        "sale",
+        "hr_timesheet",
     ],
     "data": [
-        "data/project_task_type.xml",
         "security/ir.model.access.csv",
-        "views/project_task_form.xml",
-        "views/project_task_stage_change.xml",
-        "views/project_task_type.xml",
+        "views/project_task_views.xml",
+        "views/project_task_type_views.xml",
+        "views/portal_templates.xml",
     ],
-    "application": False,
-    "installable": False,
 }
