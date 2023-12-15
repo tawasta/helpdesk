@@ -120,10 +120,10 @@ class ProjectTask(models.Model):
                     blockquote += _("{}<br/>".format(message.body))
 
                     # Dummy variable, if we want to implement this as an option
-                    full_thread = True
+                    full_thread = False
                     if not full_thread:
                         # Just show the latest message to avoid bloating the thread
-                        break
+                        return
 
             if blockquote:
                 blockquote = (

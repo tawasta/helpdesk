@@ -16,4 +16,18 @@
             </p>
         </div>
     </template>
+
+    <template
+        id="message_notification_email"
+        inherit_id="mail.message_notification_email"
+    >
+        <div t-raw="message.body" position="after">
+            <div t-if="message.model == 'project.task'" style="margin-top: 32px;">
+                <p>To check previous messages related to this thread, visit <a
+                        target="_blank"
+                        t-attf-href="/my/ticket/{{message.res_id}}"
+                    >customer portal</a>.</p>
+            </div>
+        </div>
+    </template>
 </odoo>

@@ -23,7 +23,7 @@
 # 2. Known third party imports:
 
 # 3. Odoo imports (openerp):
-from odoo import fields, models
+from odoo import api, fields, models
 
 # 4. Imports from Odoo modules:
 
@@ -52,6 +52,24 @@ class ProjectTask(models.Model):
     # 4. Compute and search fields, in the same order that fields declaration
 
     # 5. Constraints and onchanges
+    @api.depends("project_id.allowed_user_ids", "project_id.privacy_visibility")
+    def _compute_allowed_user_ids(self):
+        """
+        By default project allowed_user_ids see all the tasks. Overwrite this
+        so that you have to explicitely give permission for each task.
+        """
+        for task in self.with_context(prefetch_fields=False):
+            portal_users = task.allowed_user_ids.filtered("share")
+            internal_users = task.allowed_user_ids - portal_users
+            if task.project_id.privacy_visibility == "followers":
+                task.allowed_user_ids |= task.project_id.allowed_internal_user_ids
+                task.allowed_user_ids -= portal_users
+            # elif task.project_id.privacy_visibility == "portal":
+            #     task.allowed_user_ids |= task.project_id.allowed_portal_user_ids
+            if task.project_id.privacy_visibility != "portal":
+                task.allowed_user_ids -= portal_users
+            elif task.project_id.privacy_visibility != "followers":
+                task.allowed_user_ids -= internal_users
 
     # 6. CRUD methods
 

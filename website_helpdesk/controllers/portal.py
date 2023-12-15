@@ -24,9 +24,6 @@ class PortalSupportTicket(CustomerPortal):
                 .sudo()
                 .search([("helpdesk_project", "=", True)])
             )
-            stages_ids = (
-                request.env["project.task.type"].sudo().search([("fold", "=", False)])
-            )
             # Show tickets from partner's company
             values["support_tickets_count"] = (
                 request.env["project.task"]
@@ -35,7 +32,6 @@ class PortalSupportTicket(CustomerPortal):
                     [
                         ("project_id", "=", project_id.id),
                         ("partner_id.parent_id", "=", partner.parent_id.id),
-                        ("stage_id", "in", stages_ids.ids),
                     ]
                 )
             )
@@ -65,7 +61,6 @@ class PortalSupportTicket(CustomerPortal):
             "date": {"label": _("Newest"), "order": "create_date desc"},
             "name": {"label": _("Title"), "order": "name"},
             "stage": {"label": _("Stage"), "order": "stage_id, project_id"},
-            #            "project": {"label": _("Project"), "order": "project_id, stage_id"},
             "update": {
                 "label": _("Last Stage Update"),
                 "order": "date_last_stage_update desc",
@@ -82,7 +77,6 @@ class PortalSupportTicket(CustomerPortal):
             "message": {"input": "message", "label": _("Search in Messages")},
             "customer": {"input": "customer", "label": _("Search in Customer")},
             "stage": {"input": "stage", "label": _("Search in Stages")},
-            #            "project": {"input": "project", "label": _("Search in Project")},
             "all": {"input": "all", "label": _("Search in All")},
         }
         searchbar_groupby = {
@@ -152,15 +146,11 @@ class PortalSupportTicket(CustomerPortal):
             #     search_domain = OR([search_domain, [("project_id", "ilike", search)]])
             domain += search_domain
 
-        stages_ids = (
-            request.env["project.task.type"].sudo().search([("fold", "=", False)])
-        )
         # TODO: Show tickets from partner's company?
         # default domain
         domain += [
             ("project_id", "=", project.id),
             ("partner_id.parent_id", "=", partner.parent_id.id),
-            ("stage_id", "in", stages_ids.ids),
         ]
         # task count
         task_count = request.env["project.task"].sudo().search_count(domain)
@@ -241,6 +231,10 @@ class PortalSupportTicket(CustomerPortal):
         partner = request.env.user.partner_id
         task_sudo = request.env["project.task"].browse([ticket_id]).sudo()
 
+        # Check if ticket is instead task, redirect to project task then
+        if not task_sudo.project_id.helpdesk_project:
+            return request.redirect("/my/task/{}".format(ticket_id))
+
         stages_ids = (
             request.env["project.task.type"].sudo().search([("fold", "=", False)])
         )
@@ -274,7 +268,9 @@ class PortalSupportTicket(CustomerPortal):
         values.pop("timesheets_by_subtask")
         return values
 
-    @http.route(["/my/project/<int:project_id>"], type="http", auth="public", website=True)
+    @http.route(
+        ["/my/project/<int:project_id>"], type="http", auth="public", website=True
+    )
     def portal_my_project(self, project_id=None, access_token=None, **kw):
         # Prevent project view
         return request.redirect("/my")
