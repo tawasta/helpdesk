@@ -17,6 +17,11 @@
     </template>
 
     <template id="portal_my_tasks" inherit_id="project.portal_my_tasks">
+        <t t-call="portal.portal_layout" position="inside">
+            <t t-if="page_name == 'tickets'">
+                <t t-set="title">My Tickets</t>
+            </t>
+        </t>
         <xpath expr="//tbody/t/tr/td/a" position="replace">
             <a
                 t-attf-href="/my/{{'task' if not is_ticket else 'ticket'}}/#{task.id}?{{ keep_query() }}"
@@ -103,6 +108,9 @@
 
         <!-- Hide project-->
         <xpath expr="//a[@t-field='task.project_id.name']/.." position="replace" />
+
+        <!-- Deadline -->
+        <xpath expr="//div[@t-if='task.date_deadline']" position="replace" />
     </template>
 
     <template id="portal_layout" inherit_id="project.portal_layout">

@@ -4,18 +4,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20221025\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-22 07:11+0000\n"
-"PO-Revision-Date: 2022-11-22 09:12+0200\n"
+"POT-Creation-Date: 2023-12-13 12:13+0000\n"
+"PO-Revision-Date: 2023-12-13 14:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.2.1\n"
+"Language: fi\n"
+"X-Generator: Poedit 2.3\n"
 
 #. module: project_task_email
 #: model:mail.template,subject:project_task_email.mail_template_helpdesk_autoreply
@@ -36,6 +36,7 @@ msgstr "Pvm: {}<br/>"
 #. module: project_task_email
 #: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__display_name
 #: model:ir.model.fields,field_description:project_task_email.field_ir_mail_server__display_name
+#: model:ir.model.fields,field_description:project_task_email.field_mail_mail__display_name
 #: model:ir.model.fields,field_description:project_task_email.field_mail_message__display_name
 #: model:ir.model.fields,field_description:project_task_email.field_project_project__display_name
 #: model:ir.model.fields,field_description:project_task_email.field_project_task__display_name
@@ -54,6 +55,11 @@ msgid "From: {}<br/>"
 msgstr "Lähettäjä: {}<br/>"
 
 #. module: project_task_email
+#: model:mail.template,name:project_task_email.mail_template_helpdesk_autoreply
+msgid "Helpdesk: Reception Acknowledgment"
+msgstr "Helpdesk: Vastaanottokuittaus"
+
+#. module: project_task_email
 #: model:ir.model.fields,help:project_task_email.field_project_task__issue_type
 msgid "How issue was created"
 msgstr "Kuinka tehtävä luotiin"
@@ -61,6 +67,7 @@ msgstr "Kuinka tehtävä luotiin"
 #. module: project_task_email
 #: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__id
 #: model:ir.model.fields,field_description:project_task_email.field_ir_mail_server__id
+#: model:ir.model.fields,field_description:project_task_email.field_mail_mail__id
 #: model:ir.model.fields,field_description:project_task_email.field_mail_message__id
 #: model:ir.model.fields,field_description:project_task_email.field_project_project__id
 #: model:ir.model.fields,field_description:project_task_email.field_project_task__id
@@ -80,6 +87,7 @@ msgstr "Tehtävän tyyppi"
 #. module: project_task_email
 #: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server____last_update
 #: model:ir.model.fields,field_description:project_task_email.field_ir_mail_server____last_update
+#: model:ir.model.fields,field_description:project_task_email.field_mail_mail____last_update
 #: model:ir.model.fields,field_description:project_task_email.field_mail_message____last_update
 #: model:ir.model.fields,field_description:project_task_email.field_project_project____last_update
 #: model:ir.model.fields,field_description:project_task_email.field_project_task____last_update
@@ -100,6 +108,11 @@ msgstr "Viesti"
 #: model:ir.model.fields,field_description:project_task_email.field_fetchmail_server__object_model
 msgid "Model"
 msgstr "Tietomalli"
+
+#. module: project_task_email
+#: model:ir.model,name:project_task_email.model_mail_mail
+msgid "Outgoing Mails"
+msgstr "Lähtevät postit"
 
 #. module: project_task_email
 #: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
@@ -123,8 +136,7 @@ msgstr ""
 msgid ""
 "Please reply above this line. Any content below it will be disregarded."
 msgstr ""
-"Vastaa tämän viivan yläpuolelle. Alapuolella olevaa sisältöä ei "
-"huomioida."
+"Vastaa tämän viivan yläpuolelle. Alapuolella olevaa sisältöä ei huomioida"
 
 #. module: project_task_email
 #: model:ir.model,name:project_task_email.model_project_project
@@ -142,12 +154,6 @@ msgid "Sender email"
 msgstr "Lähettäjän sähköposti"
 
 #. module: project_task_email
-#: code:addons/project_task_email/models/project_task.py:0
-#, python-format
-msgid "Subject: {}<br/>"
-msgstr "Aihe {}<br/>"
-
-#. module: project_task_email
 #: model:ir.model,name:project_task_email.model_project_task
 msgid "Task"
 msgstr "Tehtävä"
@@ -163,9 +169,19 @@ msgid "This is an automated message that your message"
 msgstr "Tämä on automaattikuittaus viestisi"
 
 #. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.message_notification_email
+msgid "To check previous messages related to this thread, visit"
+msgstr "Voit lukea viestiketjun muut viestit"
+
+#. module: project_task_email
 #: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
 msgid "We will reply to you as soon as possible."
 msgstr "Vastaamme sinulle niin pian kuin mahdollista."
+
+#. module: project_task_email
+#: model_terms:ir.ui.view,arch_db:project_task_email.message_notification_email
+msgid "customer portal"
+msgstr "asiakasportaalissa"
 
 #. module: project_task_email
 #: model_terms:ir.ui.view,arch_db:project_task_email.helpdesk_autoreply_content
@@ -181,4 +197,4 @@ msgstr "tukeen."
 #: code:addons/project_task_email/models/project_task.py:0
 #, python-format
 msgid "{}<br/>"
-msgstr "{}<br/>"
+msgstr ""

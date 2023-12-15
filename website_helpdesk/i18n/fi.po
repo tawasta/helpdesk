@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-24 11:48+0000\n"
-"PO-Revision-Date: 2023-11-24 13:50+0200\n"
+"POT-Creation-Date: 2023-12-13 13:02+0000\n"
+"PO-Revision-Date: 2023-12-13 15:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -78,6 +78,11 @@ msgid "Last Stage Update"
 msgstr "Vaihe viimeksi päivitetty"
 
 #. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "My Tickets"
+msgstr "Minun tukipyynnöt"
+
+#. module: website_helpdesk
 #: code:addons/website_helpdesk/controllers/portal.py:0
 #, python-format
 msgid "Newest"
@@ -93,6 +98,11 @@ msgstr ""
 #: model:ir.model.fields,help:website_helpdesk.field_project_task__portal_planned_hours
 msgid "Planned hours which is shown for portal customers"
 msgstr "Portaaliasiakkaille näytettävä työaika-arvio"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_form2
+msgid "Portal customers"
+msgstr "Portaaliasiakkaat"
 
 #. module: website_helpdesk
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task__portal_description
