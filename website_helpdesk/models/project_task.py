@@ -19,17 +19,22 @@
 ##############################################################################
 
 # 1. Standard library imports:
-
-# 2. Known third party imports:
+import logging
 
 # 3. Odoo imports (openerp):
 from odoo import api, fields, models
+
+# 2. Known third party imports:
+
 
 # 4. Imports from Odoo modules:
 
 # 5. Local imports in the relative form:
 
 # 6. Unknown third party imports:
+
+
+_logger = logging.getLogger(__name__)
 
 
 class ProjectTask(models.Model):
@@ -72,6 +77,101 @@ class ProjectTask(models.Model):
                 task.allowed_user_ids -= internal_users
 
     # 6. CRUD methods
+    @api.model
+    def create(self, vals):
+        """Add portal users automatically when creating ticket"""
+        res = super().create(vals)
+
+        trigger_fields = [
+            "partner_id",
+            "message_follower_ids",
+        ]
+        if vals.keys() & trigger_fields:
+            # One of trigger fields, update portal users
+            res.update_portal_users()
+
+        return res
+
+    def write(self, vals):
+        """Add portal users automatically"""
+        res = super().write(vals)
+
+        trigger_fields = [
+            "partner_id",
+            "message_follower_ids",
+        ]
+        if vals.keys() & trigger_fields:
+            # One of trigger fields, update portal users
+            self.update_portal_users()
+
+        return res
+
+    def update_portal_users(self):
+        """Update portal users accordingly"""
+        helpdesk_projects = (
+            self.env["project.project"].sudo().search([("helpdesk_project", "=", True)])
+        )
+        allowed_users = self.env["res.users"]
+
+        for rec in self:
+            if rec.project_id in helpdesk_projects:
+                # Check if customer is portal user, grant access
+                user = (
+                    self.env["res.users"]
+                    .sudo()
+                    .search([("partner_id", "=", rec.partner_id.id)])
+                )
+                if user:
+                    _logger.info("Add customer to portal users...")
+                    allowed_users |= user
+
+                # Figure out eTuki-users, add them as well
+                commercial_partner = rec.partner_id.commercial_partner_id
+                rec_etuki_partners = (
+                    self.env["res.partner"]
+                    .sudo()
+                    .search(
+                        [
+                            ("commercial_partner_id", "=", commercial_partner.id),
+                            ("installation_technical_contact_ids", "!=", False),
+                        ]
+                    )
+                )
+                etuki_users = (
+                    self.env["res.users"]
+                    .sudo()
+                    .search(
+                        [
+                            ("partner_id", "in", rec_etuki_partners.ids),
+                        ]
+                    )
+                )
+                if etuki_users:
+                    _logger.info("Add eTuki customers to portal users...")
+                    allowed_users |= etuki_users
+
+                # Figure out followers
+                follower_partners = rec.message_follower_ids.mapped("partner_id")
+                follower_users = (
+                    self.env["res.users"]
+                    .sudo()
+                    .search(
+                        [
+                            ("partner_id", "in", follower_partners.ids),
+                            (
+                                "id",
+                                ">",
+                                5,
+                            ),  # Use this to filter out internal admin users etc
+                        ]
+                    )
+                )
+
+                if follower_users:
+                    _logger.info("Add follower customers to portal users...")
+                    allowed_users |= follower_users
+
+                rec.allowed_user_ids = allowed_users
 
     # 7. Action methods
 
