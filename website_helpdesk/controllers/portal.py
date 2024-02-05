@@ -3,6 +3,7 @@ from collections import OrderedDict
 from operator import itemgetter
 
 from odoo import _, http
+from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
 from odoo.osv.expression import OR
 from odoo.tools import groupby as groupbyelem
@@ -17,23 +18,38 @@ _logger = logging.getLogger(__name__)
 class PortalSupportTicket(CustomerPortal):
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
-        partner = request.env.user.partner_id
+        helpdesk_project = (
+            request.env["project.project"]
+            .sudo()
+            .search([("helpdesk_project", "=", True)])
+        )
         if "support_tickets_count" in counters:
-            project_id = (
-                request.env["project.project"]
-                .sudo()
-                .search([("helpdesk_project", "=", True)])
-            )
             # Show tickets from partner's company
             values["support_tickets_count"] = (
-                request.env["project.task"]
-                .sudo()
-                .search_count(
+                (
+                    request.env["project.task"].search_count(
+                        [
+                            ("project_id", "=", helpdesk_project.id),
+                        ]
+                    )
+                )
+                if request.env["project.task"].check_access_rights(
+                    "read", raise_exception=False
+                )
+                else 0
+            )
+
+        if "task_count" in values:
+            values["task_count"] = (
+                request.env["project.task"].search_count(
                     [
-                        ("project_id", "=", project_id.id),
-                        ("partner_id.parent_id", "=", partner.parent_id.id),
+                        ("project_id", "!=", helpdesk_project.id),
                     ]
                 )
+                if request.env["project.task"].check_access_rights(
+                    "read", raise_exception=False
+                )
+                else 0
             )
         return values
 
@@ -56,7 +72,6 @@ class PortalSupportTicket(CustomerPortal):
         **kw
     ):
         values = self._prepare_portal_layout_values()
-        partner = request.env.user.partner_id
         searchbar_sortings = {
             "date": {"label": _("Newest"), "order": "create_date desc"},
             "name": {"label": _("Title"), "order": "name"},
@@ -86,16 +101,16 @@ class PortalSupportTicket(CustomerPortal):
         }
 
         # extends filterby criteria with project the customer has access to
-        project = (
+        helpdesk_project = (
             request.env["project.project"]
             .sudo()
             .search([("helpdesk_project", "=", True)])
         )
         searchbar_filters.update(
             {
-                str(project.id): {
-                    "label": project.name,
-                    "domain": [("project_id", "=", project.id)],
+                str(helpdesk_project.id): {
+                    "label": helpdesk_project.name,
+                    "domain": [("project_id", "=", helpdesk_project.id)],
                 }
             }
         )
@@ -149,11 +164,10 @@ class PortalSupportTicket(CustomerPortal):
         # TODO: Show tickets from partner's company?
         # default domain
         domain += [
-            ("project_id", "=", project.id),
-            ("partner_id.parent_id", "=", partner.parent_id.id),
+            ("project_id", "=", helpdesk_project.id),
         ]
         # task count
-        task_count = request.env["project.task"].sudo().search_count(domain)
+        task_count = request.env["project.task"].search_count(domain)
         # pager
         pager = portal_pager(
             url="/my/tickets",
@@ -180,12 +194,8 @@ class PortalSupportTicket(CustomerPortal):
                 "stage_id, %s" % order
             )  # force sort on stage first to group by stage in view
 
-        tasks = (
-            request.env["project.task"]
-            .sudo()
-            .search(
-                domain, order=order, limit=self._items_per_page, offset=pager["offset"]
-            )
+        tasks = request.env["project.task"].search(
+            domain, order=order, limit=self._items_per_page, offset=pager["offset"]
         )
         request.session["my_tasks_history"] = tasks.ids[:100]
 
@@ -225,34 +235,63 @@ class PortalSupportTicket(CustomerPortal):
         return request.render("project.portal_my_tasks", values)
 
     @http.route(
+        ["/my/tasks", "/my/tasks/page/<int:page>"],
+        type="http",
+        auth="user",
+        website=True,
+    )
+    def portal_my_tasks(
+        self,
+        page=1,
+        date_begin=None,
+        date_end=None,
+        sortby=None,
+        filterby=None,
+        search=None,
+        search_in="content",
+        groupby=None,
+        **kw
+    ):
+        res = super().portal_my_tasks(
+            page,
+            date_begin,
+            date_end,
+            sortby,
+            filterby,
+            search,
+            search_in,
+            groupby,
+            **kw
+        )
+        helpdesk_project = (
+            request.env["project.project"]
+            .sudo()
+            .search([("helpdesk_project", "=", True)])
+        )
+        real_tasks = res.qcontext["tasks"].filtered(
+            lambda r: r.project_id.id != helpdesk_project.id
+        )
+        res.qcontext.update(
+            {
+                "tasks": real_tasks,
+            }
+        )
+        return res
+
+    @http.route(
         ["/my/ticket/<int:ticket_id>"], type="http", auth="public", website=True
     )
     def portal_my_ticket(self, ticket_id, access_token=None, **kw):
-        partner = request.env.user.partner_id
-        task_sudo = request.env["project.task"].browse([ticket_id]).sudo()
+        try:
+            task_sudo = self._document_check_access(
+                "project.task", ticket_id, access_token
+            )
+        except (AccessError, MissingError):
+            return request.redirect("/my")
 
         # Check if ticket is instead task, redirect to project task then
         if not task_sudo.project_id.helpdesk_project:
             return request.redirect("/my/task/{}".format(ticket_id))
-
-        stages_ids = (
-            request.env["project.task.type"].sudo().search([("fold", "=", False)])
-        )
-        # TODO: Show tickets from partner's company?
-        task = (
-            request.env["project.task"]
-            .sudo()
-            .search(
-                [
-                    ("id", "=", ticket_id),
-                    ("partner_id.parent_id", "=", partner.parent_id.id),
-                    ("project_id.helpdesk_project", "=", True),
-                    ("stage_id", "in", stages_ids.ids),
-                ]
-            )
-        )
-        if not task:
-            return request.redirect("/my")
 
         # ensure attachment are accessible with access token inside template
         for attachment in task_sudo.attachment_ids:

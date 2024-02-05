@@ -35,6 +35,7 @@
         "contract",
         "sale",
         "hr_timesheet",
+        "software_knowledge_base",
     ],
     "data": [
         "security/ir.model.access.csv",
