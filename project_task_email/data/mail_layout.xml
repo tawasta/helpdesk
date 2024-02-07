@@ -22,7 +22,10 @@
         inherit_id="mail.message_notification_email"
     >
         <div t-raw="message.body" position="after">
-            <div t-if="message.model == 'project.task'" style="margin-top: 32px;">
+            <div
+                t-if="message.model == 'project.task' and has_button_access"
+                style="margin-top: 32px;"
+            >
                 <p>To check previous messages related to this thread, visit <a
                         target="_blank"
                         t-attf-href="/my/ticket/{{message.res_id}}"
