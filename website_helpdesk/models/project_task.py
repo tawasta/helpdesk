@@ -121,7 +121,7 @@ class ProjectTask(models.Model):
                     .sudo()
                     .search([("partner_id", "=", rec.partner_id.id)])
                 )
-                if user:
+                if user and user.has_group("base.group_portal"):
                     _logger.info("Add customer to portal users...")
                     allowed_users |= user
 
@@ -145,7 +145,8 @@ class ProjectTask(models.Model):
                             ("partner_id", "in", rec_etuki_partners.ids),
                         ]
                     )
-                )
+                ).filtered(lambda r: r.has_group("base.group_portal"))
+
                 if etuki_users:
                     _logger.info("Add eTuki customers to portal users...")
                     allowed_users |= etuki_users
@@ -158,14 +159,9 @@ class ProjectTask(models.Model):
                     .search(
                         [
                             ("partner_id", "in", follower_partners.ids),
-                            (
-                                "id",
-                                ">",
-                                5,
-                            ),  # Use this to filter out internal admin users etc
                         ]
                     )
-                )
+                ).filtered(lambda r: r.has_group("base.group_portal"))
 
                 if follower_users:
                     _logger.info("Add follower customers to portal users...")
