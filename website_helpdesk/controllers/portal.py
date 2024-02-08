@@ -268,14 +268,15 @@ class PortalSupportTicket(CustomerPortal):
             .sudo()
             .search([("helpdesk_project", "=", True)])
         )
-        real_tasks = res.qcontext["tasks"].filtered(
-            lambda r: r.project_id.id != helpdesk_project.id
-        )
-        res.qcontext.update(
-            {
-                "tasks": real_tasks,
-            }
-        )
+        if res.qcontext.get("tasks"):
+            real_tasks = res.qcontext["tasks"].filtered(
+                lambda r: r.project_id.id != helpdesk_project.id
+            )
+            res.qcontext.update(
+                {
+                    "tasks": real_tasks,
+                }
+            )
         return res
 
     @http.route(
