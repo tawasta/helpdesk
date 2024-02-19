@@ -22,6 +22,26 @@
         inherit_id="mail.message_notification_email"
     >
         <div t-raw="message.body" position="after">
+            <!-- Show previous messages -->
+            <div t-if="message.model == 'project.task'" style="margin-top: 32px;">
+                <t
+                    t-set="task"
+                    t-value="request.env['project.task'].browse(message.res_id)"
+                />
+                <div
+                    t-if="task.previous_message_id"
+                    style='margin-top:32px;padding-left:40px;border-left:solid 3px #ccc;'
+                >
+                    <h3>Previous message</h3>
+                    <span t-field="task.previous_message_id.author_id.name" /> (<span
+                        t-field="task.previous_message_id.create_date"
+                    />):
+                    <br />
+                    <div t-raw="task.previous_message_id.body" />
+                </div>
+
+            </div>
+
             <div
                 t-if="message.model == 'project.task' and has_button_access"
                 style="margin-top: 32px;"
