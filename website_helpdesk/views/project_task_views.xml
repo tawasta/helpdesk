@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_task_form2" model="ir.ui.view">
+        <field name="name">project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+
+            <field name="allowed_user_ids" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
+            <notebook position="inside">
+                <page string="Customer portal">
+                    <group>
+                        <group>
+                            <field
+                                name="portal_planned_hours"
+                                widget="timesheet_uom_no_toggle"
+                            />
+                        </group>
+                        <group>
+                            <field
+                                name="allowed_user_ids"
+                                widget="many2many_tags"
+                                string="Portal customers"
+                            />
+                        </group>
+                    </group>
+                    <group string="Portal description">
+                        <field name="portal_description" nolabel="1" />
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

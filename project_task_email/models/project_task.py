@@ -14,6 +14,30 @@ class ProjectTask(models.Model):
         help="How issue was created",
         readonly=True,
     )
+    previous_message_id = fields.Many2one(
+        comodel_name="mail.message",
+        string="Previous message",
+        help="Previous message (in thread)",
+        compute="_compute_previous_message",
+    )
+
+    def _compute_previous_message(self):
+        """Search the message that precedes the latest message"""
+        mail_message = self.env["mail.message"].sudo()
+
+        for record in self:
+            previous_message = mail_message.search(
+                [
+                    ("res_id", "=", record.id),
+                    ("model", "=", self._name),
+                    ("subtype_id.internal", "=", False),
+                    ("message_type", "!=", "notification"),
+                ],
+                limit=1,
+                offset=1,
+            )
+
+            record.previous_message_id = previous_message.id
 
     @api.model
     def create(self, vals):
@@ -120,10 +144,10 @@ class ProjectTask(models.Model):
                     blockquote += _("{}<br/>".format(message.body))
 
                     # Dummy variable, if we want to implement this as an option
-                    full_thread = True
+                    full_thread = False
                     if not full_thread:
                         # Just show the latest message to avoid bloating the thread
-                        break
+                        return
 
             if blockquote:
                 blockquote = (
