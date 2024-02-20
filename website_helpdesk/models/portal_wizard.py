@@ -78,37 +78,6 @@ class PortalWizardUser(models.TransientModel):
                 )
                 comm_tickets.write({"allowed_user_ids": [(4, res.id)]})
 
-        # Add new user to tickets if partner or follower
-        ticket_followers = (
-            self.env["mail.followers"]
-            .sudo()
-            .search(
-                [
-                    ("partner_id", "=", self.partner_id.id),
-                    ("res_model", "=", "project.task"),
-                ]
-            )
-        )
-        tickets = (
-            self.env["project.task"]
-            .sudo()
-            .search(
-                [
-                    ("project_id.helpdesk_project", "=", True),
-                    "|",
-                    ("id", "in", ticket_followers.mapped("res_id")),
-                    ("partner_id", "=", self.partner_id.id),
-                ]
-            )
-        )
-        if tickets:
-            _logger.info(
-                "Add portal user (follower or customer) to {} tickets".format(
-                    len(tickets)
-                )
-            )
-            tickets.write({"allowed_user_ids": [(4, res.id)]})
-
         return res
 
     # 8. Business methods
