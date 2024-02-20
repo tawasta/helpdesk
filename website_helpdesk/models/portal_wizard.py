@@ -22,7 +22,7 @@
 import logging
 
 # 3. Odoo imports (openerp):
-from odoo import models
+from odoo import fields, models
 
 # 2. Known third party imports:
 
@@ -57,7 +57,7 @@ class PortalWizardUser(models.TransientModel):
 
         # If portal user is eTuki partner, add to all tickets
         if self.partner_id.installation_technical_contact_ids:
-            # We are eTuki partner, find all tickets for commercial partner
+            # We are eTuki partner, find all tickets for commercial partner created today
             commercial_partner = self.partner_id.commercial_partner_id
             comm_tickets = (
                 self.env["project.task"]
@@ -66,6 +66,7 @@ class PortalWizardUser(models.TransientModel):
                     [
                         ("commercial_partner_id", "=", commercial_partner.id),
                         ("project_id.helpdesk_project", "=", True),
+                        ("create_date", ">", fields.Datetime.today()),
                     ]
                 )
             )
@@ -76,6 +77,7 @@ class PortalWizardUser(models.TransientModel):
                     )
                 )
                 comm_tickets.write({"allowed_user_ids": [(4, res.id)]})
+
         return res
 
     # 8. Business methods
