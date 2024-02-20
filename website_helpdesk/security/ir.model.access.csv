@@ -1,8 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-contract.contract_portal,contract.contract_portal,contract.model_contract_contract,base.group_portal,0,0,0,0
-sale.access_sale_order_portal,sale.order.portal,sale.model_sale_order,base.group_portal,0,0,0,0
-sale.access_sale_order_line_portal,sale.order.line.portal,sale.model_sale_order_line,base.group_portal,0,0,0,0
-account.access_account_invoice_portal,account.move.portal,account.model_account_move,base.group_portal,0,0,0,0
-account.access_account_invoice_line_portal,account.move.line.portal,account.model_account_move_line,base.group_portal,0,0,0,0
-access_account_analytic_line_portal,access_account_analytic_line_portal.user,analytic.model_account_analytic_line,base.group_portal,0,0,0,0
-access_account_analytic_portal,access_account_analytic_portal,analytic.model_account_analytic_account,base.group_portal,0,0,0,0
