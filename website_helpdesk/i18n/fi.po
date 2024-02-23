@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-05 07:19+0000\n"
-"PO-Revision-Date: 2024-02-05 09:30+0200\n"
+"POT-Creation-Date: 2024-02-21 12:54+0000\n"
+"PO-Revision-Date: 2024-02-21 14:58+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Plural-Forms: \n"
 "Language: fi\n"
 "X-Generator: Poedit 2.3\n"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "<span aria-label=\"Close\">&amp;times;</span>"
+msgstr ""
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
@@ -35,6 +40,26 @@ msgstr "Kaikki"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Cancel"
+msgstr "Peruuta"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Close"
+msgstr "Sulje"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Create"
+msgstr "Luo"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Create ticket"
+msgstr "Luo tukipyyntö"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
 msgid "Current stage of the task"
 msgstr "Tehtävän nykyinen vaihe"
 
@@ -47,6 +72,16 @@ msgstr "Tehtävän nykyinen vaihe"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_form2
 msgid "Customer portal"
 msgstr "Asiakasportaali"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Describe the issue you are having..."
+msgstr "Kuvaile ongelmaa..."
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Description"
+msgstr "Kuvaus"
 
 #. module: website_helpdesk
 #: model:ir.model.fields,help:website_helpdesk.field_project_task__portal_description
@@ -78,7 +113,7 @@ msgstr "Viimeksi muokattu"
 #: code:addons/website_helpdesk/controllers/portal.py:0
 #, python-format
 msgid "Last Stage Update"
-msgstr "Vaihe viimeksi päivitetty"
+msgstr "Vaihe viimeksi päivittynyt"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
@@ -183,6 +218,11 @@ msgid "Stage public name, which is shown in portal to customer"
 msgstr "Vaiheen julkinen nimi, joka näytetään asiakasportaalissa"
 
 #. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Subject"
+msgstr "Aihe"
+
+#. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_support_tickets
 msgid "Support tickets"
 msgstr "Tukipyynnöt"
@@ -202,6 +242,11 @@ msgstr "Tehtävän vaihe"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_project_tasks
 msgid "Tasks"
 msgstr "Tehtävät"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Ticket number"
+msgstr "Tukipyynnön numero"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_layout

@@ -21,7 +21,7 @@
 {
     "name": "Project Task Email",
     "summary": "Email modifications to Project Task",
-    "version": "14.0.1.2.3",
+    "version": "14.0.1.2.4",
     "category": "Project",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "author": "Tawasta",
