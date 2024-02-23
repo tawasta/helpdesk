@@ -59,6 +59,125 @@
                 />
             </t>
         </xpath>
+
+        <!-- Task ID to task code -->
+        <xpath expr="//span[@t-esc='task.id']/.." position="replace">
+            <td class="text-left">
+                <span t-esc="task.code" />
+            </td>
+        </xpath>
+
+        <!-- Add possibility to create a new ticket -->
+        <xpath expr="//t[@t-if='grouped_tasks']" position="before">
+            <div t-if="page_name == 'tickets'" class="row">
+                <div class="col-12 mb-2">
+                    <button
+                        type="button"
+                        class="btn btn-primary pull-right"
+                        data-toggle="modal"
+                        data-target="#modal_create_ticket"
+                    >Create ticket</button>
+                </div>
+
+                <div
+                    id="modal_create_ticket"
+                    class="modal fade"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="Create ticket modal"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Create ticket</h3>
+                                <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-label="Close">&amp;times;</span>
+                                </button>
+                            </div>
+                            <form
+                                id="create_ticket_form"
+                                method="post"
+                                name="create_ticket"
+                                action="/ticket/create"
+                            >
+                                <input
+                                    type="hidden"
+                                    name="csrf_token"
+                                    t-att-value="request.csrf_token()"
+                                />
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label
+                                                class="control-label"
+                                                for="subject"
+                                            >Subject</label>
+                                            <input
+                                                type="text"
+                                                id="subject"
+                                                class="form-control"
+                                                name="subject"
+                                            />
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label
+                                                class="control-label"
+                                                for="description"
+                                            >Description</label>
+                                            <textarea
+                                                id="description"
+                                                class="form-control"
+                                                name="description"
+                                                rows="10"
+                                                placeholder="Describe the issue you are having..."
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-dismiss="modal"
+                                    >Cancel</button>
+                                    <button
+                                        id="create_ticket_confirm_btn"
+                                        class="btn btn-primary"
+                                    >Create</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    .ck-editor__editable {
+                        min-height: 400px;
+                    }
+                </style>
+                <script
+                    src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"
+                />
+                <script
+                    src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/translations/fi.js"
+                />
+                <script type="text/javascript">
+                    ClassicEditor.create(document.querySelector('#description'), {
+                            language: "fi"
+                        }).then( editor => {
+                                console.log( editor );
+                        } )
+                        .catch( error => {
+                                console.error( error );
+                        } );
+                </script>
+            </div>
+        </xpath>
     </template>
 
     <template id="portal_my_task" inherit_id="project.portal_my_task">
@@ -111,6 +230,13 @@
 
         <!-- Deadline -->
         <xpath expr="//div[@t-if='task.date_deadline']" position="replace" />
+
+        <!-- Task ID to task code -->
+        <xpath expr="//span[@t-field='task.id']/.." position="replace">
+            <small class="text-muted d-none d-md-inline"> (<span
+                    t-field="task.code"
+                />)</small>
+        </xpath>
     </template>
 
     <template id="portal_layout" inherit_id="project.portal_layout">

@@ -301,6 +301,31 @@ class PortalSupportTicket(CustomerPortal):
         values["page_name"] = "ticket"
         return request.render("project.portal_my_task", values)
 
+    @http.route(
+        ["/ticket/create"], type="http", auth="user", methods=["POST"], website=True
+    )
+    def portal_create_ticket(self, **post):
+        """Create ticket from portal"""
+        current_user = request.env.user
+        subject = post.get("subject", "").strip()
+        description = post.get("description", "").strip()
+        helpdesk_project = (
+            request.env["project.project"]
+            .sudo()
+            .search([("helpdesk_project", "=", True)], limit=1)
+        )
+        if subject and description and helpdesk_project:
+            _logger.info("Creating a new ticket from portal user...")
+            request.env["project.task"].sudo().create(
+                {
+                    "name": subject,
+                    "description": description,
+                    "partner_id": current_user.partner_id.id,
+                    "project_id": helpdesk_project.id,
+                }
+            )
+        return request.redirect("/my/tickets")
+
     def _task_get_page_view_values(self, task, access_token, **kwargs):
         values = super()._task_get_page_view_values(task, access_token, **kwargs)
         # Prevent timesheets on task view, since sudo used we have to pop elements
