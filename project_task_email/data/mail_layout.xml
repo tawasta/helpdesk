@@ -23,13 +23,16 @@
     >
         <div t-raw="message.body" position="after">
             <!-- Show previous messages -->
-            <div t-if="message.model == 'project.task'" style="margin-top: 32px;">
+            <div
+                t-if="message.model == 'project.task' and message.res_id"
+                style="margin-top: 32px;"
+            >
                 <t
                     t-set="task"
-                    t-value="request.env['project.task'].browse(message.res_id)"
+                    t-value="message.env['project.task'].browse(message.res_id)"
                 />
                 <div
-                    t-if="task.previous_message_id"
+                    t-if="task and task.previous_message_id"
                     style='margin-top:32px;padding-left:40px;border-left:solid 3px #ccc;'
                 >
                     <h3>Previous message</h3>

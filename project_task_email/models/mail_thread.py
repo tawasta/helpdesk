@@ -64,50 +64,58 @@ class MailThread(models.AbstractModel):
         root = lxml.html.fromstring(body)
         postprocessed = False
         to_remove = []
-        for node in root.iter():
-            # Gmail / Mac email parsing
-            if (
-                len(node)
-                and node.tag == "blockquote"
-                and node.getprevious().get("class") != "moz-cite-prefix"
-            ):
-                postprocessed = True
+        try:
+            for node in root.iter():
+                # Gmail / Mac email parsing
+                if (
+                    node is not None
+                    and node.tag == "blockquote"
+                    and node.getprevious().get("class") != "moz-cite-prefix"
+                ):
+                    postprocessed = True
+                    parent = node.getparent()
+                    to_remove.append(parent.getprevious())
+                    to_remove.append(parent)
+                # Gmail / Mac parsing ends
+                # Thunderbird parsing
+                if (
+                    node is not None
+                    and node.tag == "blockquote"
+                    and node.getprevious().get("class") == "moz-cite-prefix"
+                ):
+                    postprocessed = True
+                    to_remove.append(node.getprevious())
+                    to_remove.append(node)
+                # Thunderbird ends
+                # Outlook parsing: remove blockquote from Outlook
+                if node.tag == "div" and node.get("id") == "appendonsend":
+                    postprocessed = True
+                    to_remove.append(node)
+                    to_remove.append(node.getnext())
+                if node.tag == "div" and node.get("id", "").endswith("divRplyFwdMsg"):
+                    postprocessed = True
+                    to_remove.append(node)
+                if node.tag == "div" and node.get("id", "").endswith("_issue_reply"):
+                    postprocessed = True
+                    to_remove.append(node)
+                # Outlook ends
+            for node in to_remove:
+                if node is None:
+                    continue
                 parent = node.getparent()
-                to_remove.append(parent.getprevious())
-                to_remove.append(parent)
-            # Gmail / Mac parsing ends
-            # Thunderbird parsing
-            if (
-                len(node)
-                and node.tag == "blockquote"
-                and node.getprevious().get("class") == "moz-cite-prefix"
-            ):
-                postprocessed = True
-                to_remove.append(node.getprevious())
-                to_remove.append(node)
-            # Thunderbird ends
-            # Outlook parsing: remove blockquote from Outlook
-            if node.tag == "div" and node.get("id") == "appendonsend":
-                postprocessed = True
-                to_remove.append(node)
-                to_remove.append(node.getnext())
-            if node.tag == "div" and node.get("id", "").endswith("divRplyFwdMsg"):
-                postprocessed = True
-                to_remove.append(node)
-            if node.tag == "div" and node.get("id", "").endswith("_issue_reply"):
-                postprocessed = True
-                to_remove.append(node)
-            # Outlook ends
-        for node in to_remove:
-            if not len(node):
-                continue
-            parent = node.getparent()
-            if len(parent) and parent.tag != "body" and parent.tag != "section":
-                parent.remove(node)
-        if postprocessed:
-            body = lxml.etree.tostring(root, pretty_print=False, encoding="UTF-8")
+                if (
+                    parent is not None
+                    and parent.tag != "body"
+                    and parent.tag != "section"
+                ):
+                    parent.remove(node)
+            if postprocessed:
+                body = lxml.etree.tostring(root, pretty_print=False, encoding="UTF-8")
 
-        res["body"] = body
+            res["body"] = body
+        except TypeError:
+            _logger.error("Email import parsing error for, fall back to original...")
+
         return res
 
     # 8. Business methods
