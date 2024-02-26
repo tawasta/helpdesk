@@ -201,7 +201,7 @@
         <!-- Portal description -->
         <xpath expr="//div[@t-if='task.description']" position="replace">
             <div
-                t-if="task.portal_description"
+                t-if="page_name != 'ticket' and task.portal_description"
                 t-attf-class="col-12 col-lg-7 mb-4 mb-md-0 {{'col-lg-7' if task.attachment_ids else 'col-lg-12'}}"
             >
                 <hr class="mb-1" />
