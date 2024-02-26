@@ -17,7 +17,7 @@ addon | version | maintainers | summary
 [project_task_mattermost](project_task_mattermost/) | 14.0.0.7.0 |  | Pushes task events to a Mattermost channel
 [project_task_partner_required](project_task_partner_required/) | 14.0.1.0.0 |  | Partner / customer field required in project form
 [project_task_stage_ensure_partner](project_task_stage_ensure_partner/) | 14.0.1.0.0 |  | Ensure partner is set before allowing stage changes
-[website_helpdesk](website_helpdesk/) | 14.0.1.0.0 |  | Website Helpdesk
+[website_helpdesk](website_helpdesk/) | 14.0.1.0.1 |  | Website Helpdesk
 
 
 Unported addons
