@@ -170,5 +170,29 @@ class ProjectTask(models.Model):
                 rec.allowed_user_ids = allowed_users
 
     # 7. Action methods
+    @api.returns("mail.message", lambda value: value.id)
+    def message_post(self, *args, **kwargs):
+        """Trigger reopen if message from portal user"""
+        author = kwargs.get("author_id", 0)
+        author_user = self.env["res.users"].sudo().search([("partner_id", "=", author)])
+        if author_user and author_user.has_group("base.group_portal"):
+            self._reopen()
+
+        return super().message_post(
+            *args,
+            **kwargs,
+        )
+
+    def message_post_with_template(self, template_id, **kwargs):
+        """Trigger reopen if message from portal user"""
+        author = kwargs.get("author_id", 0)
+        author_user = self.env["res.users"].sudo().search([("partner_id", "=", author)])
+        if author_user and author_user.has_group("base.group_portal"):
+            self._reopen()
+
+        return super().message_post_with_template(
+            template_id,
+            **kwargs,
+        )
 
     # 8. Business methods

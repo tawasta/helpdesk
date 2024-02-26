@@ -21,7 +21,7 @@
 {
     "name": "Website Helpdesk",
     "summary": "Website Helpdesk",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "category": "Project",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "author": "Tawasta",
@@ -36,6 +36,7 @@
         "sale",
         "hr_timesheet",
         "software_knowledge_base",
+        "project_task_auto_reopen",
     ],
     "data": [
         "security/ir.model.access.csv",
