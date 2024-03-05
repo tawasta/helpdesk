@@ -343,6 +343,11 @@ class PortalSupportTicket(CustomerPortal):
         # Prevent project view
         return request.redirect("/my")
 
+    @http.route(["/my/task/<int:task_id>"], type="http", auth="user", website=True)
+    def portal_my_task(self, task_id, access_token=None, **kw):
+        """No access with only access token (change auth to user)"""
+        return super().portal_my_task(task_id, access_token, **kw)
+
 
 class TimesheetCustomerPortal(TimesheetCustomerPortal):
     @http.route(

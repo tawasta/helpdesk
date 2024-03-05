@@ -21,6 +21,11 @@
         id="message_notification_email"
         inherit_id="mail.message_notification_email"
     >
+        <xpath
+            expr="//td[@t-if='has_button_access']/a[hasclass('button-a', 'button-a-primary')]/.."
+            position="replace"
+        />
+
         <div t-raw="message.body" position="after">
             <!-- Show previous messages -->
             <div
