@@ -70,10 +70,10 @@
         <!-- Add possibility to create a new ticket -->
         <xpath expr="//t[@t-if='grouped_tasks']" position="before">
             <div t-if="page_name == 'tickets'" class="row">
-                <div class="col-12 mb-2">
+                <div class="col-12 mb-2 d-flex justify-content-end">
                     <button
                         type="button"
-                        class="btn btn-primary pull-right"
+                        class="btn btn-primary"
                         data-toggle="modal"
                         data-target="#modal_create_ticket"
                     >Create ticket</button>
@@ -105,6 +105,7 @@
                                 method="post"
                                 name="create_ticket"
                                 action="/ticket/create"
+                                enctype="multipart/form-data"
                             >
                                 <input
                                     type="hidden"
@@ -139,6 +140,35 @@
                                             />
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button
+                                                type="button"
+                                                class="file-upload btn btn-success btn-block btn-lg"
+                                            >
+                                                <span>
+                                                    <i
+                                                        class="fa fa-paperclip"
+                                                    /> Attachments
+                                                </span>
+                                                <input
+                                                    type="file"
+                                                    class="upload"
+                                                    id="file"
+                                                    name="file"
+                                                    multiple="multiple"
+                                                    t-att-data-maxsize="maxsize"
+                                                />
+                                            </button>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <div
+                                                class="alert alert-info d-none"
+                                                id="files_info_div"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button
@@ -148,34 +178,23 @@
                                     >Cancel</button>
                                     <button
                                         id="create_ticket_confirm_btn"
-                                        class="btn btn-primary"
+                                        class="btn btn-primary disabled"
                                     >Create</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <style>
-                    .ck-editor__editable {
-                        min-height: 400px;
-                    }
-                </style>
                 <script
                     src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"
                 />
                 <script
                     src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/translations/fi.js"
                 />
-                <script type="text/javascript">
-                    ClassicEditor.create(document.querySelector('#description'), {
-                            language: "fi"
-                        }).then( editor => {
-                                console.log( editor );
-                        } )
-                        .catch( error => {
-                                console.error( error );
-                        } );
-                </script>
+                <t
+                    t-call-assets="website_helpdesk.create_ticket_assets"
+                    lazy_load="True"
+                />
             </div>
         </xpath>
     </template>
@@ -290,11 +309,26 @@
         inherit_id="web_editor.assets_frontend"
         name="Portal Rating Assets"
     >
+        <xpath expr="link[last()]" position="after">
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/website_helpdesk/static/src/scss/styles.scss"
+            />
+        </xpath>
+
         <xpath expr="//script[last()]" position="after">
             <script
                 type="text/javascript"
                 src="/website_helpdesk/static/src/js/portal_chatter.js"
             />
         </xpath>
+    </template>
+
+    <template id="create_ticket_assets" name="Create ticket assets">
+        <script
+            type="text/javascript"
+            src="/website_helpdesk/static/src/js/create_ticket.js"
+        />
     </template>
 </odoo>
