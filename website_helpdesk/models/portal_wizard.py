@@ -95,20 +95,26 @@ class PortalMixin(models.AbstractModel):
     def _notify_get_groups(self, msg_vals=None):
         """Prevent portal customers group"""
         groups = super()._notify_get_groups(msg_vals)
-        partner_id = hasattr(self, "partner_id") and self.partner_id.id
-        user = self.env["res.users"]
-        if partner_id:
-            user = (
-                self.env["res.users"].sudo().search([("partner_id", "=", partner_id)])
-            )
         new_groups = []
+        partner_id = hasattr(self, "partner_id") and self.partner_id.id
+
+        portal_privacy = self.project_id.privacy_visibility == "portal"
+        allowed_user_ids = self.allowed_user_ids.partner_id.ids
+        if portal_privacy and partner_id in allowed_user_ids:
+            _logger.info("Granting access to portal user")
+            groups.append(
+                (
+                    "allowed_helpdesk_portal_users",
+                    lambda pdata: pdata["type"] == "portal"
+                    and pdata["id"] in allowed_user_ids,
+                    {"has_button_access": True},
+                )
+            )
+
         for group_name, group_method, group_data in groups:
-            if group_name != "portal_customer":
-                new_groups.append((group_name, group_method, group_data))
-            elif user and user.has_group("base.group_portal"):
-                new_groups.append((group_name, group_method, group_data))
-                _logger.error("Grant portal user access")
-            else:
+            if group_name == "portal_customer" and partner_id not in allowed_user_ids:
                 _logger.error("Skipping portal_customer group")
+            else:
+                new_groups.append((group_name, group_method, group_data))
 
         return new_groups
