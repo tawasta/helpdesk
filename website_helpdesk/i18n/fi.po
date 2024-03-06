@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-21 12:54+0000\n"
-"PO-Revision-Date: 2024-02-21 14:58+0200\n"
+"POT-Creation-Date: 2024-03-06 11:42+0000\n"
+"PO-Revision-Date: 2024-03-06 13:43+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,9 +18,27 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 
 #. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/create_ticket.js:0
+#, python-format
+msgid " file(s) selected:"
+msgstr " tiedosto(a) valittu:"
+
+#. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
 msgid "<span aria-label=\"Close\">&amp;times;</span>"
 msgstr ""
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid ""
+"<span>\n"
+"                                                    <i class=\"fa fa-paperclip\"/> Attachments\n"
+"                                                </span>"
+msgstr ""
+"<span>\n"
+"                                                    <i class=\"fa fa-paperclip\"/> Liitteet\n"
+"                                                </span>"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
@@ -37,6 +55,12 @@ msgstr "<strong>Työaika-arvio</strong>"
 #, python-format
 msgid "All"
 msgstr "Kaikki"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Attachment is too large!"
+msgstr "Liite on liian suuri!"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
@@ -89,6 +113,7 @@ msgid "Description for the task which is shown for portal customers"
 msgstr "Tehtävän kuvaus, joka näytetään asiakasportaalissa"
 
 #. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_mixin__display_name
 #: model:ir.model.fields,field_description:website_helpdesk.field_portal_wizard_user__display_name
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task__display_name
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type__display_name
@@ -96,6 +121,28 @@ msgid "Display Name"
 msgstr "Näyttönimi"
 
 #. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/create_ticket.js:0
+#, python-format
+msgid "File name: "
+msgstr "Tiedoston nimi: "
+
+#. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/create_ticket.js:0
+#, python-format
+msgid "File size too big! Max size for file is "
+msgstr "Tiedosto on liian suuri! Maksimikoko tiedostolle on "
+
+#. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/create_ticket.js:0
+#, python-format
+msgid "File size: "
+msgstr "Tiedoston koko: "
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_mixin__id
 #: model:ir.model.fields,field_description:website_helpdesk.field_portal_wizard_user__id
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task__id
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type__id
@@ -103,6 +150,7 @@ msgid "ID"
 msgstr "Tunniste (ID)"
 
 #. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_mixin____last_update
 #: model:ir.model.fields,field_description:website_helpdesk.field_portal_wizard_user____last_update
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task____last_update
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type____last_update
@@ -136,6 +184,11 @@ msgstr ""
 #: model:ir.model.fields,help:website_helpdesk.field_project_task__portal_planned_hours
 msgid "Planned hours which is shown for portal customers"
 msgstr "Portaaliasiakkaille näytettävä työaika-arvio"
+
+#. module: website_helpdesk
+#: model:ir.model,name:website_helpdesk.model_portal_mixin
+msgid "Portal Mixin"
+msgstr ""
 
 #. module: website_helpdesk
 #: model:ir.model,name:website_helpdesk.model_portal_wizard_user
@@ -242,11 +295,6 @@ msgstr "Tehtävän vaihe"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_project_tasks
 msgid "Tasks"
 msgstr "Tehtävät"
-
-#. module: website_helpdesk
-#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
-msgid "Ticket number"
-msgstr "Tukipyynnön numero"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_layout

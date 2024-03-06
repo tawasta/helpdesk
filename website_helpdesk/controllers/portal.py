@@ -1,9 +1,11 @@
+import base64
 import logging
+import os
 from collections import OrderedDict
 from operator import itemgetter
 
 from odoo import _, http
-from odoo.exceptions import AccessError, MissingError
+from odoo.exceptions import AccessError, MissingError, UserError
 from odoo.http import request
 from odoo.osv.expression import OR
 from odoo.tools import groupby as groupbyelem
@@ -13,6 +15,28 @@ from odoo.addons.portal.controllers.portal import pager as portal_pager
 from odoo.addons.project.controllers.portal import CustomerPortal
 
 _logger = logging.getLogger(__name__)
+
+
+def process_file(file):
+    """
+    Check if the file is too large.
+    Max size can be set on system parameters.
+
+    :param file: processed file
+    :return: boolean if the file was too big
+    """
+    max_size_key = "website_helpdesk.attachment_max_size"
+    MAX_SIZE = int(request.env["ir.config_parameter"].sudo().get_param(max_size_key))
+    too_big = False
+    file.seek(0, os.SEEK_END)
+    file_size = file.tell()
+    file.seek(0)
+    if file_size > MAX_SIZE * 1024 * 1024:
+        too_big = True
+        _logger.warning(
+            "Attachment filesize too big: %d MB" % (file_size / 1024 / 1024)
+        )
+    return too_big
 
 
 class PortalSupportTicket(CustomerPortal):
@@ -230,6 +254,11 @@ class PortalSupportTicket(CustomerPortal):
                 "groupby": groupby,
                 "searchbar_filters": OrderedDict(sorted(searchbar_filters.items())),
                 "filterby": filterby,
+                "maxsize": int(
+                    request.env["ir.config_parameter"]
+                    .sudo()
+                    .get_param("website_helpdesk.attachment_max_size", 20)
+                ),
             }
         )
         return request.render("project.portal_my_tasks", values)
@@ -318,15 +347,40 @@ class PortalSupportTicket(CustomerPortal):
             .search([("helpdesk_project", "=", True)], limit=1)
         )
         if subject and description and helpdesk_project:
-            _logger.info("Creating a new ticket from portal user...")
-            request.env["project.task"].sudo().create(
-                {
-                    "name": subject,
-                    "description": description,
-                    "partner_id": current_user.partner_id.id,
-                    "project_id": helpdesk_project.id,
-                }
-            )
+            try:
+                _logger.info("Creating a new ticket from portal user...")
+                task = (
+                    request.env["project.task"]
+                    .sudo()
+                    .create(
+                        {
+                            "name": subject,
+                            "description": description,
+                            "partner_id": current_user.partner_id.id,
+                            "project_id": helpdesk_project.id,
+                        }
+                    )
+                )
+                # Create attachments
+                for file in request.httprequest.files.getlist("file"):
+                    too_big = process_file(file)
+                    if too_big:
+                        raise UserError(_("Attachment is too large!"))
+
+                    request.env["ir.attachment"].sudo().create(
+                        {
+                            "name": file.filename,
+                            "datas": base64.b64encode(file.read()),
+                            "type": "binary",
+                            "res_id": task.id,
+                            "res_model": "project.task",
+                        }
+                    )
+            except UserError:
+                _logger.error(
+                    "Attachment is too large, prevent creating ticket and attacments"
+                )
+
         return request.redirect("/my/tickets")
 
     def _task_get_page_view_values(self, task, access_token, **kwargs):
