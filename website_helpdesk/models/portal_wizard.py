@@ -81,3 +81,34 @@ class PortalWizardUser(models.TransientModel):
         return res
 
     # 8. Business methods
+
+
+class PortalMixin(models.AbstractModel):
+    _inherit = "portal.mixin"
+
+    def _portal_ensure_token(self):
+        """Don't generate tokens for portal access"""
+        if self.access_token:
+            self.sudo().write({"access_token": None})
+        return "no_token"
+
+    def _notify_get_groups(self, msg_vals=None):
+        """Prevent portal customers group"""
+        groups = super()._notify_get_groups(msg_vals)
+        partner_id = hasattr(self, "partner_id") and self.partner_id.id
+        user = self.env["res.users"]
+        if partner_id:
+            user = (
+                self.env["res.users"].sudo().search([("partner_id", "=", partner_id)])
+            )
+        new_groups = []
+        for group_name, group_method, group_data in groups:
+            if group_name != "portal_customer":
+                new_groups.append((group_name, group_method, group_data))
+            elif user and user.has_group("base.group_portal"):
+                new_groups.append((group_name, group_method, group_data))
+                _logger.error("Grant portal user access")
+            else:
+                _logger.error("Skipping portal_customer group")
+
+        return new_groups
