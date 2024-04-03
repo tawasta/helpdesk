@@ -26,7 +26,10 @@ def process_file(file):
     :return: boolean if the file was too big
     """
     max_size_key = "website_helpdesk.attachment_max_size"
-    MAX_SIZE = int(request.env["ir.config_parameter"].sudo().get_param(max_size_key))
+    # Default size 20 MB
+    MAX_SIZE = int(
+        request.env["ir.config_parameter"].sudo().get_param(max_size_key, 20)
+    )
     too_big = False
     file.seek(0, os.SEEK_END)
     file_size = file.tell()
@@ -358,6 +361,7 @@ class PortalSupportTicket(CustomerPortal):
                             "description": description,
                             "partner_id": current_user.partner_id.id,
                             "project_id": helpdesk_project.id,
+                            "user_id": None,
                         }
                     )
                 )
