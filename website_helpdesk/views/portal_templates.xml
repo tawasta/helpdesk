@@ -242,6 +242,12 @@
                     />
                 </div>
             </div>
+            <div class="col-12 col-md-6 pb-2">
+                <strong>Recipients</strong>
+                <div>
+                    <span t-esc="ext_followers" />
+                </div>
+            </div>
         </xpath>
 
         <!-- Hide project-->
@@ -256,6 +262,7 @@
                     t-field="task.code"
                 />)</small>
         </xpath>
+
     </template>
 
     <template id="portal_layout" inherit_id="project.portal_layout">
