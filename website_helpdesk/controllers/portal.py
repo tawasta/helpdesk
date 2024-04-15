@@ -333,7 +333,26 @@ class PortalSupportTicket(CustomerPortal):
         for attachment in task_sudo.attachment_ids:
             attachment.generate_access_token()
         values = self._task_get_page_view_values(task_sudo, access_token, **kw)
-        values["page_name"] = "ticket"
+        follower_parters = (
+            task_sudo.message_follower_ids.mapped("partner_id") | task_sudo.partner_id
+        )
+        internal_ids = (
+            request.env["res.users"]
+            .sudo()
+            .with_context(active_test=False)
+            .search([])
+            .filtered(lambda r: r.has_group("base.group_user"))
+            .mapped("partner_id")
+            .ids
+        )
+        ext_partners = follower_parters.filtered(lambda r: r.id not in internal_ids)
+        ext_followers = ", ".join([p.name for p in ext_partners])
+        values.update(
+            {
+                "page_name": "ticket",
+                "ext_followers": ext_followers,
+            }
+        )
         return request.render("project.portal_my_task", values)
 
     @http.route(

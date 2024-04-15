@@ -90,7 +90,7 @@ class PortalMixin(models.AbstractModel):
         """Don't generate tokens for portal access"""
         if self.access_token:
             self.sudo().write({"access_token": None})
-        return "no_token"
+        return False
 
     def _notify_get_groups(self, msg_vals=None):
         """Prevent portal customers group"""
