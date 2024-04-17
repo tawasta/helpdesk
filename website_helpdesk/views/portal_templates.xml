@@ -220,14 +220,21 @@
         <!-- Portal description -->
         <xpath expr="//div[@t-if='task.description']" position="replace">
             <div
-                t-if="page_name != 'ticket' and task.portal_description"
                 t-attf-class="col-12 col-lg-7 mb-4 mb-md-0 {{'col-lg-7' if task.attachment_ids else 'col-lg-12'}}"
             >
                 <hr class="mb-1" />
                 <div class="d-flex my-2">
                     <strong>Description</strong>
                 </div>
-                <div class="py-1 px-2 bg-100 small" t-field="task.portal_description" />
+                <t t-if="page_name == 'ticket'">
+                    <div class="py-1 px-2 bg-100 small" t-field="task.description" />
+                </t>
+                <t t-else="">
+                    <div
+                        class="py-1 px-2 bg-100 small"
+                        t-field="task.portal_description"
+                    />
+                </t>
             </div>
         </xpath>
 
