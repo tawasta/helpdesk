@@ -99,10 +99,17 @@ class PortalMixin(models.AbstractModel):
         partner_id = hasattr(self, "partner_id") and self.partner_id.id
 
         portal_privacy = (
+            # If model has no "project_id" attribute, don't allow portal access
             hasattr(self, "project_id")
             and self.project_id.privacy_visibility == "portal"
         )
-        allowed_user_ids = self.allowed_user_ids.partner_id.ids
+
+        if hasattr(self, "allowed_user_ids"):
+            allowed_user_ids = self.allowed_user_ids.partner_id.ids
+        else:
+            # If model has no "allowed_user_ids" attribute, don't allow portal access
+            allowed_user_ids = []
+
         if portal_privacy and partner_id in allowed_user_ids:
             _logger.info("Granting access to portal user")
             groups.append(
