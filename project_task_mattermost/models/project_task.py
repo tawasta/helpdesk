@@ -15,17 +15,20 @@ class ProjectTask(models.Model):
     @api.model
     def create(self, values):
         res = super().create(values)
-        if res.use_mattermost_hooks:
+        if res.use_mattermost_hooks and not self.env.context.get(
+            "bypass_mattermost_hooks"
+        ):
             res.mattermost_task_created()
         return res
 
     def write(self, values):
         res = super().write(values)
-        for record in self.filtered("use_mattermost_hooks"):
-            if "user_id" in values:
-                record.mattermost_task_author_changed()
-            if "stage_id" in values:
-                record.mattermost_task_stage_changed()
+        if not self.env.context.get("bypass_mattermost_hooks"):
+            for record in self.filtered("use_mattermost_hooks"):
+                if "user_id" in values:
+                    record.mattermost_task_author_changed()
+                if "stage_id" in values:
+                    record.mattermost_task_stage_changed()
         return res
 
     def _message_post_after_hook(self, message, msg_vals):
