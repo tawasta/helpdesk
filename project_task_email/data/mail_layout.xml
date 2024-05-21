@@ -36,9 +36,9 @@
                     style='margin-top:32px;padding-left:40px;border-left:solid 3px #ccc;'
                 >
                     <h3>Previous message</h3>
-                    <span t-field="task.previous_message_id.author_id.name" /> (<span
-                        t-field="task.previous_message_id.create_date"
-                    />):
+                    <span
+                        t-field="task.sudo().previous_message_id.author_id.name"
+                    /> (<span t-field="task.previous_message_id.create_date" />):
                     <br />
                     <div t-raw="task.previous_message_id.body" />
                 </div>
