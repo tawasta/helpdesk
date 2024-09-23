@@ -113,7 +113,7 @@ class MailThread(models.AbstractModel):
                 body = lxml.etree.tostring(root, pretty_print=False, encoding="UTF-8")
 
             res["body"] = body
-        except TypeError:
+        except (AttributeError, TypeError):
             _logger.error("Email import parsing error for, fall back to original...")
 
         return res
