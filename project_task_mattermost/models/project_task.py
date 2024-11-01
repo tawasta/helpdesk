@@ -7,7 +7,6 @@ _logger = logging.getLogger(__name__)
 
 
 class ProjectTask(models.Model):
-
     _inherit = "project.task"
 
     use_mattermost_hooks = fields.Boolean(related="project_id.use_mattermost_hooks")

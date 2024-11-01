@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="project_task_helpdesk_action" model="ir.actions.act_window">
+        <field name="name">Helpdesk tasks</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('helpdesk_project','=',True)]</field>
+        <field name="context">{'search_default_is_open': 1}</field>
+    </record>
+
+    <record id="project_task_my_helpdesk_action" model="ir.actions.act_window">
+        <field name="name">My helpdesk tasks</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('helpdesk_project','=',True)]</field>
+        <field
+            name="context"
+        >{'search_default_is_open': 1, 'search_default_my_tasks': 1}</field>
+    </record>
+
+    <menuitem
+        id="project_task_helpdesk_action_menu"
+        name="All tasks"
+        parent="root_menu"
+        action="project_task_helpdesk_action"
+        sequence="10"
+    />
+
+    <menuitem
+        id="project_task_my_helpdesk_action_menu"
+        name="My tasks"
+        parent="root_menu"
+        action="project_task_my_helpdesk_action"
+        sequence="20"
+    />
+
+</odoo>

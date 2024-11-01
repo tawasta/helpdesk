@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <!-- Extend thread to have identification of message types:
+        o_message_type_comment = comments and portal messages
+        o_message_type_note = notes / internal messages
+        o_message_type_email = emails
+    -->
+    <t t-extend="mail.ChatThread.Message">
+        <t
+            t-jquery="div[t-att-class='\'o_thread_message\' + (message.expanded ? \' o_message_expanded \'  : \' \') + (message.is_selected ? \'o_thread_selected_message\' : \'\')']"
+        >
+            this.attr('t-att-class', '\'o_thread_message\' + (message.expanded ? \' o_message_expanded \'  : \' \') + (message.is_selected ? \'o_thread_selected_message\' : \'\') + \' o_message_type_\' + (message.is_note ? \'note\' : message.message_type)');
+        </t>
+    </t>
+</templates>
