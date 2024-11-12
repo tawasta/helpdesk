@@ -323,35 +323,6 @@ class PortalSupportTicket(CustomerPortal):
             .sudo()
             .search([("helpdesk_project", "=", True)])
         )
-        projects = request.env["project.project"].search(
-            [("id", "not in", helpdesk_projects.ids)]
-        )
-        for project in projects:
-            searchbar_filters.update(
-                {
-                    str(project.id): {
-                        "label": project.name,
-                        "domain": [("project_id", "=", project.id)],
-                    }
-                }
-            )
-
-        # extends filterby criteria with project (criteria name is the project id)
-        # Note: portal users can't view projects they don't follow
-        project_groups = request.env["project.task"].read_group(
-            [("project_id", "not in", projects.ids)], ["project_id"], ["project_id"]
-        )
-        for group in project_groups:
-            proj_id = group["project_id"][0] if group["project_id"] else False
-            proj_name = group["project_id"][1] if group["project_id"] else _("Others")
-            searchbar_filters.update(
-                {
-                    str(proj_id): {
-                        "label": proj_name,
-                        "domain": [("project_id", "=", proj_id)],
-                    }
-                }
-            )
 
         # default sort by value
         if not sortby:
@@ -395,8 +366,6 @@ class PortalSupportTicket(CustomerPortal):
                 )
             if search_in in ("stage", "all"):
                 search_domain = OR([search_domain, [("stage_id", "ilike", search)]])
-            if search_in in ("project", "all"):
-                search_domain = OR([search_domain, [("project_id", "ilike", search)]])
             domain += search_domain
 
         # task count
