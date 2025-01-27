@@ -11,16 +11,17 @@
                     name="mattermost_hook_ids"
                     widget="many2many_tags"
                     options="{'no_quick_create': True, 'no_create': True}"
-                    invisible="not use_mattermost_hooks"/>
-                <field
-                    name="mattermost_channel"
-                    invisible="not use_mattermost_hooks"/>
+                    invisible="not use_mattermost_hooks"
+                />
+                <field name="mattermost_channel" invisible="not use_mattermost_hooks" />
                 <field
                     name="mattermost_username"
-                    invisible="not use_mattermost_hooks"/>
+                    invisible="not use_mattermost_hooks"
+                />
                 <field
                     name="mattermost_icon_url"
-                    invisible="not use_mattermost_hooks"/>
+                    invisible="not use_mattermost_hooks"
+                />
             </field>
         </field>
     </record>
