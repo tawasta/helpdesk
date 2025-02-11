@@ -29,7 +29,7 @@
     "depends": [
         "email_template_qweb",
         "mail",
-        #"mail_layout_force",
+        # "mail_layout_force",
         "project",
         "project_task_code",
     ],

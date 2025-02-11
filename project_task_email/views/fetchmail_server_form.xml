@@ -7,9 +7,7 @@
         <field name="arch" type="xml">
             <field name='object_id' position='after'>
                 <field name='object_model' invisible="1" />
-                <field
-                    name='project_id'
-                    invisible="object_model != 'project.task'"/>
+                <field name='project_id' invisible="object_model != 'project.task'" />
             </field>
         </field>
     </record>

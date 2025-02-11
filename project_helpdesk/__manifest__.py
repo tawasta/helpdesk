@@ -29,7 +29,7 @@
     "depends": [
         "project_task_auto_reopen",
         "project_task_email",
-        #"mail_highlight",
+        # "mail_highlight",
     ],
     "application": True,
     "installable": True,

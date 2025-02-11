@@ -97,7 +97,7 @@ class PortalSupportTicket(CustomerPortal):
         search=None,
         search_in="content",
         groupby=None,
-        **kw
+        **kw,
     ):
         values = self._prepare_portal_layout_values()
         searchbar_sortings = {
@@ -284,7 +284,7 @@ class PortalSupportTicket(CustomerPortal):
         search=None,
         search_in="content",
         groupby=None,
-        **kw
+        **kw,
     ):
         """Rewrite core code to not include helpdesk projects in tasks"""
         values = self._prepare_portal_layout_values()
@@ -595,7 +595,7 @@ class TimesheetCustomerPortal(TimesheetCustomerPortal):
         search=None,
         search_in="all",
         groupby="none",
-        **kw
+        **kw,
     ):
         """Prevent user to check timesheets from portal"""
         return request.redirect("/my")

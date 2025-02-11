@@ -6,7 +6,6 @@ _logger = logging.getLogger(__name__)
 
 
 class ProjectProject(models.Model):
-
     _inherit = "project.project"
 
     email_from = fields.Char(

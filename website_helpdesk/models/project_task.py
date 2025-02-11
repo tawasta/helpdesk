@@ -38,7 +38,6 @@ _logger = logging.getLogger(__name__)
 
 
 class ProjectTask(models.Model):
-
     # 1. Private attributes
     _inherit = "project.task"
 

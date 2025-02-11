@@ -6,7 +6,6 @@ _logger = logging.getLogger(__name__)
 
 
 class ProjectTask(models.Model):
-
     _inherit = "project.task"
 
     helpdesk_project = fields.Boolean(related="project_id.helpdesk_project")

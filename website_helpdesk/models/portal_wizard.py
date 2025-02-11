@@ -37,7 +37,6 @@ _logger = logging.getLogger(__name__)
 
 
 class PortalWizardUser(models.TransientModel):
-
     # 1. Private attributes
     _inherit = "portal.wizard.user"
 

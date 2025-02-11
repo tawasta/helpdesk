@@ -6,7 +6,6 @@ _logger = logging.getLogger(__name__)
 
 
 class ProjectTask(models.Model):
-
     _inherit = "project.task"
 
     issue_type = fields.Char(
@@ -41,7 +40,6 @@ class ProjectTask(models.Model):
 
     @api.model
     def create(self, vals):
-
         # Get default project from fetchmail server, if not supplied in vals
         fetchmail_server_id = self.env.context.get(
             "fetchmail_server_id"
@@ -83,7 +81,6 @@ class ProjectTask(models.Model):
 
     @api.returns("mail.message", lambda value: value.id)
     def message_post(self, *args, **kwargs):
-
         values = kwargs
 
         # Overwrite subject

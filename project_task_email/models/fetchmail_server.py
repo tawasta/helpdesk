@@ -2,7 +2,6 @@ from odoo import fields, models
 
 
 class FetchmailServer(models.Model):
-
     _inherit = "fetchmail.server"
 
     # Allow creating new tasks directly to a project

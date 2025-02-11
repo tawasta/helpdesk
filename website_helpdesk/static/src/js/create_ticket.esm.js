@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import publicWidget from "@web/legacy/js/public/public_widget";
-import { _t } from "@web/core/l10n/translation";
+import {_t} from "@web/core/l10n/translation";
 
 publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
     selector: "#create_ticket_form",
@@ -15,7 +15,7 @@ publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
      */
     start: function () {
         const res = this._super.apply(this, arguments);
-        
+
         // Initialize the rich text editor
         ClassicEditor.create(document.querySelector("#description"), {
             language: "fi",
@@ -45,17 +45,19 @@ publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
         const fileCount = `${files.length} ${_t(" file(s) selected:")}`;
         const fileNameLabel = _t("File name: ");
         const fileSizeLabel = _t("File size: ");
-        const fileTooBigLabel = _t("File size too big! Max size for file is ") + maxSize + "MB";
-        
+        const fileTooBigLabel =
+            _t("File size too big! Max size for file is ") + maxSize + "MB";
+
         let elements = `<p>${fileCount}</p><p id='file_sizes'>`;
         let fileTooBig = false;
 
         this.$("#files_info_div").addClass("d-none");
 
-        for (let file of files) {
-            let size = file.size > 1024 * 1024
-                ? `${Math.round((file.size * 10) / (1000 * 1000)) / 10}MB`
-                : `${Math.round((file.size * 10) / 1000) / 10}KB`;
+        for (const file of files) {
+            const size =
+                file.size > 1024 * 1024
+                    ? `${Math.round((file.size * 10) / (1000 * 1000)) / 10}MB`
+                    : `${Math.round((file.size * 10) / 1000) / 10}KB`;
 
             if (file.size > maxSize * 1000 * 1000) {
                 fileTooBig = true;
@@ -65,7 +67,7 @@ publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
             elements += `${fileNameLabel}${file.name}, ${fileSizeLabel}${size}<br/>`;
         }
         elements += "</p>";
-        
+
         this.$("#files_info_div").html(elements);
         this._updateFileStatus(fileTooBig);
     },

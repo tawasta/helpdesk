@@ -39,7 +39,6 @@ _logger = logging.getLogger(__name__)
 
 
 class MailThread(models.AbstractModel):
-
     # 1. Private attributes
     _inherit = "mail.thread"
 

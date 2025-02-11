@@ -33,7 +33,6 @@ from odoo import fields, models
 
 
 class ProjectTaskType(models.Model):
-
     # 1. Private attributes
     _inherit = "project.task.type"
 

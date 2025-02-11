@@ -2,7 +2,6 @@ from odoo import models
 
 
 class MailServer(models.Model):
-
     _inherit = "ir.mail_server"
 
     def build_email(self, *args, **kwargs):
