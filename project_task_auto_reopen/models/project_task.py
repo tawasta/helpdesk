@@ -11,7 +11,13 @@ class ProjectTask(models.Model):
     _inherit = "project.task"
 
     # 2. Fields declaration
-    is_closed = fields.Boolean(related="stage_id.is_closed", string="Closing Stage", readonly=True, related_sudo=False)
+    is_closed = fields.Boolean(
+        related="stage_id.is_closed",
+        string="Closing Stage",
+        readonly=True,
+        related_sudo=False,
+    )
+
 
     # 3. Default methods
 
@@ -26,7 +32,6 @@ class ProjectTask(models.Model):
     # 8. Business methods
     @api.returns("mail.message", lambda value: value.id)
     def message_post(self, *args, **kwargs):
-
         # Reopen the issue if a message is posted to a closed stage
         # TODO: Does this check work with portal?
         if kwargs.get("message_type") and kwargs.get("message_type") == "email":
@@ -38,7 +43,6 @@ class ProjectTask(models.Model):
         )
 
     def message_post_with_template(self, template_id, **kwargs):
-
         # Reopen the issue if a message is posted to a closed stage
         # TODO: Does this check work with portal?
         if kwargs.get("message_type") and kwargs.get("message_type") == "email":

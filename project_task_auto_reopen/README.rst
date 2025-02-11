@@ -27,6 +27,8 @@ Contributors
 ------------
 
 * Jarmo Kortetjärvi <jarmo.kortetjarvi@tawasta.fi>
+* Valtteri Lattu <valtteri.lattu@tawasta.fi>
+* Timo Kekäläinen <timo.kekalainen@tawasta.fi>
 
 Maintainer
 ----------
