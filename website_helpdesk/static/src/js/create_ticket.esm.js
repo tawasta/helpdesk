@@ -17,15 +17,15 @@ publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
         const res = this._super.apply(this, arguments);
 
         // Initialize the rich text editor
-        ClassicEditor.create(document.querySelector("#description"), {
-            language: "fi",
-        }).then((editor) => {
-            this.editor = editor;
-            editor.model.document.on("change:data", () => {
-                const text = $.trim(editor.getData());
-                this.$("#create_ticket_confirm_btn").toggleClass("disabled", !text);
-            });
-        });
+        // ClassicEditor.create(document.querySelector("#description"), {
+        //    language: "fi",
+        // }).then((editor) => {
+        //    this.editor = editor;
+        //    editor.model.document.on("change:data", () => {
+        //        const text = $.trim(editor.getData());
+        //        this.$("#create_ticket_confirm_btn").toggleClass("disabled", !text);
+        //    });
+        // });
 
         return res;
     },

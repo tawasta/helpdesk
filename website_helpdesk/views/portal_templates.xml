@@ -16,7 +16,11 @@
         </xpath>
     </template>
 
-    <template id="portal_tasks_list" inherit_id="project.portal_tasks_list">
+    <template
+        id="portal_tasks_list"
+        inherit_id="project.portal_tasks_list"
+        priority="100"
+    >
 <!--         <t t-call="portal.portal_layout" position="inside">
             <t t-if="page_name == 'tickets'">
                 <t t-set="title">My Tickets</t>
@@ -206,7 +210,7 @@
         </xpath>
     </template>
 
-    <template id="portal_my_task" inherit_id="project.portal_my_task">
+    <template id="portal_my_task" inherit_id="project.portal_my_task" priority="100">
         <xpath expr="//span[@t-field='task.stage_id.name']" position="replace">
             <t t-if="task.stage_id.public_name">
                 <span
@@ -282,7 +286,7 @@
 
     </template>
 
-    <template id="portal_layout" inherit_id="project.portal_layout">
+    <template id="portal_layout" inherit_id="project.portal_layout" priority="100">
         <xpath expr="//li/a[@t-if='task']/.." position="replace">
             <li
                 t-if="page_name in ['tickets', 'ticket', 'task'] or task"
@@ -307,6 +311,7 @@
     <template
         id="portal_my_home_contract"
         inherit_id="contract.portal_my_home_contract"
+        priority="100"
     >
         <xpath expr="//t[@t-call='portal.portal_docs_entry']" position="replace" />
     </template>
