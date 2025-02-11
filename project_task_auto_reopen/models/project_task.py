@@ -6,7 +6,6 @@ _logger = logging.getLogger(__name__)
 
 
 class ProjectTask(models.Model):
-
     # 1. Private attributes
     _inherit = "project.task"
 
@@ -17,7 +16,6 @@ class ProjectTask(models.Model):
         readonly=True,
         related_sudo=False,
     )
-
 
     # 3. Default methods
 
