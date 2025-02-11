@@ -1,0 +1,56 @@
+<odoo noupdate="0">
+    <!-- Template for email header -->
+    <template id="helpdesk_email_header" name="Email header for helpdesk tasks">
+
+        <div
+            id="helpdesk-header"
+            style="text-align: center; border-bottom: 1px solid #d4d4d4; padding: 2em 0 0 0; width: 100%;"
+        >
+            <p
+                style='color: #ccc; border-top: 1px solid #d4d4d4; padding-top: 1rem;'
+            >Please reply above this line. Any content below it will be disregarded.
+            </p>
+            <p
+                style="color: #ccc;"
+            >Please ensure that the ticket ID is kept in the subject of the emails so your ticket is tracked properly.
+            </p>
+        </div>
+    </template>
+
+    <template id="mail_notification_layout" inherit_id="mail.mail_notification_layout">
+        <div t-out="message.body" position="after">
+            <!-- Show previous messages -->
+            <div
+                t-if="message.model == 'project.task' and message.res_id"
+                style="margin-top: 32px;"
+            >
+                <t
+                    t-set="task"
+                    t-value="message.env['project.task'].browse(message.res_id)"
+                />
+                <div
+                    t-if="task and task.previous_message_id"
+                    style='margin-top:32px;padding-left:40px;border-left:solid 3px #ccc;'
+                >
+                    <h3>Previous message</h3>
+                    <span
+                        t-field="task.sudo().previous_message_id.author_id.name"
+                    /> (<span t-field="task.previous_message_id.create_date" />):
+                    <br />
+                    <div t-out="task.previous_message_id.body" />
+                </div>
+
+            </div>
+
+            <div
+                t-if="message.model == 'project.task' and has_button_access"
+                style="margin-top: 32px;"
+            >
+                <p>To check previous messages related to this thread, visit <a
+                        target="_blank"
+                        t-attf-href="/my/ticket/{{message.res_id}}"
+                    >customer portal</a>.</p>
+            </div>
+        </div>
+    </template>
+</odoo>
