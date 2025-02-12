@@ -1,0 +1,91 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_helpdesk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20221025\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-02 17:35+0000\n"
+"PO-Revision-Date: 2022-11-02 17:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_helpdesk
+#: model:ir.ui.menu,name:project_helpdesk.project_task_helpdesk_action_menu
+msgid "All tasks"
+msgstr "Kaikki tehtävät"
+
+#. module: project_helpdesk
+#: model:mail.message.subtype,name:project_helpdesk.internal_user_discussions
+msgid "Discussions by Internal User"
+msgstr "Keskustelut sisäiseltä käyttäjältä"
+
+#. module: project_helpdesk
+#: model:ir.model.fields,field_description:project_helpdesk.field_project_project__display_name
+#: model:ir.model.fields,field_description:project_helpdesk.field_project_task__display_name
+msgid "Display Name"
+msgstr "Näyttönimi"
+
+#. module: project_helpdesk
+#: model:ir.ui.menu,name:project_helpdesk.root_menu
+msgid "Helpdesk"
+msgstr "Helpdesk"
+
+#. module: project_helpdesk
+#: model:ir.model.fields,field_description:project_helpdesk.field_project_project__helpdesk_project
+#: model:ir.model.fields,field_description:project_helpdesk.field_project_task__helpdesk_project
+msgid "Helpdesk project"
+msgstr "Helpdesk-projekti"
+
+#. module: project_helpdesk
+#: model:ir.actions.act_window,name:project_helpdesk.project_task_helpdesk_action
+msgid "Helpdesk tasks"
+msgstr "Helpdeskin tehtävät"
+
+#. module: project_helpdesk
+#: model:ir.model.fields,field_description:project_helpdesk.field_project_project__id
+#: model:ir.model.fields,field_description:project_helpdesk.field_project_task__id
+msgid "ID"
+msgstr "Tunniste (ID)"
+
+#. module: project_helpdesk
+#: model:ir.model.fields,field_description:project_helpdesk.field_project_project____last_update
+#: model:ir.model.fields,field_description:project_helpdesk.field_project_task____last_update
+msgid "Last Modified on"
+msgstr "Viimeksi muokattu"
+
+#. module: project_helpdesk
+#: model:ir.actions.act_window,name:project_helpdesk.project_task_my_helpdesk_action
+msgid "My helpdesk tasks"
+msgstr "Omat helpdesk-tehtävät"
+
+#. module: project_helpdesk
+#: model:ir.ui.menu,name:project_helpdesk.project_task_my_helpdesk_action_menu
+msgid "My tasks"
+msgstr "Omat tehtävät"
+
+#. module: project_helpdesk
+#: model_terms:ir.ui.view,arch_db:project_helpdesk.view_task_search_form
+msgid "Open"
+msgstr "Avoinna"
+
+#. module: project_helpdesk
+#: model:ir.model,name:project_helpdesk.model_project_project
+msgid "Project"
+msgstr "Projektit"
+
+#. module: project_helpdesk
+#: model:ir.model.fields,help:project_helpdesk.field_project_project__helpdesk_project
+#: model:ir.model.fields,help:project_helpdesk.field_project_task__helpdesk_project
+msgid "Select this to tag the project as a helpdesk project"
+msgstr "Valitse tämä merkataksesi tämän projektin helpdesk-projektiksi"
+
+#. module: project_helpdesk
+#: model:ir.model,name:project_helpdesk.model_project_task
+msgid "Task"
+msgstr "Tehtävä"
