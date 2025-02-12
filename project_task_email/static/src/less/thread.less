@@ -1,0 +1,31 @@
+@message-note-color: #e4e4e4;
+@message-comment-color: #f8f8f8;
+@message-email-color: #d1d1e8;
+@message-border-color: rgba(0, 0, 0, 0.03);
+
+.o_chatter {
+    .o_composer_button_emoji {
+        display: none;
+    }
+    .o_composer .o_composer_text_field {
+        resize: vertical !important;
+        min-height: 200px !important;
+    }
+    .o_mail_thread {
+        .o_thread_message {
+            margin-bottom: 4px;
+            border: solid 1px @message-border-color;
+            padding: 4px 16px 8px;
+            &.o_message_type_note,
+            &.o_message_type_note .o_thread_message_core.o_mail_note {
+                background-color: @message-note-color;
+            }
+            &.o_message_type_comment {
+                background-color: @message-comment-color;
+            }
+            &.o_message_type_email {
+                background-color: @message-email-color;
+            }
+        }
+    }
+}

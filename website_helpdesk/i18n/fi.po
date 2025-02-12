@@ -1,0 +1,313 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_helpdesk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-15 12:27+0000\n"
+"PO-Revision-Date: 2024-04-15 15:29+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fi\n"
+"X-Generator: Poedit 2.3\n"
+
+#. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/create_ticket.js:0
+#, python-format
+msgid " file(s) selected:"
+msgstr " tiedosto(a) valittu:"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "<span aria-label=\"Close\">&amp;times;</span>"
+msgstr ""
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid ""
+"<span>\n"
+"                                                    <i class=\"fa fa-paperclip\"/> Attachments\n"
+"                                                </span>"
+msgstr ""
+"<span>\n"
+"                                                    <i class=\"fa fa-paperclip\"/> Liitteet\n"
+"                                                </span>"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
+msgid "<strong>Description</strong>"
+msgstr "<strong>Kuvaus</strong>"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
+msgid "<strong>Estimated work hours</strong>"
+msgstr "<strong>Työaika-arvio</strong>"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
+msgid "<strong>Recipients</strong>"
+msgstr "<strong>Vastaanottajat</strong>"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "All"
+msgstr "Kaikki"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Attachment is too large!"
+msgstr "Liite on liian suuri!"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Cancel"
+msgstr "Peruuta"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Close"
+msgstr "Sulje"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Create"
+msgstr "Luo"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Create ticket"
+msgstr "Luo tukipyyntö"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Current stage of the task"
+msgstr "Tehtävän nykyinen vaihe"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
+msgid "Current stage of this task"
+msgstr "Tehtävän nykyinen vaihe"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_form2
+msgid "Customer portal"
+msgstr "Asiakasportaali"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Describe the issue you are having..."
+msgstr "Kuvaile ongelmaa..."
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Description"
+msgstr "Kuvaus"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,help:website_helpdesk.field_project_task__portal_description
+msgid "Description for the task which is shown for portal customers"
+msgstr "Tehtävän kuvaus, joka näytetään asiakasportaalissa"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_mixin__display_name
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_wizard_user__display_name
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__display_name
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type__display_name
+msgid "Display Name"
+msgstr "Näyttönimi"
+
+#. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/create_ticket.js:0
+#, python-format
+msgid "File name: "
+msgstr "Tiedoston nimi: "
+
+#. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/create_ticket.js:0
+#, python-format
+msgid "File size too big! Max size for file is "
+msgstr "Tiedosto on liian suuri! Maksimikoko tiedostolle on "
+
+#. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/create_ticket.js:0
+#, python-format
+msgid "File size: "
+msgstr "Tiedoston koko: "
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_mixin__id
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_wizard_user__id
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__id
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type__id
+msgid "ID"
+msgstr "Tunniste (ID)"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_mixin____last_update
+#: model:ir.model.fields,field_description:website_helpdesk.field_portal_wizard_user____last_update
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task____last_update
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type____last_update
+msgid "Last Modified on"
+msgstr "Viimeksi muokattu"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Last Stage Update"
+msgstr "Vaihe viimeksi päivittynyt"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "My Tickets"
+msgstr "Minun tukipyynnöt"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Newest"
+msgstr "Uusin"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "None"
+msgstr ""
+
+#. module: website_helpdesk
+#: model:ir.model.fields,help:website_helpdesk.field_project_task__portal_planned_hours
+msgid "Planned hours which is shown for portal customers"
+msgstr "Portaaliasiakkaille näytettävä työaika-arvio"
+
+#. module: website_helpdesk
+#: model:ir.model,name:website_helpdesk.model_portal_mixin
+msgid "Portal Mixin"
+msgstr ""
+
+#. module: website_helpdesk
+#: model:ir.model,name:website_helpdesk.model_portal_wizard_user
+msgid "Portal User Config"
+msgstr "Porttaalikäyttäjän konfigurointi"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_form2
+msgid "Portal customers"
+msgstr "Portaaliasiakkaat"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__portal_description
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_form2
+msgid "Portal description"
+msgstr "Kuvaus asiakasportaalissa"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__portal_planned_hours
+msgid "Portal planned hours"
+msgstr "Työaika-arvio asiakasportaalissa"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Project"
+msgstr "Projekti"
+
+#. module: website_helpdesk
+#. openerp-web
+#: code:addons/website_helpdesk/static/src/js/portal_chatter.js:0
+#, python-format
+msgid "Published on %s"
+msgstr "Julkaistu %s"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Search <span class='nolabel'> (in Content)</span>"
+msgstr "Etsi <span class='nolabel'> (sisällöstä)</span>"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Search in All"
+msgstr "Etsi kaikista"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Search in Customer"
+msgstr "Etsi asiakkaista"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Search in Messages"
+msgstr "Etsi viesteistä"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Search in Stages"
+msgstr "Etsi vaiheista"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Stage"
+msgstr "Vaihe"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type__public_name
+msgid "Stage public name"
+msgstr "Vaiheen julkinen nimi"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,help:website_helpdesk.field_project_task_type__public_name
+msgid "Stage public name, which is shown in portal to customer"
+msgstr "Vaiheen julkinen nimi, joka näytetään asiakasportaalissa"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_tasks
+msgid "Subject"
+msgstr "Aihe"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_support_tickets
+msgid "Support tickets"
+msgstr "Tukipyynnöt"
+
+#. module: website_helpdesk
+#: model:ir.model,name:website_helpdesk.model_project_task
+msgid "Task"
+msgstr "Tehtävä"
+
+#. module: website_helpdesk
+#: model:ir.model,name:website_helpdesk.model_project_task_type
+msgid "Task Stage"
+msgstr "Tehtävän vaihe"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_layout
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_project_tasks
+msgid "Tasks"
+msgstr "Tehtävät"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_layout
+msgid "Tickets"
+msgstr "Tukipyynnöt"
+
+#. module: website_helpdesk
+#: code:addons/website_helpdesk/controllers/portal.py:0
+#, python-format
+msgid "Title"
+msgstr "Otsikko"

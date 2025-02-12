@@ -1,0 +1,363 @@
+<?xml version="1.0" ?>
+<odoo>
+    <template
+        id="portal_my_home_support_tickets"
+        name="Show support tickets"
+        inherit_id="portal.portal_my_home"
+        customize_show="True"
+        priority="30"
+    >
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Support tickets</t>
+                <t t-set="url" t-value="'/my/tickets'" />
+                <t t-set="placeholder_count" t-value="'support_tickets_count'" />
+            </t>
+        </xpath>
+    </template>
+
+    <template
+        id="portal_tasks_list"
+        inherit_id="project.portal_tasks_list"
+        priority="100"
+    >
+<!--         <t t-call="portal.portal_layout" position="inside">
+            <t t-if="page_name == 'tickets'">
+                <t t-set="title">My Tickets</t>
+            </t>
+        </t> -->
+        <xpath expr="//tbody/t/tr/td/a" position="replace">
+            <a
+                t-attf-href="/my/{{'task' if not is_ticket else 'ticket'}}/#{task.id}?{{ keep_query() }}"
+            >
+                <span t-field="task.name" />
+            </a>
+        </xpath>
+        <xpath
+            expr="//span[@t-field='tasks[0].sudo().stage_id.name']"
+            position="replace"
+        >
+            <t t-if="tasks[0].sudo().stage_id.public_name">
+                <span
+                    class="text-truncate"
+                    t-field="tasks[0].sudo().stage_id.public_name"
+                />
+            </t>
+            <t t-else="">
+                <span class="text-truncate" t-field="tasks[0].sudo().stage_id.name" />
+            </t>
+        </xpath>
+        <xpath expr="//span[@t-esc='task.stage_id.name']" position="replace">
+            <t t-if="task.stage_id.public_name">
+                <span
+                    class="badge rounded-pill text-bg-info"
+                    title="Current stage of the task"
+                    t-esc="task.stage_id.public_name"
+                />
+            </t>
+            <t t-else="">
+                <span
+                    class="badge rounded-pill text-bg-info"
+                    title="Current stage of the task"
+                    t-esc="task.stage_id.name"
+                />
+            </t>
+        </xpath>
+
+        <!-- Task ID to task code -->
+        <xpath expr="//span[@t-esc='task.id']/.." position="replace">
+            <td class="text-left">
+                <span t-esc="task.code" />
+            </td>
+        </xpath>
+
+        <!-- Add possibility to create a new ticket -->
+        <xpath expr="//t[@t-if='grouped_tasks']" position="before">
+            <div t-if="page_name == 'tickets'" class="row">
+                <div class="col-12 mb-2 d-flex justify-content-end">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal_create_ticket"
+                    >Create ticket</button>
+                </div>
+
+                <div
+                    id="modal_create_ticket"
+                    class="modal fade"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="Create ticket modal"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Create ticket</h3>
+                                <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-label="Close">&amp;times;</span>
+                                </button>
+                            </div>
+                            <form
+                                id="create_ticket_form"
+                                method="post"
+                                name="create_ticket"
+                                action="/ticket/create"
+                                enctype="multipart/form-data"
+                            >
+                                <input
+                                    type="hidden"
+                                    name="csrf_token"
+                                    t-att-value="request.csrf_token()"
+                                />
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label
+                                                class="control-label"
+                                                for="subject"
+                                            >Subject</label>
+                                            <input
+                                                type="text"
+                                                id="subject"
+                                                class="form-control"
+                                                name="subject"
+                                            />
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label
+                                                class="control-label"
+                                                for="description"
+                                            >Description</label>
+                                            <textarea
+                                                id="description"
+                                                class="form-control"
+                                                name="description"
+                                                rows="10"
+                                                placeholder="Describe the issue you are having..."
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- File Upload Button -->
+                                        <div class="mt-3">
+                                            <div class="btn-group btn-block">
+                                                <label
+                                                    class="btn btn-success btn-lg file-upload w-100"
+                                                >
+                                                    <i
+                                                        class="fa fa-paperclip"
+                                                    /> Attachments
+                                                    <input
+                                                        type="file"
+                                                        class="upload"
+                                                        id="file"
+                                                        name="file"
+                                                        multiple="multiple"
+                                                        data-maxsize="maxsize"
+                                                        style="display: none;"
+                                                    />
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Info Alert for Files -->
+                                        <div class="col-12 mt-3">
+                                            <div
+                                                class="alert alert-info d-none"
+                                                id="files_info_div"
+                                                role="alert"
+                                            >
+                                                <!-- Optional information text can go here -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-dismiss="modal"
+                                    >Cancel</button>
+                                    <button
+                                        id="create_ticket_confirm_btn"
+                                        class="btn btn-primary disabled"
+                                    >Create</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- <script
+                    src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"
+                />
+                <script
+                    src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/translations/fi.js"
+                />
+                <t
+                    t-call-assets="website_helpdesk.create_ticket_assets"
+                    lazy_load="True"
+                /> -->
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_my_task" inherit_id="project.portal_my_task" priority="100">
+        <xpath expr="//span[@t-field='task.stage_id.name']" position="replace">
+            <t t-if="task.stage_id.public_name">
+                <span
+                    t-field="task.stage_id.public_name"
+                    class="badge rounded-pill text-bg-info"
+                    title="Current stage of this task"
+                />
+            </t>
+            <t t-else="">
+                <span
+                    t-field="task.stage_id.name"
+                    class="badge rounded-pill text-bg-info"
+                    title="Current stage of this task"
+                />
+            </t>
+        </xpath>
+
+        <!-- Portal description -->
+        <xpath
+            expr="//div[@t-if='not is_html_empty(task.description)']"
+            position="replace"
+        >
+            <div
+                t-attf-class="col-12 col-lg-7 mb-4 mb-md-0 {{'col-lg-7' if task.attachment_ids else 'col-lg-12'}}"
+            >
+                <hr class="mb-1" />
+                <div class="d-flex my-2">
+                    <strong>Description</strong>
+                </div>
+                <t t-if="page_name == 'ticket'">
+                    <div class="py-1 px-2 bg-100 small" t-field="task.description" />
+                </t>
+                <t t-else="">
+                    <div
+                        class="py-1 px-2 bg-100 small"
+                        t-field="task.portal_description"
+                    />
+                </t>
+            </div>
+        </xpath>
+
+        <!-- Assigned to -->
+        <xpath expr="//div[@t-if='task.user_ids']" position="replace">
+            <div class="col-12 col-md-6 pb-2" t-if="task.portal_planned_hours">
+                <strong>Estimated work hours</strong>
+                <div>
+                    <span
+                        t-esc="round(task.portal_planned_hours, 2)"
+                        t-options='{"widget": "float_time"}'
+                    />
+                </div>
+            </div>
+            <div class="col-12 col-md-6 pb-2">
+                <strong>Recipients</strong>
+                <div>
+                    <span t-esc="ext_followers" />
+                </div>
+            </div>
+        </xpath>
+
+        <!-- Hide project-->
+        <!-- <xpath expr="//a[@t-field='task.project_id.name']/.." position="replace" /> -->
+
+        <!-- Deadline -->
+        <xpath expr="//div[@t-if='task.date_deadline']" position="replace" />
+
+        <!-- Task ID to task code -->
+        <xpath expr="//span[@t-field='task.id']/.." position="replace">
+            <small class="text-muted d-none d-md-inline"> (<span
+                    t-field="task.code"
+                />)</small>
+        </xpath>
+
+    </template>
+
+    <template id="portal_layout" inherit_id="project.portal_layout" priority="100">
+        <xpath expr="//li/a[@t-if='task']/.." position="replace">
+            <li
+                t-if="page_name in ['tickets', 'ticket', 'task'] or task"
+                t-attf-class="breadcrumb-item #{'active ' if not task else ''}"
+            >
+                <t t-if="page_name in ['tickets', 'ticket']">
+                    <a
+                        t-if="task"
+                        t-attf-href="/my/tickets?{{ keep_query() }}"
+                    >Tickets</a>
+                    <t t-else="">Tickets</t>
+                </t>
+                <t t-else="">
+                    <a t-if="task" t-attf-href="/my/tasks?{{ keep_query() }}">Tasks</a>
+                    <t t-else="">Tasks</t>
+                </t>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Hide contracts -->
+    <template
+        id="portal_my_home_contract"
+        inherit_id="contract.portal_my_home_contract"
+        priority="100"
+    >
+        <xpath expr="//t[@t-call='portal.portal_docs_entry']" position="replace" />
+    </template>
+
+    <!-- Show only tasks (without projects) -->
+    <template
+        id="portal_my_home_project_tasks"
+        name="Show project tasks (without projects)"
+        inherit_id="portal.portal_my_home"
+        customize_show="True"
+        priority="31"
+    >
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Tasks</t>
+                <t t-set="url" t-value="'/my/tasks'" />
+                <t t-set="placeholder_count" t-value="'task_count'" />
+            </t>
+        </xpath>
+    </template>
+
+    <!-- <template
+        id="assets_frontend"
+        inherit_id="web_editor.assets_frontend"
+        name="Portal Rating Assets"
+    >
+        <xpath expr="link[last()]" position="after">
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/website_helpdesk/static/src/scss/styles.scss"
+            />
+        </xpath>
+
+        <xpath expr="//script[last()]" position="after">
+            <script
+                type="text/javascript"
+                src="/website_helpdesk/static/src/js/portal_chatter.js"
+            />
+        </xpath>
+    </template>
+
+    <template id="create_ticket_assets" name="Create ticket assets">
+        <script
+            type="text/javascript"
+            src="/website_helpdesk/static/src/js/create_ticket.js"
+        />
+    </template> -->
+</odoo>
