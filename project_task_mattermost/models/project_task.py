@@ -24,7 +24,7 @@ class ProjectTask(models.Model):
         res = super().write(values)
         if not self.env.context.get("bypass_mattermost_hooks"):
             for record in self.filtered("use_mattermost_hooks"):
-                if "user_id" in values:
+                if "user_ids" in values:
                     record.mattermost_task_author_changed()
                 if "stage_id" in values:
                     record.mattermost_task_stage_changed()
