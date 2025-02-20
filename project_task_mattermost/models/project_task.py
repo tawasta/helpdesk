@@ -166,7 +166,7 @@ class ProjectTask(models.Model):
         )
         if hook:
             subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
-            author = self.user_id.name or "No one"
+            author = self.user_ids and self.user_ids[0].name or "No one"
             msg = _("**%(user)s** assigned **%(subject)s** to **%(author)s**") % {
                 "user": self.write_uid.name,
                 "subject": subject,
