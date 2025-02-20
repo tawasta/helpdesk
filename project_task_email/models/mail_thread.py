@@ -53,7 +53,10 @@ class MailThread(models.AbstractModel):
     # 6. CRUD methods
 
     # 7. Action methods
-    def _message_parse_extract_payload_postprocess(self, message, payload_dict):
+    def _message_parse_extract_payload_postprocess_disabled(
+        self, message, payload_dict
+    ):
+        # DISABLED, as this doesn't work right
         """Parse only last message from email"""
         res = super()._message_parse_extract_payload_postprocess(message, payload_dict)
         if not res:
