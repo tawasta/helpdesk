@@ -10,7 +10,7 @@
                 <filter
                     string="Open"
                     name="is_open"
-                    domain="[('is_closed', '=', False)]"
+                    domain="[('stage_id.fold', '=', False)]"
                 />
             </filter>
         </field>
