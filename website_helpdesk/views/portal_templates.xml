@@ -211,6 +211,22 @@
                 /> -->
             </div>
         </xpath>
+
+        <!-- Hide hours/days spent column (TODO: consider making a configurable option) -->
+        <xpath
+            expr="//t[@t-if='not project or project.allow_timesheets']"
+            position="attributes"
+        >
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
+
+        <xpath
+            expr="//td[@t-if='not project or project.allow_timesheets']"
+            position="attributes"
+        >
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
+
     </template>
 
     <template id="portal_my_task" inherit_id="project.portal_my_task" priority="100">
