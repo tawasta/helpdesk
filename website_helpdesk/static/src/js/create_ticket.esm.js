@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
-import publicWidget from "@web/legacy/js/public/public_widget";
 import {_t} from "@web/core/l10n/translation";
+import publicWidget from "@web/legacy/js/public/public_widget";
 
 publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
     selector: "#create_ticket_form",
@@ -12,20 +12,23 @@ publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
 
     /**
      * Initializes the widget, sets up the editor, and manages the confirm button.
+     *
+     * @returns res
      */
     start: function () {
         const res = this._super.apply(this, arguments);
 
         // Initialize the rich text editor
-        // ClassicEditor.create(document.querySelector("#description"), {
-        //    language: "fi",
-        // }).then((editor) => {
-        //    this.editor = editor;
-        //    editor.model.document.on("change:data", () => {
-        //        const text = $.trim(editor.getData());
-        //        this.$("#create_ticket_confirm_btn").toggleClass("disabled", !text);
-        //    });
-        // });
+        // eslint-disable-next-line no-undef
+        ClassicEditor.create(document.querySelector("#description"), {
+            language: "fi",
+        }).then((editor) => {
+            this.editor = editor;
+            editor.model.document.on("change:data", () => {
+                const text = $.trim(editor.getData());
+                this.$("#create_ticket_confirm_btn").toggleClass("disabled", !text);
+            });
+        });
 
         return res;
     },
@@ -36,7 +39,7 @@ publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
 
     /**
      * Handles file input changes, calculates file sizes, and displays file info.
-     * @private
+     * @param {*} event
      */
     _onFileChange: function (event) {
         const $input = $(event.currentTarget).closest("input");
@@ -74,7 +77,7 @@ publicWidget.registry.CreateTicketWidget = publicWidget.Widget.extend({
 
     /**
      * Updates the file information display and confirm button status.
-     * @private
+     * @param {*} fileTooBig
      */
     _updateFileStatus: function (fileTooBig) {
         if (fileTooBig) {
