@@ -544,10 +544,15 @@ class PortalSupportTicket(CustomerPortal):
                     if too_big:
                         raise UserError(_("Attachment is too large!"))
 
+                    datas = base64.b64encode(file.read())
+
+                    if not datas:
+                        continue
+
                     request.env["ir.attachment"].sudo().create(
                         {
                             "name": file.filename,
-                            "datas": base64.b64encode(file.read()),
+                            "datas": datas,
                             "type": "binary",
                             "res_id": task.id,
                             "res_model": "project.task",

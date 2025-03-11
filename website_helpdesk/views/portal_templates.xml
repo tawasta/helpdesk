@@ -95,14 +95,16 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h3 class="modal-title">Create ticket</h3>
-                                <button
-                                    type="button"
-                                    class="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
+                                <a
+                                    href="#"
+                                    class="text-decoration-none"
+                                    data-bs-dismiss="modal"
                                 >
-                                    <span aria-label="Close">&amp;times;</span>
-                                </button>
+                                    <span
+                                        class="fs-3"
+                                        aria-label="Close"
+                                    >&amp;times;</span>
+                                </a>
                             </div>
                             <form
                                 id="create_ticket_form"
@@ -151,11 +153,11 @@
                                         <div class="mt-3">
                                             <div class="btn-group btn-block">
                                                 <label
-                                                    class="btn btn-success btn-lg file-upload w-100"
+                                                    class="btn btn-success file-upload w-100"
                                                 >
                                                     <i
                                                         class="fa fa-paperclip"
-                                                    /> Attachments
+                                                    /> Add attachments
                                                     <input
                                                         type="file"
                                                         class="upload"
