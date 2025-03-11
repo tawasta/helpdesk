@@ -570,6 +570,9 @@ class PortalSupportTicket(CustomerPortal):
         # Prevent timesheets on task view, since sudo used we have to pop elements
         values.pop("timesheets")
         values.pop("timesheets_by_subtask")
+
+        # Always hide the project link
+        values["project_accessible"] = False
         return values
 
     @http.route(

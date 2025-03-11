@@ -9,7 +9,9 @@
     >
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/project/static/src/img/tasks.svg'" />
                 <t t-set="title">Support tickets</t>
+                <t t-set="text">Manage your support tickets</t>
                 <t t-set="url" t-value="'/my/tickets'" />
                 <t t-set="placeholder_count" t-value="'support_tickets_count'" />
             </t>
@@ -188,7 +190,7 @@
                                     <button
                                         type="button"
                                         class="btn btn-secondary"
-                                        data-dismiss="modal"
+                                        data-bs-dismiss="modal"
                                     >Cancel</button>
                                     <button
                                         id="create_ticket_confirm_btn"
@@ -248,6 +250,18 @@
         </xpath>
 
         <!-- Portal description -->
+
+
+        <!-- show also if portal_description is set -->
+        <xpath
+            expr="//div[@t-if='task.description or task.attachment_ids']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >task.description or task.attachment_ids or task.portal_description</attribute>
+        </xpath>
+
         <xpath
             expr="//div[@t-if='not is_html_empty(task.description)']"
             position="replace"
@@ -345,8 +359,10 @@
     >
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/project/static/src/img/tasks.svg'" />
                 <t t-set="title">Tasks</t>
                 <t t-set="url" t-value="'/my/tasks'" />
+                <t t-set="text">Manage your project tasks</t>
                 <t t-set="placeholder_count" t-value="'task_count'" />
             </t>
         </xpath>
