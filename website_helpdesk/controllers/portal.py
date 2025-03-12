@@ -582,10 +582,20 @@ class PortalSupportTicket(CustomerPortal):
         # Prevent project view
         return request.redirect("/my")
 
-    @http.route(["/my/task/<int:task_id>"], type="http", auth="user", website=True)
-    def portal_my_task(self, task_id, access_token=None, **kw):
-        """No access with only access token (change auth to user)"""
-        return super().portal_my_task(task_id, access_token, **kw)
+    @http.route(["/my/tasks/<int:task_id>"], type="http", auth="user", website=True)
+    def portal_my_task(
+        self, task_id, report_type=None, access_token=None, project_sharing=False, **kw
+    ):
+        """No access with only access token (change auth from public to user)"""
+
+        # Check if task is actually a helpdesk project ticket, redirect to ticket view
+        task_sudo = request.env["project.task"].sudo().search([("id", "=", task_id)])
+        if task_sudo.project_id.helpdesk_project:
+            return request.redirect("/my/ticket/{}".format(task_id))
+
+        return super().portal_my_task(
+            task_id, report_type, access_token, project_sharing, **kw
+        )
 
 
 class TimesheetCustomerPortal(TimesheetCustomerPortal):

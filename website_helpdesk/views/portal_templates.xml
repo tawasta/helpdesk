@@ -304,9 +304,6 @@
             </div>
         </xpath>
 
-        <!-- Hide project-->
-        <!-- <xpath expr="//a[@t-field='task.project_id.name']/.." position="replace" /> -->
-
         <!-- Deadline -->
         <xpath expr="//div[@t-if='task.date_deadline']" position="replace" />
 
