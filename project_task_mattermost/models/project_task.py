@@ -73,7 +73,7 @@ class ProjectTask(models.Model):
                     ("function", "=", function),
                     ("company_id", "=", self.company_id.id),
                     ("hook", "!=", False),
-                    ("id", "in", self.project_id.mattermost_hook_ids.ids),
+                    ("id", "in", self.sudo().project_id.mattermost_hook_ids.ids),
                 ],
                 limit=1,
             )
@@ -94,7 +94,7 @@ class ProjectTask(models.Model):
                     ("function", "=", function),
                     ("company_id", "=", self.company_id.id),
                     ("hook", "!=", False),
-                    ("id", "in", self.project_id.mattermost_hook_ids.ids),
+                    ("id", "in", self.sudo().project_id.mattermost_hook_ids.ids),
                 ],
                 limit=1,
             )
