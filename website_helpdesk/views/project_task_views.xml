@@ -27,8 +27,8 @@
                             />
                         </group> -->
                     </group>
-                    <group string="Portal description">
-                        <field name="portal_description" nolabel="1" />
+                    <group>
+                        <field name="portal_description" />
                     </group>
                 </page>
             </notebook>
