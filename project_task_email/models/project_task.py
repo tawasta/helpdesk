@@ -41,14 +41,12 @@ class ProjectTask(models.Model):
     @api.model
     def create(self, vals):
         # Get default project from fetchmail server, if not supplied in vals
-        fetchmail_server_id = self.env.context.get(
-            "fetchmail_server_id"
-        ) or self.env.context.get("default_fetchmail_server_id")
+        ctx = self.env.context
+        params = ctx.get("params", {})
+        related_model = params.get("model")
 
-        if fetchmail_server_id and not vals.get("project_id"):
-            mail_server = (
-                self.env["fetchmail.server"].sudo().browse(fetchmail_server_id)
-            )
+        if related_model == "fetchmail.server" and not vals.get("project_id"):
+            mail_server = self.env["fetchmail.server"].sudo().browse(params.get(("id")))
 
             if mail_server.project_id:
                 vals["project_id"] = mail_server.project_id.id or False

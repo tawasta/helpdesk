@@ -27,6 +27,7 @@ Contributors
 
 * Valtteri Lattu <valtteri.lattu@tawasta.fi>
 * Aleksi Savijoki <aleksi.savijoki@tawasta.fi>
+* Timo Talvitie <timo.talvitie@futural.fi>
 
 Maintainer
 ----------
