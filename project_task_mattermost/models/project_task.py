@@ -30,6 +30,12 @@ class ProjectTask(models.Model):
                     record.mattermost_task_stage_changed()
         return res
 
+    @api.onchange("user_id")
+    def onchange_user_id_hook(self):
+        if not self.env.context.get("bypass_mattermost_hooks"):
+            for record in self.filtered("use_mattermost_hooks"):
+                record.mattermost_task_author_changed()
+
     def _message_post_after_hook(self, message, msg_vals):
         # Mattermost post on internal messages only
         if self.use_mattermost_hooks and message.message_type not in [
