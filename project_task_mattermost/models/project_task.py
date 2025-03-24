@@ -30,7 +30,7 @@ class ProjectTask(models.Model):
                     record.mattermost_task_stage_changed()
         return res
 
-    @api.onchange("user_id")
+    @api.onchange("user_ids")
     def onchange_user_id_hook(self):
         if not self.env.context.get("bypass_mattermost_hooks"):
             for record in self.filtered("use_mattermost_hooks"):
