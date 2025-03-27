@@ -34,8 +34,10 @@ Credits
 Contributors
 ------------
 
+
 * Aleksi Savijoki <aleksi.savijoki@futural.fi>
 * Jarmo Kortetjärvi <jarmo.kortetjarvi@futural.fi>
+* Timo Talvitie <timo.talvitie@futural.fi>
 
 Maintainer
 ----------

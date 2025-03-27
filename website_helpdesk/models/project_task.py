@@ -28,6 +28,12 @@ from odoo import api, fields, models
 
 
 # 4. Imports from Odoo modules:
+from odoo.addons.project.models.project_task import PROJECT_TASK_WRITABLE_FIELDS
+from odoo.addons.project.models.project_task import PROJECT_TASK_READABLE_FIELDS
+
+# Allow new fields so that frontend users can use chatter
+PROJECT_TASK_WRITABLE_FIELDS |= {"color", "date_reply"}
+PROJECT_TASK_READABLE_FIELDS |= {"use_mattermost_hooks"}
 
 # 5. Local imports in the relative form:
 
@@ -40,6 +46,14 @@ _logger = logging.getLogger(__name__)
 class ProjectTask(models.Model):
     # 1. Private attributes
     _inherit = "project.task"
+
+    @property
+    def SELF_WRITABLE_FIELDS(self):
+        return PROJECT_TASK_WRITABLE_FIELDS
+
+    @property
+    def SELF_READABLE_FIELDS(self):
+        return PROJECT_TASK_READABLE_FIELDS | self.SELF_WRITABLE_FIELDS
 
     # 2. Fields declaration
     portal_description = fields.Html(

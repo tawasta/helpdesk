@@ -30,6 +30,12 @@ class ProjectTask(models.Model):
                     record.mattermost_task_stage_changed()
         return res
 
+    @api.onchange("user_ids")
+    def onchange_user_id_hook(self):
+        if not self.env.context.get("bypass_mattermost_hooks"):
+            for record in self.filtered("use_mattermost_hooks"):
+                record.mattermost_task_author_changed()
+
     def _message_post_after_hook(self, message, msg_vals):
         # Mattermost post on internal messages only
         if self.use_mattermost_hooks and message.message_type not in [
@@ -73,7 +79,7 @@ class ProjectTask(models.Model):
                     ("function", "=", function),
                     ("company_id", "=", self.company_id.id),
                     ("hook", "!=", False),
-                    ("id", "in", self.project_id.mattermost_hook_ids.ids),
+                    ("id", "in", self.sudo().project_id.mattermost_hook_ids.ids),
                 ],
                 limit=1,
             )
@@ -94,7 +100,7 @@ class ProjectTask(models.Model):
                     ("function", "=", function),
                     ("company_id", "=", self.company_id.id),
                     ("hook", "!=", False),
-                    ("id", "in", self.project_id.mattermost_hook_ids.ids),
+                    ("id", "in", self.sudo().project_id.mattermost_hook_ids.ids),
                 ],
                 limit=1,
             )
@@ -166,7 +172,7 @@ class ProjectTask(models.Model):
         )
         if hook:
             subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
-            author = self.user_id.name or "No one"
+            author = self.user_ids and self.user_ids[0].name or "No one"
             msg = _("**%(user)s** assigned **%(subject)s** to **%(author)s**") % {
                 "user": self.env.user.name,
                 "subject": subject,

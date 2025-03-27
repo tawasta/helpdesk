@@ -48,7 +48,7 @@
             >
                 <p>To check previous messages related to this thread, visit <a
                         target="_blank"
-                        t-attf-href="/my/ticket/{{message.res_id}}"
+                        t-att-href="button_access['url']"
                     >customer portal</a>.</p>
             </div>
         </div>

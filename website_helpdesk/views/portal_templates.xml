@@ -9,7 +9,9 @@
     >
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/project/static/src/img/tasks.svg'" />
                 <t t-set="title">Support tickets</t>
+                <t t-set="text">Manage your support tickets</t>
                 <t t-set="url" t-value="'/my/tickets'" />
                 <t t-set="placeholder_count" t-value="'support_tickets_count'" />
             </t>
@@ -95,14 +97,16 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h3 class="modal-title">Create ticket</h3>
-                                <button
-                                    type="button"
-                                    class="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
+                                <a
+                                    href="#"
+                                    class="text-decoration-none"
+                                    data-bs-dismiss="modal"
                                 >
-                                    <span aria-label="Close">&amp;times;</span>
-                                </button>
+                                    <span
+                                        class="fs-3"
+                                        aria-label="Close"
+                                    >&amp;times;</span>
+                                </a>
                             </div>
                             <form
                                 id="create_ticket_form"
@@ -128,6 +132,7 @@
                                                 id="subject"
                                                 class="form-control"
                                                 name="subject"
+                                                required="required"
                                             />
                                         </div>
                                         <div class="col-md-12 form-group">
@@ -150,11 +155,11 @@
                                         <div class="mt-3">
                                             <div class="btn-group btn-block">
                                                 <label
-                                                    class="btn btn-success btn-lg file-upload w-100"
+                                                    class="btn btn-success file-upload w-100"
                                                 >
                                                     <i
                                                         class="fa fa-paperclip"
-                                                    /> Attachments
+                                                    /> Add attachments
                                                     <input
                                                         type="file"
                                                         class="upload"
@@ -185,7 +190,7 @@
                                     <button
                                         type="button"
                                         class="btn btn-secondary"
-                                        data-dismiss="modal"
+                                        data-bs-dismiss="modal"
                                     >Cancel</button>
                                     <button
                                         id="create_ticket_confirm_btn"
@@ -208,6 +213,22 @@
                 /> -->
             </div>
         </xpath>
+
+        <!-- Hide hours/days spent column (TODO: consider making a configurable option) -->
+        <xpath
+            expr="//t[@t-if='not project or project.allow_timesheets']"
+            position="attributes"
+        >
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
+
+        <xpath
+            expr="//td[@t-if='not project or project.allow_timesheets']"
+            position="attributes"
+        >
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
+
     </template>
 
     <template id="portal_my_task" inherit_id="project.portal_my_task" priority="100">
@@ -229,6 +250,18 @@
         </xpath>
 
         <!-- Portal description -->
+
+
+        <!-- show also if portal_description is set -->
+        <xpath
+            expr="//div[@t-if='task.description or task.attachment_ids']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >task.description or task.attachment_ids or task.portal_description</attribute>
+        </xpath>
+
         <xpath
             expr="//div[@t-if='not is_html_empty(task.description)']"
             position="replace"
@@ -270,9 +303,6 @@
                 </div>
             </div>
         </xpath>
-
-        <!-- Hide project-->
-        <!-- <xpath expr="//a[@t-field='task.project_id.name']/.." position="replace" /> -->
 
         <!-- Deadline -->
         <xpath expr="//div[@t-if='task.date_deadline']" position="replace" />
@@ -326,8 +356,10 @@
     >
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/project/static/src/img/tasks.svg'" />
                 <t t-set="title">Tasks</t>
                 <t t-set="url" t-value="'/my/tasks'" />
+                <t t-set="text">Manage your project tasks</t>
                 <t t-set="placeholder_count" t-value="'task_count'" />
             </t>
         </xpath>
