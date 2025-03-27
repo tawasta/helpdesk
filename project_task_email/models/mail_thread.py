@@ -31,6 +31,11 @@ class MailThread(models.AbstractModel):
             )
             if fetchmail_server.project_id:
                 task = self.env["project.task"].browse([res])
-                task.project_id = fetchmail_server.project_id
+                vals = {
+                    "project_id": fetchmail_server.project_id.id,
+                    "company_id": fetchmail_server.project_id.company_id.id,
+                }
+
+                task.write(vals)
 
         return res

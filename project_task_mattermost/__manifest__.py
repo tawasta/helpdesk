@@ -1,7 +1,7 @@
 ##############################################################################
 #
-#    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2019- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
+#    Author: Futural Oy
+#    Copyright 2019- Futural Oy (http://www.futural.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@
     "summary": "Pushes task events to a Mattermost channel",
     "category": "Project",
     "version": "17.0.0.0.1",
-    "author": "Tawasta",
+    "author": "Futural",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "license": "AGPL-3",
     "application": False,
