@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    Author: Futural Oy
-#    Copyright 2019- Futural Oy (http://www.futural.fi)
+#    Copyright 2019- Futural Oy (https://futural.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
     "name": "Project Task Mattermost hooks",
     "summary": "Pushes task events to a Mattermost channel",
     "category": "Project",
-    "version": "17.0.0.0.1",
+    "version": "17.0.1.0.2",
     "author": "Futural",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "license": "AGPL-3",
