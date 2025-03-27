@@ -5,7 +5,7 @@
 =============================
 Project Task Partner Required
 =============================
-* Partner / customer field required in project form 
+* Partner / customer field required in project form
 
 Configuration
 =============
@@ -25,14 +25,14 @@ Credits
 Contributors
 ------------
 
-* Miika Nissi <miika.nissi@tawasta.fi>
+* Miika Nissi <miika.nissi@futural.fi>
 * Kalle Rantalainen <kalle.rantalainen@futural.fi>
 
 Maintainer
 ----------
 
-.. image:: http://tawasta.fi/templates/tawastrap/images/logo.png
-        :alt: Oy Tawasta OS Technologies Ltd.
-        :target: http://tawasta.fi/
+.. image:: https://futural.fi/templates/tawastrap/images/logo.png
+        :alt: Futural Oy
+        :target: https://futural.fi/
 
 This module is maintained by Futural Oy.
