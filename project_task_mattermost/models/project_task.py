@@ -58,7 +58,7 @@ class ProjectTask(models.Model):
             channel=project.mattermost_channel,
             username=project.mattermost_username,
             icon_url=project.mattermost_icon_url,
-            verify=False,
+            verify=True,
         )
 
     def mattermost_task_comment_posted(self, message):
