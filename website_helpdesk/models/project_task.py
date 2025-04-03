@@ -1,7 +1,7 @@
 ##############################################################################
 #
-#    Author: Oy Tawasta OS Technologies Ltd.
-#    Copyright 2023- Oy Tawasta OS Technologies Ltd. (http://www.tawasta.fi)
+#    Author: Futural Oy
+#    Copyright 2023- Futural Oy (https://futural.fi)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -209,3 +209,19 @@ class ProjectTask(models.Model):
         )
 
     # 8. Business methods
+    def _notify_get_recipients_groups(self, message, model_description, msg_vals=None):
+        # This fixes T71035 where portal user's reply to ticket would give an
+        # Access Denied error in signup_get_auth_param() if there were emails being
+        # sent to task followers. Applying of sudo is only limited to portal users'
+        # messages originating from frontend to avoid affecting other messaging.
+
+        if self.env.context.get("website_id", False) and self.env.user.has_group(
+            "base.group_portal"
+        ):
+            return super(ProjectTask, self.sudo())._notify_get_recipients_groups(
+                message, model_description, msg_vals=msg_vals
+            )
+        else:
+            return super()._notify_get_recipients_groups(
+                message, model_description, msg_vals=msg_vals
+            )
