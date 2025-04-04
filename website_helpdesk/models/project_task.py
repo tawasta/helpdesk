@@ -65,9 +65,27 @@ class ProjectTask(models.Model):
         help="Planned hours which is shown for portal customers",
     )
 
+    possible_assignee_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        string="Allowed Assignees",
+        compute="_compute_possible_assignee_user_ids",
+        help="Helper field for computing what users are allowed to be selected for assigning the task.",
+    )
+
     # 3. Default methods
 
     # 4. Compute and search fields, in the same order that fields declaration
+    def _compute_possible_assignee_user_ids(self):
+        # Get users that are allowed to be selected in the "Assignees" field. In
+        # core it is limited to active non-portal users, but this change allows also
+        # portal users to be selected
+        # TODO: can be fine tuned to limit selections further, to only relevant portal
+        # users instead of all
+        user_obj = self.env["res.users"]
+        for task in self:
+            domain = [("active", "=", True)]
+
+            task.possible_assignee_user_ids = user_obj.search(domain)
 
     # 5. Constraints and onchanges
     # @api.depends("project_id.allowed_user_ids", "project_id.privacy_visibility")

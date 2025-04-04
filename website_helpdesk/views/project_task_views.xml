@@ -6,6 +6,18 @@
         <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
 
+            <!-- Extend the list of possible users that can be selected as Assignees -->
+            <field name="user_ids" position="attributes">
+                <attribute
+                    name="domain"
+                >[("id", "in", possible_assignee_user_ids)]</attribute>
+            </field>
+
+            <field name="user_ids" position="after">
+                <field name="possible_assignee_user_ids" widget="many2many_tags" />
+            </field>
+
+
 <!--             <field name="allowed_user_ids" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field> -->
