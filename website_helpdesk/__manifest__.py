@@ -42,9 +42,11 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "security/ir_model_access.xml",
         "views/project_task_views.xml",
         "views/project_task_type_views.xml",
         "views/portal_templates.xml",
+        "wizards/project_task_portal_access_updater.xml",
     ],
     "assets": {
         "web.assets_frontend": [

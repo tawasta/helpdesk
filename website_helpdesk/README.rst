@@ -16,7 +16,8 @@ Configuration
 
 Usage
 =====
-\-
+* You can update the Portal Users with Access field via project task list
+  action menu
 
 Known issues / Roadmap
 ======================

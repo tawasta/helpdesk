@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0-20241118\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-06 17:43+0000\n"
-"PO-Revision-Date: 2025-04-06 17:43+0000\n"
+"POT-Creation-Date: 2025-04-06 20:03+0000\n"
+"PO-Revision-Date: 2025-04-06 20:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,11 @@ msgid "All"
 msgstr "Kaikki"
 
 #. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__to_apply
+msgid "Apply"
+msgstr "Tee muutokset"
+
+#. module: website_helpdesk
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task__user_ids
 msgid "Assignees"
 msgstr "Vastuuhenkilöt"
@@ -61,6 +66,7 @@ msgstr "Liite on liian suuri!"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_portal_user_update_wizard
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -68,6 +74,11 @@ msgstr "Peruuta"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
 msgid "Close"
 msgstr "Sulje"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_portal_user_update_wizard
+msgid "Confirm"
+msgstr "Vahvista"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
@@ -78,6 +89,23 @@ msgstr "Lähetä"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
 msgid "Create ticket"
 msgstr "Lähetä tukipyyntö"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater__create_uid
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater__create_date
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__current_user_ids
+msgid "Current Portal Users with Access"
+msgstr "Tämänhetkiset portaalikäyttäjät"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
@@ -115,6 +143,12 @@ msgid "Description for the task which is shown for portal customers"
 msgstr "Tehtävän kuvaus, joka näytetään asiakasportaalissa"
 
 #. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater__display_name
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: website_helpdesk
 #. odoo-javascript
 #: code:addons/website_helpdesk/static/src/js/create_ticket.esm.js:0
 #, python-format
@@ -134,6 +168,24 @@ msgstr "Tiedosto on liian suuri! Maksimikoko tiedostolle on "
 #, python-format
 msgid "File size: "
 msgstr "Tiedoston koko: "
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater__id
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__id
+msgid "ID"
+msgstr ""
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater__write_uid
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater__write_date
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__write_date
+msgid "Last Updated on"
+msgstr ""
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_project_tasks
@@ -178,7 +230,9 @@ msgstr "Työaika-arvio asiakasportaalissa"
 #. module: website_helpdesk
 #: model:ir.model.fields,help:website_helpdesk.field_project_task__allowed_portal_user_ids
 msgid "Portal users in this field will be allowed to see the task in portal"
-msgstr "Tämän kentän portaalikäyttäjät saavat nähdä tämän projektitehtävän omassa portaalinäkymässään"
+msgstr ""
+"Tämän kentän portaalikäyttäjät saavat nähdä tämän projektitehtävän omassa "
+"portaalinäkymässään"
 
 #. module: website_helpdesk
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type__public_name
@@ -196,14 +250,35 @@ msgid "Subject"
 msgstr "Aihe"
 
 #. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__suggested_user_ids
+msgid "Suggested Portal Users to Add"
+msgstr "Uudet ehdotetut portaalikäyttäjät"
+
+#. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_support_tickets
 msgid "Support tickets"
 msgstr "Tukipyynnöt"
 
 #. module: website_helpdesk
 #: model:ir.model,name:website_helpdesk.model_project_task
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__task_id
 msgid "Task"
 msgstr "Tehtävä"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater__line_ids
+msgid "Task Lines"
+msgstr "Tehtävärivit"
+
+#. module: website_helpdesk
+#: model:ir.model,name:website_helpdesk.model_project_task_portal_access_updater_line
+msgid "Task Portal User Update Line Wizard"
+msgstr ""
+
+#. module: website_helpdesk
+#: model:ir.model,name:website_helpdesk.model_project_task_portal_access_updater
+msgid "Task Portal User Update Wizard"
+msgstr ""
 
 #. module: website_helpdesk
 #: model:ir.model,name:website_helpdesk.model_project_task_type
@@ -222,14 +297,58 @@ msgid "Thank you, your support ticket"
 msgstr "Kiitos, tukipyyntösi"
 
 #. module: website_helpdesk
+#. odoo-python
+#: code:addons/website_helpdesk/wizards/project_task_portal_access_updater.py:0
+#, python-format
+msgid "This tool is intended for project tasks, not helpdesk tickets."
+msgstr "Toiminto on tarkoitettu projektitehtäville, ei tukitiketeille"
+
+#. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_layout
 msgid "Tickets"
 msgstr "Tukipyynnöt"
 
 #. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_portal_user_update_wizard
+msgid "To skip modifying a task, you can uncheck the \"Apply\" column."
+msgstr "Voit jättää tehtävän muokkaamatta kokonaan poistamalla \"Tee muutokset\" -kentän ruksin."
+
+#. module: website_helpdesk
+#: model:ir.actions.server,name:website_helpdesk.action_update_allowed_portal_users
+msgid "Update 'Portal Users with Access' field"
+msgstr "Päivitä 'Portaalikäyttäjät, joilla pääsy' -kenttä"
+
+#. module: website_helpdesk
+#: model:ir.actions.act_window,name:website_helpdesk.action_open_portal_user_update_wizard
+msgid "Update 'Portal Users with Access'field"
+msgstr "Päivitä 'Portaalikäyttäjät, joilla pääsy' -kenttä"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_portal_user_update_wizard
+msgid "Update Portal Users on Tasks"
+msgstr "Päivitä projektitehtävien portaalikäyttäjäkenttä"
+
+#. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
 msgid "User"
 msgstr "Käyttäjä"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_portal_user_update_wizard
+msgid ""
+"Users in the 'Suggested Portal Users to Add' column will be added to the task's\n"
+"                        'Portal Users with Access' field if they are not there already. Suggestions are\n"
+"                        based on who are the assignees and the followers of the task but can be modified\n"
+"                        before confirming."
+msgstr ""
+"'Uudet ehdotetut portaalikäyttäjät' -kentän käyttäjät lisätään tehtävän \n"
+"'Portaalikäyttäjät, joilla pääsy' -kenttään. Ehdotukset perustuvat tehtävän \n"
+"vastuuhenkilöön ja seuraajiin, mutta niitä voi muokata ennen vahvistamista."
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__wizard_id
+msgid "Wizard"
+msgstr ""
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
