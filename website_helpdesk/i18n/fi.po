@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0-20241118\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-11 13:09+0000\n"
-"PO-Revision-Date: 2025-03-11 13:09+0000\n"
+"POT-Creation-Date: 2025-04-06 17:43+0000\n"
+"PO-Revision-Date: 2025-04-06 17:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,10 +43,14 @@ msgstr "<strong>Vastaanottajat</strong>"
 #. module: website_helpdesk
 #. odoo-python
 #: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
 #, python-format
 msgid "All"
 msgstr "Kaikki"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__user_ids
+msgid "Assignees"
+msgstr "Vastuuhenkilöt"
 
 #. module: website_helpdesk
 #. odoo-python
@@ -59,6 +63,11 @@ msgstr "Liite on liian suuri!"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
 msgid "Cancel"
 msgstr "Peruuta"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
+msgid "Close"
+msgstr "Sulje"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
@@ -79,6 +88,11 @@ msgstr "Tehtävän nykyinen vaihe"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
 msgid "Current stage of this task"
 msgstr "Tehtävän nykyinen vaihe"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
+msgid "Customer"
+msgstr "Asiakas"
 
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_form2
@@ -122,14 +136,6 @@ msgid "File size: "
 msgstr "Tiedoston koko: "
 
 #. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Last Stage Update"
-msgstr "Vaihe viimeksi päivittynyt"
-
-#. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_project_tasks
 msgid "Manage your project tasks"
 msgstr "Hallinnoi projektitehtäviäsi"
@@ -138,29 +144,6 @@ msgstr "Hallinnoi projektitehtäviäsi"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_support_tickets
 msgid "Manage your support tickets"
 msgstr "Hallinnoi tukipyyntöjäsi"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Newest"
-msgstr "Uusin"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "None"
-msgstr "Ei mitään"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Others"
-msgstr "Muut"
 
 #. module: website_helpdesk
 #: model:ir.model.fields,help:website_helpdesk.field_project_task__portal_planned_hours
@@ -178,6 +161,11 @@ msgid "Portal User Config"
 msgstr "Porttaalikäyttäjän konfigurointi"
 
 #. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__allowed_portal_user_ids
+msgid "Portal Users with Access"
+msgstr "Portaalikäyttäjät, joilla pääsy"
+
+#. module: website_helpdesk
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task__portal_description
 msgid "Portal description"
 msgstr "Kuvaus asiakasportaalissa"
@@ -188,70 +176,9 @@ msgid "Portal planned hours"
 msgstr "Työaika-arvio asiakasportaalissa"
 
 #. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Project"
-msgstr "Projekti"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Search <span class=\"nolabel\"> (in Content)</span>"
-msgstr "Hae <span class=\"nolabel\"> (sisällöstä)</span>"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Search in All"
-msgstr "Etsi kaikista"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Search in Customer"
-msgstr "Etsi asiakkaista"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Search in Messages"
-msgstr "Etsi viesteistä"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Search in Project"
-msgstr "Etsi projektista"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Search in Stages"
-msgstr "Etsi vaiheista"
-
-#. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Stage"
-msgstr "Vaihe"
+#: model:ir.model.fields,help:website_helpdesk.field_project_task__allowed_portal_user_ids
+msgid "Portal users in this field will be allowed to see the task in portal"
+msgstr "Tämän kentän portaalikäyttäjät saavat nähdä tämän projektitehtävän omassa portaalinäkymässään"
 
 #. module: website_helpdesk
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type__public_name
@@ -290,14 +217,21 @@ msgid "Tasks"
 msgstr "Tehtävät"
 
 #. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
+msgid "Thank you, your support ticket"
+msgstr "Kiitos, tukipyyntösi"
+
+#. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_layout
 msgid "Tickets"
 msgstr "Tukipyynnöt"
 
 #. module: website_helpdesk
-#. odoo-python
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#: code:addons/website_helpdesk/controllers/portal.py:0
-#, python-format
-msgid "Title"
-msgstr "Otsikko"
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_tasks_list
+msgid "User"
+msgstr "Käyttäjä"
+
+#. module: website_helpdesk
+#: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
+msgid "has been received. We will get back to you as soon as possible."
+msgstr "on vastaanotettu. Otamme sinuun yhteyttä mahdollisimman pian."

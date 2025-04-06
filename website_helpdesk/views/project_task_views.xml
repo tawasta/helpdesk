@@ -6,10 +6,6 @@
         <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
 
-<!--             <field name="allowed_user_ids" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field> -->
-
             <notebook position="inside">
                 <page string="Customer portal">
                     <group>
@@ -19,13 +15,16 @@
                                 widget="timesheet_uom_no_toggle"
                             />
                         </group>
-<!--                         <group>
+                         <group>
+                            <!-- TODO consider adding other limitations to
+                            avoid accidental adding of wrong users -->
                             <field
-                                name="allowed_user_ids"
+                                name="allowed_portal_user_ids"
+                                options="{'no_create': True}"
+                                domain="[('share', '=', True)]"
                                 widget="many2many_tags"
-                                string="Portal customers"
                             />
-                        </group> -->
+                        </group>
                     </group>
                     <group>
                         <field name="portal_description" />

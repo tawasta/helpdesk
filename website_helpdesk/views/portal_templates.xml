@@ -66,7 +66,71 @@
             </t>
         </xpath>
 
-        <!-- Task ID to task code -->
+        <!-- Show customer field -->
+        <xpath expr="(//thead//th)[2]" position="after">
+            <th>Customer</th>
+        </xpath>
+
+        <xpath expr="(//tbody//td)[3]" position="after">
+            <td>
+                <span t-esc="task.partner_id.name" />
+            </td>
+        </xpath>
+
+        <!-- Hide milestone to save space. Put back if useful -->
+        <xpath
+            expr="//thead//th[@name='project_portal_milestones']"
+            position="attributes"
+        >
+            <attribute name="class">d-none</attribute>
+        </xpath>
+
+        <xpath
+            expr="//tbody//td[@name='project_portal_milestones']"
+            position="attributes"
+        >
+            <attribute name="class">d-none</attribute>
+        </xpath>
+
+        <!-- Replace the assignee column's content with user_id (not user_ids),
+        and if assigned to an internal user, obfuscate to show just company's name -->
+
+        <xpath
+            expr="//tbody//td/t[@t-set='assignees']/parent::td"
+            position="attributes"
+        >
+            <attribute name="class">d-none</attribute>
+        </xpath>
+
+        <xpath expr="//tbody//td/t[@t-set='assignees']/parent::td" position="before">
+            <td>
+
+                <t t-set="assignee" t-value="task.sudo().user_id" />
+                <div t-if="assignee" class="row flex-nowrap ps-3">
+                    <t t-if="assignee.has_group('base.group_user')">
+                        <img
+                            class="rounded-circle o_portal_contact_img me-2 px-0"
+                            t-attf-src="#{image_data_uri(assignee.company_id.partner_id.avatar_128)}"
+                            alt="User"
+                            style="width: 20px; height: 20px;"
+                        />
+                        <span t-out="assignee.company_id.name" />
+                    </t>
+                    <t t-else="">
+                        <img
+                            class="rounded-circle o_portal_contact_img me-2 px-0"
+                            t-attf-src="#{image_data_uri(assignee.avatar_128)}"
+                            alt="User"
+                            style="width: 20px; height: 20px;"
+                        />
+                        <span t-out="assignee.name" />
+                    </t>
+                </div>
+            </td>
+        </xpath>
+
+
+        <!-- Convert task ID to task code, e,g. T12345 -->
         <xpath expr="//span[@t-esc='task.id']/.." position="replace">
             <td class="text-left">
                 <span t-esc="task.code" />
@@ -201,16 +265,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <script
-                    src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"
-                />
-                <script
-                    src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/translations/fi.js"
-                />
-                <t
-                    t-call-assets="website_helpdesk.create_ticket_assets"
-                    lazy_load="True"
-                /> -->
             </div>
         </xpath>
 
@@ -232,6 +286,29 @@
     </template>
 
     <template id="portal_my_task" inherit_id="project.portal_my_task" priority="100">
+
+
+        <!-- Show acknowledgement message if user just submitted a new ticket -->
+        <xpath expr="//div[@id='task_content']/div[@id='card']" position="before">
+            <t t-if="show_submission_received_msg">
+                <div
+                    class="alert alert-dismissible alert-success fade show mb-3"
+                    role="alert"
+                >
+                    Thank you, your support ticket <strong><t
+                            t-out="task.code"
+                        /></strong> has been received. We will get back to you as soon as possible.
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    />
+                </div>
+            </t>
+        </xpath>
+
+        <!-- Replace task stage regular name with its public name -->
         <xpath expr="//span[@t-field='task.stage_id.name']" position="replace">
             <t t-if="task.stage_id.public_name">
                 <span
@@ -365,31 +442,4 @@
         </xpath>
     </template>
 
-    <!-- <template
-        id="assets_frontend"
-        inherit_id="web_editor.assets_frontend"
-        name="Portal Rating Assets"
-    >
-        <xpath expr="link[last()]" position="after">
-            <link
-                rel="stylesheet"
-                type="text/scss"
-                href="/website_helpdesk/static/src/scss/styles.scss"
-            />
-        </xpath>
-
-        <xpath expr="//script[last()]" position="after">
-            <script
-                type="text/javascript"
-                src="/website_helpdesk/static/src/js/portal_chatter.js"
-            />
-        </xpath>
-    </template>
-
-    <template id="create_ticket_assets" name="Create ticket assets">
-        <script
-            type="text/javascript"
-            src="/website_helpdesk/static/src/js/create_ticket.js"
-        />
-    </template> -->
 </odoo>

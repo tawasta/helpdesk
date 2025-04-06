@@ -22,7 +22,7 @@
 import logging
 
 # 3. Odoo imports (openerp):
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 # 2. Known third party imports:
 
@@ -69,6 +69,15 @@ class ProjectTask(models.Model):
         domain=lambda self: self._get_domain_user_ids(),
     )
 
+    # Simplified version of allower_user_ids that has been dropped in core in 17.0
+    allowed_portal_user_ids = fields.Many2many(
+        "res.users",
+        string="Portal Users with Access",
+        help="Portal users in this field will be allowed to see the task in portal",
+        tracking=True,
+        copy=False,
+    )
+
     # 3. Default methods
 
     # 5. Constraints and onchanges
@@ -82,117 +91,115 @@ class ProjectTask(models.Model):
             ("active", "=", True),
         ]
 
-    # @api.depends("project_id.allowed_user_ids", "project_id.privacy_visibility")
-    # def _compute_allowed_user_ids(self):
-    #     """
-    #     By default project allowed_user_ids see all the tasks. Overwrite this
-    #     so that you have to explicitely give permission for each task.
-    #     """
-    #     for task in self.with_context(prefetch_fields=False):
-    #         portal_users = task.allowed_user_ids.filtered("share")
-    #         internal_users = task.allowed_user_ids - portal_users
-    #         if task.project_id.privacy_visibility == "followers":
-    #             task.allowed_user_ids |= task.project_id.allowed_internal_user_ids
-    #             task.allowed_user_ids -= portal_users
-    #         # elif task.project_id.privacy_visibility == "portal":
-    #         #     task.allowed_user_ids |= task.project_id.allowed_portal_user_ids
-    #         if task.project_id.privacy_visibility != "portal":
-    #             task.allowed_user_ids -= portal_users
-    #         elif task.project_id.privacy_visibility != "followers":
-    #             task.allowed_user_ids -= internal_users
-
     # # 6. CRUD methods
-    # @api.model
-    # def create(self, vals):
-    #     """Add portal users automatically when creating ticket"""
-    #     res = super().create(vals)
+    @api.model
+    def create(self, vals):
+        """Add portal users automatically when creating ticket"""
+        res = super().create(vals)
 
-    #     trigger_fields = [
-    #         "partner_id",
-    #         "message_follower_ids",
-    #     ]
-    #     if vals.keys() & trigger_fields:
-    #         # One of trigger fields, update portal users
-    #         res.update_portal_users()
+        trigger_fields = [
+            "partner_id",
+            "message_follower_ids",
+        ]
+        if vals.keys() & trigger_fields:
+            # One of trigger fields, update portal users
+            res.update_allowed_portal_user_ids_field()
 
-    #     return res
+        return res
 
-    # def write(self, vals):
-    #     """Add portal users automatically"""
-    #     res = super().write(vals)
+    def write(self, vals):
+        """Add portal users automatically"""
+        res = super().write(vals)
 
-    #     trigger_fields = [
-    #         "partner_id",
-    #         "message_follower_ids",
-    #     ]
-    #     if vals.keys() & trigger_fields:
-    #         # One of trigger fields, update portal users
-    #         self.update_portal_users()
+        trigger_fields = [
+            "partner_id",
+            "message_follower_ids",
+        ]
+        if vals.keys() & trigger_fields:
+            # One of trigger fields, update portal users
+            self.update_allowed_portal_user_ids_field()
 
-    #     return res
+        return res
 
-    # def update_portal_users(self):
-    #     """Update portal users accordingly"""
-    #     helpdesk_projects = (
-    #         self.env["project.project"].sudo().search([("helpdesk_project", "=", True)])
-    #     )
-    #     allowed_users = self.env["res.users"]
+    def update_allowed_portal_user_ids_field(self):
+        # Auto-update the 'Portal Users with Access' field of task.
+        # ONLY applies to helpdesk projects' tickets, regular project tasks'
+        # field is managed via UI manually.
 
-    #     for rec in self:
-    #         if rec.project_id in helpdesk_projects:
-    #             # Check if customer is portal user, grant access
-    #             user = (
-    #                 self.env["res.users"]
-    #                 .sudo()
-    #                 .search([("partner_id", "=", rec.partner_id.id)])
-    #             )
-    #             if user and user.has_group("base.group_portal"):
-    #                 _logger.info("Add customer to portal users...")
-    #                 allowed_users |= user
+        helpdesk_projects = (
+            self.env["project.project"].sudo().search([("helpdesk_project", "=", True)])
+        )
 
-    #             # Figure out eTuki-users, add them as well
-    #             commercial_partner = rec.partner_id.commercial_partner_id
-    #             rec_etuki_partners = (
-    #                 self.env["res.partner"]
-    #                 .sudo()
-    #                 .search(
-    #                     [
-    #                         ("commercial_partner_id", "=", commercial_partner.id),
-    #                         ("installation_technical_contact_ids", "!=", False),
-    #                     ]
-    #                 )
-    #             )
-    #             etuki_users = (
-    #                 self.env["res.users"]
-    #                 .sudo()
-    #                 .search(
-    #                     [
-    #                         ("partner_id", "in", rec_etuki_partners.ids),
-    #                     ]
-    #                 )
-    #             ).filtered(lambda r: r.has_group("base.group_portal"))
+        for task in self:
+            if task.project_id in helpdesk_projects:
+                # Check if customer is portal user, grant access
+                user = (
+                    self.env["res.users"]
+                    .sudo()
+                    .search([("partner_id", "=", task.partner_id.id)])
+                )
+                if user and user.has_group("base.group_portal"):
+                    _logger.info("Add customer to portal users...")
 
-    #             if etuki_users:
-    #                 _logger.info("Add eTuki customers to portal users...")
-    #                 allowed_users |= etuki_users
+                    task.allowed_portal_user_ids = [(4, user.id)]
 
-    #             # Figure out followers
-    #             follower_partners = rec.message_follower_ids.mapped("partner_id")
-    #             follower_users = (
-    #                 self.env["res.users"]
-    #                 .sudo()
-    #                 .search(
-    #                     [
-    #                         ("partner_id", "in", follower_partners.ids),
-    #                     ]
-    #                 )
-    #             ).filtered(lambda r: r.has_group("base.group_portal"))
+                    # Put back if more logging needed
+                    # task.message_post(
+                    #     body=_(
+                    #         "Added Assignee %s into 'Portal Users with Access' field."
+                    #     )
+                    #     % user.partner_id.name
+                    # )
 
-    #             if follower_users:
-    #                 _logger.info("Add follower customers to portal users...")
-    #                 allowed_users |= follower_users
+                # Figure out eTuki-users, add them as well
+                # TODO discuss how we want to do this
+                # commercial_partner = rec.partner_id.commercial_partner_id
+                # rec_etuki_partners = (
+                #     self.env["res.partner"]
+                #     .sudo()
+                #     .search(
+                #         [
+                #             ("commercial_partner_id", "=", commercial_partner.id),
+                #             ("installation_technical_contact_ids", "!=", False),
+                #         ]
+                #     )
+                # )
+                # etuki_users = (
+                #     self.env["res.users"]
+                #     .sudo()
+                #     .search(
+                #         [
+                #             ("partner_id", "in", rec_etuki_partners.ids),
+                #         ]
+                #     )
+                # ).filtered(lambda r: r.has_group("base.group_portal"))
 
-    #             rec.allowed_user_ids = allowed_users
+                # if etuki_users:
+                #     _logger.info("Add eTuki customers to portal users...")
+                #     allowed_users |= etuki_users
+
+                # Figure out followers
+                follower_partners = task.message_follower_ids.mapped("partner_id")
+                follower_portal_users = (
+                    self.env["res.users"]
+                    .sudo()
+                    .search(
+                        [
+                            ("partner_id", "in", follower_partners.ids),
+                        ]
+                    )
+                ).filtered(lambda r: r.has_group("base.group_portal"))
+
+                for follower_portal_user in follower_portal_users:
+                    task.allowed_portal_user_ids = [(4, follower_portal_user.id)]
+
+                    # Put back if more logging needed
+                    # task.message_post(
+                    #     body=_(
+                    #         "Added follower %s into 'Portal Users with Access' field."
+                    #     )
+                    #     % follower_portal_user.partner_id.name
+                    # )
 
     # 7. Action methods
     @api.returns("mail.message", lambda value: value.id)
