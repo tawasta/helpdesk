@@ -21,7 +21,7 @@
 {
     "name": "Website Helpdesk",
     "summary": "Website Helpdesk",
-    "version": "17.0.1.0.1",
+    "version": "17.0.1.1.0",
     "category": "Project",
     "website": "https://gitlab.com/tawasta/odoo/helpdesk",
     "author": "Futural",
@@ -29,20 +29,24 @@
     "application": False,
     "installable": True,
     "depends": [
-        "portal",
-        "project_helpdesk",
         "account",
         "contract",
-        "sale",
         "hr_timesheet",
-        "software_knowledge_base",
+        "portal",
+        "project_helpdesk",
+        "project_stage_is_closed",
         "project_task_auto_reopen",
+        "project_task_user_ids_limit_to_one",
+        "sale",
+        "software_knowledge_base",
     ],
     "data": [
         "security/ir.model.access.csv",
+        "security/ir_model_access.xml",
         "views/project_task_views.xml",
         "views/project_task_type_views.xml",
         "views/portal_templates.xml",
+        "wizards/project_task_portal_access_updater.xml",
     ],
     "assets": {
         "web.assets_frontend": [

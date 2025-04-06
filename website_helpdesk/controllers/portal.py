@@ -8,7 +8,7 @@ from markupsafe import Markup
 from odoo import _, http
 from odoo.exceptions import AccessError, MissingError, UserError
 from odoo.http import request
-from odoo.osv.expression import OR
+from odoo.osv.expression import OR, AND
 from odoo.tools import groupby as groupbyelem
 
 from odoo.addons.hr_timesheet.controllers.portal import TimesheetCustomerPortal
@@ -52,7 +52,6 @@ class PortalSupportTicket(CustomerPortal):
             .search([("helpdesk_project", "=", True)])
         )
         if "support_tickets_count" in counters:
-            # Show tickets from partner's company
             values["support_tickets_count"] = (
                 (
                     request.env["project.task"].search_count(
@@ -81,6 +80,115 @@ class PortalSupportTicket(CustomerPortal):
             )
         return values
 
+    def _task_get_searchbar_sortings(self, milestones_allowed, project=False):
+        """Override 'Sort By' dropdown above task list with fewer options"""
+        res = super()._task_get_searchbar_sortings(
+            milestones_allowed=milestones_allowed, project=project
+        )
+
+        res.pop("progress", None)
+        res.pop("date_deadline", None)
+        res.pop("milestone", None)
+
+        # Maybe put back if useful, but can be confused with Stage
+        res.pop("status", None)
+
+        return res
+
+    def _task_get_searchbar_groupby(self, milestones_allowed, project=False):
+        """Override 'Group By' dropdown above task list with fewer options"""
+        res = super()._task_get_searchbar_groupby(
+            milestones_allowed=milestones_allowed, project=project
+        )
+
+        res.pop("sale_order", None)
+        res.pop("sale_line", None)
+        res.pop("customer", None)
+        res.pop("milestone", None)
+
+        # Maybe put back if useful, but can be confused with Stage
+        res.pop("status", None)
+
+        return res
+
+    def _get_my_tasks_searchbar_filters(self, project_domain=None, task_domain=None):
+        """Override 'Filter By' dropdown above task list to show just 'All'."""
+
+        # TODO: if need arises for fancier filters, modify this super call
+        # res = super()._get_my_tasks_searchbar_filters(
+        #     project_domain=project_domain,
+        #     task_domain=task_domain
+        # )
+
+        return {
+            "all": {"label": _("All"), "domain": [("project_id", "!=", False)]},
+        }
+
+    def _prepare_tasks_values(
+        self,
+        page,
+        date_begin,
+        date_end,
+        sortby,
+        search,
+        search_in,
+        groupby,
+        url="/my/tasks",
+        domain=None,
+        su=False,
+        project=False,
+    ):
+        """Limit tasks shown to only those where the portal user has been added to the
+        Portal Users with Access field"""
+
+        # Check based on the path whether to fetch support tickets or regular tasks
+        current_path = request.httprequest.path  # e.g., "/my/tickets/123"
+        viewing_helpdesk_tickets = "/my/tickets" in current_path
+
+        if viewing_helpdesk_tickets:
+            domain = AND([domain, [("project_id.helpdesk_project", "=", True)]])
+        else:
+            domain = AND([domain, [("project_id.helpdesk_project", "=", False)]])
+
+            if request.env.user.has_group("base.group_portal"):
+                # Check the 'Portal Users with Access' field
+                domain = AND(
+                    [domain, [("allowed_portal_user_ids", "in", [request.env.user.id])]]
+                )
+
+                # Exclude tasks from closed projects
+                domain = AND([domain, [("project_id.stage_id.is_closed", "=", False)]])
+
+        res = super()._prepare_tasks_values(
+            page=page,
+            date_begin=date_begin,
+            date_end=date_end,
+            sortby=sortby,
+            search=search,
+            search_in=search_in,
+            groupby=groupby,
+            url=url,
+            domain=domain,
+            su=su,
+            project=project,
+        )
+
+        if viewing_helpdesk_tickets:
+            _logger.info("RES IS")
+            _logger.info(res)
+
+            res.update(
+                {
+                    "is_ticket": True,
+                    "page_name": "tickets",
+                    "default_url": "/my/tickets",
+                }
+            )
+
+            res["pager"].update({"url": "/my/tickets"})
+
+        return res
+
     @http.route(
         ["/my/tickets", "/my/tickets/page/<int:page>"],
         type="http",
@@ -99,369 +207,32 @@ class PortalSupportTicket(CustomerPortal):
         groupby=None,
         **kw,
     ):
-        values = self._prepare_portal_layout_values()
-        searchbar_sortings = {
-            "date": {"label": _("Newest"), "order": "create_date desc"},
-            "name": {"label": _("Title"), "order": "name"},
-            "stage": {"label": _("Stage"), "order": "stage_id, project_id"},
-            "update": {
-                "label": _("Last Stage Update"),
-                "order": "date_last_stage_update desc",
-            },
-        }
-        searchbar_filters = {
-            "all": {"label": _("All"), "domain": []},
-        }
-        searchbar_inputs = {
-            "content": {
-                "input": "content",
-                "label": Markup(_('Search <span class="nolabel"> (in Content)</span>')),
-            },
-            "message": {"input": "message", "label": _("Search in Messages")},
-            "customer": {"input": "customer", "label": _("Search in Customer")},
-            "stage": {"input": "stage", "label": _("Search in Stages")},
-            "all": {"input": "all", "label": _("Search in All")},
-        }
-        searchbar_groupby = {
-            "none": {"input": "none", "label": _("None")},
-            "project": {"input": "project", "label": _("Project")},
-            "stage": {"input": "stage", "label": _("Stage")},
-        }
+        searchbar_filters = self._get_my_tasks_searchbar_filters()
 
-        # extends filterby criteria with project the customer has access to
-        helpdesk_project = (
-            request.env["project.project"]
-            .sudo()
-            .search([("helpdesk_project", "=", True)])
-        )
-        searchbar_filters.update(
-            {
-                str(helpdesk_project.id): {
-                    "label": helpdesk_project.name,
-                    "domain": [("project_id", "=", helpdesk_project.id)],
-                }
-            }
-        )
-
-        # default sort by value
-        if not sortby:
-            sortby = "date"
-        order = searchbar_sortings[sortby]["order"]
-
-        # default filter by value
         if not filterby:
             filterby = "all"
         domain = searchbar_filters.get(filterby, searchbar_filters.get("all"))["domain"]
 
-        # default group by value
-        if not groupby:
-            groupby = "project"
+        values = self._prepare_tasks_values(
+            page,
+            date_begin,
+            date_end,
+            sortby,
+            search,
+            search_in,
+            groupby,
+            domain=domain,
+        )
 
-        if date_begin and date_end:
-            domain += [
-                ("create_date", ">", date_begin),
-                ("create_date", "<=", date_end),
-            ]
-
-        # search
-        if search and search_in:
-            search_domain = []
-            if search_in in ("content", "all"):
-                search_domain = OR(
-                    [
-                        search_domain,
-                        [
-                            "|",
-                            ("name", "ilike", search),
-                            ("description", "ilike", search),
-                        ],
-                    ]
-                )
-            # if search_in in ("customer", "all"):
-            #     search_domain = OR([search_domain, [("partner_id", "ilike", search)]])
-            if search_in in ("message", "all"):
-                search_domain = OR(
-                    [search_domain, [("message_ids.body", "ilike", search)]]
-                )
-            if search_in in ("stage", "all"):
-                search_domain = OR([search_domain, [("stage_id", "ilike", search)]])
-            # if search_in in ("project", "all"):
-            #     search_domain = OR([search_domain, [("project_id", "ilike", search)]])
-            domain += search_domain
-
-        # TODO: Show tickets from partner's company?
-        # default domain
-        domain += [
-            ("project_id", "=", helpdesk_project.id),
-        ]
-        # task count
-        task_count = request.env["project.task"].search_count(domain)
         # pager
-        pager = portal_pager(
-            url="/my/tickets",
-            url_args={
-                "date_begin": date_begin,
-                "date_end": date_end,
-                "sortby": sortby,
-                "filterby": filterby,
-                "groupby": groupby,
-                "search_in": search_in,
-                "search": search,
-            },
-            total=task_count,
-            page=page,
-            step=self._items_per_page,
-        )
-        # content according to pager and archive selected
-        if groupby == "project":
-            order = (
-                "project_id, %s" % order
-            )  # force sort on project first to group by project in view
-        if groupby == "stage":
-            order = (
-                "stage_id, %s" % order
-            )  # force sort on stage first to group by stage in view
-
-        tasks = request.env["project.task"].search(
-            domain, order=order, limit=self._items_per_page, offset=pager["offset"]
-        )
-        request.session["my_tasks_history"] = tasks.ids[:100]
-
-        if groupby == "project":
-            grouped_tasks = [
-                request.env["project.task"].concat(*g)
-                for k, g in groupbyelem(tasks, itemgetter("project_id"))
-            ]
-        if groupby == "stage":
-            grouped_tasks = [
-                request.env["project.task"].concat(*g)
-                for k, g in groupbyelem(tasks, itemgetter("stage_id"))
-            ]
-        else:
-            grouped_tasks = [tasks] if tasks else []
+        pager_vals = values["pager"]
+        pager_vals["url_args"].update(filterby=filterby)
+        pager = portal_pager(**pager_vals)
 
         values.update(
             {
-                "date": date_begin,
-                "is_ticket": True,
-                "date_end": date_end,
-                "grouped_tasks": grouped_tasks,
-                "page_name": "tickets",
-                "default_url": "/my/tickets",
+                "grouped_tasks": values["grouped_tasks"](pager["offset"]),
                 "pager": pager,
-                "searchbar_sortings": searchbar_sortings,
-                "searchbar_groupby": searchbar_groupby,
-                "searchbar_inputs": searchbar_inputs,
-                "search_in": search_in,
-                "search": search,
-                "sortby": sortby,
-                "groupby": groupby,
-                "searchbar_filters": OrderedDict(sorted(searchbar_filters.items())),
-                "filterby": filterby,
-                "maxsize": int(
-                    request.env["ir.config_parameter"]
-                    .sudo()
-                    .get_param("website_helpdesk.attachment_max_size", 20)
-                ),
-            }
-        )
-        return request.render("project.portal_my_tasks", values)
-
-    # flake8: noqa: C901
-    @http.route(
-        ["/my/tasks", "/my/tasks/page/<int:page>"],
-        type="http",
-        auth="user",
-        website=True,
-    )
-    def portal_my_tasks(
-        self,
-        page=1,
-        date_begin=None,
-        date_end=None,
-        sortby=None,
-        filterby=None,
-        search=None,
-        search_in="content",
-        groupby=None,
-        **kw,
-    ):
-        """Rewrite core code to not include helpdesk projects in tasks"""
-        values = self._prepare_portal_layout_values()
-        searchbar_sortings = {
-            "date": {"label": _("Newest"), "order": "create_date desc"},
-            "name": {"label": _("Title"), "order": "name"},
-            "stage": {"label": _("Stage"), "order": "stage_id, project_id"},
-            "project": {"label": _("Project"), "order": "project_id, stage_id"},
-            "update": {
-                "label": _("Last Stage Update"),
-                "order": "date_last_stage_update desc",
-            },
-        }
-        searchbar_filters = {
-            "all": {"label": _("All"), "domain": []},
-        }
-        searchbar_inputs = {
-            "content": {
-                "input": "content",
-                "label": Markup(_('Search <span class="nolabel"> (in Content)</span>')),
-            },
-            "message": {"input": "message", "label": _("Search in Messages")},
-            "customer": {"input": "customer", "label": _("Search in Customer")},
-            "stage": {"input": "stage", "label": _("Search in Stages")},
-            "project": {"input": "project", "label": _("Search in Project")},
-            "all": {"input": "all", "label": _("Search in All")},
-        }
-        searchbar_groupby = {
-            "none": {"input": "none", "label": _("None")},
-            "project": {"input": "project", "label": _("Project")},
-            "stage": {"input": "stage", "label": _("Stage")},
-        }
-
-        # extends filterby criteria with project the customer has access to
-        helpdesk_projects = (
-            request.env["project.project"]
-            .sudo()
-            .search([("helpdesk_project", "=", True)])
-        )
-        projects = request.env["project.project"].search(
-            [("id", "not in", helpdesk_projects.ids)]
-        )
-        for project in projects:
-            searchbar_filters.update(
-                {
-                    str(project.id): {
-                        "label": project.name,
-                        "domain": [("project_id", "=", project.id)],
-                    }
-                }
-            )
-
-        # extends filterby criteria with project (criteria name is the project id)
-        # Note: portal users can't view projects they don't follow
-        project_groups = request.env["project.task"].read_group(
-            [("project_id", "not in", projects.ids)], ["project_id"], ["project_id"]
-        )
-        for group in project_groups:
-            proj_id = group["project_id"][0] if group["project_id"] else False
-            proj_name = group["project_id"][1] if group["project_id"] else _("Others")
-            searchbar_filters.update(
-                {
-                    str(proj_id): {
-                        "label": proj_name,
-                        "domain": [("project_id", "=", proj_id)],
-                    }
-                }
-            )
-
-        # default sort by value
-        if not sortby:
-            sortby = "date"
-        order = searchbar_sortings[sortby]["order"]
-
-        # default filter by value
-        if not filterby:
-            filterby = "all"
-        domain = searchbar_filters.get(filterby, searchbar_filters.get("all"))["domain"]
-
-        # default group by value
-        if not groupby:
-            groupby = "project"
-
-        if date_begin and date_end:
-            domain += [
-                ("create_date", ">", date_begin),
-                ("create_date", "<=", date_end),
-            ]
-
-        # search
-        if search and search_in:
-            search_domain = []
-            if search_in in ("content", "all"):
-                search_domain = OR(
-                    [
-                        search_domain,
-                        [
-                            "|",
-                            ("name", "ilike", search),
-                            ("description", "ilike", search),
-                        ],
-                    ]
-                )
-            if search_in in ("customer", "all"):
-                search_domain = OR([search_domain, [("partner_id", "ilike", search)]])
-            if search_in in ("message", "all"):
-                search_domain = OR(
-                    [search_domain, [("message_ids.body", "ilike", search)]]
-                )
-            if search_in in ("stage", "all"):
-                search_domain = OR([search_domain, [("stage_id", "ilike", search)]])
-            if search_in in ("project", "all"):
-                search_domain = OR([search_domain, [("project_id", "ilike", search)]])
-            domain += search_domain
-
-        # task count
-        domain.append(("project_id", "not in", helpdesk_projects.ids))
-        task_count = request.env["project.task"].search_count(domain)
-        # pager
-        pager = portal_pager(
-            url="/my/tasks",
-            url_args={
-                "date_begin": date_begin,
-                "date_end": date_end,
-                "sortby": sortby,
-                "filterby": filterby,
-                "groupby": groupby,
-                "search_in": search_in,
-                "search": search,
-            },
-            total=task_count,
-            page=page,
-            step=self._items_per_page,
-        )
-        # content according to pager and archive selected
-        if groupby == "project":
-            order = (
-                "project_id, %s" % order
-            )  # force sort on project first to group by project in view
-        elif groupby == "stage":
-            order = (
-                "stage_id, %s" % order
-            )  # force sort on stage first to group by stage in view
-
-        tasks = request.env["project.task"].search(
-            domain, order=order, limit=self._items_per_page, offset=pager["offset"]
-        )
-        request.session["my_tasks_history"] = tasks.ids[:100]
-
-        if groupby == "project":
-            grouped_tasks = [
-                request.env["project.task"].concat(*g)
-                for k, g in groupbyelem(tasks, itemgetter("project_id"))
-            ]
-        elif groupby == "stage":
-            grouped_tasks = [
-                request.env["project.task"].concat(*g)
-                for k, g in groupbyelem(tasks, itemgetter("stage_id"))
-            ]
-        else:
-            grouped_tasks = [tasks] if tasks else []
-
-        values.update(
-            {
-                "date": date_begin,
-                "date_end": date_end,
-                "grouped_tasks": grouped_tasks,
-                "page_name": "task",
-                "default_url": "/my/tasks",
-                "pager": pager,
-                "searchbar_sortings": searchbar_sortings,
-                "searchbar_groupby": searchbar_groupby,
-                "searchbar_inputs": searchbar_inputs,
-                "search_in": search_in,
-                "search": search,
-                "sortby": sortby,
-                "groupby": groupby,
                 "searchbar_filters": OrderedDict(sorted(searchbar_filters.items())),
                 "filterby": filterby,
             }
@@ -505,6 +276,7 @@ class PortalSupportTicket(CustomerPortal):
             {
                 "page_name": "ticket",
                 "ext_followers": ext_followers,
+                "show_submission_received_msg": kw.get("submitted", False),
             }
         )
         return request.render("project.portal_my_task", values)
@@ -524,7 +296,6 @@ class PortalSupportTicket(CustomerPortal):
         )
         if subject and description and helpdesk_project:
             try:
-                _logger.info("Creating a new ticket from portal user...")
                 task = (
                     request.env["project.task"]
                     .sudo()
@@ -563,7 +334,8 @@ class PortalSupportTicket(CustomerPortal):
                     "Attachment is too large, prevent creating ticket and attacments"
                 )
 
-        return request.redirect("/my/tickets")
+        # return request.redirect("/my/tickets")
+        return request.redirect("/my/ticket/{}?submitted=1".format(task.id))
 
     def _task_get_page_view_values(self, task, access_token, **kwargs):
         values = super()._task_get_page_view_values(task, access_token, **kwargs)
@@ -592,6 +364,18 @@ class PortalSupportTicket(CustomerPortal):
         task_sudo = request.env["project.task"].sudo().search([("id", "=", task_id)])
         if task_sudo.project_id.helpdesk_project:
             return request.redirect("/my/ticket/{}".format(task_id))
+
+        # Prevent access if task belongs to a closed project, or the portal user has not been
+        # granted access to view the task
+
+        if task_sudo.project_id.stage_id.is_closed:
+            return request.redirect("/my")
+
+        if (
+            request.env.user.has_group("base.group_portal")
+            and request.env.user.id not in task_sudo.allowed_portal_user_ids.ids
+        ):
+            return request.redirect("/my")
 
         return super().portal_my_task(
             task_id, report_type, access_token, project_sharing, **kw

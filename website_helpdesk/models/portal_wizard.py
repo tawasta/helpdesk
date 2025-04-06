@@ -54,28 +54,8 @@ class PortalWizardUser(models.TransientModel):
     def _create_user(self):
         res = super()._create_user()
 
-        # If portal user is eTuki partner, add to all tickets
-        if self.partner_id.installation_technical_contact_ids:
-            # We are eTuki partner, find all tickets for commercial partner created today
-            commercial_partner = self.partner_id.commercial_partner_id
-            comm_tickets = (
-                self.env["project.task"]
-                .sudo()
-                .search(
-                    [
-                        ("commercial_partner_id", "=", commercial_partner.id),
-                        ("project_id.helpdesk_project", "=", True),
-                        ("create_date", ">", fields.Datetime.today()),
-                    ]
-                )
-            )
-            if comm_tickets:
-                _logger.info(
-                    "Add portal user (eTuki) to {} company tickets".format(
-                        len(comm_tickets)
-                    )
-                )
-                comm_tickets.write({"allowed_user_ids": [(4, res.id)]})
+        # TODO: in 14.0 we auto-added eTuki users to multiple tickets' allowed_user_ids.
+        # If we want similar functionality in 17, needs to be reimplemented
 
         return res
 
@@ -92,6 +72,8 @@ class PortalMixin(models.AbstractModel):
         return False
 
     def _notify_get_groups(self, msg_vals=None):
+        # TODO: this seems to do nothing in 17, leftover code from 14.
+        # Probably OK to delete
         """Prevent portal customers group"""
         groups = super()._notify_get_groups(msg_vals)
         new_groups = []
