@@ -5,7 +5,10 @@
 ================
 Website Helpdesk
 ================
-\-
+* Show separate entries for Support Tickets and Project Tasks for portal users
+* Portal user cannot see Project Tasks unless specifically added to new 
+  'Portal Users with Access' field on the task
+* Portal users can submit new support tickets via portal
 
 Configuration
 =============
@@ -13,7 +16,8 @@ Configuration
 
 Usage
 =====
-\-
+* You can update the Portal Users with Access field via project task list
+  action menu
 
 Known issues / Roadmap
 ======================

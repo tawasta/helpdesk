@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
+    <record id="project_task_view_tree_main_base" model="ir.ui.view">
+        <field name="name">project.task.tree.inherit.website.helpdesk</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.project_task_view_tree_main_base" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field
+                    name="allowed_portal_user_ids"
+                    widget="many2many_tags"
+                    optional="show"
+                />
+            </field>
+        </field>
+    </record>
+
+
     <record id="view_task_form2" model="ir.ui.view">
-        <field name="name">project.task.form</field>
+        <field name="name">project.task.form.inherit.website.helpdesk</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
-
-<!--             <field name="allowed_user_ids" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field> -->
 
             <notebook position="inside">
                 <page string="Customer portal">
@@ -19,13 +32,16 @@
                                 widget="timesheet_uom_no_toggle"
                             />
                         </group>
-<!--                         <group>
+                         <group>
+                            <!-- TODO consider adding other limitations to
+                            avoid accidental adding of wrong users -->
                             <field
-                                name="allowed_user_ids"
+                                name="allowed_portal_user_ids"
+                                options="{'no_create': True}"
+                                domain="[('share', '=', True)]"
                                 widget="many2many_tags"
-                                string="Portal customers"
                             />
-                        </group> -->
+                        </group>
                     </group>
                     <group>
                         <field name="portal_description" />
@@ -34,4 +50,33 @@
             </notebook>
         </field>
     </record>
+
+    <!-- Action to launch the portal user updater wizard -->
+    <record id="action_open_portal_user_update_wizard" model="ir.actions.act_window">
+        <field name="name">Update 'Portal Users with Access'field</field>
+        <field name="res_model">project.task.portal.access.updater</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'active_ids': active_ids}</field>
+    </record>
+
+    <!-- Add to task list view as a multi-action -->
+    <record id="action_update_allowed_portal_users" model="ir.actions.server">
+        <field name="name">Update 'Portal Users with Access' field</field>
+        <field name="model_id" ref="project.model_project_task" />
+        <field name="binding_model_id" ref="project.model_project_task" />
+        <field name="state">code</field>
+        <field name="binding_view_types">list</field>
+        <field name="code">
+            action = {
+                'type': 'ir.actions.act_window',
+                'name': "Update 'Portal Users with Access' field",
+                'res_model': 'project.task.portal.access.updater',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {'active_ids': records.ids},
+            }
+        </field>
+    </record>
+
 </odoo>
