@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 /.venv
 /.pytest_cache
-/.ruff_cache
 
 # C extensions
 *.so
@@ -16,6 +15,7 @@ build/
 develop-eggs/
 dist/
 eggs/
+lib/
 lib64/
 parts/
 sdist/
@@ -73,3 +73,7 @@ docs/_build/
 
 # OCA rules
 !static/lib/
+
+# Ctags
+tags
+tags.*
