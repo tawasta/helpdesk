@@ -21,7 +21,7 @@
 {
     "name": "Project Task auto reopen",
     "summary": "Reopen closed tasks when the task receives a new message",
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.0.1",
     "category": "Project",
     "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
