@@ -23,7 +23,7 @@
     "summary": "Log the time for first task response",
     "version": "17.0.1.0.0",
     "category": "Project",
-    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
     "license": "AGPL-3",
     "depends": [

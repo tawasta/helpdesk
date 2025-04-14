@@ -23,7 +23,7 @@
     "category": "Project",
     "version": "17.0.1.1.6",
     "author": "Futural",
-    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "website": "https://github.com/tawasta/helpdesk",
     "license": "AGPL-3",
     "application": False,
     "installable": True,

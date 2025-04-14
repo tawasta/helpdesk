@@ -22,7 +22,7 @@
     "version": "17.0.1.0.0",
     "category": "Project",
     "summary": "Partner / customer field required in project form",
-    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
     "license": "AGPL-3",
     "application": False,

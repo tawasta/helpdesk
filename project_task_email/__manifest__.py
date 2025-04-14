@@ -23,7 +23,7 @@
     "summary": "Email modifications to Project Task",
     "version": "17.0.1.0.3",
     "category": "Project",
-    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
     "license": "AGPL-3",
     "depends": [

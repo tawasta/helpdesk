@@ -23,7 +23,7 @@
     "summary": "Project Helpdesk core bundle",
     "version": "17.0.1.0.1",
     "category": "Tools",
-    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
     "license": "AGPL-3",
     "depends": [
