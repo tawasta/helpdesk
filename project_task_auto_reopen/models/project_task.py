@@ -60,14 +60,14 @@ class ProjectTask(models.Model):
             if not record.is_closed:
                 # Task is not closed. Nothing to do
                 continue
-            reopen_stage = self._get_reopen_stage()
+            reopen_stage = self.sudo()._get_reopen_stage()
 
             if not reopen_stage:
                 # Reopen stage is not set. Nothing to do
                 continue
 
             # Task is in a closed stage. Reopen it
-            record.stage_id = reopen_stage.id
+            record.sudo().stage_id = reopen_stage.id
             # Post a message about stage change
             msg_body = _("Re-opening task due to a new message.")
 

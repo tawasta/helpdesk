@@ -22,7 +22,7 @@
     "version": "17.0.1.0.0",
     "category": "Project",
     "summary": "Ensure partner is set before allowing stage changes",
-    "website": "https://gitlab.com/tawasta/odoo/helpdesk",
+    "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
     "license": "AGPL-3",
     "application": False,
