@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0-20241118\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-06 20:03+0000\n"
-"PO-Revision-Date: 2025-04-06 20:03+0000\n"
+"POT-Creation-Date: 2025-04-17 12:28+0000\n"
+"PO-Revision-Date: 2025-04-17 12:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,14 +48,19 @@ msgid "All"
 msgstr "Kaikki"
 
 #. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__allowed_portal_user_ids_domain
+msgid "Allowed Portal User Ids Domain"
+msgstr ""
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__allowed_user_ids_domain
+msgid "Allowed User Ids Domain"
+msgstr ""
+
+#. module: website_helpdesk
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__to_apply
 msgid "Apply"
 msgstr "Tee muutokset"
-
-#. module: website_helpdesk
-#: model:ir.model.fields,field_description:website_helpdesk.field_project_task__user_ids
-msgid "Assignees"
-msgstr "Vastuuhenkilöt"
 
 #. module: website_helpdesk
 #. odoo-python
@@ -176,6 +181,14 @@ msgid "ID"
 msgstr ""
 
 #. module: website_helpdesk
+#: model:ir.model.fields,help:website_helpdesk.field_project_project__restrict_selectable_external_users
+msgid ""
+"If set, task assignees or portal users can be only those configured below"
+msgstr ""
+"Jos rastitettu, tehtävien Vastuuhenkilöt ja 'Portaalikäyttäjät, joilla pääsy' voivat olla ainoastaan "
+"ao. listan käyttäjiä."
+
+#. module: website_helpdesk
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater__write_uid
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_portal_access_updater_line__write_uid
 msgid "Last Updated by"
@@ -196,6 +209,14 @@ msgstr "Hallinnoi projektitehtäviäsi"
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_home_support_tickets
 msgid "Manage your support tickets"
 msgstr "Hallinnoi tukipyyntöjäsi"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,help:website_helpdesk.field_project_project__selectable_external_user_ids
+msgid ""
+"Only these external users can be set as tasks' Assignee or Portal Users"
+msgstr ""
+"Vain nämä portaalikäyttäjät voidaan valita tehtävän Vastuuhenkilö tai Portaalikäyttäjät, joilla pääsy "
+" -kenttiin."
 
 #. module: website_helpdesk
 #: model:ir.model.fields,help:website_helpdesk.field_project_task__portal_planned_hours
@@ -233,6 +254,21 @@ msgid "Portal users in this field will be allowed to see the task in portal"
 msgstr ""
 "Tämän kentän portaalikäyttäjät saavat nähdä tämän projektitehtävän omassa "
 "portaalinäkymässään"
+
+#. module: website_helpdesk
+#: model:ir.model,name:website_helpdesk.model_project_project
+msgid "Project"
+msgstr "Projektit"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_project__restrict_selectable_external_users
+msgid "Restrict Selectable External Users for Tasks"
+msgstr "Rajoita tehtäville valittavissa olevia ulkoisia käyttäjiä"
+
+#. module: website_helpdesk
+#: model:ir.model.fields,field_description:website_helpdesk.field_project_project__selectable_external_user_ids
+msgid "Selectable External Users for Tasks"
+msgstr "Valittavissa olevat ulkoiset käyttäjät"
 
 #. module: website_helpdesk
 #: model:ir.model.fields,field_description:website_helpdesk.field_project_task_type__public_name
@@ -292,6 +328,12 @@ msgid "Tasks"
 msgstr "Tehtävät"
 
 #. module: website_helpdesk
+#: model:ir.model.fields,help:website_helpdesk.field_project_task__allowed_portal_user_ids_domain
+#: model:ir.model.fields,help:website_helpdesk.field_project_task__allowed_user_ids_domain
+msgid "Technical field for domain computation"
+msgstr ""
+
+#. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.portal_my_task
 msgid "Thank you, your support ticket"
 msgstr "Kiitos, tukipyyntösi"
@@ -311,7 +353,9 @@ msgstr "Tukipyynnöt"
 #. module: website_helpdesk
 #: model_terms:ir.ui.view,arch_db:website_helpdesk.view_task_portal_user_update_wizard
 msgid "To skip modifying a task, you can uncheck the \"Apply\" column."
-msgstr "Voit jättää tehtävän muokkaamatta kokonaan poistamalla \"Tee muutokset\" -kentän ruksin."
+msgstr ""
+"Voit jättää tehtävän muokkaamatta kokonaan poistamalla \"Tee muutokset\" "
+"-kentän ruksin."
 
 #. module: website_helpdesk
 #: model:ir.actions.server,name:website_helpdesk.action_update_allowed_portal_users
