@@ -23,6 +23,7 @@ import logging
 
 # 3. Odoo imports (openerp):
 from odoo import api, fields, models, _
+from odoo.osv.expression import AND, OR
 
 # 2. Known third party imports:
 
@@ -65,8 +66,20 @@ class ProjectTask(models.Model):
         help="Planned hours which is shown for portal customers",
     )
 
-    user_ids = fields.Many2many(
-        domain=lambda self: self._get_domain_user_ids(),
+    # Store dynamic domains in separate helper fields, from which they can be applied
+    # in XML to the actual selection fields
+    allowed_portal_user_ids_domain = fields.Binary(
+        compute="_compute_allowed_portal_user_ids_domain",
+        readonly=True,
+        store=False,
+        help="Technical field for domain computation",
+    )
+
+    allowed_user_ids_domain = fields.Binary(
+        compute="_compute_allowed_user_ids_domain",
+        readonly=True,
+        store=False,
+        help="Technical field for domain computation",
     )
 
     # Simplified version of allower_user_ids that has been dropped in core in 17.0
@@ -81,15 +94,63 @@ class ProjectTask(models.Model):
     # 3. Default methods
 
     # 5. Constraints and onchanges
-    def _get_domain_user_ids(self):
-        # Get users that are allowed to be selected in the "Assignees" field. In
-        # core it is limited to active non-portal users, but this change allows also
-        # portal users to be selected
-        # TODO: can be fine tuned to limit selections further, to only relevant portal
-        # users instead of all
-        return [
-            ("active", "=", True),
-        ]
+
+    @api.depends(
+        "project_id",
+        "project_id.restrict_selectable_external_users",
+        "project_id.selectable_external_user_ids",
+    )
+    def _compute_allowed_portal_user_ids_domain(self):
+        # Set which users are allowed to be set in the Portal Users with Access field
+        for task in self:
+            # External active users
+            allowed_portal_user_ids_domain = [
+                ("active", "=", True),
+                ("share", "=", True),
+            ]
+
+            # Check if project based limitations have been set and apply if needed
+            if task.project_id and task.project_id.restrict_selectable_external_users:
+                specific_user_ids = []
+
+                if task.project_id.selectable_external_user_ids:
+                    specific_user_ids = task.project_id.selectable_external_user_ids.ids
+
+                allowed_portal_user_ids_domain = AND(
+                    [
+                        allowed_portal_user_ids_domain,
+                        [("id", "in", specific_user_ids)],
+                    ]
+                )
+
+            task.allowed_portal_user_ids_domain = allowed_portal_user_ids_domain
+
+    @api.depends(
+        "project_id",
+        "project_id.restrict_selectable_external_users",
+        "project_id.selectable_external_user_ids",
+    )
+    def _compute_allowed_user_ids_domain(self):
+        # Set which users are allowed to be set in the Assignees field
+        for task in self:
+            # Internal active users
+            allowed_user_ids_domain = [("active", "=", True), ("share", "=", False)]
+
+            # Check if project based limitations have been set and apply if needed
+            if task.project_id and task.project_id.restrict_selectable_external_users:
+                specific_user_ids = []
+
+                if task.project_id.selectable_external_user_ids:
+                    specific_user_ids = task.project_id.selectable_external_user_ids.ids
+
+                allowed_user_ids_domain = OR(
+                    [
+                        allowed_user_ids_domain,
+                        [("id", "in", specific_user_ids)],
+                    ]
+                )
+
+            task.allowed_user_ids_domain = allowed_user_ids_domain
 
     # # 6. CRUD methods
     @api.model

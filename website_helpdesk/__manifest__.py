@@ -21,7 +21,7 @@
 {
     "name": "Website Helpdesk",
     "summary": "Website Helpdesk",
-    "version": "17.0.1.1.0",
+    "version": "17.0.1.1.1",
     "category": "Project",
     "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
@@ -43,6 +43,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/ir_model_access.xml",
+        "views/project_project_views.xml",
         "views/project_task_views.xml",
         "views/project_task_type_views.xml",
         "views/portal_templates.xml",

@@ -174,9 +174,6 @@ class PortalSupportTicket(CustomerPortal):
         )
 
         if viewing_helpdesk_tickets:
-            _logger.info("RES IS")
-            _logger.info(res)
-
             res.update(
                 {
                     "is_ticket": True,

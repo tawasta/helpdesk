@@ -23,6 +23,14 @@
         <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
 
+            <field name="user_ids" position="after">
+                <field name="allowed_user_ids_domain" invisible="1" />
+            </field>
+
+            <field name="user_ids" position="attributes">
+                <attribute name="domain">allowed_user_ids_domain</attribute>
+            </field>
+
             <notebook position="inside">
                 <page string="Customer portal">
                     <group>
@@ -33,12 +41,15 @@
                             />
                         </group>
                          <group>
-                            <!-- TODO consider adding other limitations to
-                            avoid accidental adding of wrong users -->
+
+                            <field
+                                name="allowed_portal_user_ids_domain"
+                                invisible="1"
+                            />
                             <field
                                 name="allowed_portal_user_ids"
+                                domain="allowed_portal_user_ids_domain"
                                 options="{'no_create': True}"
-                                domain="[('share', '=', True)]"
                                 widget="many2many_tags"
                             />
                         </group>

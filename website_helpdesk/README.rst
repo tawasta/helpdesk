@@ -12,7 +12,9 @@ Website Helpdesk
 
 Configuration
 =============
-\-
+* Go to Projects' settings and set the Restrict Selectable External Users for Tasks
+  and Selectable Users for Tasks fields. These define which portal users can be 
+  set as task assignees or in the task 'Portal Users with Access' field.
 
 Usage
 =====
