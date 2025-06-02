@@ -34,7 +34,7 @@ from odoo.addons.project.models.project_task import PROJECT_TASK_READABLE_FIELDS
 
 # Allow new fields so that frontend users can use chatter
 PROJECT_TASK_WRITABLE_FIELDS |= {"color", "date_reply"}
-PROJECT_TASK_READABLE_FIELDS |= {"use_mattermost_hooks"}
+PROJECT_TASK_READABLE_FIELDS |= {"use_mattermost_hooks", "code"}
 
 # 5. Local imports in the relative form:
 
