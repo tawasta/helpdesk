@@ -21,7 +21,7 @@
 {
     "name": "Website Helpdesk",
     "summary": "Website Helpdesk",
-    "version": "17.0.1.1.2",
+    "version": "17.0.1.1.3",
     "category": "Project",
     "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
