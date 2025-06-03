@@ -285,6 +285,24 @@
 
     </template>
 
+    <template
+        id="portal_my_task_hr_timesheet"
+        inherit_id="hr_timesheet.portal_my_task"
+        priority="100"
+    >
+
+        <!-- Always hide the Progress field -->
+        <xpath
+            expr="//span[@t-field='task.progress']//parent::div"
+            position="attributes"
+        >
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
+
+    </template>
+
+
+
     <template id="portal_my_task" inherit_id="project.portal_my_task" priority="100">
 
 
@@ -391,7 +409,32 @@
                 />)</small>
         </xpath>
 
+        <!-- Hide allocated hours label -->
+         <xpath
+            expr="//div[@name='portal_my_task_allocated_hours']/strong"
+            position="attributes"
+        >
+            <attribute name="t-if">1==0</attribute>
+         </xpath>
+
+
+
     </template>
+
+    <!-- Hide allocated hours data -->
+    <template
+        id="portal_my_task_allocated_hours_template"
+        inherit_id="hr_timesheet.portal_my_task_allocated_hours_template"
+    >
+        <xpath expr="(//t)[2]" position="attributes">
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
+        <xpath expr="(//t)[1]" position="attributes">
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
+    </template>
+
+
 
     <template id="portal_layout" inherit_id="project.portal_layout" priority="100">
         <xpath expr="//li/a[@t-if='task']/.." position="replace">
