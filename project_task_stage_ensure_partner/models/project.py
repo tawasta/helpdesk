@@ -47,7 +47,7 @@ class Task(models.Model):
 
     # 6. CRUD methods
     def write(self, vals):
-        res = super(Task, self).write(vals)
+        res = super().write(vals)
         if "stage_id" in vals:
             if not self.partner_id:
                 raise ValidationError(

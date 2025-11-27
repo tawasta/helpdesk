@@ -1,7 +1,7 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
-
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -66,12 +66,11 @@ class ProjectTaskPortalAccessUpdater(models.TransientModel):
             task = line.task_id
 
             task.allowed_portal_user_ids = [(6, 0, line.suggested_user_ids.ids)]
+            portal_users = ", ".join(
+                user.partner_id.name for user in line.suggested_user_ids
+            )
             _logger.info(
-                "Adding the following portal users to task %s: %s "
-                % (
-                    task.code,
-                    ", ".join(user.partner_id.name for user in line.suggested_user_ids),
-                )
+                f"Adding the following portal users to task {task.code}: {portal_users}"
             )
 
         return {"type": "ir.actions.act_window_close"}
