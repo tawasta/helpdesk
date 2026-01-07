@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <record id="view_project_project_filter" model="ir.ui.view">
+        <field name="name">project.project.search.helpdesk</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_projects']" position="after">
+                <filter
+                    string="Helpdesk Projects"
+                    name="helpdesk_projects"
+                    domain="[('helpdesk_project', '=', True)]"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

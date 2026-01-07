@@ -1,11 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
     <menuitem
-        id="root_menu"
+        id="menu_helpdesk"
         name="Helpdesk"
         groups="project.group_project_user"
         web_icon="project_helpdesk,static/description/icon.png"
         sequence="51"
-    />
+    >
 
+        <menuitem
+            id="project_task_helpdesk_action_menu"
+            name="All tasks"
+            action="project_task_helpdesk_action"
+            sequence="10"
+        />
+
+        <menuitem
+            id="project_task_my_helpdesk_action_menu"
+            name="My tasks"
+            action="project_task_my_helpdesk_action"
+            sequence="20"
+        />
+
+        <menuitem
+            name="Configuration"
+            id="menu_helpdesk_config"
+            groups="project.group_project_manager"
+            sequence="100"
+        >
+            <menuitem
+                name="Settings"
+                id="menu_helpdesk_config_settings"
+                action="project.project_config_settings_action"
+                groups="base.group_system"
+            />
+            <menuitem
+                name="Helpdesk Projects"
+                id="menu_helpdesk_config_projects"
+                action="action_project_helpdesk_config_projects"
+            />
+            <menuitem
+                name="Task Stages"
+                id="menu_helpdesk_config_project_stages"
+                action="project.open_task_type_form"
+            />
+            <menuitem
+                name="Helpdesk Tags"
+                id="menu_helpdesk_config_tags"
+                action="project.project_tags_action"
+            />
+            <menuitem
+                name="Activity Types"
+                id="menu_helpdesk_config_activity_types"
+                action="project.mail_activity_type_action_config_project_types"
+            />
+            <menuitem
+                name="Activity Plans"
+                id="menu_helpdesk_config_activity_plans"
+                action="project.mail_activity_plan_action_config_project_task_plan"
+            />
+        </menuitem>
+    </menuitem>
 </odoo>
