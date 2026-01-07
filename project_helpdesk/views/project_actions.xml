@@ -19,20 +19,11 @@
         >{'search_default_is_open': 1, 'search_default_my_tasks': 1}</field>
     </record>
 
-    <menuitem
-        id="project_task_helpdesk_action_menu"
-        name="All tasks"
-        parent="root_menu"
-        action="project_task_helpdesk_action"
-        sequence="10"
-    />
-
-    <menuitem
-        id="project_task_my_helpdesk_action_menu"
-        name="My tasks"
-        parent="root_menu"
-        action="project_task_my_helpdesk_action"
-        sequence="20"
-    />
-
+    <record id="action_project_helpdesk_config_projects" model="ir.actions.act_window">
+        <field name="name">Helpdesk Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'default_helpdesk_project': True}</field>
+        <field name="domain">[('helpdesk_project','=',True)]</field>
+    </record>
 </odoo>
