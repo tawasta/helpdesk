@@ -68,12 +68,23 @@
 
         <!-- Show customer field -->
         <xpath expr="(//thead//th)[2]" position="after">
-            <th>Customer</th>
+            <th name="portal_col_customer">Customer</th>
         </xpath>
 
         <xpath expr="(//tbody//td)[3]" position="after">
-            <td>
+            <td name="portal_col_customer">
                 <span t-esc="task.partner_id.name" />
+            </td>
+        </xpath>
+
+        <xpath expr="//thead//th[@name='portal_col_customer']" position="after">
+            <th name="portal_col_created" class="text-nowrap">Created</th>
+        </xpath>
+
+        <!-- NEW: Created date cell AFTER the existing Customer cell (anchored by name attr) -->
+        <xpath expr="//tbody//td[@name='portal_col_customer']" position="after">
+            <td name="portal_col_created" class="text-nowrap">
+                <span t-field="task.create_date" t-options='{"format": "short"}'/>
             </td>
         </xpath>
 
