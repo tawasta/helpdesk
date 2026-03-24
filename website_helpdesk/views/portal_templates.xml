@@ -84,7 +84,7 @@
         <!-- NEW: Created date cell AFTER the existing Customer cell (anchored by name attr) -->
         <xpath expr="//tbody//td[@name='project_portal_milestones']" position="after">
             <td name="portal_col_created" class="text-nowrap">
-                <span t-field="task.create_date" t-options='{"format": "short"}'/>
+                <span t-field="task.create_date" t-options='{"format": "short"}' />
             </td>
         </xpath>
 

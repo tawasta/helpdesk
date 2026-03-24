@@ -93,7 +93,7 @@ class PortalSupportTicket(CustomerPortal):
         res["customer"] = {
             "label": _("Customer"),
             "order": "partner_id asc, id desc",
-            "sequence": 35,   # mikä vaan sopiva numero
+            "sequence": 35,  # mikä vaan sopiva numero
         }
 
         return res
@@ -106,7 +106,7 @@ class PortalSupportTicket(CustomerPortal):
 
         res.pop("sale_order", None)
         res.pop("sale_line", None)
-        #res.pop("customer", None)
+        # res.pop("customer", None)
         res.pop("milestone", None)
 
         # Maybe put back if useful, but can be confused with Stage
