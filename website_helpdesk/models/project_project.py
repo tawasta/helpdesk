@@ -2,8 +2,6 @@
 import logging
 
 # 2. Known third party imports:
-
-
 # 3. Odoo imports (openerp):
 from odoo import fields, models
 
@@ -25,7 +23,8 @@ class ProjectProject(models.Model):
         tracking=True,
         default=False,
         copy=False,
-        help="If set, task assignees or portal users can be only those configured below",
+        help="If set, task assignees or portal users "
+        "can be only those configured below",
     )
 
     selectable_external_user_ids = fields.Many2many(

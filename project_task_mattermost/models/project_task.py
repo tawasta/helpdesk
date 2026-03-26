@@ -37,22 +37,16 @@ class ProjectTask(models.Model):
             "user_notification",
         ]:
             self.mattermost_task_comment_posted(message)
-        return super(ProjectTask, self)._message_post_after_hook(message, msg_vals)
+        return super()._message_post_after_hook(message, msg_vals)
 
     def mattermost_get_url(self):
         """Generate url for related task"""
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-        url = "%(base_url)s/web/#id=%(record_id)s&view_type=form&model=project.task" % {
-            "base_url": base_url,
-            "record_id": self.id,
-        }
+        url = f"{base_url}/web/#id={self.id}&view_type=form&model=project.task"
         return url
 
     def mattermost_post(self, hook, msg, project):
-        _logger.info(
-            _("Posting project mattermost hook %(hook_id)s:\n%(msg)s")
-            % {"hook_id": hook, "msg": msg}
-        )
+        _logger.info(f"Posting project mattermost hook {hook}:\n{msg}")
         hook.sudo().post_mattermost(
             msg,
             channel=project.mattermost_channel,
@@ -105,7 +99,7 @@ class ProjectTask(models.Model):
             self.mattermost_post(hook, msg, self.project_id)
 
     def _get_mattermost_task_created_content(self):
-        subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
+        subject = f"[{self.display_name}]({self.mattermost_get_url()})"
         msg = _(":incoming_envelope: A new task **{}**").format(subject)
 
         if self.partner_id:
@@ -126,25 +120,28 @@ class ProjectTask(models.Model):
         if self.description:
             desc = html2plaintext(self.description).replace("\n", " ")
             dots = "..." if len(desc) > 300 else ""
-            msg += "\n*{}{}*".format(desc[:300], dots)
+            msg += f"\n*{desc[:300]}{dots}*"
         return msg
 
     def _get_mattermost_task_comment_posted_content(self, message):
-        subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
+        subject = f"[{self.display_name}]({self.mattermost_get_url()})"
+        user = message.author_id.display_name
         if message.subtype_id and message.subtype_id.internal:
-            msg = _("**{}** posted an internal comment on **{}**").format(
-                message.author_id.display_name, subject
-            )
+            msg = _("**%(user)s** posted an internal comment on **%(subject)s**") % {
+                "user": user,
+                "subject": subject,
+            }
         else:
-            msg = _("**{}** posted a message on **{}**").format(
-                message.author_id.display_name, subject
-            )
+            msg = _("**%(user)s** posted an message comment on **%(subject)s**") % {
+                "user": user,
+                "subject": subject,
+            }
 
         # Description
         if message.body:
             content = html2plaintext(message.body).replace("\n", " ")
             dots = "..." if len(content) > 300 else ""
-            msg += "\n*{}{}*".format(content[:300], dots)
+            msg += f"\n*{content[:300]}{dots}*"
         return msg
 
     def mattermost_task_author_changed(self):
@@ -165,7 +162,7 @@ class ProjectTask(models.Model):
             )
         )
         if hook:
-            subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
+            subject = f"[{self.display_name}]({self.mattermost_get_url()})"
             author = self.user_ids and self.user_ids[0].name or "No one"
             msg = _("**%(user)s** assigned **%(subject)s** to **%(author)s**") % {
                 "user": self.env.user.name,
@@ -192,7 +189,7 @@ class ProjectTask(models.Model):
             )
         )
         if hook:
-            subject = "[%s](%s)" % (self.display_name, self.mattermost_get_url())
+            subject = f"[{self.display_name}]({self.mattermost_get_url()})"
             msg = _("**%(user)s** changed **%(subject)s** stage to **%(stage)s**") % {
                 "user": self.env.user.name,
                 "subject": subject,
@@ -246,8 +243,8 @@ class ProjectTask(models.Model):
                         )
                     )
                     total_count += count
-                    msg += "|%s| **%s**|\n" % (stage.name, count)
+                    msg += f"|{stage.name}| **{count}**|\n"
                 total_string = _("Total count")
-                msg += "|**%s**| **%s**\n" % (total_string, total_count)
+                msg += f"|**{total_string}**| **{total_count}**\n"
 
                 self.mattermost_post(hook, msg, project)

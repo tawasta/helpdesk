@@ -46,7 +46,7 @@ class ProjectTask(models.Model):
         related_model = params.get("model")
 
         if related_model == "fetchmail.server" and not vals.get("project_id"):
-            mail_server = self.env["fetchmail.server"].sudo().browse(params.get(("id")))
+            mail_server = self.env["fetchmail.server"].sudo().browse(params.get("id"))
 
             if mail_server.project_id:
                 vals["project_id"] = mail_server.project_id.id or False
@@ -134,9 +134,9 @@ class ProjectTask(models.Model):
                     and not message.subtype_id.internal
                 ):
                     blockquote += _("From: {}<br/>").format(message.email_from)
-                    blockquote += _("Date: {}<br/>".format(message.date))
+                    blockquote += _(f"Date: {message.date}<br/>")
                     # blockquote += _("Subject: {}<br/>".format(message.subject))
-                    blockquote += _("{}<br/>".format(message.body))
+                    blockquote += _(f"{message.body}<br/>")
 
                     # Dummy variable, if we want to implement this as an option
                     full_thread = False
@@ -150,7 +150,7 @@ class ProjectTask(models.Model):
                     "style='padding-right:0px; padding-left:5px; "
                     "border-left-color: #000; margin-left:5px; "
                     "margin-right:0px;border-left-width: 2px; "
-                    "border-left-style:solid'>{}</blockquote>".format(blockquote)
+                    f"border-left-style:solid'>{blockquote}</blockquote>"
                 )
 
         return blockquote

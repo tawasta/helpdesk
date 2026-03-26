@@ -10,7 +10,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[project_helpdesk](project_helpdesk/) | 17.0.1.0.1 |  | Project Helpdesk core bundle
+[project_helpdesk](project_helpdesk/) | 17.0.1.0.2 |  | Project Helpdesk core bundle
 [project_task_auto_reopen](project_task_auto_reopen/) | 17.0.1.0.1 |  | Reopen closed tasks when the task receives a new message
 [project_task_email](project_task_email/) | 17.0.1.0.3 |  | Email modifications to Project Task
 [project_task_first_response](project_task_first_response/) | 17.0.1.0.0 |  | Log the time for first task response

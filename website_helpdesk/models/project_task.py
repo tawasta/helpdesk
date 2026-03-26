@@ -22,15 +22,15 @@
 import logging
 
 # 3. Odoo imports (openerp):
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 from odoo.osv.expression import AND, OR
 
 # 2. Known third party imports:
-
-
 # 4. Imports from Odoo modules:
-from odoo.addons.project.models.project_task import PROJECT_TASK_WRITABLE_FIELDS
-from odoo.addons.project.models.project_task import PROJECT_TASK_READABLE_FIELDS
+from odoo.addons.project.models.project_task import (
+    PROJECT_TASK_READABLE_FIELDS,
+    PROJECT_TASK_WRITABLE_FIELDS,
+)
 
 # Allow new fields so that frontend users can use chatter
 PROJECT_TASK_WRITABLE_FIELDS |= {"color", "date_reply"}

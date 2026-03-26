@@ -25,6 +25,7 @@ class ProjectTask(models.Model):
                     "project_helpdesk.internal_user_discussions"
                 ).id
                 _logger.debug(
-                    "Discussions subtype overriden by Internal User Discussions subtype."
+                    "Discussions subtype "
+                    "overriden by Internal User Discussions subtype."
                 )
-        return super(ProjectTask, self)._message_create(values_list)
+        return super()._message_create(values_list)

@@ -10,5 +10,6 @@ class ProjectProject(models.Model):
 
     email_from = fields.Char(
         string="Sender email",
-        help="Force sender email address on tasks",
+        help="Force sender email address on tasks. "
+        "If not set, will use the current user email address.",
     )

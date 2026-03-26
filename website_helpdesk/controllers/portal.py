@@ -2,14 +2,11 @@ import base64
 import logging
 import os
 from collections import OrderedDict
-from operator import itemgetter
-from markupsafe import Markup
 
 from odoo import _, http
 from odoo.exceptions import AccessError, MissingError, UserError
 from odoo.http import request
-from odoo.osv.expression import OR, AND
-from odoo.tools import groupby as groupbyelem
+from odoo.osv.expression import AND
 
 from odoo.addons.hr_timesheet.controllers.portal import TimesheetCustomerPortal
 from odoo.addons.portal.controllers.portal import pager as portal_pager
@@ -93,6 +90,12 @@ class PortalSupportTicket(CustomerPortal):
         # Maybe put back if useful, but can be confused with Stage
         res.pop("status", None)
 
+        res["customer"] = {
+            "label": _("Customer"),
+            "order": "partner_id asc, id desc",
+            "sequence": 35,  # mikä vaan sopiva numero
+        }
+
         return res
 
     def _task_get_searchbar_groupby(self, milestones_allowed, project=False):
@@ -103,7 +106,7 @@ class PortalSupportTicket(CustomerPortal):
 
         res.pop("sale_order", None)
         res.pop("sale_line", None)
-        res.pop("customer", None)
+        # res.pop("customer", None)
         res.pop("milestone", None)
 
         # Maybe put back if useful, but can be confused with Stage
@@ -112,16 +115,19 @@ class PortalSupportTicket(CustomerPortal):
         return res
 
     def _get_my_tasks_searchbar_filters(self, project_domain=None, task_domain=None):
-        """Override 'Filter By' dropdown above task list to show just 'All'."""
+        """Filter By dropdown: All + My tickets (customer)."""
 
-        # TODO: if need arises for fancier filters, modify this super call
-        # res = super()._get_my_tasks_searchbar_filters(
-        #     project_domain=project_domain,
-        #     task_domain=task_domain
-        # )
+        my_partner = request.env.user.partner_id.commercial_partner_id
 
         return {
-            "all": {"label": _("All"), "domain": [("project_id", "!=", False)]},
+            "all": {
+                "label": _("All"),
+                "domain": [("project_id", "!=", False)],
+            },
+            "customer": {
+                "label": _("My tickets"),
+                "domain": [("partner_id", "=", my_partner.id)],
+            },
         }
 
     def _prepare_tasks_values(
@@ -249,7 +255,7 @@ class PortalSupportTicket(CustomerPortal):
 
         # Check if ticket is instead task, redirect to project task then
         if not task_sudo.project_id.helpdesk_project:
-            return request.redirect("/my/task/{}".format(ticket_id))
+            return request.redirect(f"/my/task/{ticket_id}")
 
         # ensure attachment are accessible with access token inside template
         for attachment in task_sudo.attachment_ids:
@@ -332,7 +338,7 @@ class PortalSupportTicket(CustomerPortal):
                 )
 
         # return request.redirect("/my/tickets")
-        return request.redirect("/my/ticket/{}?submitted=1".format(task.id))
+        return request.redirect(f"/my/ticket/{task.id}?submitted=1")
 
     def _task_get_page_view_values(self, task, access_token, **kwargs):
         values = super()._task_get_page_view_values(task, access_token, **kwargs)
@@ -360,9 +366,10 @@ class PortalSupportTicket(CustomerPortal):
         # Check if task is actually a helpdesk project ticket, redirect to ticket view
         task_sudo = request.env["project.task"].sudo().search([("id", "=", task_id)])
         if task_sudo.project_id.helpdesk_project:
-            return request.redirect("/my/ticket/{}".format(task_id))
+            return request.redirect(f"/my/ticket/{task_id}")
 
-        # Prevent access if task belongs to a closed project, or the portal user has not been
+        # Prevent access if task belongs to a closed project,
+        # or the portal user has not been
         # granted access to view the task
 
         if task_sudo.project_id.stage_id.is_closed:
