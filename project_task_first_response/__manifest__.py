@@ -21,7 +21,7 @@
 {
     "name": "Task first response",
     "summary": "Log the time for first task response",
-    "version": "17.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Project",
     "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",

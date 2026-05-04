@@ -21,7 +21,7 @@
 {
     "name": "Project Task Email",
     "summary": "Email modifications to Project Task",
-    "version": "17.0.1.0.3",
+    "version": "19.0.1.0.0",
     "category": "Project",
     "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
