@@ -40,6 +40,6 @@
         "views/project_project_form.xml",
     ],
     "application": False,
-    "installable": True,
+    "installable": False,
     "qweb": [],
 }

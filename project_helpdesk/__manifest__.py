@@ -32,7 +32,7 @@
         # "mail_highlight",
     ],
     "application": True,
-    "installable": True,
+    "installable": False,
     "data": [
         "views/project_actions.xml",
         "views/project_form.xml",

@@ -1,46 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+
     <template
         id="portal_my_home_support_tickets"
         inherit_id="portal.portal_my_home"
         name="Support tickets portal entry"
         priority="30"
+        customize_show="True"
     >
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
-                <t t-set="icon" t-value="'/project/static/src/img/tasks.svg'"/>
+                <t t-set="icon" t-value="'/project/static/src/img/tasks.svg'" />
                 <t t-set="title">Support tickets</t>
                 <t t-set="text">Create and follow your support requests</t>
-                <t t-set="url" t-value="'/my/tasks?filterby=support_tickets'"/>
-                <t t-set="placeholder_count" t-value="'task_count'"/>
+                <t t-set="url" t-value="'/my/tasks?filterby=support_tickets'" />
+                <t t-set="placeholder_count" t-value="'task_count'" />
             </t>
         </xpath>
     </template>
 
     <template
-        id="portal_tasks_list_show_customer_and_company_assignee"
+        id="portal_tasks_list_customer_column"
         inherit_id="project.portal_tasks_list"
-        name="Show customer and assignee company in task portal list"
+        name="Show customer column in task portal list"
         priority="100"
+        customize_show="True"
     >
-
-        <xpath expr="//t[@t-set='grouped_tasks_colspan'][1]" position="attributes">
-            <attribute name="t-value">7 if groupby in group_by_in_header_list else 8</attribute>
+        <xpath expr="//t[@t-set='grouped_tasks_colspan'][1]" position="after">
+            <t t-set="grouped_tasks_colspan" t-value="grouped_tasks_colspan + 1" />
         </xpath>
+
         <xpath expr="//thead/tr/th[2]" position="after">
-            <th>Customer</th>
+            <th name="portal_col_customer">Customer</th>
         </xpath>
 
-        <xpath expr="//a[contains(@t-attf-href, '/my/#{task_url}/#{task.id}')]/ancestor::td[1]" position="after">
+        <xpath
+            expr="//a[contains(@t-attf-href, '/my/#{task_url}/#{task.id}')]/ancestor::td[1]"
+            position="after"
+        >
             <td name="portal_col_customer">
-                <span t-out="task.partner_id.commercial_partner_id.name or task.partner_id.name"/>
+                <span
+                    t-out="task.partner_id.commercial_partner_id.name or task.partner_id.name"
+                />
             </td>
         </xpath>
+    </template>
 
-        <xpath expr="//t[@t-set='assignees']" position="attributes">
-            <attribute name="t-value">
-                task.sudo().user_ids[:1].partner_id.parent_id or task.sudo().user_ids[:1].partner_id
-            </attribute>
+    <template
+        id="portal_tasks_list_created_column"
+        inherit_id="project.portal_tasks_list"
+        name="Show created date column in task portal list"
+        priority="101"
+        customize_show="True"
+    >
+        <xpath expr="//t[@t-set='grouped_tasks_colspan'][1]" position="after">
+            <t t-set="grouped_tasks_colspan" t-value="grouped_tasks_colspan + 1" />
         </xpath>
 
         <xpath expr="//thead//th[@name='project_portal_milestones']" position="after">
@@ -49,8 +63,22 @@
 
         <xpath expr="//tbody//td[@name='project_portal_milestones']" position="after">
             <td name="portal_col_created" class="text-nowrap">
-                <span t-field="task.create_date" t-options='{"format": "short"}'/>
+                <span t-field="task.create_date" t-options='{"format": "short"}' />
             </td>
+        </xpath>
+    </template>
+
+    <template
+        id="portal_tasks_list_assignee_company"
+        inherit_id="project.portal_tasks_list"
+        name="Show assignee company in task portal list"
+        priority="102"
+        customize_show="True"
+    >
+        <xpath expr="//t[@t-set='assignees']" position="attributes">
+            <attribute
+                name="t-value"
+            >task.sudo().user_ids[:1].partner_id.parent_id or task.sudo().user_ids[:1].partner_id</attribute>
         </xpath>
     </template>
 
@@ -59,149 +87,149 @@
         inherit_id="project.portal_my_tasks"
         name="Support ticket mode on core task portal"
         priority="100"
+        customize_show="True"
     >
-        
         <xpath expr="//t[@t-call='portal.portal_searchbar']" position="before">
             <div class="mb-4" t-if="support_ticket_project">
-
-                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center mb-3">
-                        <div>
-                            <h2 class="mb-1">Support tickets</h2>
-                            <p class="text-muted mb-0">
-                                Create a new support request or follow the status of your existing requests.
-                            </p>
-                        </div>
-
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modal_create_support_ticket"
-                        >
-                            New support ticket
-                        </button>
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center mb-3"
+                >
+                    <div>
+                        <h2 class="mb-1">Support tickets</h2>
+                        <p class="text-muted mb-0">
+                            Create a new support request or follow the status of your existing requests.
+                        </p>
                     </div>
 
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal_create_support_ticket"
+                    >
+                        New support ticket
+                    </button>
+                </div>
             </div>
 
             <div
-                    id="modal_create_support_ticket"
-                    class="modal fade"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-labelledby="Create ticket modal"
-                    aria-hidden="true"
-                >
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title">Create ticket</h3>
-                                <a
-                                    href="#"
-                                    class="text-decoration-none"
+                id="modal_create_support_ticket"
+                class="modal fade"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="Create ticket modal"
+                aria-hidden="true"
+                t-if="support_ticket_project"
+            >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Create ticket</h3>
+                            <a
+                                href="#"
+                                class="text-decoration-none"
+                                data-bs-dismiss="modal"
+                            >
+                                <span class="fs-3" aria-label="Close">&amp;times;</span>
+                            </a>
+                        </div>
+
+                        <form
+                            id="create_ticket_form"
+                            method="post"
+                            name="create_ticket"
+                            action="/ticket/create"
+                            enctype="multipart/form-data"
+                        >
+                            <input
+                                type="hidden"
+                                name="csrf_token"
+                                t-att-value="request.csrf_token()"
+                            />
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label
+                                            class="control-label"
+                                            for="subject"
+                                        >Subject</label>
+                                        <input
+                                            type="text"
+                                            id="subject"
+                                            class="form-control"
+                                            name="subject"
+                                            required="required"
+                                        />
+                                    </div>
+
+                                    <div class="col-md-12 form-group">
+                                        <label
+                                            class="control-label"
+                                            for="description"
+                                        >Description</label>
+                                        <textarea
+                                            id="description"
+                                            class="form-control"
+                                            name="description"
+                                            rows="10"
+                                            placeholder="Describe the issue you are having..."
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="mt-3">
+                                        <div class="btn-group btn-block">
+                                            <label
+                                                class="btn btn-success file-upload w-100"
+                                            >
+                                                <i
+                                                    class="fa fa-paperclip"
+                                                /> Add attachments
+                                                <input
+                                                    type="file"
+                                                    class="upload"
+                                                    id="file"
+                                                    name="file"
+                                                    multiple="multiple"
+                                                    data-maxsize="maxsize"
+                                                    style="display: none;"
+                                                />
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <div
+                                            class="alert alert-info d-none"
+                                            id="files_info_div"
+                                            role="alert"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
                                     data-bs-dismiss="modal"
                                 >
-                                    <span
-                                        class="fs-3"
-                                        aria-label="Close"
-                                    >&amp;times;</span>
-                                </a>
+                                    Cancel
+                                </button>
+                                <button
+                                    id="create_ticket_confirm_btn"
+                                    class="btn btn-primary disabled"
+                                >
+                                    Create
+                                </button>
                             </div>
-                            <form
-                                id="create_ticket_form"
-                                method="post"
-                                name="create_ticket"
-                                action="/ticket/create"
-                                enctype="multipart/form-data"
-                            >
-                                <input
-                                    type="hidden"
-                                    name="csrf_token"
-                                    t-att-value="request.csrf_token()"
-                                />
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-12 form-group">
-                                            <label
-                                                class="control-label"
-                                                for="subject"
-                                            >Subject</label>
-                                            <input
-                                                type="text"
-                                                id="subject"
-                                                class="form-control"
-                                                name="subject"
-                                                required="required"
-                                            />
-                                        </div>
-                                        <div class="col-md-12 form-group">
-                                            <label
-                                                class="control-label"
-                                                for="description"
-                                            >Description</label>
-                                            <textarea
-                                                id="description"
-                                                class="form-control"
-                                                name="description"
-                                                rows="10"
-                                                placeholder="Describe the issue you are having..."
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <!-- File Upload Button -->
-                                        <div class="mt-3">
-                                            <div class="btn-group btn-block">
-                                                <label
-                                                    class="btn btn-success file-upload w-100"
-                                                >
-                                                    <i
-                                                        class="fa fa-paperclip"
-                                                    /> Add attachments
-                                                    <input
-                                                        type="file"
-                                                        class="upload"
-                                                        id="file"
-                                                        name="file"
-                                                        multiple="multiple"
-                                                        data-maxsize="maxsize"
-                                                        style="display: none;"
-                                                    />
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <!-- Info Alert for Files -->
-                                        <div class="col-12 mt-3">
-                                            <div
-                                                class="alert alert-info d-none"
-                                                id="files_info_div"
-                                                role="alert"
-                                            >
-                                                <!-- Optional information text can go here -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button
-                                        type="button"
-                                        class="btn btn-secondary"
-                                        data-bs-dismiss="modal"
-                                    >Cancel</button>
-                                    <button
-                                        id="create_ticket_confirm_btn"
-                                        class="btn btn-primary disabled"
-                                    >Create</button>
-                                </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
+            </div>
         </xpath>
-
     </template>
 
     <template
@@ -209,10 +237,15 @@
         inherit_id="project.portal_my_tasks_badge_widget_template"
         name="Show stage public name in portal badge"
         priority="100"
+        customize_show="True"
     >
         <xpath expr="//span[@t-out='task.stage_id.name']" position="attributes">
-            <attribute name="t-out">task.stage_id.public_name or task.stage_id.name</attribute>
-            <attribute name="t-attf-title">#{task.stage_id.public_name or task.stage_id.name}</attribute>
+            <attribute
+                name="t-out"
+            >task.stage_id.public_name or task.stage_id.name</attribute>
+            <attribute
+                name="t-attf-title"
+            >#{task.stage_id.public_name or task.stage_id.name}</attribute>
         </xpath>
     </template>
 
@@ -221,19 +254,40 @@
         inherit_id="project.portal_my_task"
         name="Support ticket detail wording"
         priority="100"
+        customize_show="True"
     >
         <xpath expr="//div[@id='task_content']/div[@id='card']" position="before">
-            <t t-if="task.project_id.helpdesk_project and request.params.get('ticket_created')">
-                <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+            <t
+                t-if="task.project_id.helpdesk_project and request.params.get('ticket_created')"
+            >
+                <div
+                    class="alert alert-success alert-dismissible fade show mb-3"
+                    role="alert"
+                >
                     Your support ticket has been created successfully.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    />
                 </div>
             </t>
 
-            <t t-if="task.project_id.helpdesk_project and request.params.get('ticket_error') == 'attachment_too_large'">
-                <div class="alert alert-warning alert-dismissible fade show mb-3" role="alert">
+            <t
+                t-if="task.project_id.helpdesk_project and request.params.get('ticket_error') == 'attachment_too_large'"
+            >
+                <div
+                    class="alert alert-warning alert-dismissible fade show mb-3"
+                    role="alert"
+                >
                     One attachment was too large and was not added to the ticket.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    />
                 </div>
             </t>
         </xpath>

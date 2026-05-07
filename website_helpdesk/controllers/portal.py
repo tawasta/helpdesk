@@ -13,6 +13,7 @@ from odoo.addons.project.controllers.portal import ProjectCustomerPortal
 
 _logger = logging.getLogger(__name__)
 
+
 def process_file(file):
     """
     Check if the file is too large.
@@ -39,7 +40,6 @@ def process_file(file):
 
 
 class ProjectHelpdeskPortal(ProjectCustomerPortal):
-
     def _is_support_tickets(self):
         return request.params.get("filterby") == "support_tickets"
 
@@ -87,7 +87,6 @@ class ProjectHelpdeskPortal(ProjectCustomerPortal):
         su=False,
         project=False,
     ):
-
         values = super()._prepare_tasks_values(
             page=page,
             date_begin=date_begin,
@@ -105,12 +104,10 @@ class ProjectHelpdeskPortal(ProjectCustomerPortal):
         values.update(
             {
                 "support_ticket_project": self._is_support_tickets(),
-
             }
         )
         return values
 
-    
     @http.route(
         "/ticket/create",
         type="http",
@@ -146,7 +143,9 @@ class ProjectHelpdeskPortal(ProjectCustomerPortal):
             .create(
                 {
                     "name": subject,
-                    "description": Markup.escape(description).replace("\n", Markup("<br/>")),
+                    "description": Markup.escape(description).replace(
+                        "\n", Markup("<br/>")
+                    ),
                     "partner_id": partner.id,
                     "project_id": project.id,
                     "user_ids": False,
@@ -183,4 +182,3 @@ class ProjectHelpdeskPortal(ProjectCustomerPortal):
             )
 
         return request.redirect(f"/my/tasks/{task.id}?ticket_created=1")
-        

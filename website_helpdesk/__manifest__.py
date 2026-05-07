@@ -40,7 +40,7 @@
     "assets": {
         "web.assets_frontend": [
             "website_helpdesk/static/src/js/create_ticket.esm.js",
-            #"website_helpdesk/static/src/scss/styles.scss",
+            # "website_helpdesk/static/src/scss/styles.scss",
             "https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js",
             "https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.css",
         ],
