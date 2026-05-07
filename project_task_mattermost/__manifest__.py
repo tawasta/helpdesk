@@ -26,7 +26,7 @@
     "website": "https://github.com/tawasta/helpdesk",
     "license": "AGPL-3",
     "application": False,
-    "installable": True,
+    "installable": False,
     "depends": [
         "mattermost_hook",
         "project",
