@@ -21,7 +21,7 @@
 {
     "name": "Project Helpdesk",
     "summary": "Project Helpdesk core bundle",
-    "version": "17.0.1.0.2",
+    "version": "19.0.1.0.0",
     "category": "Tools",
     "website": "https://github.com/tawasta/helpdesk",
     "author": "Futural",
@@ -32,7 +32,7 @@
         # "mail_highlight",
     ],
     "application": True,
-    "installable": True,
+    "installable": False,
     "data": [
         "views/project_actions.xml",
         "views/project_form.xml",
